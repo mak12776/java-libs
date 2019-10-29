@@ -1,0 +1,19 @@
+(' ' | '\t') -> (ignore)
+
+("import") -> (return IMPORT_TOKEN)
+("for") -> (return FOR_TOKEN)
+("if") -> (return IF_TOKEN)
+("while") -> (return WHILE_TOKEN)
+
+${ for name in ["import", "for", "if", "while"] }$
+("#{name}") -> (return #{name.upper()}_TOKEN)
+${ end for }
+
+${ def func (a, b, c) }$
+
+${ while i != 0: }$
+${ end while }$
+!{ }!
+
+${ end def }$
+...
