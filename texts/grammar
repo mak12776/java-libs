@@ -1,0 +1,16 @@
+
+FROM:       "from"
+IMPORT:     "import"
+AS:         "as"
+
+GOTO:       "goto"
+LABEL:      "label"
+
+EQ:         "=="
+NE:         "!="
+LT:         "<"
+LE:         "<="
+GT:         ">"
+GE:         ">="
+
+ASSIGN:     "="

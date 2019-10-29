@@ -1,0 +1,64 @@
+
+
+-[ name patterns ]-
+
+keywords =      '[a-z]+'
+variables =     '[a-zA-Z_][a-zA-Z_0-9]*'
+types =         '[a-zA-Z_][a-zA-Z_0-9]*'
+labels =        '[a-zA-Z_][a-zA-Z_0-9]*'
+
+a   b       &   |   ^
+x   x       t   t   f
+x           f   t   t
+    x       f   t   t
+            f   f   f
+
+-[ line patterns ]-
+
+<NAME> : <TYPE>
+<NAME> [ : <TYPE> ] = <EXP>
+
+<NAME> = <EXP>
+
+goto <LABEL>
+label <LABEL>
+
+if <COND>
+else if <COND>
+else
+
+loop
+
+for [ <INIT> ]; [ <COND> ]; [ <STEP> ]
+for <NAME> in <ARRAY>
+
+while <COND>
+
+switch <VALUE>
+case <VALUE>
+default
+
+break
+continue
+
+def <NAME> ( [ <ARGS> ] ) [ : <TYPE> ]
+
+yield <VALUE>
+
+return [ <VALUE> ]
+
+type <NAME> : <TYPE>
+def type <NAME> ( <ARGS> ) [ : <TYPE> ]
+
+class <NAME> [ : <PARENT> ]
+
+private
+public
+
+end [
+    if | loop | for | while | switch |
+    function [ <NAME> ] |
+    class [ <NAME> ] |
+    type <NAME> |
+    type [ function [ <NAME> ] ]
+]

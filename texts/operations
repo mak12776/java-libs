@@ -1,0 +1,102 @@
+
+# operations:
+    (       )       [       ]
+    {       }
+    ;       :       ,       .
+
+    +       -       /       *
+    %       //      **
+
+    &       |       ^       ~
+    <<      >>
+
+    =
+
+    +=      -=      /=      *=
+    %=      //=     **=
+
+    &=      |=      ^=
+    <<=     >>=
+
+    <       <=      >       >=
+    ==      !=
+
+    &&      ||      ^^      !
+    ?=      ?!=
+
+# operations types:
+UN  SYM x:
+    ~       !       +       -
+
+OP  x SYM y
+    +       -       /       *           %       //      **
+    &       |       ^                   <<      >>
+
+VA  x SYM y
+    =
+    +=      -=      /=      *=          %=      //=     **=
+    &=      |=      ^=                  <<=     >>=
+
+OP  x SYM y
+    <       <=      >       >=          ==      !=
+    &&      ||      ^^                  ?=      ?!=
+
+# real operations uses:
+    VA group:
+    =
+    +=      -=      /=      *=          %=      //=     **=
+    &=      |=      ^=                  <<=     >>=
+
+    <NAME> '(' [ x [ ',' [ x ] ] ] ')'
+    '[' [ x [ ',' [ x ] ] ] ']'             -> <ARRAY>
+    <INT> '.' <INT>                         -> <FLOAT>
+    <EXP> ';'
+
+    x ',' y     ':' <TYPE>  '='                                 a ',' b
+
+    x ',' y     ( '=' | '+=' | '-=' | '*=' | '/=' | ... )       a ',' b
+    x ',' y     ( '=' | '+=' | '-=' | '*=' | '/=' | ... )       '[' a ',' b ']'
+
+    ~ x     ! x     + x     - x
+    x + y   x - y   x / y   x * y       x % y   x // y      x ** y
+    x & y   x | y   x ^ y               x << y  x >> y
+    x = y
+    x += y  x -= y  x /= y  x *= y      x %= y  x //= y     x **= y
+    x < y   x <= y  x > y   x >= y      x == y  x != y
+    x && y  x || y  x ^^ y              x ?= y  x ?!= y
+
+
+# types:
+    array:  []
+    class:  {}
+
+
+# examples
+    a: int = 10
+    b: float = 10.1
+    c: char = 'a'
+    d: string = "Hi"
+    e: [] = [1, 2, 3]
+    f: [string, string] = ["Hello", "World"]
+
+    g
+
+    me: {name: string, age: int} = {name = "Amin", age = 21}
+
+    function Hello (; name = "World")
+        print ("Hello {}!".format(name == "" ? "everyone" : name))
+    end function
+
+# more examples:
+
+    function sum (*args): int
+        ret = args[0]
+        for i = 1; i < args.len; i += 1
+            ret += args[i]
+        end for
+        return ret
+    end function
+
+    var1 = 10 * (10 + 20 + 30 + 40 + 50 + 60 + 70 + 80 + 90 + 100 + 110 + \
+        120 + 130 + 140 + 150 + 160 + 170 + 180 + 190 + 200)
+    var1 = 10 * sum( *range(10, 210, 10) )

@@ -1,0 +1,33 @@
+
+# need designs:
+
+    [ not designed ]
+
+    variable scopes: normal variable scope
+
+    float & int variable casting: float with float, int with int
+
+
+    [ designed ]
+
+    adding methods to basic types: using the following
+        def type int.is_natural() = (self >= 0)
+
+    type casting: use functions
+        from types import *
+        a: string = to_string(102)
+        b: to_int("123")
+
+# for strings
+    string formating:
+        from strings import format
+        format("Hello {}", )
+
+    raw string: use 'r' before strings
+        r"hello \" world" -> hello " world
+        r"hello \\ world" -> hello \ world
+
+    multi-line strings:
+        a = "\
+    hello, I'm here to answer you.
+    "

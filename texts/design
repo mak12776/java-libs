@@ -1,0 +1,221 @@
+
+# keywords:
+    from        import      as
+
+    goto        label
+    block       end
+    if          then        else        end
+    loop        for         in          while
+    switch      case        default
+    break       continue
+
+    var         const       let         ref
+    def         yield       return
+
+    type        untype
+    struct      class       self        new
+    public      private
+
+    true        false       null
+
+# types:
+    char                    'a'
+    int                     1, 0x01, 0b01, 01
+    float                   1.0
+    string                  "Hello"
+    [int, int]              [1, 2]          ->  an array of two ints
+    array[int, 3]           [1, 2, 3]       ->  an array of three ints
+    array[int | string]     [1, "Hello"]    ->  an array of int and string
+    boolean                 true, fasle
+    null                    null
+    function                def (a, b) = a + b
+    {a: int, b: int}        {a = 20, b = 10}
+
+# variable definition
+
+var a = 1
+
+# name definition
+
+var a = 1
+let b = a + 2
+
+# built-in types:
+
+var array = [1, 2, 3]
+var length = array.length
+var item = array[2]
+var new_array = array[0:-1]                 # new_array == [1, 2]
+
+var string = "Hello"
+var length = string.length
+var item = string[5]                        # item ?= char
+var new_string = string[::-1]               # new_string == "olleH"
+
+# functions:
+
+def sum(a: int, b: int): int = a + b
+
+def range(const start: int, const stop: int, const step: int): [int]
+    for i = start; i < stop; i += step
+        yield i
+    end
+end
+
+# pass by reference:
+
+var a = 10
+var b = a       # -> copy of a
+
+def swap(a*, b*)
+    a *= b
+end
+
+var a = 1
+var b = 2
+
+swap(a, b)
+
+# types:
+
+type number = int
+type numbers = array[number]
+
+type null_string = null | string
+
+type null_int = null | int
+
+def type unsigned(value) = (value ?= int) && (value >= 0)
+
+# builtins types functions:
+
+def int.is_natural() = (self > 0)
+
+def string.is_lower()
+    for ch in self
+        if !! ('a' <= ch <= 'z')
+            return false
+        end
+    end
+    return true
+end
+
+# class:
+
+class Person
+    var age: int
+    var name: string
+
+    def self (name: string, age: int)
+        self.name = name
+        self.age = age
+    end
+
+    def greeting (name: string = "")
+        if name == ""
+            printf("Hello, my name is {}.", self.name)
+        else
+            printf("Hello {}, my name is {}.", name, self.name)
+        end
+    end
+end
+
+var me =
+var persons = [
+    new Person("Amin", 21),
+    new Person("Armin", 17),
+    ]
+
+# structure:
+
+struct Point
+    var x: int
+    var y: int
+
+    def add (point: Point)
+        self.x += point.x
+        self.y += point.y
+    end
+
+    def distance (point: Point): float
+        return ((self.x - point.x) ** 2 + (self.y - point.y) ** 2) ** (1 / 2)
+    end
+end
+
+var points = [
+    new Point {10, 20},
+    new Point {30, 40},
+    ]
+
+## control flow:
+
+# goto
+
+label Hello
+goto Hello
+
+# if
+
+if COND then STATEMENT
+
+if COND
+    STATEMENT
+if COND
+    STATEMENT
+else if COND
+    STATEMENT
+else
+    STATEMENT
+end
+
+# loop
+
+repeat
+    STATEMENT
+end
+
+# for 3 part
+
+for [INIT]; [TEST]; [STEP]
+    STATEMENT
+else
+    STATEMENT
+end
+
+# for iterable
+
+for NAME in ITER
+    STATEMENT
+else
+    STATEMENT
+end
+
+# while
+
+while COND
+    STATEMENT
+else
+    STATEMENT
+end
+
+# do while ??s
+
+# switch
+
+switch VALUE
+    case VALUE
+        STATEMENT
+        break
+
+    case VALUE
+        STATEMENT
+        break
+
+    case VALUE
+        STATEMENT
+        break
+
+    default
+        STATEMENT
+        break
+end
