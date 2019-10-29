@@ -1,0 +1,9 @@
+-- this is a comment
+
+a = b
+
+if a == d
+	\\ b = e 
+else
+	b = e \\ goodies
+end
