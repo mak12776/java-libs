@@ -1,8 +1,5 @@
 package olds;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-
 public class Analyzer 
 {
 	public LinkedBufferStream stream;

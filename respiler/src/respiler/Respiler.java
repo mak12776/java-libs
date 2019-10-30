@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.management.RuntimeErrorException;
-
 import exceptions.ParserException;
 import exceptions.BaseException;
 import exceptions.BigFileSizeException;
@@ -15,6 +13,7 @@ import types.BufferLines;
 import types.ByteTest;
 import types.ErrorType;
 import types.Line;
+import types.Node;
 import types.TokenType;
 import types.tokens.NameToken;
 import types.tokens.Token;
@@ -250,12 +249,6 @@ public class Respiler
 				}
 			}
 			
-			private boolean nextIndex()
-			{
-				incIndex();
-				return end;
-			}
-			
 			private byte getByte()
 			{
 				return bufferLines.buffer[index];
@@ -290,18 +283,18 @@ public class Respiler
 					return token;
 				}
 				
-				// raw string
-				
-				if (getByte() == 'r')
-				{
-					throw new RuntimeException("incomplete");
-				}
-				
 				// keyword or name
 				
 				else if (ByteTest.isLower(getByte()))
 				{
 					setStartIndex();
+					
+					// raw string
+
+					if (getByte() == 'r')
+					{
+						throw new RuntimeException("incomplete");
+					}
 					
 					incIndex();
 					if (end)
@@ -703,5 +696,15 @@ public class Respiler
 				return false;
 			}
 		};
+	}
+
+	public interface NodeStream
+	{
+		public Node nextNode();
+	}
+	
+	public static NodeStream analyzeTokenStream(TokenStream stream)
+	{
+		return null;
 	}
 }

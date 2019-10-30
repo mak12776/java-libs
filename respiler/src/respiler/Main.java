@@ -3,8 +3,6 @@ package respiler;
 import java.io.IOException;
 
 import exceptions.BaseException;
-import types.ByteTest;
-import types.Line;
 
 public class Main 
 {
