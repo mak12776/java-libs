@@ -7,8 +7,8 @@ import exceptions.BaseException;
 import exceptions.ParserException;
 import respiler.Respiler.TokenStream;
 import types.BufferLines;
-import types.TokenType;
 import types.tokens.Token;
+import types.tokens.TokenType;
 
 public class Tests
 {

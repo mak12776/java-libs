@@ -13,10 +13,10 @@ import types.BufferLines;
 import types.ByteTest;
 import types.ErrorType;
 import types.Line;
-import types.Node;
-import types.TokenType;
+import types.nodes.Node;
 import types.tokens.NameToken;
 import types.tokens.Token;
+import types.tokens.TokenType;
 
 public class Respiler 
 {	
@@ -705,6 +705,12 @@ public class Respiler
 	
 	public static NodeStream analyzeTokenStream(TokenStream stream)
 	{
-		return null;
+		return new NodeStream() {
+			
+			@Override
+			public Node nextNode() 
+			{
+			}
+		};
 	}
 }

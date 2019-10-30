@@ -4,7 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import types.ByteTest;
-import types.TokenType;
+import types.tokens.TokenType;
 
 public class Config 
 {

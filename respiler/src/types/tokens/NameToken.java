@@ -1,6 +1,5 @@
 package types.tokens;
 
-import types.TokenType;
 import types.Tools;
 
 public class NameToken extends Token 
