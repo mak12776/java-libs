@@ -28,7 +28,7 @@ public class Config
 		put("else",					TokenType.ELSE);
 		put("end",					TokenType.END);
 		
-		put("loop", 				TokenType.LOOP);
+		put("repeat", 				TokenType.REPEAT);
 		put("for", 					TokenType.FOR);
 		put("in", 					TokenType.IN);
 		put("while", 				TokenType.WHILE);

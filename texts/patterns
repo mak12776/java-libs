@@ -1,5 +1,4 @@
 
-
 -[ name patterns ]-
 
 keywords =      '[a-z]+'
@@ -15,37 +14,45 @@ x           f   t   t
 
 -[ line patterns ]-
 
-<NAME> : <TYPE>
-<NAME> [ : <TYPE> ] = <EXP>
+VAR_DEF: ( 'var' | 'const' | 'let' | 'ref' ) <NAME> [':' <TYPE>] [ '=' <EXP> ]
 
-<NAME> = <EXP>
+FUNC_DEF: 'def' <NAME> '(' <ARGS> ')'
 
-goto <LABEL>
-label <LABEL>
+TYPE_DEF: 'type' <NAME> '=' <TYPE_EXP>
 
-if <COND>
-else if <COND>
-else
+TYPE_FUNC_DEF: 'type'
 
-loop
+ARGS: [ <VAR_DEF> ] [ ',' VAR_DEF ]*
 
-for [ <INIT> ]; [ <COND> ]; [ <STEP> ]
-for <NAME> in <ARRAY>
+YIELD: 'yield' [ <EXP> ]
+RETURN: 'return' [ <EXP> ]
 
-while <COND>
+GOTO: 'goto' <LABEL>
+LABEL: 'label' <LABEL>
 
-switch <VALUE>
-case <VALUE>
-default
+'if' <EXP> 'then' <STATEMENT>
 
-break
-continue
+'if' <EXP>
+'else' 'if' <EXP>
+'else'
 
-def <NAME> ( [ <ARGS> ] ) [ : <TYPE> ]
+'repeat' <EXP>
 
-yield <VALUE>
+'for' [ <INIT> ]; [ <COND> ]; [ <STEP> ]
+'for' <NAME> 'in' <EXP>
 
-return [ <VALUE> ]
+'while' <COND>
+
+'switch' <EXP>
+'case' <EXP>
+'default'
+
+'break'
+'continue'
+
+'end' [ 'def' [ <NAME> ] | 'type' [ <NAME> ] |
+        'if' | 'repeat' | 'for' | 'while' | 'switch' ]
+
 
 type <NAME> : <TYPE>
 def type <NAME> ( <ARGS> ) [ : <TYPE> ]
@@ -56,8 +63,6 @@ private
 public
 
 end [
-    if | loop | for | while | switch |
-    function [ <NAME> ] |
     class [ <NAME> ] |
     type <NAME> |
     type [ function [ <NAME> ] ]

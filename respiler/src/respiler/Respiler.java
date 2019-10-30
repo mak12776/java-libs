@@ -700,16 +700,52 @@ public class Respiler
 
 	public interface NodeStream
 	{
-		public Node nextNode();
+		public Node nextNode() throws ParserException;
 	}
 	
 	public static NodeStream analyzeTokenStream(TokenStream stream)
 	{
-		return new NodeStream() {
+		return new NodeStream() 
+		{
+			private Token token;
+			private boolean end;
+			
+			{
+				token = null;
+				end = false;
+			}
+			
+			private void nextToken() throws ParserException
+			{
+				token = stream.nextToken();
+				if (token == null)
+					end = true;
+			}
 			
 			@Override
-			public Node nextNode() 
+			public Node nextNode() throws ParserException
 			{
+				
+				if (end)
+					return null;
+				
+				if (token == null)
+				{
+					nextNode();
+					if (end)
+						return null;
+				}
+				
+				if (token.type == TokenType.VAR)
+				{
+					nextToken();
+					if (end)
+					{
+						
+					}
+				}
+				
+				return null;
 			}
 		};
 	}

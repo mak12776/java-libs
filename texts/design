@@ -3,9 +3,8 @@
     from        import      as
 
     goto        label
-    block       end
     if          then        else        end
-    loop        for         in          while
+    repeat      for         in          while
     switch      case        default
     break       continue
 
@@ -13,6 +12,7 @@
     def         yield       return
 
     type        untype
+    block
     struct      class       self        new
     public      private
 
@@ -85,7 +85,25 @@ type null_string = null | string
 
 type null_int = null | int
 
-def type unsigned(value) = (value ?= int) && (value >= 0)
+def type unsigned = (self ?= int) && (self >= 0)
+def type signed = (self ?= int)
+
+def type int_limit(var min: int, var max: int)
+    return (self ?= int) && (self >= min) && (self <= max)
+end
+
+var a: unsigned = 100
+var b: int_limit(100, 200) = 150
+
+def Point(type T = int | float): type
+    class Result
+        def Result (var x: T, var y: T)
+            self.x = x
+            self.y = y
+        end
+    end
+    return Result
+end
 
 # builtins types functions:
 
@@ -93,7 +111,7 @@ def int.is_natural() = (self > 0)
 
 def string.is_lower()
     for ch in self
-        if !! ('a' <= ch <= 'z')
+        if ! ('a' <= ch <= 'z')
             return false
         end
     end
@@ -116,6 +134,18 @@ class Person
             printf("Hello, my name is {}.", self.name)
         else
             printf("Hello {}, my name is {}.", name, self.name)
+        end
+    end
+end
+
+def Point
+    class Point
+        var x: T
+        var y: T
+
+        def self(var x: T, var y: T)
+            self.x = x
+            self.y
         end
     end
 end
@@ -168,7 +198,7 @@ else
     STATEMENT
 end
 
-# loop
+# repeat
 
 repeat
     STATEMENT
