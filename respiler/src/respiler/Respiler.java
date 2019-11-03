@@ -188,7 +188,6 @@ public class Respiler
 				this.index = bufferLines.lines[lnum].start;
 				this.token = null;
 				this.end = false;
-				
 			}
 			
 			private void setStartIndex()
