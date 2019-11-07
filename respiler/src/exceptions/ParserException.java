@@ -1,7 +1,7 @@
 package exceptions;
 
-import types.ErrorType;
-import types.Tools;
+import respiler.types.ErrorType;
+import tools.Tools;
 
 public class ParserException extends Exception 
 {

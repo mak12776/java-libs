@@ -1,23 +1,17 @@
-package types;
+package tools;
 
 public class BufferLines 
 {
 	public byte[] buffer;
-	public Line[] lines;
+	public BytesView[] lines;
 	
-	public BufferLines(byte[] buffer, Line[] lines)
+	public BufferLines(byte[] buffer, BytesView[] lines)
 	{
 		this.buffer = buffer;
 		this.lines = lines;
 	}
 	
-	public BufferLines()
-	{
-		this.buffer = null;
-		this.lines = null;
-	}
-	
-	public String getLine(int num)
+	public String getLineString(int num)
 	{
 		StringBuffer builder = new StringBuffer();
 		builder.append("[");

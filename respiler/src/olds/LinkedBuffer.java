@@ -3,7 +3,7 @@ package olds;
 import java.io.IOException;
 import java.io.InputStream;
 
-import respiler.Main;
+import main.Main;
 
 public class LinkedBuffer 
 {

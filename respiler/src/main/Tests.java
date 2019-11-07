@@ -1,14 +1,16 @@
-package respiler;
+package main;
 
 import java.io.IOException;
 import java.io.PrintStream;
 
 import exceptions.BaseException;
 import exceptions.ParserException;
-import respiler.Respiler.TokenStream;
-import types.BufferLines;
-import types.tokens.Token;
-import types.tokens.TokenType;
+import respiler.Parser;
+import respiler.Parser.TokenStream;
+import respiler.types.tokens.Token;
+import respiler.types.tokens.TokenType;
+import tools.BufferLines;
+import tools.StreamTools;
 
 public class Tests
 {
@@ -22,8 +24,8 @@ public class Tests
 		
 		try 
 		{
-			bufferLines = Respiler.readLines(codeFileName);
-			stream = Respiler.parseBufferLines(bufferLines);
+			bufferLines = StreamTools.readLines(codeFileName);
+			stream = Parser.parseBufferLines(bufferLines);
 			
 			int lnum = 0;
 			
@@ -32,7 +34,7 @@ public class Tests
 			{
 				while (lnum <= token.startLine || (token.type == TokenType.MULTI_LINE_COMMENT && lnum <= token.endLine))
 				{
-					output.println(bufferLines.getLine(lnum));
+					output.println(bufferLines.getLineString(lnum));
 					lnum += 1;
 				}
 				output.println(token);

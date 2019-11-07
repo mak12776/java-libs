@@ -1,16 +1,36 @@
-package types;
+package tools;
 
 public interface ByteTest 
 {
+	public boolean test(byte b);
+	
 	public static boolean isBlank(byte b)
 	{
 		return (b == ' ') || (b == '\t');
 	}
 	
+	public static ByteTest isBlankClass = new ByteTest() 
+	{
+		@Override
+		public boolean test(byte b) 
+		{
+			return ByteTest.isBlank(b);
+		}
+	};
+	
 	public static boolean isNewline(byte b)
 	{
 		return (b == '\n');
 	}
+	
+	public static ByteTest isNewlineClass = new ByteTest() 
+	{
+		@Override
+		public boolean test(byte b) 
+		{
+			return isNewline(b);
+		}
+	};
 	
 	public static boolean isLower(byte b)
 	{
@@ -39,6 +59,4 @@ public interface ByteTest
 				(('a' <= b) && (b <= 'f')) ||
 				(('A' <= b) && (b <= 'F'));
 	}
-	
-	public boolean test(byte b);
 }

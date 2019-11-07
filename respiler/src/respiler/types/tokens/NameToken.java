@@ -1,6 +1,6 @@
-package types.tokens;
+package respiler.types.tokens;
 
-import types.Tools;
+import tools.Tools;
 
 public class NameToken extends Token 
 {
