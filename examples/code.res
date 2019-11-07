@@ -1,5 +1,5 @@
 
-#-
+--
 builtins types:
     int                     123
     float                   1.23
@@ -12,18 +12,26 @@ builtins types:
     function                def (a) = (a)        <- a lambda or function
     boolean                 true || false
     null                    null
--#
-
-;; comments
-;;
+--
 
 # any value type can be stored in a
-var a = 100     ;; comments
-a = "Hi"        ~
+var a = 100     # comments
+a = "Hi"        # another comment
 a = 1.23
 
-a =     \\ comments \\ \-
- ~ 123  -- one line comments
+a = \\ multi line comments \\ ->
+    123 ->
+    * 456 # one line comments
+
+##
+    # hi another inline comment
+multi line comments ##
+
+#[ multi line comment ]
+#[ ]
+
+a = #[[ multi line comments ]]->
+ ~ 123  # one line comment
 
 type null_string = null | string
 

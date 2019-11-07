@@ -1,26 +1,20 @@
-package types;
+package tools;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class Line 
+public class BytesView 
 {
 	public int start;
 	public int end;
 	
-	public Line(int start, int end)
+	public BytesView(int start, int end)
 	{
 		this.start = start;
 		this.end = end;
 	}
 	
-	public Line()
-	{
-		this.start = 0;
-		this.end = 0;
-	}
-	
-	public void copyTo(Line line)
+	public void copyTo(BytesView line)
 	{
 		line.start = this.start;
 		line.end = this.end;
@@ -51,14 +45,34 @@ public class Line
 		return true;
 	}
 	
+	public static boolean compareBytes(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
+	{
+		for (int i = 0; i < length; i += 1)
+		{
+			if (buffer[bufferOffset + i] != bytes[bytesOffset + i])
+				return false;
+		}
+		return true;
+	}
+	
 	public boolean startsWith(byte[] buffer, byte[] bytes)
 	{
 		return (length() >= bytes.length) && compareBytes(buffer, start, bytes);
 	}
 	
+	public boolean startsWith(byte[] buffer, BytesView view, byte[] viewBytes)
+	{
+		return (length() >= view.length()) && (compareBytes(buffer, start, viewBytes, view.start, length()));
+	}
+	
 	public boolean endsWith(byte[] buffer, byte[] bytes)
 	{
 		return (length() >= bytes.length) && compareBytes(buffer, length() - bytes.length, bytes);
+	}
+	
+	public boolean endsWith(byte[] buffer, BytesView view, byte[] viewBytes)
+	{
+		return (length() >= view.length()) && compareBytes(buffer, start, viewBytes, view.start, length());
 	}
 	
 	public int find(byte[] buffer, ByteTest test)
