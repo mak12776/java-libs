@@ -36,12 +36,10 @@ public class StreamTools
 		return readFile(new FileInputStream(name));
 	}
 	
-	public static BytesView[] splitLines(byte[] array)
+	public static int countLines(byte[] array)
 	{
-		BytesView[] result;
-		int total;
 		int index;
-		int lnum;
+		int total;
 		
 		index = 0;
 		total = 0;
@@ -82,7 +80,16 @@ public class StreamTools
 			}
 		}
 		
-		result = new BytesView[total];
+		return total;
+	}
+	
+	public static BytesView[] splitLines(byte[] array)
+	{
+		BytesView[] result;
+		int index;
+		int lnum;
+		
+		result = new BytesView[countLines(array)];
 		for (lnum = 0; lnum < result.length; lnum += 1)
 		{
 			result[lnum] = new BytesView(0, 0);

@@ -26,5 +26,6 @@ public class Settings
 				evaluationPrefix.length + evaluationSuffix.length;
 		
 		buffer = new byte[length];
+		
 	}
 }

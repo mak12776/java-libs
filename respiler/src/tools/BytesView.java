@@ -25,54 +25,24 @@ public class BytesView
 		return this.end - this.start;
 	}
 	
-	public static boolean byteIn(byte b, byte[] bytes)
-	{
-		for (int i = 0; i < bytes.length; i += 1)
-		{
-			if (bytes[i] == b)
-				return true;
-		}
-		return false;
-	}
-	
-	public static boolean compareBytes(byte[] buffer, int offset, byte[] bytes)
-	{
-		for (int i = 0; i < bytes.length; i += 1)
-		{
-			if (buffer[offset + i] != bytes[i])
-				return false;
-		}
-		return true;
-	}
-	
-	public static boolean compareBytes(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
-	{
-		for (int i = 0; i < length; i += 1)
-		{
-			if (buffer[bufferOffset + i] != bytes[bytesOffset + i])
-				return false;
-		}
-		return true;
-	}
-	
 	public boolean startsWith(byte[] buffer, byte[] bytes)
 	{
-		return (length() >= bytes.length) && compareBytes(buffer, start, bytes);
+		return (length() >= bytes.length) && ByteTools.isEqualBytes(buffer, start, bytes, 0, bytes.length);
 	}
 	
 	public boolean startsWith(byte[] buffer, BytesView view, byte[] viewBytes)
 	{
-		return (length() >= view.length()) && (compareBytes(buffer, start, viewBytes, view.start, length()));
+		return (length() >= view.length()) && ByteTools.isEqualBytes(buffer, start, viewBytes, view.start, length());
 	}
 	
 	public boolean endsWith(byte[] buffer, byte[] bytes)
 	{
-		return (length() >= bytes.length) && compareBytes(buffer, length() - bytes.length, bytes);
+		return (length() >= bytes.length) && ByteTools.isEqualBytes(buffer, length() - bytes.length, bytes, 0, bytes.length);
 	}
 	
 	public boolean endsWith(byte[] buffer, BytesView view, byte[] viewBytes)
 	{
-		return (length() >= view.length()) && compareBytes(buffer, start, viewBytes, view.start, length());
+		return (length() >= view.length()) && ByteTools.isEqualBytes(buffer, start, viewBytes, view.start, length());
 	}
 	
 	public int find(byte[] buffer, ByteTest test)

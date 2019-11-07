@@ -1,6 +1,6 @@
 package tools;
 
-public class BufferLines 
+public class BufferLines
 {
 	public byte[] buffer;
 	public BytesView[] lines;

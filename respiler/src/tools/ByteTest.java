@@ -4,11 +4,6 @@ public interface ByteTest
 {
 	public boolean test(byte b);
 	
-	public static boolean isBlank(byte b)
-	{
-		return (b == ' ') || (b == '\t');
-	}
-	
 	public static ByteTest isBlankClass = new ByteTest() 
 	{
 		@Override
@@ -18,11 +13,6 @@ public interface ByteTest
 		}
 	};
 	
-	public static boolean isNewline(byte b)
-	{
-		return (b == '\n');
-	}
-	
 	public static ByteTest isNewlineClass = new ByteTest() 
 	{
 		@Override
@@ -31,6 +21,17 @@ public interface ByteTest
 			return isNewline(b);
 		}
 	};
+
+	
+	public static boolean isBlank(byte b)
+	{
+		return (b == ' ') || (b == '\t');
+	}
+	
+	public static boolean isNewline(byte b)
+	{
+		return (b == '\n');
+	}
 	
 	public static boolean isLower(byte b)
 	{
