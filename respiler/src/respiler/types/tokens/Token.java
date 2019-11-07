@@ -1,6 +1,6 @@
 package respiler.types.tokens;
 
-import tools.Tools;
+import tools.StringTools;
 
 public class Token 
 {
@@ -25,7 +25,7 @@ public class Token
 	
 	public void appendInfo(StringBuilder builder)
 	{
-		Tools.appendObjects(builder, "[", startLine, ", ", endLine, "] [", startIndex, ", ", endIndex, "]");
+		StringTools.appendObjects(builder, "[", startLine, ", ", endLine, "] [", startIndex, ", ", endIndex, "]");
 	}
 	
 	@Override
@@ -33,9 +33,9 @@ public class Token
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		Tools.appendObjects(builder, "Token(", type, ", ");
+		StringTools.appendObjects(builder, "Token(", type, ", ");
 		appendInfo(builder);
-		Tools.appendObjects(builder, ")");
+		StringTools.appendObjects(builder, ")");
 		
 		return builder.toString();
 	}

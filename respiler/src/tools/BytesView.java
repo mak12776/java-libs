@@ -45,6 +45,11 @@ public class BytesView
 		return (length() >= view.length()) && ByteTools.isEqualBytes(buffer, start, viewBytes, view.start, length());
 	}
 	
+	public boolean startsAndEndsWith(byte[] buffer, BytesView startView, byte[] startViewBytes, BytesView endView, byte[] endViewBytes)
+	{
+		return startsWith(buffer, startView, startViewBytes) && endsWith(buffer, endView, endViewBytes);
+	}
+	
 	public int find(byte[] buffer, ByteTest test)
 	{
 		int index;

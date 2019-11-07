@@ -2,9 +2,9 @@ package macro;
 
 import tools.BytesView;
 
-public class Settings 
+public class CompilerSettings 
 {
-	private byte[] buffer;
+	public byte[] buffer;
 	
 	public BytesView macroPrefix;
 	public BytesView macroSuffix;
@@ -15,7 +15,7 @@ public class Settings
 	public BytesView evaluationPrefix;
 	public BytesView evaluationSuffix;
 	
-	public Settings(
+	public CompilerSettings(
 			byte[] macroPrefix, byte[] macroSuffix, 
 			byte[] variablePrefix, byte[] variableSuffix, 
 			byte[] evaluationPrefix, byte[] evaluationSuffix)

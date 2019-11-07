@@ -25,7 +25,7 @@ public class BufferLines
 			}
 			else if (ch == '\t')
 			{
-				builder.append("~   ");
+				builder.append("   ~");
 			}
 			else
 			{

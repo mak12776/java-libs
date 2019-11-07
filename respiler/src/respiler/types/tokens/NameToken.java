@@ -1,6 +1,6 @@
 package respiler.types.tokens;
 
-import tools.Tools;
+import tools.StringTools;
 
 public class NameToken extends Token 
 {
@@ -22,9 +22,9 @@ public class NameToken extends Token
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		Tools.appendObjects(builder, "Token(", type, ", ");
+		StringTools.appendObjects(builder, "Token(", type, ", ");
 		super.appendInfo(builder);
-		Tools.appendObjects(builder, ", ", Tools.byteArrayToString(name, '"', '"'), ")");
+		StringTools.appendObjects(builder, ", ", StringTools.byteArrayToString(name, '"', '"'), ")");
 		
 		return builder.toString();
 	}

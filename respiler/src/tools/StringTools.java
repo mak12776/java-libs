@@ -1,6 +1,6 @@
 package tools;
 
-public final class Tools 
+public final class StringTools 
 {
 	public static String joinObject(Object... objects)
 	{

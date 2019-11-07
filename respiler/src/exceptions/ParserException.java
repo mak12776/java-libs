@@ -1,7 +1,7 @@
 package exceptions;
 
 import respiler.types.ErrorType;
-import tools.Tools;
+import tools.StringTools;
 
 public class ParserException extends Exception 
 {
@@ -17,7 +17,7 @@ public class ParserException extends Exception
 	
 	public ParserException(ErrorType type, int startLine, int startIndex, int endLine, int endIndex)
 	{
-		super(Tools.joinObject(type, ", [", startLine, ", ", endLine, "] [", startIndex, ", ", endIndex, "]"));
+		super(StringTools.joinObject(type, ", [", startLine, ", ", endLine, "] [", startIndex, ", ", endIndex, "]"));
 		
 		this.type = type;
 		
