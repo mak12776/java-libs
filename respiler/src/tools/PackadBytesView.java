@@ -10,7 +10,13 @@ public class PackadBytesView
 	public PackadBytesView(byte[] buffer, int start, int end)
 	{
 		this.buffer = buffer;
+		
 		this.start = start;
 		this.end = end;
+	}
+	
+	public boolean startsWith(byte[] bytes)
+	{
+		
 	}
 }

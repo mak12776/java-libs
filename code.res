@@ -1,0 +1,2 @@
+label Hi
+goto Hi

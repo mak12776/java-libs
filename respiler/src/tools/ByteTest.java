@@ -4,6 +4,11 @@ public interface ByteTest
 {
 	public boolean test(byte b);
 	
+	public static boolean isBlank(byte b)
+	{
+		return (b == ' ') || (b == '\t');
+	}
+	
 	public static ByteTest isBlankClass = new ByteTest() 
 	{
 		@Override
@@ -13,6 +18,11 @@ public interface ByteTest
 		}
 	};
 	
+	public static boolean isNewline(byte b)
+	{
+		return (b == '\n');
+	}
+	
 	public static ByteTest isNewlineClass = new ByteTest() 
 	{
 		@Override
@@ -21,17 +31,6 @@ public interface ByteTest
 			return isNewline(b);
 		}
 	};
-
-	
-	public static boolean isBlank(byte b)
-	{
-		return (b == ' ') || (b == '\t');
-	}
-	
-	public static boolean isNewline(byte b)
-	{
-		return (b == '\n');
-	}
 	
 	public static boolean isLower(byte b)
 	{
@@ -53,6 +52,15 @@ public interface ByteTest
 		return  (('a' <= b) && (b <= 'z')) ||
 				(('A' <= b) && (b <= 'Z'));
 	}
+	
+	public static ByteTest isLetterClass = new ByteTest()
+	{
+		@Override
+		public boolean test(byte b)
+		{
+			return isLetter(b);
+		}
+	};
 	
 	public static boolean isHexDigit(byte b)
 	{

@@ -26,6 +26,21 @@ public class Compiler
 		this.settings = settings;
 	}
 	
+	public boolean checkViewPrefix(BytesView view, BytesView prefix)
+	{
+		return (prefix != null) ? view.startsWith(bufferLines.buffer, prefix, settings.buffer) : true;
+	}
+	
+	public boolean checkViewSuffix(BytesView view, BytesView suffix)
+	{
+		return (suffix != null) ? view.endsWith(bufferLines.buffer, suffix, settings.buffer) : true;
+	}
+	
+	public boolean checkViewPrefixSuffix(BytesView view, BytesView prefix, BytesView Suffix)
+	{
+		return checkViewPrefix(view, prefix) && checkViewSuffix(view, Suffix);
+	}
+	
 	public void Compile()
 	{
 		int lnum;
@@ -36,9 +51,12 @@ public class Compiler
 		
 		if (view.strip(bufferLines.buffer, ByteTest.isBlankClass) != 0)
 		{
-			if ()
+			if (checkViewPrefixSuffix(view, settings.macroPrefix, settings.macroSuffix))
 			{
-				
+				if (view.strip(bufferLines.buffer, ByteTest.isBlankClass) == 0)
+				{
+					view.findNot(bufferLines.buffer, ByteTest.isLetterClass);
+				}
 			}
 		}
 	}
