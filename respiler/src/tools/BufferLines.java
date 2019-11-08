@@ -1,11 +1,13 @@
 package tools;
 
+import tools.bytes.UnpackedBytesView;
+
 public class BufferLines
 {
 	public byte[] buffer;
-	public BytesView[] lines;
+	public UnpackedBytesView[] lines;
 	
-	public BufferLines(byte[] buffer, BytesView[] lines)
+	public BufferLines(byte[] buffer, UnpackedBytesView[] lines)
 	{
 		this.buffer = buffer;
 		this.lines = lines;

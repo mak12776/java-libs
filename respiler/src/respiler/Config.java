@@ -4,6 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 
 import respiler.types.tokens.TokenType;
 import tools.ByteTest;
+import tools.ByteTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class Config
 		{
 			for (int i = 0; i < bytes.length; i += 1)
 			{
-				if (!ByteTest.isLower(bytes[i]))
+				if (!ByteTools.isLower(bytes[i]))
 				{
 					return true;
 				}

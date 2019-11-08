@@ -1,19 +1,19 @@
 package macro;
 
-import tools.BytesView;
+import tools.bytes.UnpackedBytesView;
 
 public class CompilerSettings 
 {
 	public byte[] buffer;
 	
-	public BytesView macroPrefix;
-	public BytesView macroSuffix;
+	public UnpackedBytesView macroPrefix;
+	public UnpackedBytesView macroSuffix;
 	
-	public BytesView variablePrefix;
-	public BytesView variableSuffix;
+	public UnpackedBytesView variablePrefix;
+	public UnpackedBytesView variableSuffix;
 	
-	public BytesView evaluationPrefix;
-	public BytesView evaluationSuffix;
+	public UnpackedBytesView evaluationPrefix;
+	public UnpackedBytesView evaluationSuffix;
 	
 	public CompilerSettings(
 			byte[] macroPrefix, byte[] macroSuffix, 

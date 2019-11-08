@@ -9,6 +9,7 @@ import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.BufferLines;
 import tools.ByteTest;
+import tools.ByteTools;
 
 public class Parser 
 {
@@ -108,7 +109,7 @@ public class Parser
 					return null;
 				}
 				
-				while (ByteTest.isBlank(getByte()))
+				while (ByteTools.isBlank(getByte()))
 				{
 					incIndex();
 					if (end)
@@ -129,7 +130,7 @@ public class Parser
 				
 				// keyword or name
 				
-				else if (ByteTest.isLower(getByte()))
+				else if (ByteTools.isLower(getByte()))
 				{
 					setStartIndex();
 					
@@ -149,7 +150,7 @@ public class Parser
 						return token;
 					}
 					
-					while (ByteTest.isLower(getByte()))
+					while (ByteTools.isLower(getByte()))
 					{
 						incIndex();
 						if (end)
@@ -160,7 +161,7 @@ public class Parser
 						}
 					}
 					
-					if (ByteTest.isUpper(getByte()) || ByteTest.isDigit(getByte()) || (getByte() == '_'))
+					if (ByteTools.isUpper(getByte()) || ByteTools.isDigit(getByte()) || (getByte() == '_'))
 					{
 						incIndex();
 						if (end)
@@ -171,7 +172,7 @@ public class Parser
 							return token;
 						}
 						
-						while (ByteTest.isLetter(getByte()) || ByteTest.isDigit(getByte()) || (getByte() == '_'))
+						while (ByteTools.isLetter(getByte()) || ByteTools.isDigit(getByte()) || (getByte() == '_'))
 						{
 							incIndex();
 							if (end)
@@ -192,7 +193,7 @@ public class Parser
 				
 				// name
 				
-				else if (ByteTest.isUpper(getByte()) || (getByte() == '_'))
+				else if (ByteTools.isUpper(getByte()) || (getByte() == '_'))
 				{
 					setStartIndex();
 					
@@ -205,7 +206,7 @@ public class Parser
 						return token;
 					}
 					
-					while (ByteTest.isLetter(getByte()) || ByteTest.isDigit(getByte()) || (getByte() == '_'))
+					while (ByteTools.isLetter(getByte()) || ByteTools.isDigit(getByte()) || (getByte() == '_'))
 					{
 						incIndex();
 						if (end)
@@ -228,7 +229,7 @@ public class Parser
 				
 				// number
 				
-				else if (ByteTest.isDigit(getByte()))
+				else if (ByteTools.isDigit(getByte()))
 				{
 					setStartIndex();
 					
@@ -241,7 +242,7 @@ public class Parser
 						return token;
 					}
 					
-					while (ByteTest.isDigit(getByte()))
+					while (ByteTools.isDigit(getByte()))
 					{
 						incIndex();
 						if (end)

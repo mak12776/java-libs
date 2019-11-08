@@ -6,8 +6,8 @@ import java.io.IOException;
 import exceptions.BaseException;
 import tools.BufferLines;
 import tools.ByteTest;
-import tools.BytesView;
 import tools.StreamTools;
+import tools.bytes.UnpackedBytesView;
 
 public class Compiler 
 {
@@ -26,17 +26,17 @@ public class Compiler
 		this.settings = settings;
 	}
 	
-	public boolean checkViewPrefix(BytesView view, BytesView prefix)
+	public boolean checkViewPrefix(UnpackedBytesView view, UnpackedBytesView prefix)
 	{
 		return (prefix != null) ? view.startsWith(bufferLines.buffer, prefix, settings.buffer) : true;
 	}
 	
-	public boolean checkViewSuffix(BytesView view, BytesView suffix)
+	public boolean checkViewSuffix(UnpackedBytesView view, UnpackedBytesView suffix)
 	{
 		return (suffix != null) ? view.endsWith(bufferLines.buffer, suffix, settings.buffer) : true;
 	}
 	
-	public boolean checkViewPrefixSuffix(BytesView view, BytesView prefix, BytesView Suffix)
+	public boolean checkViewPrefixSuffix(UnpackedBytesView view, UnpackedBytesView prefix, UnpackedBytesView Suffix)
 	{
 		return checkViewPrefix(view, prefix) && checkViewSuffix(view, Suffix);
 	}
@@ -44,18 +44,18 @@ public class Compiler
 	public void Compile()
 	{
 		int lnum;
-		BytesView view;
+		UnpackedBytesView view;
 		
 		lnum = 0;
 		view = bufferLines.lines[lnum];
 		
-		if (view.strip(bufferLines.buffer, ByteTest.isBlankClass) != 0)
+		if (view.strip(bufferLines.buffer, ByteTest.isBlank) != 0)
 		{
 			if (checkViewPrefixSuffix(view, settings.macroPrefix, settings.macroSuffix))
 			{
-				if (view.strip(bufferLines.buffer, ByteTest.isBlankClass) == 0)
+				if (view.strip(bufferLines.buffer, ByteTest.isBlank) == 0)
 				{
-					view.findNot(bufferLines.buffer, ByteTest.isLetterClass);
+					view.findNot(bufferLines.buffer, ByteTest.isLetter);
 				}
 			}
 		}

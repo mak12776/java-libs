@@ -3,9 +3,14 @@ package tools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
+
 import exceptions.BaseException;
 import exceptions.BigFileSizeException;
 import exceptions.InvalidReadNumberException;
+import tools.bytes.BytesView;
+import tools.bytes.PackedBytesView;
+import tools.bytes.UnpackedBytesView;
 
 public class StreamTools 
 {	
@@ -83,67 +88,59 @@ public class StreamTools
 		return total;
 	}
 	
-	public static BytesView[] splitLines(byte[] array)
+	public static BytesView[] splitLines(Class<?> c, byte[] array)
 	{
 		BytesView[] result;
-		int index;
 		int lnum;
+		int start;
+		int end;
 		
-		result = new BytesView[countLines(array)];
-		for (lnum = 0; lnum < result.length; lnum += 1)
+		result = (BytesView[]) ArrayTools.newArray(c, countLines(array));
+		for (int i = 0; i < result.length; i += 1)
 		{
-			result[lnum] = new BytesView(0, 0);
+			result[i] = new BytesView();
 		}
 		
-		index = 0;
 		lnum = 0;
+		start = 0;
 		
-		result[lnum].start = index;
 		while (true)
 		{
-			if (array[index] == '\r')
+			end = ByteTools.find(array, start, array.length, new byte[] {'\r', '\n'});
+			
+			if (end == array.length)
 			{
-				array[index] = '\n';
+				result[lnum].set(array, start, end);
+				break;
+			}
+			else if (array[end] == '\r')
+			{
+				array[end] = '\n';
+
+				end += 1;
+				result[lnum].set(array, start, end);
 				
-				index += 1;
-				result[lnum].end = index;
-				
-				if (index == array.length)
+				if (end == array.length)
 					break;
 				
-				if (array[index] == '\n')
+				if (array[end] == '\n')
 				{
-					index += 1;
-					
-					if (index == array.length)
+					end += 1;
+					if (end == array.length)
 						break;
 				}
-				
-				lnum += 1;
-				result[lnum].start = index;
-				
-			}
-			else if (array[index] == '\n')
-			{
-				index += 1;
-				result[lnum].end = index;
-				
-				if (index == array.length)
-					break;
-				
-				lnum += 1;
-				result[lnum].start = index;
 			}
 			else
 			{
-				index += 1;
+				end += 1;
+				result[lnum].set(array, start, end);
 				
-				if (index == array.length)
-				{
-					result[lnum].end = index;
+				if (end == array.length)
 					break;
-				}
 			}
+			
+			lnum += 1;
+			start = end;
 		}
 		
 		return result;
@@ -154,7 +151,7 @@ public class StreamTools
 		BufferLines bufferLines = new BufferLines(null, null);
 		
 		bufferLines.buffer = readFile(stream);
-		bufferLines.lines = splitLines(bufferLines.buffer);
+		bufferLines.lines = (UnpackedBytesView[]) splitLines(UnpackedBytesView.class, bufferLines.buffer);
 		return bufferLines;
 	}
 	
