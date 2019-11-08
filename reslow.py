@@ -12,7 +12,7 @@ def tokenizer(file, grammar):
                     line = line[len(string):]
                     if isinstance(token, dict):
                         grammar = token
-                        
+
 
             else:
                 raise ValueError('unknown char: {!r}'.format(line))
@@ -47,6 +47,11 @@ grammar = {
     '-': {
         '=': '-=',
         None: '-',
+    },
+
+    '+': {
+        '=': '+=',
+        None: '+',
     }
 }
 
