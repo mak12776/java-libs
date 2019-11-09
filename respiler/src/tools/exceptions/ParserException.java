@@ -1,4 +1,4 @@
-package exceptions;
+package tools.exceptions;
 
 import respiler.types.ErrorType;
 import tools.StringBuilderTools;

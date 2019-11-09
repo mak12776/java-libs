@@ -3,12 +3,14 @@ package tools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import exceptions.BaseException;
-import exceptions.BigFileSizeException;
-import exceptions.InvalidReadNumberException;
+
 import tools.bytes.BytesView;
 import tools.bytes.PackedBytesView;
 import tools.bytes.UnpackedBytesView;
+import tools.exceptions.BaseException;
+import tools.exceptions.BigFileSizeException;
+import tools.exceptions.InvalidReadNumberException;
+import tools.exceptions.UnknownClassException;
 import tools.types.BufferLines;
 
 public class StreamTools 
@@ -94,10 +96,25 @@ public class StreamTools
 		int start;
 		int end;
 		
-		result = (BytesView[]) ArrayTools.newArray(c, countLines(array));
-		for (int i = 0; i < result.length; i += 1)
+		if (c.isAssignableFrom(PackedBytesView.class))
 		{
-			result[i] = new BytesView();
+			result = (BytesView[]) new PackedBytesView[countLines(array)];
+			for (int i = 0; i < result.length; i += 1)
+			{
+				result[i] = (BytesView) new PackedBytesView();
+			}
+		}
+		else if (c.isAssignableFrom(UnpackedBytesView.class))
+		{
+			result = (BytesView[]) new UnpackedBytesView[countLines(array)];
+			for (int i = 0; i < result.length; i += 1)
+			{
+				result[i] = (BytesView) new UnpackedBytesView();
+			}
+		}
+		else
+		{
+			throw new UnknownClassException("unknown class: " + c.getName());
 		}
 		
 		lnum = 0;
@@ -166,6 +183,18 @@ public class StreamTools
 	
 	public static PackedBytesViewStream readLines(FileInputStream stream) throws IOException, BaseException
 	{
-		throw new RuntimeException("unimplemented function");
+		byte[] buffer;
+		int start;
+		
+		buffer = readFile(stream);
+		
+		return new PackedBytesViewStream()
+		{
+			@Override
+			public PackedBytesView next()
+			{
+				
+			}
+		};
 	}
 }

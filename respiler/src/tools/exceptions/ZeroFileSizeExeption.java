@@ -1,4 +1,4 @@
-package exceptions;
+package tools.exceptions;
 
 public class ZeroFileSizeExeption extends BaseException 
 {

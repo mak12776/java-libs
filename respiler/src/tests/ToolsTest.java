@@ -2,19 +2,21 @@ package tests;
 
 import java.io.IOException;
 
-import exceptions.BaseException;
 import tools.StreamTools;
+import tools.exceptions.BaseException;
 import tools.types.BufferLines;
 
-public class ToolsTest
+public class ToolsTest extends BaseTest
 {
 	public static void TestBufferLines(String name)
 	{
 		try
 		{
 			BufferLines bufferLines = StreamTools.readBufferLines(name);
-			
-			
+			for (int lnum = 0; lnum < bufferLines.lines.length; lnum += 1)
+			{
+				output.println(lnum + ": [" + bufferLines.getLineString(lnum) + "]");
+			}
 		}
 		catch (IOException | BaseException e) 
 		{

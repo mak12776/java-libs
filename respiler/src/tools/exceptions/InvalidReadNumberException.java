@@ -1,4 +1,4 @@
-package exceptions;
+package tools.exceptions;
 
 public class InvalidReadNumberException extends BaseException 
 {

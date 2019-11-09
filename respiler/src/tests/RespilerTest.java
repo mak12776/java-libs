@@ -3,13 +3,13 @@ package tests;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import exceptions.BaseException;
-import exceptions.ParserException;
 import respiler.Parser;
 import respiler.Parser.TokenStream;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.StreamTools;
+import tools.exceptions.BaseException;
+import tools.exceptions.ParserException;
 import tools.types.BufferLines;
 
 public class RespilerTest extends BaseTest

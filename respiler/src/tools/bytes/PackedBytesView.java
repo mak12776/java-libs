@@ -3,7 +3,7 @@ package tools.bytes;
 import tools.ByteTest;
 import tools.ByteTools;
 
-public class PackedBytesView extends BytesView
+public class PackedBytesView implements BytesView
 {
 	/*
 	 * 	Slow Packed Bytes View
@@ -25,6 +25,11 @@ public class PackedBytesView extends BytesView
 	public PackedBytesView(byte[] buffer, int start, int end)
 	{
 		this.set(buffer, start, end);
+	}
+	
+	public PackedBytesView()
+	{
+		this(null, 0, 0);
 	}
 	
 	public int length()

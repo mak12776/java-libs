@@ -2,13 +2,13 @@ package respiler;
 
 import java.util.Arrays;
 
-import exceptions.ParserException;
 import respiler.types.ErrorType;
 import respiler.types.tokens.NameToken;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.ByteTest;
 import tools.ByteTools;
+import tools.exceptions.ParserException;
 import tools.types.BufferLines;
 
 public class Parser 

@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import tools.ByteTest;
 import tools.ByteTools;
 
-public class UnpackedBytesView extends BytesView
+public class UnpackedBytesView implements BytesView
 {
 	public int start;
 	public int end;
@@ -21,6 +21,11 @@ public class UnpackedBytesView extends BytesView
 	public UnpackedBytesView(int start, int end)
 	{
 		set(null, start, end);
+	}
+	
+	public UnpackedBytesView()
+	{
+		this(0, 0);
 	}
 	
 	public int length()

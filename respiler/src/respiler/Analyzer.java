@@ -1,9 +1,9 @@
 package respiler;
 
-import exceptions.ParserException;
 import respiler.Parser.TokenStream;
 import respiler.types.nodes.Node;
 import respiler.types.tokens.Token;
+import tools.exceptions.ParserException;
 
 public class Analyzer 
 {

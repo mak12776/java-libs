@@ -100,16 +100,6 @@ public class ByteTools
 		return end;
 	}
 	
-	public static int findLength(byte[] buffer, int offset, int length, ByteTest test)
-	{	
-		return find(buffer, offset, offset + length, test);
-	}
-	
-	public static int rfindLength(byte[] buffer, int offset, int length, ByteTest test)
-	{
-		return rfind(buffer, offset, offset + length, test);
-	}
-	
 	public static int find(byte[] buffer, int start, int end, byte b1)
 	{
 		return find(buffer, start, end, new ByteTest()
