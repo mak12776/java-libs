@@ -147,9 +147,18 @@ public class StreamTools
 		return result;
 	}
 	
-	public static BufferLines readBufferLines(FileInputStream stream)
+	public static BufferLines readBufferLines(FileInputStream stream) throws IOException, BaseException
 	{
-		BufferLines bufferLines = new BufferLines(null, null);
+		BufferLines result = new BufferLines(null, null);
+		
+		result.buffer = readFile(stream);
+		result.lines = (UnpackedBytesView[]) splitLines(UnpackedBytesView.class, result.buffer);
+		return result;
+	}
+	
+	public static BufferLines readBufferLines(String name) throws FileNotFoundException, IOException, BaseException
+	{
+		return readBufferLines(new FileInputStream(name));
 	}
 	
 	public interface PackedBytesViewStream

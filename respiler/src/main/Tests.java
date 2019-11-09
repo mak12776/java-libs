@@ -24,7 +24,7 @@ public class Tests
 		
 		try 
 		{
-			bufferLines = StreamTools.readLines(codeFileName);
+			bufferLines = StreamTools.readBufferLines(codeFileName);
 			stream = Parser.parseBufferLines(bufferLines);
 			
 			int lnum = 0;

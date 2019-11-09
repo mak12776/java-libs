@@ -23,20 +23,9 @@ public class UnpackedBytesView extends BytesView
 		set(null, start, end);
 	}
 	
-	public void copyTo(UnpackedBytesView line)
-	{
-		line.start = this.start;
-		line.end = this.end;
-	}
-	
 	public int length()
 	{
 		return this.end - this.start;
-	}
-	
-	public boolean startsWith(byte[] buffer, byte[] bytes)
-	{
-		return (length() >= bytes.length) && ByteTools.isEqual(buffer, start, bytes, 0, bytes.length);
 	}
 	
 	public boolean startsWith(byte[] buffer, UnpackedBytesView view, byte[] viewBytes)
@@ -44,80 +33,29 @@ public class UnpackedBytesView extends BytesView
 		return (length() >= view.length()) && ByteTools.isEqual(buffer, start, viewBytes, view.start, length());
 	}
 	
-	public boolean endsWith(byte[] buffer, byte[] bytes)
-	{
-		return (length() >= bytes.length) && ByteTools.isEqual(buffer, length() - bytes.length, bytes, 0, bytes.length);
-	}
-	
 	public boolean endsWith(byte[] buffer, UnpackedBytesView view, byte[] viewBytes)
 	{
 		return (length() >= view.length()) && ByteTools.isEqual(buffer, start, viewBytes, view.start, length());
 	}
 	
-	public boolean startsAndEndsWith(byte[] buffer, UnpackedBytesView startView, byte[] startViewBytes, UnpackedBytesView endView, byte[] endViewBytes)
+	public boolean startsAndEndsWith(byte[] buffer, UnpackedBytesView prefixView, byte[] prefixBytes, UnpackedBytesView suffixView, byte[] suffixBytes)
 	{
-		return startsWith(buffer, startView, startViewBytes) && endsWith(buffer, endView, endViewBytes);
+		return startsWith(buffer, prefixView, prefixBytes) && endsWith(buffer, suffixView, suffixBytes);
 	}
 	
 	public int find(byte[] buffer, ByteTest test)
 	{
-		int index;
-		
-		index = start;
-		while (index < end)
-		{
-			if (test.test(buffer[index]))
-				return index;
-			index += 1;
-		}
-		return end;
-	}
-	
-	public int findNot(byte[] buffer, ByteTest test)
-	{
-		int index;
-		
-		index = start;
-		while (index < end)
-		{
-			if (!test.test(buffer[index]))
-				return index;
-			index += 1;
-		}
-		return end;
+		return ByteTools.find(buffer, start, end, test);
 	}
 	
 	public int rfind(byte[] buffer, ByteTest test)
 	{
-		int index;
-		
-		index = end;
-		while (index > start)
-		{
-			index -= 1;
-			if (test.test(buffer[index]))
-				return index;
-		}
-		return end;
-	}
-	
-	public int rfindNot(byte[] buffer, ByteTest test)
-	{
-		int index;
-		
-		index = end;
-		while (index > start)
-		{
-			index -= 1;
-			if (!test.test(buffer[index]))
-				return index;
-		}
-		return end;
+		return ByteTools.rfind(buffer, start, end, test);
 	}
 	
 	public int lstrip(byte[] buffer, ByteTest test)
 	{
-		start = findNot(buffer, test);
+		start = find(buffer, test.not());
 		return length();
 	}
 	
@@ -125,11 +63,8 @@ public class UnpackedBytesView extends BytesView
 	{
 		int index;
 		
-		index = rfindNot(buffer, test);
-		if (index == end)
-			end = start;
-		else
-			end = index;
+		index = rfind(buffer, test.not());
+		end = (index != end) ? index : start;
 		return length();
 	}
 	

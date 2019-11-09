@@ -16,13 +16,12 @@ public class Compiler
 	
 	public Compiler(FileInputStream stream, CompilerSettings settings) throws IOException, BaseException
 	{
-		this.bufferLines = StreamTools.readLines(stream);
+		this.bufferLines = StreamTools.readBufferLines(stream);
 		this.settings = settings;
 	}
 	
 	public Compiler(byte[] bytes, CompilerSettings settings)
 	{
-		this.bufferLines = new BufferLines(bytes, StreamTools.splitLines(bytes));
 		this.settings = settings;
 	}
 	
@@ -55,7 +54,6 @@ public class Compiler
 			{
 				if (view.strip(bufferLines.buffer, ByteTest.isBlank) == 0)
 				{
-					view.findNot(bufferLines.buffer, ByteTest.isLetter);
 				}
 			}
 		}
