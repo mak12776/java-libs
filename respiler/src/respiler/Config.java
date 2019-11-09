@@ -3,8 +3,8 @@ package respiler;
 import java.util.AbstractMap.SimpleEntry;
 
 import respiler.types.tokens.TokenType;
-import tools.ByteTest;
 import tools.ByteTools;
+import tools.types.ByteTest;
 
 import java.util.ArrayList;
 import java.util.List;

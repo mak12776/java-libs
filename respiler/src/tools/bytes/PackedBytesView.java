@@ -1,7 +1,7 @@
 package tools.bytes;
 
-import tools.ByteTest;
 import tools.ByteTools;
+import tools.types.ByteTest;
 
 public class PackedBytesView implements BytesView
 {
@@ -20,6 +20,13 @@ public class PackedBytesView implements BytesView
 		this.buffer = buffer;
 		this.start = start;
 		this.end = end;
+	}
+	
+	public void set(PackedBytesView view)
+	{
+		this.buffer = view.buffer;
+		this.start = view.start;
+		this.end = view.end;
 	}
 	
 	public PackedBytesView(byte[] buffer, int start, int end)

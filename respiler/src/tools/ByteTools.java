@@ -1,5 +1,7 @@
 package tools;
 
+import tools.types.ByteTest;
+
 public class ByteTools
 {
 	public static boolean isBlank(byte b)

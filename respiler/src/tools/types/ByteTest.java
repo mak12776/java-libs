@@ -1,4 +1,6 @@
-package tools;
+package tools.types;
+
+import tools.ByteTools;
 
 public interface ByteTest 
 {

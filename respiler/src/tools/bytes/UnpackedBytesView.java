@@ -3,8 +3,8 @@ package tools.bytes;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import tools.ByteTest;
 import tools.ByteTools;
+import tools.types.ByteTest;
 
 public class UnpackedBytesView implements BytesView
 {

@@ -183,18 +183,6 @@ public class StreamTools
 	
 	public static PackedBytesViewStream readLines(FileInputStream stream) throws IOException, BaseException
 	{
-		byte[] buffer;
-		int start;
-		
-		buffer = readFile(stream);
-		
-		return new PackedBytesViewStream()
-		{
-			@Override
-			public PackedBytesView next()
-			{
-				
-			}
-		};
+		return null;
 	}
 }

@@ -3,25 +3,35 @@ package macro;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import tools.ByteTest;
 import tools.StreamTools;
+import tools.bytes.PackedBytesView;
 import tools.bytes.UnpackedBytesView;
 import tools.exceptions.BaseException;
 import tools.types.BufferLines;
+import tools.types.ByteTest;
 
 public class Compiler 
 {
+	public static void Compile(PackedBytesView lines[], CompilerSettings settings)
+	{
+		int lnum;
+		PackedBytesView view = new PackedBytesView();
+		
+		lnum = 0;
+		view.set(lines[lnum]);
+		
+		if (view.strip(ByteTest.isBlank) != 0)
+		{
+			
+		}
+	}
+	
 	private BufferLines bufferLines;
 	private CompilerSettings settings;
 	
 	public Compiler(FileInputStream stream, CompilerSettings settings) throws IOException, BaseException
 	{
 		this.bufferLines = StreamTools.readBufferLines(stream);
-		this.settings = settings;
-	}
-	
-	public Compiler(byte[] bytes, CompilerSettings settings)
-	{
 		this.settings = settings;
 	}
 	
@@ -42,20 +52,10 @@ public class Compiler
 	
 	public void Compile()
 	{
-		int lnum;
 		UnpackedBytesView view;
+		int lnum;
 		
 		lnum = 0;
 		view = bufferLines.lines[lnum];
-		
-		if (view.strip(bufferLines.buffer, ByteTest.isBlank) != 0)
-		{
-			if (checkViewPrefixSuffix(view, settings.macroPrefix, settings.macroSuffix))
-			{
-				if (view.strip(bufferLines.buffer, ByteTest.isBlank) == 0)
-				{
-				}
-			}
-		}
 	}
 }
