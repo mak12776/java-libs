@@ -1,5 +1,6 @@
 package tools.types;
 
+import tools.StringBuilderTools;
 import tools.bytes.UnpackedBytesView;
 
 public class BufferLines
@@ -15,26 +16,8 @@ public class BufferLines
 	
 	public String getLineString(int num)
 	{
-		StringBuffer builder = new StringBuffer();
-		builder.append("[");
-		for (int index = lines[num].start; index < lines[num].end; index += 1)
-		{
-			char ch = (char)buffer[index];
-			
-			if (ch == '\n')
-			{
-				builder.append("\\n");
-			}
-			else if (ch == '\t')
-			{
-				builder.append("   ~");
-			}
-			else
-			{
-				builder.append((char)buffer[index]);
-			}
-		}
-		builder.append("]");
+		StringBuilder builder = new StringBuilder();
+		StringBuilderTools.appendBytes(builder, buffer, lines[num].start, lines[num].end);
 		return builder.toString();
 	}
 }

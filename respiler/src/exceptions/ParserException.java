@@ -1,6 +1,7 @@
 package exceptions;
 
 import respiler.types.ErrorType;
+import tools.StringBuilderTools;
 import tools.StringTools;
 
 public class ParserException extends Exception 

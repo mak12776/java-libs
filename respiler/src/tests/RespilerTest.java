@@ -1,4 +1,4 @@
-package main;
+package tests;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -12,9 +12,8 @@ import respiler.types.tokens.TokenType;
 import tools.StreamTools;
 import tools.types.BufferLines;
 
-public class Tests
+public class RespilerTest extends BaseTest
 {
-	public static PrintStream output = System.out;
 	public static String codeFileName = "code.rest";
 	
 	public static void TestAnalyzer()

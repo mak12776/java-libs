@@ -1,55 +1,28 @@
 package tools;
 
-public final class StringTools 
+public class StringTools
 {
 	public static String joinObject(Object... objects)
 	{
-		StringBuffer builder = new StringBuffer();
-		for (int i = 0; i < objects.length; i += 1)
-		{
-			builder.append(objects[i]);
-		}
+		StringBuilder builder = new StringBuilder();
+		StringBuilderTools.appendObjects(builder, objects);
 		return builder.toString();
 	}
 	
-	public static void appendObjects(StringBuilder builder, Object... objects)
-	{
-		for (int i = 0; i < objects.length; i += 1)
-		{
-			builder.append(objects[i]);
-		}
-	}
-	
-	public static String byteArrayToString(byte[] array)
-	{
-		StringBuffer builder = new StringBuffer();
-		for (int i = 0; i < array.length; i += 1)
-		{
-			char ch = (char)array[i];
-			if (ch == '\n')
-			{
-				builder.append("\\n");
-			}
-			else if (ch == '\t')
-			{
-				builder.append("    ~");
-			}
-			else
-			{
-				builder.append(ch);
-			}
-		}
-		return builder.toString();
-	}
-	
-	public static String byteArrayToString(byte[] array, Object prefix, Object suffix)
+
+	public static String byteArrayToString(byte[] array, int start, int end)
 	{
 		StringBuilder builder = new StringBuilder();
-		
+		StringBuilderTools.appendBytes(builder, array, start, end);
+		return builder.toString();
+	}
+	
+	public static String byteArrayToString(byte[] array, int start, int end, Object prefix, Object suffix)
+	{
+		StringBuilder builder = new StringBuilder();
 		builder.append(prefix);
-		builder.append(byteArrayToString(array));
+		StringBuilderTools.appendBytes(builder, array, start, end);
 		builder.append(suffix);
-		
 		return builder.toString();
 	}
 }
