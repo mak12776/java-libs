@@ -18,6 +18,12 @@ public class UnpackedBytesView implements BytesView
 		this.end = end;
 	}
 	
+	public void copyTo(UnpackedBytesView view)
+	{
+		view.start = start;
+		view.end = end;
+	}
+	
 	public UnpackedBytesView(int start, int end)
 	{
 		set(null, start, end);

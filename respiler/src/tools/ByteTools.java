@@ -47,6 +47,14 @@ public class ByteTools
 				(('A' <= b) && (b <= 'F'));
 	}
 	
+	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
+	{
+		for (int index = 0; index < length; index += 1)
+		{
+			destination[destinationOffset + index] = source[sourceOffset + index];
+		}
+	}
+	
 	public static boolean byteIn(byte b, byte[] bytes)
 	{
 		for (int i = 0; i < bytes.length; i += 1)

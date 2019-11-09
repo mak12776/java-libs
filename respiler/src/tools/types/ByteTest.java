@@ -8,12 +8,42 @@ public interface ByteTest
 	
 	public default ByteTest not() 
 	{
+		ByteTest self = this;
+		
 		return new ByteTest()
 		{
 			@Override
 			public boolean test(byte b)
 			{
-				return !test(b);
+				return !self.test(b);
+			}
+		};
+	}
+	
+	public default ByteTest or(ByteTest test)
+	{
+		ByteTest self = this;
+		
+		return new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return self.test(b) || test.test(b);
+			}
+		};
+	}
+	
+	public default ByteTest and(ByteTest test)
+	{
+		ByteTest self = this;
+		
+		return new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return self.test(b) && test.test(b);
 			}
 		};
 	}

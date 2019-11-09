@@ -11,21 +11,7 @@ import tools.types.BufferLines;
 import tools.types.ByteTest;
 
 public class Compiler 
-{
-	public static void Compile(PackedBytesView lines[], CompilerSettings settings)
-	{
-		int lnum;
-		PackedBytesView view = new PackedBytesView();
-		
-		lnum = 0;
-		view.set(lines[lnum]);
-		
-		if (view.strip(ByteTest.isBlank) != 0)
-		{
-			
-		}
-	}
-	
+{	
 	private BufferLines bufferLines;
 	private CompilerSettings settings;
 	
@@ -52,10 +38,15 @@ public class Compiler
 	
 	public void Compile()
 	{
-		UnpackedBytesView view;
+		PackedBytesView view = new PackedBytesView();
 		int lnum;
 		
 		lnum = 0;
-		view = bufferLines.lines[lnum];
+		bufferLines.copyLineTo(lnum, view);
+		
+		if (view.strip(ByteTest.isBlank) != 0)
+		{
+			
+		}
 	}
 }

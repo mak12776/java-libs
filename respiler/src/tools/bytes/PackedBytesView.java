@@ -22,11 +22,11 @@ public class PackedBytesView implements BytesView
 		this.end = end;
 	}
 	
-	public void set(PackedBytesView view)
+	public void copyTo(PackedBytesView view)
 	{
-		this.buffer = view.buffer;
-		this.start = view.start;
-		this.end = view.end;
+		view.buffer = buffer;
+		view.start = start;
+		view.end = end;
 	}
 	
 	public PackedBytesView(byte[] buffer, int start, int end)

@@ -1,6 +1,8 @@
 package tools.types;
 
+import tools.ByteTools;
 import tools.StringBuilderTools;
+import tools.bytes.PackedBytesView;
 import tools.bytes.UnpackedBytesView;
 
 public class BufferLines
@@ -12,6 +14,45 @@ public class BufferLines
 	{
 		this.buffer = buffer;
 		this.lines = lines;
+	}
+	
+	public static BufferLines from(byte[]... bytesArray)
+	{
+		BufferLines result;
+		int length;
+		
+		length = 0;
+		for (int i = 0; i < bytesArray.length; i += 1)
+		{
+			length += bytesArray[i].length;
+		}
+		
+		if (length == 0)
+			return null;
+		
+		result = new BufferLines(null, null);
+		
+		result.buffer = new byte[length];
+		result.lines = new UnpackedBytesView[bytesArray.length];
+		
+		length = 0;
+		for (int i = 0; i < bytesArray.length; i += 1)
+		{
+			ByteTools.copy(result.buffer, length, bytesArray[i], 0, bytesArray[i].length);
+			
+			result.lines[i].start = length;
+			length += bytesArray[i].length;
+			result.lines[i].end = length;
+		}
+		
+		return result;
+	}
+	
+	public void copyLineTo(int lnum, PackedBytesView view)
+	{
+		view.buffer = buffer;
+		view.start = lines[lnum].start;
+		view.end = lines[lnum].end;
 	}
 	
 	public String getLineString(int num)
