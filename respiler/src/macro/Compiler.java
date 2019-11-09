@@ -4,10 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import exceptions.BaseException;
-import tools.BufferLines;
 import tools.ByteTest;
 import tools.StreamTools;
 import tools.bytes.UnpackedBytesView;
+import tools.types.BufferLines;
 
 public class Compiler 
 {

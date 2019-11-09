@@ -11,6 +11,7 @@ import exceptions.InvalidReadNumberException;
 import tools.bytes.BytesView;
 import tools.bytes.PackedBytesView;
 import tools.bytes.UnpackedBytesView;
+import tools.types.BufferLines;
 
 public class StreamTools 
 {	
@@ -146,17 +147,18 @@ public class StreamTools
 		return result;
 	}
 	
-	public static BufferLines readLines(FileInputStream stream) throws IOException, BaseException
+	public static BufferLines readBufferLines(FileInputStream stream)
 	{
 		BufferLines bufferLines = new BufferLines(null, null);
-		
-		bufferLines.buffer = readFile(stream);
-		bufferLines.lines = (UnpackedBytesView[]) splitLines(UnpackedBytesView.class, bufferLines.buffer);
-		return bufferLines;
 	}
 	
-	public static BufferLines readLines(String name) throws FileNotFoundException, IOException, BaseException
+	public interface PackedBytesViewStream
 	{
-		return readLines(new FileInputStream(name));
+		public PackedBytesView next();
+	}
+	
+	public static PackedBytesViewStream readLines(FileInputStream stream) throws IOException, BaseException
+	{
+		throw new RuntimeException("unimplemented function");
 	}
 }

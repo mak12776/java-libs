@@ -7,9 +7,9 @@ import respiler.types.ErrorType;
 import respiler.types.tokens.NameToken;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
-import tools.BufferLines;
 import tools.ByteTest;
 import tools.ByteTools;
+import tools.types.BufferLines;
 
 public class Parser 
 {

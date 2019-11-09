@@ -9,8 +9,8 @@ import respiler.Parser;
 import respiler.Parser.TokenStream;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
-import tools.BufferLines;
 import tools.StreamTools;
+import tools.types.BufferLines;
 
 public class Tests
 {
