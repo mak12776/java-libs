@@ -7,12 +7,12 @@ import tools.StreamTools;
 import tools.bytes.PackedBytesView;
 import tools.bytes.UnpackedBytesView;
 import tools.exceptions.BaseException;
-import tools.types.BufferLines;
+import tools.types.BufferViews;
 import tools.types.ByteTest;
 
 public class Compiler 
 {	
-	private BufferLines bufferLines;
+	private BufferViews bufferLines;
 	private CompilerSettings settings;
 	
 	public Compiler(FileInputStream stream, CompilerSettings settings) throws IOException, BaseException

@@ -3,7 +3,7 @@
 
 class Point
     var x: int
-    var y: int
+    var y: int # comments
 
     [ public ]
 

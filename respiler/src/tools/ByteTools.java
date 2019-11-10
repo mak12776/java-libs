@@ -47,14 +47,6 @@ public class ByteTools
 				(('A' <= b) && (b <= 'F'));
 	}
 	
-	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
-	{
-		for (int index = 0; index < length; index += 1)
-		{
-			destination[destinationOffset + index] = source[sourceOffset + index];
-		}
-	}
-	
 	public static boolean byteIn(byte b, byte[] bytes)
 	{
 		for (int i = 0; i < bytes.length; i += 1)
@@ -63,6 +55,14 @@ public class ByteTools
 				return true;
 		}
 		return false;
+	}
+	
+	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
+	{
+		for (int index = 0; index < length; index += 1)
+		{
+			destination[destinationOffset + index] = source[sourceOffset + index];
+		}
 	}
 	
 	public static int compare(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
@@ -80,6 +80,27 @@ public class ByteTools
 	public static boolean isEqual(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
 	{
 		return compare(buffer, bufferOffset, bytes, bytesOffset, length) == 0;
+	}
+	
+	public static int search(byte[] buffer, int offset, int length, byte[] bytes, int bytesOffset, int bytesLength)
+	{
+		for (int index = 0, end = length - bytesLength + 1; index < end; index += 1)
+		{
+			if (isEqual(buffer, offset + index, bytes, bytesOffset, bytesLength))
+				return index;
+			index += 1;
+		}
+		return length;
+	}
+	
+	public static int lsearch(byte[] buffer, int offset, int length, byte[] bytes, int bytesOffset, int bytesLength)
+	{
+		for (int index = length - bytesLength + 1; index >= 0; index -= 1)
+		{
+			if (isEqual(buffer, offset + index, bytes, bytesOffset, bytesLength))
+				return index;
+		}
+		return length;
 	}
 	
 	public static int find(byte[] buffer, int start, int end, ByteTest test)

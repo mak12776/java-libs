@@ -39,6 +39,19 @@ public class PackedBytesView implements BytesView
 		this(null, 0, 0);
 	}
 	
+	public static PackedBytesView[] newArray(int size)
+	{
+		PackedBytesView[] result;
+		
+		result = new PackedBytesView[size];
+		for (int i = 0; i < result.length; i += 1)
+		{
+			result[i] = new PackedBytesView();
+		}
+		
+		return result;
+	}
+	
 	public int length()
 	{
 		return end - start;

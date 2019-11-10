@@ -1,7 +1,5 @@
 package main;
 
-import java.io.IOException;
-
 import tests.ToolsTest;
 
 public class Main 
@@ -10,6 +8,6 @@ public class Main
 	
 	public static void main(String[] args)
 	{
-		ToolsTest.TestBufferLines("code.rest");
+		ToolsTest.TestCompare();
 	}
 }

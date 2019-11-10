@@ -5,20 +5,20 @@ import tools.StringBuilderTools;
 import tools.bytes.PackedBytesView;
 import tools.bytes.UnpackedBytesView;
 
-public class BufferLines
+public class BufferViews
 {
 	public byte[] buffer;
 	public UnpackedBytesView[] lines;
 	
-	public BufferLines(byte[] buffer, UnpackedBytesView[] lines)
+	public BufferViews(byte[] buffer, UnpackedBytesView[] lines)
 	{
 		this.buffer = buffer;
 		this.lines = lines;
 	}
 	
-	public static BufferLines from(byte[]... bytesArray)
+	public static BufferViews from(byte[]... bytesArray)
 	{
-		BufferLines result;
+		BufferViews result;
 		int length;
 		
 		length = 0;
@@ -30,7 +30,7 @@ public class BufferLines
 		if (length == 0)
 			return null;
 		
-		result = new BufferLines(null, null);
+		result = new BufferViews(null, null);
 		
 		result.buffer = new byte[length];
 		result.lines = new UnpackedBytesView[bytesArray.length];

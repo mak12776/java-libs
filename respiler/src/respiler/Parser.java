@@ -8,21 +8,26 @@ import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.ByteTools;
 import tools.exceptions.ParserException;
-import tools.types.BufferLines;
+import tools.types.BufferViews;
 import tools.types.ByteTest;
 
 public class Parser 
 {
-	public interface TokenStream 
+	public interface TokenStream
 	{
 		public Token nextToken() throws ParserException;
 	}
 	
-	public static TokenStream parseBufferLines(BufferLines bufferLinesData)
+	public static TokenStream parseBufferViews(BufferViews bufferViews)
+	{
+		
+	}
+	
+	public static TokenStream parseBufferLinesOld(BufferViews bufferLinesData)
 	{
 		return new TokenStream() 
 		{
-			private BufferLines bufferLines;
+			private BufferViews bufferLines;
 			private int lnum;
 			private int index;
 			private boolean end;

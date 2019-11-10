@@ -10,7 +10,7 @@ import respiler.types.tokens.TokenType;
 import tools.StreamTools;
 import tools.exceptions.BaseException;
 import tools.exceptions.ParserException;
-import tools.types.BufferLines;
+import tools.types.BufferViews;
 
 public class RespilerTest extends BaseTest
 {
@@ -18,13 +18,13 @@ public class RespilerTest extends BaseTest
 	
 	public static void TestAnalyzer()
 	{
-		BufferLines bufferLines = null;
+		BufferViews bufferLines = null;
 		TokenStream stream = null;
 		
 		try 
 		{
 			bufferLines = StreamTools.readBufferLines(codeFileName);
-			stream = Parser.parseBufferLines(bufferLines);
+			stream = Parser.parseBufferLinesOld(bufferLines);
 			
 			int lnum = 0;
 			

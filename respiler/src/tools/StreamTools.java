@@ -11,7 +11,7 @@ import tools.exceptions.BaseException;
 import tools.exceptions.BigFileSizeException;
 import tools.exceptions.InvalidReadNumberException;
 import tools.exceptions.UnknownClassException;
-import tools.types.BufferLines;
+import tools.types.BufferViews;
 
 public class StreamTools 
 {	
@@ -98,19 +98,11 @@ public class StreamTools
 		
 		if (c.isAssignableFrom(PackedBytesView.class))
 		{
-			result = (BytesView[]) new PackedBytesView[countLines(array)];
-			for (int i = 0; i < result.length; i += 1)
-			{
-				result[i] = (BytesView) new PackedBytesView();
-			}
+			result = PackedBytesView.newArray(countLines(array));
 		}
 		else if (c.isAssignableFrom(UnpackedBytesView.class))
 		{
-			result = (BytesView[]) new UnpackedBytesView[countLines(array)];
-			for (int i = 0; i < result.length; i += 1)
-			{
-				result[i] = (BytesView) new UnpackedBytesView();
-			}
+			result = UnpackedBytesView.newArray(countLines(array));
 		}
 		else
 		{
@@ -162,16 +154,16 @@ public class StreamTools
 		return result;
 	}
 	
-	public static BufferLines readBufferLines(FileInputStream stream) throws IOException, BaseException
+	public static BufferViews readBufferLines(FileInputStream stream) throws IOException, BaseException
 	{
-		BufferLines result = new BufferLines(null, null);
+		BufferViews result = new BufferViews(null, null);
 		
 		result.buffer = readFile(stream);
 		result.lines = (UnpackedBytesView[]) splitLines(UnpackedBytesView.class, result.buffer);
 		return result;
 	}
 	
-	public static BufferLines readBufferLines(String name) throws FileNotFoundException, IOException, BaseException
+	public static BufferViews readBufferLines(String name) throws FileNotFoundException, IOException, BaseException
 	{
 		return readBufferLines(new FileInputStream(name));
 	}

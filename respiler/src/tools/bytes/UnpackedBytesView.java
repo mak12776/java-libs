@@ -34,6 +34,18 @@ public class UnpackedBytesView implements BytesView
 		this(0, 0);
 	}
 	
+	public static UnpackedBytesView[] newArray(int size)
+	{
+		UnpackedBytesView[] result;
+		
+		result = new UnpackedBytesView[size];
+		for (int i = 0; i < result.length; i += 1)
+		{
+			result[i] = new UnpackedBytesView();
+		}
+		return result;
+	}
+	
 	public int length()
 	{
 		return this.end - this.start;
