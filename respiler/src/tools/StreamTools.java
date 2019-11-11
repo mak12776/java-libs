@@ -12,6 +12,7 @@ import tools.exceptions.BaseException;
 import tools.exceptions.BigFileSizeException;
 import tools.exceptions.InvalidReadNumberException;
 import tools.exceptions.UnknownClassException;
+import tools.types.ByteTest;
 
 public class StreamTools 
 {	
@@ -89,6 +90,11 @@ public class StreamTools
 		return total;
 	}
 	
+	public static BytesView[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
+	{
+		return splitLines(c, readFile(stream));
+	}
+	
 	public static BytesView[] splitLines(Class<?> c, byte[] array)
 	{
 		BytesView[] result;
@@ -114,7 +120,7 @@ public class StreamTools
 		
 		while (true)
 		{
-			end = ByteTools.find(array, start, array.length, new byte[] {'\r', '\n'});
+			end = ByteTools.find(array, start, array.length, ByteTest.isBlank);
 			
 			if (end == array.length)
 			{
@@ -154,7 +160,7 @@ public class StreamTools
 		return result;
 	}
 	
-	public static BufferUnpackedViews readBufferLines(FileInputStream stream) throws IOException, BaseException
+	public static BufferUnpackedViews readLines(FileInputStream stream) throws IOException, BaseException
 	{
 		BufferUnpackedViews result = new BufferUnpackedViews(null, null);
 		
@@ -163,18 +169,8 @@ public class StreamTools
 		return result;
 	}
 	
-	public static BufferUnpackedViews readBufferLines(String name) throws FileNotFoundException, IOException, BaseException
+	public static BufferUnpackedViews readLines(String name) throws FileNotFoundException, IOException, BaseException
 	{
-		return readBufferLines(new FileInputStream(name));
-	}
-	
-	public interface PackedBytesViewStream
-	{
-		public PackedView next();
-	}
-	
-	public static PackedBytesViewStream readLines(FileInputStream stream) throws IOException, BaseException
-	{
-		return null;
+		return readLines(new FileInputStream(name));
 	}
 }

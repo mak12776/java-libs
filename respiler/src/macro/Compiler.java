@@ -12,6 +12,20 @@ import tools.types.ByteTest;
 
 public class Compiler 
 {	
+	public enum SettingsKey
+	{	
+		macroPrefix(0), macroSuffix(1),
+		variablePrefix(2), variableSuffix(3),
+		evaluationPrefix(4), evaluationSuffix(5);
+
+		public final int index;
+		
+		private SettingsKey(int index)
+		{
+			this.index = index;
+		}
+	}
+	
 	public class Settings 
 	{
 		BufferUnpackedViews views;
@@ -26,40 +40,55 @@ public class Compiler
 					variablePrefix, variableSuffix,
 					evaluationPrefix, evaluationSuffix);
 		}
+		
+		public void copyValueTo(SettingsKey key, PackedView view)
+		{
+			views.copyViewTo(key.index, view);
+		}
+		
+		public PackedView copyValue(SettingsKey key)
+		{
+			return views.copyPackedView(key.index);
+		}
 	}
 	
-	private BufferUnpackedViews bufferLines;
+	private BufferUnpackedViews lines;
 	private Settings settings;
 	
 	public Compiler(FileInputStream stream, Settings settings) throws IOException, BaseException
 	{
-		this.bufferLines = StreamTools.readBufferLines(stream);
+		this.lines = StreamTools.readLines(stream);
 		this.settings = settings;
-	}
-	
-	public boolean checkViewPrefix(UnpackedView view, UnpackedView prefix)
-	{
-		return (prefix != null) ? view.startsWith(bufferLines.buffer, prefix, settings.buffer) : true;
-	}
-	
-	public boolean checkViewSuffix(UnpackedView view, UnpackedView suffix)
-	{
-		return (suffix != null) ? view.endsWith(bufferLines.buffer, suffix, settings.buffer) : true;
-	}
-	
-	public boolean checkViewPrefixSuffix(UnpackedView view, UnpackedView prefix, UnpackedView Suffix)
-	{
-		return checkViewPrefix(view, prefix) && checkViewSuffix(view, Suffix);
 	}
 	
 	public void Compile()
 	{
 		PackedView view = new PackedView();
+		PackedView prefix = new PackedView();
+		PackedView suffix = new PackedView();
+		
 		int lnum;
 		
 		lnum = 0;
-		bufferLines.copyViewTo(lnum, view);
 		
-		
+		while (lnum < lines.views.length)
+		{
+			lines.copyViewTo(lnum, view);
+			
+			view.strip(ByteTest.isBlank);
+			if (!view.isEmpty())
+			{
+				settings.copyValueTo(SettingsKey.macroPrefix, prefix);
+				settings.copyValueTo(SettingsKey.macroSuffix, suffix);
+				
+				if (view.strip(prefix, suffix))
+				{
+					if (view.isEmpty())
+					{
+						
+					}
+				}
+			}
+		}
 	}
 }

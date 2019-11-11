@@ -82,13 +82,26 @@ public class ByteTools
 		return compare(buffer, bufferOffset, bytes, bytesOffset, length) == 0;
 	}
 	
+	public static boolean startsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
+	{
+		int bufferLength = bufferEnd - bufferStart;
+		int bytesLength = bytesEnd - bytesStart;
+		return (bufferLength >= bytesLength) && isEqual(buffer, bufferStart, bytes, bytesStart, bytesLength);
+	}
+	
+	public static boolean endsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
+	{
+		int bufferLength = bufferEnd - bufferStart;
+		int bytesLength = bytesEnd - bytesStart;
+		return (bufferLength >= bytesLength) && isEqual(buffer, bufferEnd - bytesLength, bytes, bytesStart, bytesLength);
+	}
+	
 	public static int search(byte[] buffer, int offset, int length, byte[] bytes, int bytesOffset, int bytesLength)
 	{
 		for (int index = 0, end = length - bytesLength + 1; index < end; index += 1)
 		{
 			if (isEqual(buffer, offset + index, bytes, bytesOffset, bytesLength))
 				return index;
-			index += 1;
 		}
 		return length;
 	}
@@ -129,53 +142,5 @@ public class ByteTools
 				return index;
 		}
 		return end;
-	}
-	
-	public static int find(byte[] buffer, int start, int end, byte b1)
-	{
-		return find(buffer, start, end, new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return b == b1;
-			}
-		});
-	}
-	
-	public static int find(byte[] buffer, int start, int end, byte[] array)
-	{
-		return find(buffer, start, end, new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return byteIn(b, array);
-			}
-		});
-	}
-	
-	public static int rfind(byte[] buffer, int start, int end, byte b1)
-	{
-		return rfind(buffer, start, end, new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return b == b1;
-			}
-		});
-	}
-	
-	public static int rfind(byte[] buffer, int start, int end, byte[] array)
-	{
-		return rfind(buffer, start, end, new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return byteIn(b, array);
-			}
-		});
 	}
 }

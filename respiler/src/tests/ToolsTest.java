@@ -13,7 +13,7 @@ public class ToolsTest extends BaseTest
 	{
 		try
 		{
-			BufferUnpackedViews bufferLines = StreamTools.readBufferLines(name);
+			BufferUnpackedViews bufferLines = StreamTools.readLines(name);
 			for (int lnum = 0; lnum < bufferLines.views.length; lnum += 1)
 			{
 				output.println(lnum + ": [" + bufferLines.getLineString(lnum) + "]");

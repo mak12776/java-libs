@@ -57,6 +57,11 @@ public class PackedView implements BytesView
 		return end - start;
 	}
 	
+	public boolean isEmpty()
+	{
+		return (start == end);
+	}
+	
 	@Override
 	public boolean equals(Object arg0)
 	{
@@ -65,91 +70,102 @@ public class PackedView implements BytesView
 	
 	public boolean isEqual(PackedView view)
 	{
-		return (length() == view.length()) && (ByteTools.isEqual(buffer, start, view.buffer, view.start, length()));
+		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
 	
 	public boolean startsWith(PackedView view)
 	{
-		return (length() >= view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, view.length());
+		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
 	public boolean endsWith(PackedView view)
 	{
-		return (length() >= view.length()) && ByteTools.isEqual(buffer, end - view.length(), view.buffer, view.start, view.length());
+		return ByteTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
 	public int find(ByteTest test)
 	{
-		int index = start;
-		while (index < end)
-		{
-			if (test.test(buffer[index]))
-				return index;
-			index += 1;
-		}
-		return end;
+		return ByteTools.find(buffer, start, end, test);
 	}
 	
 	public int rfind(ByteTest test)
 	{
-		int index = end;
-		while (index > start)
-		{
-			index -= 1;
-			if (test.test(buffer[index]))
-				return index;
-		}
-		return end;
+		return ByteTools.rfind(buffer, start, end, test);
 	}
 	
-	public int lstrip(PackedView view)
+	public int search(PackedView view)
+	{
+		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
+	}
+	
+	public int lsearch(PackedView view)
+	{
+		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
+	}
+	
+	public boolean lstrip(PackedView view)
 	{
 		if (startsWith(view))
 		{
 			start += view.length();
+			return true;
 		}
-		return length();
+		return false;
 	}
 	
-	public int rstrip(PackedView view)
+	public boolean rstrip(PackedView view)
 	{
 		if (endsWith(view))
 		{
 			end -= view.length();
+			return true;
 		}
-		return length();
+		return false;
 	}
 	
-	public int strip(PackedView prefix, PackedView suffix)
-	{		
-		if (lstrip(prefix) != 0)
-		{
-			return rstrip(suffix); 
-		}
-		return 0;
-	}
-	
-	public int lstrip(ByteTest test)
+	public boolean strip(PackedView prefix, PackedView suffix)
 	{
-		start = find(test.not());
-		return length();
+		if (
+				ByteTools.startsWith(buffer, start, end, prefix.buffer, prefix.start, prefix.end) &&
+				ByteTools.endsWith(buffer, start + prefix.length(), end, suffix.buffer, suffix.start, suffix.end))
+		{
+			start += prefix.length();
+			end -= suffix.length();
+			return true;
+		}
+		return false;
 	}
 	
-	public int rstrip(ByteTest test)
+	public boolean lstrip(ByteTest test)
+	{
+		int index;
+		
+		index = find(test.not());
+		if (index != end)
+		{
+			start = index;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean rstrip(ByteTest test)
 	{
 		int index;
 		
 		index = rfind(test.not());
-		end = (index != end) ? index : start;
-		return length();
+		if (index != end)
+		{
+			end = index;
+			return true;
+		}
+		return false;
 	}
 	
-	public int strip(ByteTest test)
+	public boolean strip(ByteTest test)
 	{
-		if (lstrip(test) != 0)
-		{
-			return rstrip(test);
-		}
-		return 0;
+		boolean l = lstrip(test);
+		boolean r = rstrip(test);
+		return l || r;
 	}
 }

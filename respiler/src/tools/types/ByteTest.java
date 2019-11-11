@@ -1,12 +1,40 @@
 package tools.types;
 
+import java.util.Arrays;
+
 import tools.ByteTools;
 
 public interface ByteTest 
 {
 	public boolean test(byte b);
 	
-	public default ByteTest not() 
+	public static ByteTest inBytes(byte[] bytes)
+	{
+		return new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return ByteTools.byteIn(b, bytes);
+			}
+		};
+	}
+	
+	public static ByteTest inString(String string)
+	{
+		byte[] bytes = string.getBytes();
+		
+		return new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return ByteTools.byteIn(b, bytes);
+			}
+		}; 
+	}
+	
+	public default ByteTest not()
 	{
 		ByteTest self = this;
 		

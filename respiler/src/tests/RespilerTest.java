@@ -23,7 +23,7 @@ public class RespilerTest extends BaseTest
 		
 		try 
 		{
-			bufferLines = StreamTools.readBufferLines(codeFileName);
+			bufferLines = StreamTools.readLines(codeFileName);
 			stream = Parser.parseBufferLinesOld(bufferLines);
 			
 			int lnum = 0;
