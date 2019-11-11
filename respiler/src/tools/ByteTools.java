@@ -57,14 +57,6 @@ public class ByteTools
 		return false;
 	}
 	
-	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
-	{
-		for (int index = 0; index < length; index += 1)
-		{
-			destination[destinationOffset + index] = source[sourceOffset + index];
-		}
-	}
-	
 	public static int compare(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
 	{
 		int diff = 0;
@@ -77,9 +69,27 @@ public class ByteTools
 		return diff;
 	}
 	
+	public static boolean test(byte[] buffer, int start, int end, ByteTest test)
+	{
+		for (int index = 0; index < end; index += 1)
+		{
+			if (!test.test(buffer[index]))
+				return false;
+		}
+		return true;
+	}
+	
 	public static boolean isEqual(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
 	{
 		return compare(buffer, bufferOffset, bytes, bytesOffset, length) == 0;
+	}
+	
+	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
+	{
+		for (int index = 0; index < length; index += 1)
+		{
+			destination[destinationOffset + index] = source[sourceOffset + index];
+		}
 	}
 	
 	public static boolean startsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
@@ -96,24 +106,34 @@ public class ByteTools
 		return (bufferLength >= bytesLength) && isEqual(buffer, bufferEnd - bytesLength, bytes, bytesStart, bytesLength);
 	}
 	
-	public static int search(byte[] buffer, int offset, int length, byte[] bytes, int bytesOffset, int bytesLength)
+	public static int search(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
-		for (int index = 0, end = length - bytesLength + 1; index < end; index += 1)
+		int bufferLength = bufferEnd - bufferStart;
+		int bytesLength = bytesEnd - bytesStart;
+		if (bufferLength >= bytesLength)
 		{
-			if (isEqual(buffer, offset + index, bytes, bytesOffset, bytesLength))
-				return index;
+			for (int index = bufferStart, end = bufferEnd - bytesLength; index <= end; index += 1)
+			{
+				if (isEqual(buffer, index, bytes, bytesStart, bytesLength))
+					return index;
+			}
 		}
-		return length;
+		return bufferEnd;
 	}
 	
-	public static int lsearch(byte[] buffer, int offset, int length, byte[] bytes, int bytesOffset, int bytesLength)
+	public static int lsearch(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
-		for (int index = length - bytesLength + 1; index >= 0; index -= 1)
+		int bufferLength = bufferEnd - bufferStart;
+		int bytesLength = bytesEnd - bytesStart;
+		if (bufferLength >= bytesLength)
 		{
-			if (isEqual(buffer, offset + index, bytes, bytesOffset, bytesLength))
-				return index;
+			for (int index = bufferEnd - bytesLength; index >= 0; index += 1)
+			{
+				if (isEqual(buffer, index, bytes, bytesStart, bytesLength))
+					return index;
+			}
 		}
-		return length;
+		return bufferEnd;
 	}
 	
 	public static int find(byte[] buffer, int start, int end, ByteTest test)

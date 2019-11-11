@@ -1,10 +1,8 @@
 package tools.types;
 
-import java.util.Arrays;
-
 import tools.ByteTools;
 
-public interface ByteTest 
+public interface ByteTest
 {
 	public boolean test(byte b);
 	

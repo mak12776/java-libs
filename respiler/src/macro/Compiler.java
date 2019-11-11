@@ -3,30 +3,16 @@ package macro;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import macro.Compiler.Settings.SettingsKey;
 import tools.StreamTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.bytes.PackedView;
-import tools.bytes.UnpackedView;
 import tools.exceptions.BaseException;
 import tools.types.ByteTest;
 
 public class Compiler 
-{	
-	public enum SettingsKey
-	{	
-		macroPrefix(0), macroSuffix(1),
-		variablePrefix(2), variableSuffix(3),
-		evaluationPrefix(4), evaluationSuffix(5);
-
-		public final int index;
-		
-		private SettingsKey(int index)
-		{
-			this.index = index;
-		}
-	}
-	
-	public class Settings 
+{
+	public static class Settings
 	{
 		BufferUnpackedViews views;
 		
@@ -38,7 +24,29 @@ public class Compiler
 			views = BufferUnpackedViews.from(
 					macroPrefix, macroSuffix,
 					variablePrefix, variableSuffix,
-					evaluationPrefix, evaluationSuffix);
+					evaluationPrefix, evaluationSuffix,
+					
+					"if".getBytes(), 
+					"else".getBytes()
+					);
+		}
+		
+		public static enum SettingsKey
+		{	
+			macroPrefix(0), macroSuffix(1),
+			variablePrefix(2), variableSuffix(3),
+			evaluationPrefix(4), evaluationSuffix(5),
+			
+			IF(6),
+			ELSE(7),
+			;
+
+			public final int index;
+			
+			private SettingsKey(int index)
+			{
+				this.index = index;
+			}
 		}
 		
 		public void copyValueTo(SettingsKey key, PackedView view)
@@ -87,6 +95,8 @@ public class Compiler
 					{
 						
 					}
+					
+					
 				}
 			}
 		}
