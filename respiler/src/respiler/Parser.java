@@ -7,8 +7,9 @@ import respiler.types.tokens.NameToken;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.ByteTools;
+import tools.bytes.BufferUnpackedViews;
+import tools.bytes.PackedView;
 import tools.exceptions.ParserException;
-import tools.types.BufferViews;
 import tools.types.ByteTest;
 
 public class Parser 
@@ -18,16 +19,35 @@ public class Parser
 		public Token nextToken() throws ParserException;
 	}
 	
-	public static TokenStream parseBufferViews(BufferViews bufferViews)
+	public static TokenStream parseBufferViews(BufferUnpackedViews bufferViews)
 	{
-		
+		return new TokenStream()
+		{
+			private int lnum;
+			private PackedView view;
+			
+			{
+				lnum = 0;
+				bufferViews.copyViewTo(lnum, view);
+			}
+			
+			@Override
+			public Token nextToken() throws ParserException
+			{
+				if (view.lstrip(ByteTest.isBlank) != 0)
+				{
+				}
+				
+				return null;
+			}
+		};
 	}
 	
-	public static TokenStream parseBufferLinesOld(BufferViews bufferLinesData)
+	public static TokenStream parseBufferLinesOld(BufferUnpackedViews bufferLinesData)
 	{
 		return new TokenStream() 
 		{
-			private BufferViews bufferLines;
+			private BufferUnpackedViews bufferLines;
 			private int lnum;
 			private int index;
 			private boolean end;
@@ -36,7 +56,7 @@ public class Parser
 			{
 				this.bufferLines = bufferLinesData;
 				this.lnum = 0;
-				this.index = bufferLines.lines[lnum].start;
+				this.index = bufferLines.views[lnum].start;
 				this.token = null;
 				this.end = false;
 			}
@@ -86,16 +106,16 @@ public class Parser
 			private void incIndex()
 			{
 				index += 1;
-				if (index == bufferLines.lines[lnum].end)
+				if (index == bufferLines.views[lnum].end)
 				{
 					lnum += 1;
-					if (lnum == bufferLines.lines.length)
+					if (lnum == bufferLines.views.length)
 					{
 						lnum -= 1;
 						end = true;
 						return;
 					}
-					index = bufferLines.lines[lnum].start;
+					index = bufferLines.views[lnum].start;
 				}
 			}
 			

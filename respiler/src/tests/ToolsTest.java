@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import tools.ByteTools;
 import tools.StreamTools;
+import tools.bytes.BufferUnpackedViews;
 import tools.exceptions.BaseException;
-import tools.types.BufferViews;
 
 public class ToolsTest extends BaseTest
 {
@@ -13,8 +13,8 @@ public class ToolsTest extends BaseTest
 	{
 		try
 		{
-			BufferViews bufferLines = StreamTools.readBufferLines(name);
-			for (int lnum = 0; lnum < bufferLines.lines.length; lnum += 1)
+			BufferUnpackedViews bufferLines = StreamTools.readBufferLines(name);
+			for (int lnum = 0; lnum < bufferLines.views.length; lnum += 1)
 			{
 				output.println(lnum + ": [" + bufferLines.getLineString(lnum) + "]");
 			}

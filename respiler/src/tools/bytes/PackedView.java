@@ -3,7 +3,7 @@ package tools.bytes;
 import tools.ByteTools;
 import tools.types.ByteTest;
 
-public class PackedBytesView implements BytesView
+public class PackedView implements BytesView
 {
 	/*
 	 * 	Slow Packed Bytes View
@@ -22,31 +22,31 @@ public class PackedBytesView implements BytesView
 		this.end = end;
 	}
 	
-	public void copyTo(PackedBytesView view)
+	public void copyTo(PackedView view)
 	{
 		view.buffer = buffer;
 		view.start = start;
 		view.end = end;
 	}
 	
-	public PackedBytesView(byte[] buffer, int start, int end)
+	public PackedView(byte[] buffer, int start, int end)
 	{
 		this.set(buffer, start, end);
 	}
 	
-	public PackedBytesView()
+	public PackedView()
 	{
 		this(null, 0, 0);
 	}
 	
-	public static PackedBytesView[] newArray(int size)
+	public static PackedView[] newArray(int size)
 	{
-		PackedBytesView[] result;
+		PackedView[] result;
 		
-		result = new PackedBytesView[size];
+		result = new PackedView[size];
 		for (int i = 0; i < result.length; i += 1)
 		{
-			result[i] = new PackedBytesView();
+			result[i] = new PackedView();
 		}
 		
 		return result;
@@ -60,20 +60,20 @@ public class PackedBytesView implements BytesView
 	@Override
 	public boolean equals(Object arg0)
 	{
-		return (arg0 instanceof PackedBytesView) ? isEqual((PackedBytesView) arg0) : false;
+		return (arg0 instanceof PackedView) ? isEqual((PackedView) arg0) : false;
 	}
 	
-	public boolean isEqual(PackedBytesView view)
+	public boolean isEqual(PackedView view)
 	{
 		return (length() == view.length()) && (ByteTools.isEqual(buffer, start, view.buffer, view.start, length()));
 	}
 	
-	public boolean startsWith(PackedBytesView view)
+	public boolean startsWith(PackedView view)
 	{
 		return (length() >= view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, view.length());
 	}
 	
-	public boolean endsWith(PackedBytesView view)
+	public boolean endsWith(PackedView view)
 	{
 		return (length() >= view.length()) && ByteTools.isEqual(buffer, end - view.length(), view.buffer, view.start, view.length());
 	}
@@ -102,7 +102,7 @@ public class PackedBytesView implements BytesView
 		return end;
 	}
 	
-	public int lstrip(PackedBytesView view)
+	public int lstrip(PackedView view)
 	{
 		if (startsWith(view))
 		{
@@ -111,7 +111,7 @@ public class PackedBytesView implements BytesView
 		return length();
 	}
 	
-	public int rstrip(PackedBytesView view)
+	public int rstrip(PackedView view)
 	{
 		if (endsWith(view))
 		{
@@ -120,7 +120,7 @@ public class PackedBytesView implements BytesView
 		return length();
 	}
 	
-	public int strip(PackedBytesView prefix, PackedBytesView suffix)
+	public int strip(PackedView prefix, PackedView suffix)
 	{		
 		if (lstrip(prefix) != 0)
 		{

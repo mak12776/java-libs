@@ -4,7 +4,8 @@ import java.util.AbstractMap.SimpleEntry;
 
 import respiler.types.tokens.TokenType;
 import tools.ByteTools;
-import tools.types.ByteTest;
+import tools.bytes.BufferUnpackedViews;
+import tools.bytes.UnpackedView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public class Config 
 {
 	public static List<SimpleEntry<byte[], TokenType>> keywords = new ArrayList<SimpleEntry<byte[],TokenType>>();
+	
+	public static List<SimpleEntry<UnpackedView, TokenType>> newkeywords = new ArrayList<SimpleEntry<UnpackedView, TokenType>>();
 	
 	private static void put(String string, TokenType key)
 	{

@@ -4,49 +4,62 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import tools.StreamTools;
-import tools.bytes.PackedBytesView;
-import tools.bytes.UnpackedBytesView;
+import tools.bytes.BufferUnpackedViews;
+import tools.bytes.PackedView;
+import tools.bytes.UnpackedView;
 import tools.exceptions.BaseException;
-import tools.types.BufferViews;
 import tools.types.ByteTest;
 
 public class Compiler 
 {	
-	private BufferViews bufferLines;
-	private CompilerSettings settings;
+	public class Settings 
+	{
+		BufferUnpackedViews views;
+		
+		public Settings(
+				byte[] macroPrefix, byte[] macroSuffix, 
+				byte[] variablePrefix, byte[] variableSuffix, 
+				byte[] evaluationPrefix, byte[] evaluationSuffix)
+		{
+			views = BufferUnpackedViews.from(
+					macroPrefix, macroSuffix,
+					variablePrefix, variableSuffix,
+					evaluationPrefix, evaluationSuffix);
+		}
+	}
 	
-	public Compiler(FileInputStream stream, CompilerSettings settings) throws IOException, BaseException
+	private BufferUnpackedViews bufferLines;
+	private Settings settings;
+	
+	public Compiler(FileInputStream stream, Settings settings) throws IOException, BaseException
 	{
 		this.bufferLines = StreamTools.readBufferLines(stream);
 		this.settings = settings;
 	}
 	
-	public boolean checkViewPrefix(UnpackedBytesView view, UnpackedBytesView prefix)
+	public boolean checkViewPrefix(UnpackedView view, UnpackedView prefix)
 	{
 		return (prefix != null) ? view.startsWith(bufferLines.buffer, prefix, settings.buffer) : true;
 	}
 	
-	public boolean checkViewSuffix(UnpackedBytesView view, UnpackedBytesView suffix)
+	public boolean checkViewSuffix(UnpackedView view, UnpackedView suffix)
 	{
 		return (suffix != null) ? view.endsWith(bufferLines.buffer, suffix, settings.buffer) : true;
 	}
 	
-	public boolean checkViewPrefixSuffix(UnpackedBytesView view, UnpackedBytesView prefix, UnpackedBytesView Suffix)
+	public boolean checkViewPrefixSuffix(UnpackedView view, UnpackedView prefix, UnpackedView Suffix)
 	{
 		return checkViewPrefix(view, prefix) && checkViewSuffix(view, Suffix);
 	}
 	
 	public void Compile()
 	{
-		PackedBytesView view = new PackedBytesView();
+		PackedView view = new PackedView();
 		int lnum;
 		
 		lnum = 0;
-		bufferLines.copyLineTo(lnum, view);
+		bufferLines.copyViewTo(lnum, view);
 		
-		if (view.strip(ByteTest.isBlank) != 0)
-		{
-			
-		}
+		
 	}
 }

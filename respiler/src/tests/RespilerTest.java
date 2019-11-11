@@ -8,9 +8,9 @@ import respiler.Parser.TokenStream;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.StreamTools;
+import tools.bytes.BufferUnpackedViews;
 import tools.exceptions.BaseException;
 import tools.exceptions.ParserException;
-import tools.types.BufferViews;
 
 public class RespilerTest extends BaseTest
 {
@@ -18,7 +18,7 @@ public class RespilerTest extends BaseTest
 	
 	public static void TestAnalyzer()
 	{
-		BufferViews bufferLines = null;
+		BufferUnpackedViews bufferLines = null;
 		TokenStream stream = null;
 		
 		try 

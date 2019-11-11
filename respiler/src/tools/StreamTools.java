@@ -4,14 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import tools.bytes.BufferUnpackedViews;
 import tools.bytes.BytesView;
-import tools.bytes.PackedBytesView;
-import tools.bytes.UnpackedBytesView;
+import tools.bytes.PackedView;
+import tools.bytes.UnpackedView;
 import tools.exceptions.BaseException;
 import tools.exceptions.BigFileSizeException;
 import tools.exceptions.InvalidReadNumberException;
 import tools.exceptions.UnknownClassException;
-import tools.types.BufferViews;
 
 public class StreamTools 
 {	
@@ -96,13 +96,13 @@ public class StreamTools
 		int start;
 		int end;
 		
-		if (c.isAssignableFrom(PackedBytesView.class))
+		if (c.isAssignableFrom(PackedView.class))
 		{
-			result = PackedBytesView.newArray(countLines(array));
+			result = PackedView.newArray(countLines(array));
 		}
-		else if (c.isAssignableFrom(UnpackedBytesView.class))
+		else if (c.isAssignableFrom(UnpackedView.class))
 		{
-			result = UnpackedBytesView.newArray(countLines(array));
+			result = UnpackedView.newArray(countLines(array));
 		}
 		else
 		{
@@ -154,23 +154,23 @@ public class StreamTools
 		return result;
 	}
 	
-	public static BufferViews readBufferLines(FileInputStream stream) throws IOException, BaseException
+	public static BufferUnpackedViews readBufferLines(FileInputStream stream) throws IOException, BaseException
 	{
-		BufferViews result = new BufferViews(null, null);
+		BufferUnpackedViews result = new BufferUnpackedViews(null, null);
 		
 		result.buffer = readFile(stream);
-		result.lines = (UnpackedBytesView[]) splitLines(UnpackedBytesView.class, result.buffer);
+		result.views = (UnpackedView[]) splitLines(UnpackedView.class, result.buffer);
 		return result;
 	}
 	
-	public static BufferViews readBufferLines(String name) throws FileNotFoundException, IOException, BaseException
+	public static BufferUnpackedViews readBufferLines(String name) throws FileNotFoundException, IOException, BaseException
 	{
 		return readBufferLines(new FileInputStream(name));
 	}
 	
 	public interface PackedBytesViewStream
 	{
-		public PackedBytesView next();
+		public PackedView next();
 	}
 	
 	public static PackedBytesViewStream readLines(FileInputStream stream) throws IOException, BaseException
