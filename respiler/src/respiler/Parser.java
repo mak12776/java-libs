@@ -34,7 +34,7 @@ public class Parser
 			@Override
 			public Token nextToken() throws ParserException
 			{
-				if (view.lstrip(ByteTest.isBlank) != 0)
+				if (view.lstrip(ByteTest.isBlank))
 				{
 				}
 				
