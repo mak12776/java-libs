@@ -1,7 +1,6 @@
 package tools.bytes;
 
 import tools.ByteTools;
-import tools.pattern.Pattern;
 import tools.types.ByteTest;
 
 public class PackedView implements BytesView
