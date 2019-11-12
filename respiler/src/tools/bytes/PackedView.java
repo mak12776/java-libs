@@ -1,6 +1,7 @@
 package tools.bytes;
 
 import tools.ByteTools;
+import tools.pattern.Pattern;
 import tools.types.ByteTest;
 
 public class PackedView implements BytesView
@@ -73,9 +74,9 @@ public class PackedView implements BytesView
 		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
 	
-	public boolean match()
+	public boolean match(Pattern pattern)
 	{
-		
+		return false;
 	}
 	
 	public boolean startsWith(PackedView view)
