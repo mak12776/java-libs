@@ -74,11 +74,6 @@ public class PackedView implements BytesView
 		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
 	
-	public boolean match(Pattern pattern)
-	{
-		return false;
-	}
-	
 	public boolean startsWith(PackedView view)
 	{
 		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
