@@ -65,7 +65,7 @@ public class Compiler
 	
 	public Compiler(FileInputStream stream, Settings settings) throws IOException, BaseException
 	{
-		this.lines = StreamTools.readLines(stream);
+		this.lines = StreamTools.readLineViews(stream);
 		this.settings = settings;
 	}
 	

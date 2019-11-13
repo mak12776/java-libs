@@ -1,6 +1,6 @@
 package tools.bytes;
 
-import tools.ByteTools;
+import tools.BytesTools;
 import tools.types.ByteTest;
 
 public class PackedView implements BytesView
@@ -70,37 +70,37 @@ public class PackedView implements BytesView
 	
 	public boolean isEqual(PackedView view)
 	{
-		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
+		return (length() == view.length()) && BytesTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
 	
 	public boolean startsWith(PackedView view)
 	{
-		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
+		return BytesTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
 	public boolean endsWith(PackedView view)
 	{
-		return ByteTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
+		return BytesTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
 	public int find(ByteTest test)
 	{
-		return ByteTools.find(buffer, start, end, test);
+		return BytesTools.find(buffer, start, end, test);
 	}
 	
 	public int rfind(ByteTest test)
 	{
-		return ByteTools.rfind(buffer, start, end, test);
+		return BytesTools.rfind(buffer, start, end, test);
 	}
 	
 	public int search(PackedView view)
 	{
-		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
+		return BytesTools.search(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
 	public int lsearch(PackedView view)
 	{
-		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
+		return BytesTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
 	public boolean lstrip(PackedView view)
@@ -126,14 +126,25 @@ public class PackedView implements BytesView
 	public boolean strip(PackedView prefix, PackedView suffix)
 	{
 		if (
-				ByteTools.startsWith(buffer, start, end, prefix.buffer, prefix.start, prefix.end) &&
-				ByteTools.endsWith(buffer, start + prefix.length(), end, suffix.buffer, suffix.start, suffix.end))
+				BytesTools.startsWith(buffer, start, end, prefix.buffer, prefix.start, prefix.end) &&
+				BytesTools.endsWith(buffer, start + prefix.length(), end, suffix.buffer, suffix.start, suffix.end))
 		{
 			start += prefix.length();
 			end -= suffix.length();
 			return true;
 		}
 		return false;
+	}
+	
+	public PackedView split(ByteTest test)
+	{
+		int index;
+		
+		index = BytesTools.find(buffer, start, end, test.not());
+		if (index == end)
+		{
+			
+		}
 	}
 	
 	public boolean lstrip(ByteTest test)

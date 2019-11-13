@@ -2,7 +2,7 @@ package tests;
 
 import java.io.IOException;
 
-import tools.ByteTools;
+import tools.BytesTools;
 import tools.StreamTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.exceptions.BaseException;
@@ -27,7 +27,7 @@ public class ToolsTest extends BaseTest
 	
 	public static int compare(byte[] buffer, byte[] bytes)
 	{
-		return ByteTools.compare(buffer, 0, bytes, 0, buffer.length);
+		return BytesTools.compare(buffer, 0, bytes, 0, buffer.length);
 	}
 	
 	public static void TestCompare()

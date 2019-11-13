@@ -1,6 +1,6 @@
 package tools.bytes;
 
-import tools.ByteTools;
+import tools.BytesTools;
 import tools.StringBuilderTools;
 
 public class BufferUnpackedViews
@@ -36,7 +36,7 @@ public class BufferUnpackedViews
 		length = 0;
 		for (int i = 0; i < bytesArray.length; i += 1)
 		{
-			ByteTools.copy(result.buffer, length, bytesArray[i], 0, bytesArray[i].length);
+			BytesTools.copy(result.buffer, length, bytesArray[i], 0, bytesArray[i].length);
 			
 			result.views[i].start = length;
 			length += bytesArray[i].length;

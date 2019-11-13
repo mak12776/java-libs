@@ -3,7 +3,7 @@ package respiler;
 import java.util.AbstractMap.SimpleEntry;
 
 import respiler.types.tokens.TokenType;
-import tools.ByteTools;
+import tools.BytesTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.bytes.UnpackedView;
 
@@ -94,7 +94,7 @@ public class Config
 		{
 			for (int i = 0; i < bytes.length; i += 1)
 			{
-				if (!ByteTools.isLower(bytes[i]))
+				if (!BytesTools.isLower(bytes[i]))
 				{
 					return true;
 				}
