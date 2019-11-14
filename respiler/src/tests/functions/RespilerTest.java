@@ -1,4 +1,4 @@
-package tests;
+package tests.functions;
 
 import java.io.IOException;
 import java.io.PrintStream;

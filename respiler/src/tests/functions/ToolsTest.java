@@ -1,4 +1,4 @@
-package tests;
+package tests.functions;
 
 import java.io.IOException;
 
@@ -29,8 +29,8 @@ public class ToolsTest extends BaseTest
 	{
 		return BytesTools.compare(buffer, 0, bytes, 0, buffer.length);
 	}
-	
-	public static void TestCompare()
+
+	public void TestCompare()
 	{
 		byte[] a;
 		byte[] b;

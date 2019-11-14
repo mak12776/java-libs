@@ -56,7 +56,10 @@ public class Compiler
 		
 		public PackedView copyValue(SettingsKey key)
 		{
-			return views.copyPackedView(key.index);
+			PackedView view = new PackedView();
+			
+			views.copyViewTo(key.index, view);
+			return view;
 		}
 	}
 	

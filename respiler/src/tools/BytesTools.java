@@ -44,6 +44,13 @@ public class BytesTools
 				(('A' <= b) && (b <= 'Z'));
 	}
 	
+	public static boolean isLetterDigit(byte b)
+	{
+		return  (('a' <= b) && (b <= 'z')) ||
+				(('A' <= b) && (b <= 'Z')) ||
+				(('0' <= b) && (b <= '9'));
+	}
+	
 	public static boolean isHexDigit(byte b)
 	{
 		return  (('0' <= b) && (b <= '9')) ||

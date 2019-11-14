@@ -1,18 +1,25 @@
 package brain.machine;
 
 import tools.bytes.BufferUnpackedViews;
-import tools.bytes.BytesView;
 import tools.bytes.PackedView;
 import tools.types.ByteTest;
 
 public class BrainMachine
 {
+	private static String[] InstNames = new String[] {
+		"mov",
+		"xchg",
+		"bswp",
+	};
+	
 	private enum InstCodes
-	{	
-		MOV(0)
+	{
+		MOV(0), 
+		XCHG(1),
+		BSWP(2),
 		;
 		
-		public int index;
+		private final int index;
 		
 		private InstCodes(int index)
 		{
@@ -20,23 +27,32 @@ public class BrainMachine
 		}
 	}
 	
-	private static BufferUnpackedViews Instructions = BufferUnpackedViews.from(
-			"mov",
-			"xchg"
-			); 
+	private static BufferUnpackedViews InstNamesBuffer = BufferUnpackedViews.from(InstNames);
 	
 	public static void compileLines(BufferUnpackedViews lines)
 	{
 		PackedView view = new PackedView();
+		PackedView inst = new PackedView();
+		
 		int lnum = 0;
 		
 		while (lnum < lines.views.length)
 		{
 			lines.copyViewTo(lnum, view);
 			
-			view.strip(ByteTest.isBlank);
+			if (view.isEmpty())
+				continue;
 			
+			while (true)
+			{
+				view.lstrip(ByteTest.isBlank);
+				if (view.isEmpty())
+					break;
+				
+				
+			}
 			
+			lnum += 1;
 		}
 	}
 }

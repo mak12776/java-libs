@@ -154,6 +154,15 @@ public interface ByteTest
 		}
 	};
 	
+	public static ByteTest isLetterDigit = new ByteTest()
+	{
+		@Override
+		public boolean test(byte b)
+		{
+			return BytesTools.isLetterDigit(b);
+		}
+	};
+	
 	public static ByteTest isDigit = new ByteTest()
 	{
 		@Override

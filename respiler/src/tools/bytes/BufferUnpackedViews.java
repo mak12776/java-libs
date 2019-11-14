@@ -8,6 +8,34 @@ public class BufferUnpackedViews
 	public byte[] buffer;
 	public UnpackedView[] views;
 	
+
+	public String getLineString(int index)
+	{
+		StringBuilder builder = new StringBuilder();
+		StringBuilderTools.appendBytes(builder, buffer, views[index].start, views[index].end);
+		return builder.toString();
+	}
+	
+	public int getLength(int index)
+	{
+		return views[index].length();
+	}
+	
+	public int getStart(int index)
+	{
+		return views[index].start;
+	}
+	
+	public int getEnd(int index)
+	{
+		return views[index].end;
+	}
+	
+	public void copyViewTo(int index, BytesView view)
+	{
+		view.set(buffer, views[index].start, views[index].end);
+	}
+	
 	public BufferUnpackedViews(byte[] buffer, UnpackedView[] views)
 	{
 		this.buffer = buffer;
@@ -58,24 +86,5 @@ public class BufferUnpackedViews
 		}
 		
 		return result;
-	}
-	
-	public void copyViewTo(int index, PackedView view)
-	{
-		view.buffer = buffer;
-		view.start = views[index].start;
-		view.end = views[index].end;
-	}
-	
-	public PackedView copyPackedView(int index)
-	{
-		return new PackedView(buffer, views[index].start, views[index].end);
-	}
-	
-	public String getLineString(int index)
-	{
-		StringBuilder builder = new StringBuilder();
-		StringBuilderTools.appendBytes(builder, buffer, views[index].start, views[index].end);
-		return builder.toString();
 	}
 }

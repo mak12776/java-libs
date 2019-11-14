@@ -22,11 +22,18 @@ public class PackedView implements BytesView
 		this.end = end;
 	}
 	
-	public void copyTo(PackedView view)
+	public void copyTo(BytesView view)
 	{
-		view.buffer = buffer;
-		view.start = start;
-		view.end = end;
+		view.set(buffer, start, end);
+	}
+	
+	public void swap(PackedView view)
+	{
+		PackedView temp = new PackedView();
+		
+		temp.set(buffer, start, end);
+		set(view.buffer, view.start, view.end);
+		view.set(buffer, start, end);
 	}
 	
 	public PackedView(byte[] buffer, int start, int end)
@@ -62,6 +69,11 @@ public class PackedView implements BytesView
 		return (start == end);
 	}
 	
+	public boolean isNotEmpty()
+	{
+		return (start != end);
+	}
+	
 	@Override
 	public boolean equals(Object arg0)
 	{
@@ -73,14 +85,44 @@ public class PackedView implements BytesView
 		return (length() == view.length()) && BytesTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
 	
+	public boolean isEqual(BufferUnpackedViews views, int index)
+	{
+		return (length() == views.getLength(index)) && BytesTools.isEqual(buffer, start, views.buffer, views.getStart(index), views.getEnd(index));
+	}
+	
+	public boolean isEqual(byte[] buffer)
+	{
+		return (length() == buffer.length) && BytesTools.isEqual(buffer, start, buffer, 0, buffer.length);
+	}
+	
 	public boolean startsWith(PackedView view)
 	{
 		return BytesTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
+	public boolean startsWith(BufferUnpackedViews views, int index)
+	{
+		return BytesTools.startsWith(buffer, start, end, views.buffer, views.getStart(index), views.getEnd(index));
+	}
+	
+	public boolean startsWith(byte[] buffer)
+	{
+		return BytesTools.startsWith(buffer, start, end, buffer, 0, buffer.length);
+	}
+	
 	public boolean endsWith(PackedView view)
 	{
 		return BytesTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
+	}
+	
+	public boolean endsWith(BufferUnpackedViews views, int index)
+	{
+		return BytesTools.endsWith(buffer, start, end, views.buffer, views.getStart(index), views.getEnd(index));
+	}
+	
+	public boolean endsWith(byte[] buffer)
+	{
+		return BytesTools.endsWith(buffer, start, end, buffer, 0, buffer.length);
 	}
 	
 	public int find(ByteTest test)
@@ -146,40 +188,16 @@ public class PackedView implements BytesView
 		return false;
 	}
 	
-	public void split(ByteTest test, BytesView view)
-	{
-		int index;
-		
-		index = BytesTools.findNot(buffer, start, end, test);
-		
-		if (index == end)
-			index = start;
-		
-		view.set(buffer, start, index);
-		start = index;
-	}
-	
-	public void rsplit(ByteTest test, BytesView view)
-	{
-		int index;
-		
-		index = BytesTools.rfindNot(buffer, start, end, test);
-		
-		view.set(buffer, index, end);
-		end = index;
-	}
-	
 	public boolean lstrip(ByteTest test)
 	{
 		int index;
 		
 		index = findNot(test);
-		if (index != end)
-		{
-			start = index;
-			return true;
-		}
-		return false;
+		if (index == start)
+			return false;
+		
+		start = index;
+		return true;
 	}
 	
 	public boolean rstrip(ByteTest test)
@@ -187,11 +205,19 @@ public class PackedView implements BytesView
 		int index;
 		
 		index = rfindNot(test);
+		if (index == end)
+		{
+			end = start;
+			return true;
+		}
+		
+		index += 1;
 		if (index != end)
 		{
 			end = index;
 			return true;
 		}
+		
 		return false;
 	}
 	
@@ -200,5 +226,42 @@ public class PackedView implements BytesView
 		boolean l = lstrip(test);
 		boolean r = rstrip(test);
 		return l || r;
+	}
+	
+	public boolean rsplit(ByteTest test, BytesView view)
+	{
+		int index;
+		
+		index = find(test);
+		
+		if (index == start)
+			return false;
+		
+		view.set(buffer, start, index);
+		start = index;
+		return true;
+	}
+	
+	public boolean split(ByteTest test, BytesView view)
+	{
+		int index;
+		
+		index = rfind(test);
+		if (index == end)
+		{
+			view.set(buffer, start, end);
+			end = start;
+			return true;
+		}
+		
+		index += 1;
+		if (index != end)
+		{
+			view.set(buffer, index, end);
+			end = index;
+			return true;
+		}
+		
+		return false;
 	}
 }

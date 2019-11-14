@@ -1,6 +1,6 @@
 package main;
 
-import tests.ToolsTest;
+import tests.functions.ToolsTest;
 
 public class Main 
 {
@@ -8,6 +8,5 @@ public class Main
 	
 	public static void main(String[] args)
 	{
-		ToolsTest.TestCompare();
 	}
 }
