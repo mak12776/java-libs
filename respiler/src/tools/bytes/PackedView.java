@@ -177,13 +177,15 @@ public class PackedView implements BytesView
 	
 	public boolean strip(PackedView prefix, PackedView suffix)
 	{
-		if (
-				BytesTools.startsWith(buffer, start, end, prefix.buffer, prefix.start, prefix.end) &&
-				BytesTools.endsWith(buffer, start + prefix.length(), end, suffix.buffer, suffix.start, suffix.end))
+		if (startsWith(prefix))
 		{
 			start += prefix.length();
-			end -= suffix.length();
-			return true;
+			if (endsWith(suffix))
+			{
+				end -= suffix.length();
+				return true;
+			}
+			start -= prefix.length();
 		}
 		return false;
 	}
@@ -228,13 +230,13 @@ public class PackedView implements BytesView
 		return l || r;
 	}
 	
-	public boolean rsplit(ByteTest test, BytesView view)
+	public boolean lsplit(ByteTest test, BytesView view)
 	{
 		int index;
 		
 		index = find(test);
 		
-		if (index == start)
+		if (index == end)
 			return false;
 		
 		view.set(buffer, start, index);
@@ -242,26 +244,19 @@ public class PackedView implements BytesView
 		return true;
 	}
 	
-	public boolean split(ByteTest test, BytesView view)
+	public boolean rsplit(ByteTest test, BytesView view)
 	{
 		int index;
 		
 		index = rfind(test);
+		
 		if (index == end)
-		{
-			view.set(buffer, start, end);
-			end = start;
-			return true;
-		}
+			return false;
 		
 		index += 1;
-		if (index != end)
-		{
-			view.set(buffer, index, end);
-			end = index;
-			return true;
-		}
 		
-		return false;
+		view.set(buffer, index, end);
+		end = index;
+		return true;
 	}
 }
