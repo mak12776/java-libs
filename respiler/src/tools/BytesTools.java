@@ -65,6 +65,20 @@ public class BytesTools
 		return end;
 	}
 	
+	public static int findNot(byte[] buffer, int start, int end, ByteTest test)
+	{
+		int index;
+		
+		index = start;
+		while (index < end)
+		{
+			if (!test.test(buffer[index]))
+				return index;
+			index += 1;
+		}
+		return end;
+	}
+	
 	public static int rfind(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
@@ -74,6 +88,20 @@ public class BytesTools
 		{
 			index -= 1;
 			if (test.test(buffer[index]))
+				return index;
+		}
+		return end;
+	}
+	
+	public static int rfindNot(byte[] buffer, int start, int end, ByteTest test)
+	{
+		int index;
+		
+		index = end;
+		while (index > start)
+		{
+			index -= 1;
+			if (!test.test(buffer[index]))
 				return index;
 		}
 		return end;

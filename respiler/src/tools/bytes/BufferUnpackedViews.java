@@ -14,6 +14,20 @@ public class BufferUnpackedViews
 		this.views = views;
 	}
 	
+	public static BufferUnpackedViews from(String... stringsArray)
+	{
+		byte[][] bytesArray;
+		
+		bytesArray = new byte[stringsArray.length][];
+		
+		for (int i = 0; i < stringsArray.length; i += 1)
+		{
+			bytesArray[i] = stringsArray[i].getBytes();
+		}
+		
+		return from(bytesArray);
+	}
+	
 	public static BufferUnpackedViews from(byte[]... bytesArray)
 	{
 		BufferUnpackedViews result;

@@ -93,6 +93,16 @@ public class PackedView implements BytesView
 		return BytesTools.rfind(buffer, start, end, test);
 	}
 	
+	public int findNot(ByteTest test)
+	{
+		return BytesTools.findNot(buffer, start, end, test);
+	}
+	
+	public int rfindNot(ByteTest test)
+	{
+		return BytesTools.rfindNot(buffer, start, end, test);
+	}
+	
 	public int search(PackedView view)
 	{
 		return BytesTools.search(buffer, start, end, view.buffer, view.start, view.end);
@@ -136,22 +146,34 @@ public class PackedView implements BytesView
 		return false;
 	}
 	
-	public PackedView split(ByteTest test)
+	public void split(ByteTest test, BytesView view)
 	{
 		int index;
 		
-		index = BytesTools.find(buffer, start, end, test.not());
+		index = BytesTools.findNot(buffer, start, end, test);
+		
 		if (index == end)
-		{
-			
-		}
+			index = start;
+		
+		view.set(buffer, start, index);
+		start = index;
+	}
+	
+	public void rsplit(ByteTest test, BytesView view)
+	{
+		int index;
+		
+		index = BytesTools.rfindNot(buffer, start, end, test);
+		
+		view.set(buffer, index, end);
+		end = index;
 	}
 	
 	public boolean lstrip(ByteTest test)
 	{
 		int index;
 		
-		index = find(test.not());
+		index = findNot(test);
 		if (index != end)
 		{
 			start = index;
@@ -164,7 +186,7 @@ public class PackedView implements BytesView
 	{
 		int index;
 		
-		index = rfind(test.not());
+		index = rfindNot(test);
 		if (index != end)
 		{
 			end = index;
