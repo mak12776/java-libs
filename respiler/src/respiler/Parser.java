@@ -2,6 +2,7 @@ package respiler;
 
 import java.util.Arrays;
 
+import respiler.exceptions.ParserException;
 import respiler.types.ErrorType;
 import respiler.types.tokens.NameToken;
 import respiler.types.tokens.Token;
@@ -9,7 +10,6 @@ import respiler.types.tokens.TokenType;
 import tools.BytesTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.bytes.PackedView;
-import tools.exceptions.ParserException;
 import tools.types.ByteTest;
 
 public class Parser 
@@ -19,42 +19,16 @@ public class Parser
 		public Token nextToken() throws ParserException;
 	}
 	
-	public static TokenStream parseBufferViews(BufferUnpackedViews bufferViews)
-	{
-		return new TokenStream()
-		{
-			private int lnum;
-			private PackedView view;
-			
-			{
-				lnum = 0;
-				bufferViews.copyViewTo(lnum, view);
-			}
-			
-			@Override
-			public Token nextToken() throws ParserException
-			{
-				if (view.lstrip(ByteTest.isBlank))
-				{
-				}
-				
-				return null;
-			}
-		};
-	}
-	
-	public static TokenStream parseBufferLinesOld(BufferUnpackedViews bufferLinesData)
+	public static TokenStream parseBufferLines(BufferUnpackedViews bufferLines)
 	{
 		return new TokenStream() 
 		{
-			private BufferUnpackedViews bufferLines;
 			private int lnum;
 			private int index;
 			private boolean end;
 			private Token token;
 			
 			{
-				this.bufferLines = bufferLinesData;
 				this.lnum = 0;
 				this.index = bufferLines.views[lnum].start;
 				this.token = null;

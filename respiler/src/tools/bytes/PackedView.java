@@ -46,17 +46,30 @@ public class PackedView implements BytesView
 		this(null, 0, 0);
 	}
 	
-	public static PackedView[] newArray(int size)
+	public static PackedView[] newArray(int size, byte[] buffer, int start, int end)
 	{
 		PackedView[] result;
 		
 		result = new PackedView[size];
 		for (int i = 0; i < result.length; i += 1)
 		{
-			result[i] = new PackedView();
+			result[i] = new PackedView(buffer, start, end);
 		}
 		
 		return result;
+	}
+	
+	public static PackedView[] newArray(int size)
+	{
+		return newArray(size, null, 0, 0);
+	}
+	
+	public static PackedView[] newArrayFrom(byte[]... bytesArray)
+	{
+		for (int i = 0; i < bytesArray.length; i += 1)
+		{
+			
+		}
 	}
 	
 	public int length()

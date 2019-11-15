@@ -5,12 +5,12 @@ import java.io.PrintStream;
 
 import respiler.Parser;
 import respiler.Parser.TokenStream;
+import respiler.exceptions.ParserException;
 import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.StreamTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.exceptions.BaseException;
-import tools.exceptions.ParserException;
 
 public class RespilerTest extends BaseTest
 {
@@ -24,7 +24,7 @@ public class RespilerTest extends BaseTest
 		try 
 		{
 			bufferLines = StreamTools.readLines(codeFileName);
-			stream = Parser.parseBufferLinesOld(bufferLines);
+			stream = Parser.parseBufferLines(bufferLines);
 			
 			int lnum = 0;
 			

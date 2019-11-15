@@ -1,4 +1,6 @@
-package tools.exceptions;
+package respiler.exceptions;
+
+import tools.exceptions.BaseException;
 
 public class AnalyzerException extends BaseException 
 {

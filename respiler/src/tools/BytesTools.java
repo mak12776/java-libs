@@ -203,6 +203,40 @@ public class BytesTools
 		return bufferEnd;
 	}
 	
+	public static int sumBytesArrayLength(byte[]... bytesArray)
+	{
+		int length = 0;
+		
+		for (int i = 0; i < bytesArray.length; i += 1)
+		{
+			length += bytesArray[i].length;
+		}
+		
+		return length;
+	}
+	
+	public static byte[] joinBytes(byte[]... bytesArray)
+	{
+		byte[] result;
+		int length;
+		
+		length = sumBytesArrayLength(bytesArray);
+		
+		if (length == 0)
+			return null;
+		
+		result = new byte[length];
+		
+		length = 0;
+		for (int i = 0; i < bytesArray.length; i += 1)
+		{
+			copy(result, length, bytesArray[i], 0, bytesArray[i].length);
+			length += bytesArray[i].length;
+		}
+		
+		return result;
+	}
+	
 	public static int countLines(byte[] buffer, int start, int end)
 	{
 		int index;
@@ -229,8 +263,8 @@ public class BytesTools
 			else if (buffer[index] == '\n')
 			{
 				total += 1;
-				index  += 1;
 				
+				index  += 1;
 				continue;
 			}
 			index += 1;

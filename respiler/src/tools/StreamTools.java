@@ -12,6 +12,7 @@ import tools.exceptions.BaseException;
 import tools.exceptions.BigFileSizeException;
 import tools.exceptions.InvalidReadNumberException;
 import tools.exceptions.UnknownClassException;
+import tools.exceptions.ZeroFileSizeExeption;
 import tools.types.ByteTest;
 
 public class StreamTools 
@@ -23,7 +24,12 @@ public class StreamTools
 		byte[] array;
 		
 		fileSize = stream.getChannel().size();
-		if (fileSize > Integer.MAX_VALUE)
+		
+		if (fileSize == 0)
+		{
+			throw new ZeroFileSizeExeption();
+		}
+		else if (fileSize > Integer.MAX_VALUE)
 		{
 			throw new BigFileSizeException("file size: " + fileSize);
 		}
