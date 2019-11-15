@@ -66,10 +66,8 @@ public class PackedView implements BytesView
 	
 	public static PackedView[] newArrayFrom(byte[]... bytesArray)
 	{
-		for (int i = 0; i < bytesArray.length; i += 1)
-		{
-			
-		}
+		// TODO: complete there.
+		return null;
 	}
 	
 	public int length()
