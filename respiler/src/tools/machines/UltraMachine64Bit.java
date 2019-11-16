@@ -1,21 +1,34 @@
 package tools.machines;
 
 public class UltraMachine64Bit
-{
-	public enum InstCodes
-	{
-		
-	}
+{	
+	public static int REGISTER_SIZE = 64;
+	public static int ADDRESS_SIZE = 32;
+	
+	public static int NUMBER_OF_REGISTERS = 32;
+	
+	public static final short MOV_R64_IM64 = 0x0;
 	
 	public static void run(byte[] buffer, int start, int end)
 	{
-		int index;
+		long[] registers = new long[NUMBER_OF_REGISTERS];
+		int ip;
 		
-		index = start;
-		while (index < start)
+		ip = start;
+		while (ip < end)
 		{
-			switch (index)
+			if (ip + 1 == end)
 			{
+				// throw run time error
+			}
+			
+			int instCode = (buffer[ip] << 8) | buffer[ip + 1];
+			ip += 2;
+			
+			switch (instCode)
+			{
+			case MOV_R64_IM64:
+				
 			}
 		}
 	}
