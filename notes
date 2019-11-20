@@ -29,6 +29,10 @@ examples:
 	mov 	[0], 10                 ; [0] = 10	<- unknown size	
 
 
+** Bytes Machine Assembly
+
+
+
 ** String Machine Assembly
 address size: 32 bit
 
@@ -99,12 +103,6 @@ move:
 address size: 64 bit
 register size: 64 bit
 
-	symbol				size			value 			description
-	[i#]				unknown			unknown			memory address
-	[r#]				unknown			unknown			memory address in register
-	i8/16/32/64			8/16/32/64		known			immediate
-	r8/16/32/64			8/16/32/64		unknown			register
-
 	note: # = address size
 
 - registers:
@@ -156,6 +154,122 @@ move table:
 
 	-
 	***											[im] - [im]
+
+address size: 32 bit
+register size: 64 bit
+
+- registers name: 
+	r<n>[bwdq]<k>		; general registers
+	ip					; instruction pointer, size = 64
+
+operands symbols:
+	symbol		operands			size			value 			description
+	[im]		[i#]				unknown			unknown			memory address
+	[r]			[r#]				unknown			unknown			memory address in register
+	im			i8/16/32/64			8/16/32/64		known			immediate
+	r			r8/16/32/64			8/16/32/64		unknown			register
+	ip			ip					32				unknown			instruction pointer
+
+instruction list:
+	mov		a		b			; a <= b, a.size = b.size
+	mov		r/m		r/m/i		; a.size = b.size
+
+	xchg	a		b			; a <= b, b <= a
+	xchg	r/m		r/m
+
+two operands instruction summary:
+	opr1 		opr2
+	r			im
+	[r]			im
+	[im]		im
+
+	r			r
+	[r]			r
+	[im]		r
+
+	r			[r]
+	[r]			[r]
+	[im]		[r]
+
+	r			[im]
+	[r]			[im]
+
+	r/[r]/[im]	im/r/[r]/[im]
+
+number of registers: N
+
+.											if P = 5 -> N = 32
+number of r8:	8 * N		2 ** (3 + P)	2 ** 8
+number of r16:	4 * N		2 ** (2 + P)	2 ** 7
+number of r32:	2 * N		2 ** (1 + P)	2 ** 6
+number of r64:	1 * N		2 ** (0 + P)	2 ** 5
+
+two operand instruction summary:
+
+	opr1				opr2
+	r8/16/32/64			im8/16/32/64
+	[r64]				..
+	[im64]
+
+
+
+	inst	opr1	opr2
+
+	mov		r8		im8			
+	mov		r16		im16
+	mov		r32		im32
+	mov		r64		im64
+
+	mov		[r64]	im8
+	mov		[r64]	im16
+	mov		[r64]	im32
+	mov		[r64]	im64
+
+	mov		[im64]	im8
+	mov		[im64]	im16
+	mov		[im64]	im32
+	mov		[im64]	im64
+
+	mov		r8		r8
+	mov		r16		r16
+	mov		r32		r32
+	mov		r64		r64
+
+	mov		[r64]	r8
+	mov		[r64]	r16
+	mov		[r64]	r32
+	mov		[r64]	r64
+
+	mov		[im64]	r8
+	mov		[im64]	r16
+	mov		[im64]	r32
+	mov		[im64]	r64
+
+	mov		r8		[r64]
+	mov		r16		[r64]
+	mov		r32		[r64]
+	mov		r64		[r64]
+
+	mov		[r64]	[r64]		8
+	mov		[r64]	[r64]		16
+	mov		[r64]	[r64]		32
+	mov		[r64]	[r64]		64
+
+	mov		[im64]	[r64]		8
+	mov		[im64]	[r64]		16
+	mov		[im64]	[r64]		32
+	mov		[im64]	[r64]		64
+
+	mov		r8		[im64]		-		
+	mov		r16		[im64]		-
+	mov		r32		[im64]		-
+	mov		r64		[im64]		-
+
+	mov		[r64]	[im64]		8
+	mov		[r64]	[im64]		16
+	mov		[r64]	[im64]		32
+	mov		[r64]	[im64]		64
+
 
 xchg table:
 	inst 	operands

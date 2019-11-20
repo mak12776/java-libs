@@ -1,9 +1,10 @@
 package respiler.types.tokens;
 
+import respiler.types.tokens.olds.OldToken;
 import tools.StringBuilderTools;
 import tools.StringTools;
 
-public class NameToken extends Token 
+public class NameToken extends OldToken 
 {
 	byte[] name;
 	
@@ -13,7 +14,7 @@ public class NameToken extends Token
 		this.name = name;
 	}
 	
-	public NameToken(Token token, byte[] name)
+	public NameToken(OldToken token, byte[] name)
 	{
 		this(token.startLine, token.startIndex, token.endLine, token.endIndex, name);
 	}

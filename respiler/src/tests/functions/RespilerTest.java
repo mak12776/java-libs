@@ -3,11 +3,11 @@ package tests.functions;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import respiler.Parser;
-import respiler.Parser.TokenStream;
+import respiler.OldParser;
+import respiler.OldParser.TokenStream;
 import respiler.exceptions.ParserException;
-import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
+import respiler.types.tokens.olds.OldToken;
 import tools.StreamTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.exceptions.BaseException;
@@ -24,11 +24,11 @@ public class RespilerTest extends BaseTest
 		try 
 		{
 			bufferLines = StreamTools.readLines(codeFileName);
-			stream = Parser.parseBufferLines(bufferLines);
+			stream = OldParser.parseBufferLines(bufferLines);
 			
 			int lnum = 0;
 			
-			Token token;
+			OldToken token;
 			while ((token = stream.nextToken()) != null)
 			{
 				while (lnum <= token.startLine || (token.type == TokenType.MULTI_LINE_COMMENT && lnum <= token.endLine))

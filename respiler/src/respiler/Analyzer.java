@@ -1,9 +1,9 @@
 package respiler;
 
-import respiler.Parser.TokenStream;
+import respiler.OldParser.TokenStream;
 import respiler.exceptions.ParserException;
 import respiler.types.nodes.Node;
-import respiler.types.tokens.Token;
+import respiler.types.tokens.olds.OldToken;
 
 public class Analyzer 
 {
@@ -16,7 +16,7 @@ public class Analyzer
 	{
 		return new NodeStream() 
 		{
-			private Token token;
+			private OldToken token;
 			private boolean end;
 			
 			{
