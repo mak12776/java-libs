@@ -1,6 +1,6 @@
 package tools.machines;
 
-import tools.machines.exceptions.EndOfBufferException;
+import tools.exceptions.EndOfBufferException;
 
 public class UltraMachine
 {	
