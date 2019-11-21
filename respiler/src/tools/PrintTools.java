@@ -24,6 +24,11 @@ public class PrintTools
 		System.out.println("long: " + Long.toBinaryString(a));
 	}
 	
+	public static void printHex(byte b)
+	{
+		System.out.println("byte: " + Integer.toHexString((int)b & 0xFF));
+	}
+	
 	public static void printHex(short a)
 	{
 		System.out.println("short: " + Integer.toHexString((int)a & 0xFFFF));
