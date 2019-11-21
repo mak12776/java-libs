@@ -19,4 +19,27 @@ public class BytesMachine
 	{
 		this(view.buffer, view.start, view.end);
 	}
+	
+	public byte[] getBuffer()
+	{
+		return buffer;
+	}
+	
+	private static final byte NOOP = 0;
+	private static final byte COPY = 1; 
+	
+	public void run()
+	{
+		while (index < end)
+		{
+			switch (buffer[index])
+			{
+			case NOOP:
+				break;
+			
+			case COPY:
+				break;
+			}
+		}
+	}
 }

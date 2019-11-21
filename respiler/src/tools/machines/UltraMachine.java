@@ -1,6 +1,6 @@
 package tools.machines;
 
-import tools.exceptions.EndOfBufferException;
+import tools.machines.exceptions.EndOfBufferException;
 
 public class UltraMachine
 {	
@@ -9,12 +9,22 @@ public class UltraMachine
 	
 	public static int NUMBER_OF_REGISTERS = 32;
 	
-	private byte[] buffer;
-	
-	private int end;
-	
 	private long[] registers;
 	private int ip;
+	
+	private byte[] buffer;
+	private int end;
+	
+	private byte IM8;
+	private short IM16;
+	private int IM32;
+	private long IM64;
+	
+	private byte REG;
+	
+	private int RegisterIndex;
+	private int RegisterNumber;
+	
 	
 	public UltraMachine(byte[] buffer, int start, int end)
 	{
@@ -62,55 +72,45 @@ public class UltraMachine
 		throw new EndOfBufferException();
 	}
 	
-	private long next(int size) throws EndOfBufferException
+	// assembly instructions
+	
+	private void getRegister(final int size) throws EndOfBufferException
+	{
+		REG = nextByte();
+		RegisterNumber = REG & 0x1F;
+		RegisterIndex = (REG & 0xE0) >>> 5;
+		switch (size)
+		{
+		case 8:
+			break;
+		case 16:
+			if (RegisterIndex > 4)
+			{
+				
+			}
+			break;
+		}
+	}
+	
+	private void getIM(final int size) throws EndOfBufferException
 	{
 		switch (size)
 		{
-		case 1:
-			return nextByte();
-			
-		case 2:
-			return nextShort();
-			
-		case 4:
-			return nextInt();
-			
 		case 8:
-			return nextLong();
-			
+			IM8 = nextByte();
+		case 16:
+			IM16 = nextShort();
+		case 32:
+			IM32 = nextInt();
+		case 64:
+			IM64 = nextLong();
 		default:
 			throw new IllegalArgumentException("invalid size: " + size);
 		}
 	}
 	
-	// assembly instructions
-	
 	public static final short INST_NOOP = 0x0;
 	public static final short INST_COPY_R8_IM8 = 0x1;
-	
-	private int getRegisterNum(byte b)
-	{
-		return b & 0x1F;
-	}
-	
-	private int getRegisterIndex(byte b)
-	{
-		return (b & 0xE0) >>> 5;
-	}
-	
-	private void copy_R_IM(int size) throws EndOfBufferException
-	{
-		byte opr1;
-		long opr2;
-		
-		opr1 = nextByte();
-		opr2 = next(size);
-		
-		int num = getRegisterNum(opr1);
-		int index = getRegisterIndex(opr1);
-		
-		
-	}
 	
 	public void run() throws EndOfBufferException
 	{
@@ -133,6 +133,8 @@ public class UltraMachine
 				break;
 
 			case INST_COPY_R8_IM8:
+				getRegister();
+				getIM(8);
 			}
 		}
 	}

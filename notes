@@ -26,11 +26,7 @@ examples:
 	float
 
 	mov 	eax, ebx           		; eax = ebx
-	mov 	[0], 10                 ; [0] = 10	<- unknown size	
-
-
-** Bytes Machine Assembly
-
+	mov 	[0], 10                 ; [0] = 10	<- unknown size
 
 
 ** String Machine Assembly

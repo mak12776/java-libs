@@ -1,4 +1,6 @@
-package tools.exceptions;
+package tools.machines.exceptions;
+
+import tools.exceptions.BaseException;
 
 public class EndOfBufferException extends BaseException
 {
