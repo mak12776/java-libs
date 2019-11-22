@@ -1,10 +1,11 @@
 package tools.machines;
 
+import tools.BytesTools;
+import tools.SafeTools;
 import tools.exceptions.InvalidByteCodeException;
 
 public class UltraMachine
-{
-	
+{	
 	public static int REGISTER_SIZE = 64;
 	public static int ADDRESS_SIZE = 32;
 	
@@ -46,25 +47,17 @@ public class UltraMachine
 		return registers;
 	}
 	
-	private static final boolean SAFE = false;
-	
 	private long IM;
 	private byte REG;
 	private int ADDR;
 	
 	private int regNum;
 	private int regIndex;
-
-	private void checkSize(final int size)
-	{
-		if ((size != 8) && (size != 16) && (size != 32) && (size != 64))
-			throw new IllegalArgumentException("invalid size: " + size);
-	}
 	
 	private long next(int size)
 	{
-		if (SAFE)
-			checkSize(size);
+		if (SafeTools.CHECK_INTEGER_BITS)
+			SafeTools.checkIntegerBits(size);
 		
 		long value = 0;
 		
@@ -72,57 +65,10 @@ public class UltraMachine
 		for (int i = 0; i < size; i += 1)
 		{
 			value <<= 8;
-			value = value | (buffer[ip++]);
+			value = value | ((long)buffer[ip++] & 0xFF);
 		}
 		
 		return value;
-	}
-	
-	private void write(int offset, int size, long value)
-	{
-		if (SAFE)
-			checkSize(size);
-		
-		size /= 8;
-		for (int index = size - 1; index >= 0; index -= 1)
-		{
-			buffer[offset + index] = (byte) (value & 0xFF);
-			value >>>= 8;
-		}
-	}
-	
-	private long read(int offset, int size)
-	{
-		if (SAFE)
-			checkSize(size);
-		
-		long value = 0;
-		
-		size /= 8;
-		for (int index = size - 1; index >= 0; index -= 1)
-		{
-			value <<= 8;
-			value = value | (buffer[offset + index] & 0xFF);
-		}
-		
-		return value;
-	}
-	
-	private final long getMask(final int size)
-	{
-		switch (size)
-		{
-		case 8:
-			return 0xFFL;
-		case 16:
-			return 0xFFFFL;
-		case 32:
-			return 0xFFFFFFFFL;
-		case 64:
-			return 0xFFFFFFFFFFFFFFL;
-		default:
-			throw new IllegalArgumentException("invalid size: " + size);
-		}
 	}
 	
 	// assembly instructions
@@ -142,14 +88,18 @@ public class UltraMachine
 		ADDR = (int) registers[(int) next(8) & 0x1F];
 	}
 	
+	public static final byte REG_NUM_MASK = (byte) 0x1F;
+	public static final byte REG_INDEX_MASK = (byte) 0xE0;
+	public static final int REG_INDEX_SHIFT = 5;
+	
 	private void nextReg(final int size) throws InvalidByteCodeException
 	{
-		if (SAFE)
-			checkSize(size);
+		if (SafeTools.CHECK_INTEGER_BITS)
+			SafeTools.checkIntegerBits(size);
 		
 		REG = (byte) next(8);
-		regNum = REG & 0x1F;
-		regIndex = (REG & 0xE0) >>> 5;
+		regNum = REG & REG_NUM_MASK;
+		regIndex = (REG & REG_INDEX_MASK) >>> REG_INDEX_SHIFT;
 
 		if ((regIndex != 8) && regIndex > (64 / size))
 			throw new InvalidByteCodeException("invalid register operand index: " + regIndex);
@@ -167,7 +117,7 @@ public class UltraMachine
 		nextReg(size);
 		nextIm(size);
 		
-		registers[regNum] = (registers[regNum] & ~(getMask(size) << regIndex)) | (IM << regIndex);
+		registers[regNum] = (registers[regNum] & ~(BytesTools.getMask(size) << regIndex)) | (IM << regIndex);
 	}
 	
 	public static final short INST_COPY_RA_IM8 = 	0x5;
@@ -180,7 +130,7 @@ public class UltraMachine
 		nextRegAddr();
 		nextIm(size);
 		
-		write(ADDR, size, IM);
+		BytesTools.write(buffer, ADDR, size, IM);
 	}
 	
 	public static final short INST_COPY_IA_IM8 = 	0x9;
@@ -193,17 +143,19 @@ public class UltraMachine
 		nextImAddr();
 		nextIm(size);
 		
-		write(ADDR, size, IM);
+		BytesTools.write(buffer, ADDR, size, IM);
 	}
 	
 	public static final short INST_EXIT =			0xFF;
 	
 	public void run() throws InvalidByteCodeException
 	{
+		short inst;
+		
 		main_loop:
 		while (ip < buffer.length)
 		{
-			switch ((short) next(16))
+			switch (inst = (short) next(16))
 			{
 			case INST_NOOP:
 				break;
@@ -221,7 +173,7 @@ public class UltraMachine
 				copyRegIm(32);
 				break;
 				
-			case INST_COPY_R64_IM64:
+			case INST_COPY_R64_IM64:				
 				copyRegIm(64);
 				break;
 				
@@ -262,6 +214,9 @@ public class UltraMachine
 				
 			case INST_EXIT:
 				break main_loop;
+				
+			default:
+				throw new InvalidByteCodeException("invalid byte code " + Integer.toHexString(inst & 0xFFFF) + " at " + (ip - Short.BYTES));
 			}
 		}
 	}

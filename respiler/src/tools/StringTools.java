@@ -25,4 +25,14 @@ public class StringTools
 		builder.append(suffix);
 		return builder.toString();
 	}
+	
+	public static String toHex(int value)
+	{
+		return Integer.toHexString(value);
+	}
+	
+	public static String toHex(long value)
+	{
+		return Long.toHexString(value);
+	}
 }

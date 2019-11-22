@@ -1,5 +1,8 @@
 package tools;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import tools.bytes.BytesView;
 import tools.bytes.PackedView;
 import tools.bytes.UnpackedView;
@@ -7,7 +10,7 @@ import tools.exceptions.UnknownClassException;
 import tools.types.ByteTest;
 
 public class BytesTools
-{
+{	
 	public static boolean isBlank(byte b)
 	{
 		return (b == ' ') || (b == '\t');
@@ -57,10 +60,168 @@ public class BytesTools
 				(('a' <= b) && (b <= 'f')) ||
 				(('A' <= b) && (b <= 'F'));
 	}
+	
+	public static final long getMask(final int size)
+	{
+		switch (size)
+		{
+		case 8:
+			return 0xFFL;
+		case 16:
+			return 0xFFFFL;
+		case 32:
+			return 0xFFFFFFFFL;
+		case 64:
+			return 0xFFFFFFFFFFFFFFL;
+		default:
+			throw new IllegalArgumentException("invalid size: " + size);
+		}
+	}
+	
+	public static byte toHex(int value, boolean upper)
+	{
+		byte first = (byte) ((upper ? 'A' : 'a') - 10);
+		
+		switch (value)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+			return (byte) (value + '0');
+			
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+			return (byte) (value + first);
+			
+		default:
+			throw new IllegalArgumentException("invalid value: " + value);
+		}
+	}
+	
+	public static void writeHex(byte[] buffer, int start, int size, long value, boolean upper)
+	{
+		if (SafeTools.CHECK_INTEGER_BYTES)
+			SafeTools.checkIntegerBytes(size);
+		
+		size *= 2;
+		for (int index = start + size - 1; index >= start; index -= 1)
+		{
+			buffer[index] = toHex((int) (value & 0x0F), upper);
+			value >>>= 4;
+		}
+	}
+	
+	public static void writeHexRow(byte[] buffer, int start, byte[] bytes, int offset, boolean upper)
+	{
+		// "00 00 00 00  " * 4
+		//	0  3  6  9  c
+		
+		for (int i = 0; i < 4; i += 1)
+		{
+			for (int j = 0; j < 4; j += 1)
+			{
+				if (offset < bytes.length)
+				{
+					writeHex(buffer, start, 1, bytes[offset], upper);
+					offset += 1;
+				}
+				else
+				{
+					buffer[start] = ' ';
+					buffer[start + 1] = ' ';
+				}
+				
+				start += 3;
+			}
+			start += 1;
+		}
+	}
+	
+	public static void dumpHex(byte[] buffer, OutputStream stream) throws IOException
+	{
+		byte[] line;
+		
+		// "0000 0000:" + ("  00 00 00 00" * 4) + "\n"
+		line = new byte[10 + (13 * 4) + 1];
+		
+		line[line.length - 1] = '\n';
+		line[9] = ':';
+		
+		for (int offset = 0; offset <= 5; offset += 1)
+		{
+			for (int index = 0; index <= 3; index += 1)
+			{
+				line[offset + index] = '0';
+			}
+		}
+		
+		for (int offset = 0; offset < buffer.length; offset += 16)
+		{
+			writeHexRow(line, 12, buffer, offset, true);
+			stream.write(line);
+		}
+	}
+	
+	public static byte[] newSpaceLine(int size)
+	{
+		byte[] result;
+		
+		result = new byte[size];
+		size -= 1;
+		for (int index = 0; index < size; index += 1)
+		{
+			result[index] = ' ';
+		}
+		result[size] = '\n';
+		
+		return result;
+	}
+	
+	public static long read(byte[] buffer, int offset, int size)
+	{
+		if (SafeTools.CHECK_INTEGER_BYTES)
+			SafeTools.checkIntegerBytes(size);
+		
+		long value = 0;
+		
+		for (int index = 0; index < size; index += 1)
+		{
+			value <<= 8;
+			value = value | ((long) buffer[offset + index] & 0xFF);
+		}
+		
+		return value;
+	}
+	
+	public static void write(byte[] buffer, int offset, int size, long value)
+	{
+		if (SafeTools.CHECK_INTEGER_BYTES)
+			SafeTools.checkIntegerBytes(size);
+		
+		for (int index = size - 1; index >= 0; index -= 1)
+		{
+			buffer[offset + index] = (byte) (value & 0xFF);
+			value >>>= 8;
+		}
+	}
 
 	public static int find(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
+		
+		if (SafeTools.CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
 		index = start;
 		while (index < end)
@@ -76,6 +237,9 @@ public class BytesTools
 	{
 		int index;
 		
+		if (SafeTools.CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		index = start;
 		while (index < end)
 		{
@@ -89,6 +253,9 @@ public class BytesTools
 	public static int rfind(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
+
+		if (SafeTools.CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
 		index = end;
 		while (index > start)
@@ -103,6 +270,9 @@ public class BytesTools
 	public static int rfindNot(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
+		
+		if (SafeTools.CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
 		index = end;
 		while (index > start)
@@ -140,8 +310,9 @@ public class BytesTools
 	{
 		for (int index = 0; index < end; index += 1)
 		{
-			if (!test.test(buffer[index]))
-				return false;
+			if (test.test(buffer[index]))
+				continue;
+			return false;
 		}
 		return true;
 	}
@@ -177,6 +348,7 @@ public class BytesTools
 	{
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
+		
 		if (bufferLength >= bytesLength)
 		{
 			for (int index = bufferStart, end = bufferEnd - bytesLength; index <= end; index += 1)
@@ -192,6 +364,7 @@ public class BytesTools
 	{
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
+		
 		if (bufferLength >= bytesLength)
 		{
 			for (int index = bufferEnd - bytesLength; index >= 0; index -= 1)
