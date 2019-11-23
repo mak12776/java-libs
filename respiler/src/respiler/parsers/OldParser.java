@@ -1,7 +1,8 @@
-package respiler;
+package respiler.parsers;
 
 import java.util.Arrays;
 
+import respiler.Config;
 import respiler.exceptions.ParserException;
 import respiler.types.ErrorType;
 import respiler.types.tokens.NameToken;

@@ -3,9 +3,9 @@ package tests.functions;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import respiler.OldParser;
-import respiler.OldParser.TokenStream;
 import respiler.exceptions.ParserException;
+import respiler.parsers.OldParser;
+import respiler.parsers.OldParser.TokenStream;
 import respiler.types.tokens.TokenType;
 import respiler.types.tokens.olds.OldToken;
 import tools.StreamTools;

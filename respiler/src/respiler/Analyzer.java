@@ -1,7 +1,7 @@
 package respiler;
 
-import respiler.OldParser.TokenStream;
 import respiler.exceptions.ParserException;
+import respiler.parsers.OldParser.TokenStream;
 import respiler.types.nodes.Node;
 import respiler.types.tokens.olds.OldToken;
 
