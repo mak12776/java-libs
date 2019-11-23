@@ -4,14 +4,14 @@ import tools.BytesTools;
 import tools.SafeTools;
 import tools.exceptions.InvalidByteCodeException;
 
-public class UltraMachine
+public class OldMachine
 {	
 	public static int REGISTER_SIZE = 64;
 	public static int ADDRESS_SIZE = 32;
 	
 	public static int NUMBER_OF_REGISTERS = 32;
 	
-	public UltraMachine(int bufferSize)
+	public OldMachine(int bufferSize)
 	{
 		this.buffer = new byte[bufferSize];
 		
@@ -24,7 +24,7 @@ public class UltraMachine
 	private long[] registers;
 	private int ip;
 	
-	public UltraMachine(byte[] buffer, int start)
+	public OldMachine(byte[] buffer, int start)
 	{
 		this.buffer = buffer;
 		
