@@ -174,17 +174,6 @@ public class BytesTools
 			writeHexRow(line, 12, buffer, offset, true);
 			stream.write(line);
 			
-			if (test(buffer, offset, buffer.length, ByteTest.isNull))
-			{
-				offset += 16;
-				if (offset >= buffer.length)
-					break;
-				
-				if (test(buffer, offset, buffer.length, ByteTest.isNull))
-				{
-					
-				}
-			}
 			offset += 16;
 		}
 	}
@@ -194,6 +183,7 @@ public class BytesTools
 		byte[] result;
 		
 		result = new byte[size];
+		
 		size -= 1;
 		for (int index = 0; index < size; index += 1)
 		{
