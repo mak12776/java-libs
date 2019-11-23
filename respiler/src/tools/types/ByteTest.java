@@ -100,6 +100,15 @@ public interface ByteTest
 		};
 	}
 	
+	public static ByteTest isNull = new ByteTest()
+	{
+		@Override
+		public boolean test(byte b)
+		{
+			return BytesTools.isNull(b);
+		}
+	};
+	
 	public static ByteTest isBlank = new ByteTest() 
 	{
 		@Override
