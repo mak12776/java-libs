@@ -3,6 +3,7 @@ package tools;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import tests.junit.BytesToolsTest;
 import tools.bytes.BytesView;
 import tools.bytes.PackedView;
 import tools.bytes.UnpackedView;
@@ -11,6 +12,11 @@ import tools.types.ByteTest;
 
 public class BytesTools
 {	
+	public static boolean isNull(byte b)
+	{
+		return (b == '\0');
+	}
+	
 	public static boolean isBlank(byte b)
 	{
 		return (b == ' ') || (b == '\t');
@@ -158,18 +164,28 @@ public class BytesTools
 		line[line.length - 1] = '\n';
 		line[9] = ':';
 		
-		for (int offset = 0; offset <= 5; offset += 1)
-		{
-			for (int index = 0; index <= 3; index += 1)
-			{
-				line[offset + index] = '0';
-			}
-		}
+		int offset = 0;
 		
-		for (int offset = 0; offset < buffer.length; offset += 16)
+		while (offset < buffer.length)
 		{
+			writeHex(line, 0, 2, offset >>> 16, true);
+			writeHex(line, 5, 2, offset & 0xFF, true);
+			
 			writeHexRow(line, 12, buffer, offset, true);
 			stream.write(line);
+			
+			if (test(buffer, offset, buffer.length, ByteTest.isNull))
+			{
+				offset += 16;
+				if (offset >= buffer.length)
+					break;
+				
+				if (test(buffer, offset, buffer.length, ByteTest.isNull))
+				{
+					
+				}
+			}
+			offset += 16;
 		}
 	}
 	

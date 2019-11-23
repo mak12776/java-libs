@@ -165,55 +165,25 @@ public class LittleMachine
 			case INST_NOOP:
 				break;
 			
-				
 			case INST_COPY_R8_IM8:
-				copyRegIm(1);
-				break;
-				
 			case INST_COPY_R16_IM16:
-				copyRegIm(2);
-				break;
-				
 			case INST_COPY_R32_IM32:
-				copyRegIm(4);
-				break;
-				
 			case INST_COPY_R64_IM64:
-				copyRegIm(8);
+				copyRegIm(1 << (inst - INST_COPY_R8_IM8));
 				break;
-				
 				
 			case INST_COPY_RA_IM8:
-				copyRegAddrIm(1);
-				break;
-				
 			case INST_COPY_RA_IM16:
-				copyRegAddrIm(2);
-				break;
-				
 			case INST_COPY_RA_IM32:
-				copyRegAddrIm(4);
-				break;
-				
 			case INST_COPY_RA_IM64:
-				copyRegAddrIm(8);
+				copyRegAddrIm(1 << (inst - INST_COPY_RA_IM8));
 				break;
-				
 				
 			case INST_COPY_IA_IM8:
-				copyImAddrIm(1);
-				break;
-				
 			case INST_COPY_IA_IM16:
-				copyImAddrIm(2);
-				break;
-				
 			case INST_COPY_IA_IM32:
-				copyImAddrIm(4);
-				break;
-				
 			case INST_COPY_IA_IM64:
-				copyImAddrIm(8);
+				copyImAddrIm(1 << (inst - INST_COPY_IA_IM8));
 				break;
 				
 			case INST_EXIT:
