@@ -22,10 +22,10 @@ public class Main
 		
 		buffer.append(2, LittleMachine.INST_EXIT);				// 2
 		
-		BytesTools.dumpHex(buffer.getBytes(), System.out);
+//		BytesTools.dumpHex(buffer.getBytes(), System.out);
 		
-		LittleMachine machine = new LittleMachine(buffer.getBytes(), 0);
-		machine.run();
+//		LittleMachine machine = new LittleMachine(buffer.getBytes(), 0);
+//		machine.run();
 		
 //		System.out.println(BytesTools.read(machine.getBuffer(), 10 * 8, 8));
 	}
