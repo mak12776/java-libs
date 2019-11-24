@@ -39,6 +39,28 @@ number of address size: 8
 
 - instructions:
 
+** java Little Machine
+
+address size: 32 bit
+
+- symbols:
+	A32		immediate address
+	IP		instruction pointer
+	BP		buffer pointer
+	[BP]	bytes pointed by BF
+
+- instructions:
+	copy	A32, IP
+	copy	A32, BP
+
+	copy	IP, BP
+	copy	BP, IP
+
+	copy	BP, BP
+
+	copy	1 [BP], [BP]
+
+	swap	
 
 ** Little Machine Assembly
 

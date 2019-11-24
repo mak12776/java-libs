@@ -4,7 +4,7 @@ import tools.BytesTools;
 import tools.SafeTools;
 import tools.exceptions.InvalidByteCodeException;
 
-public class LittleMachine
+public class UltraMachine
 {	
 	// WARNING: don't change the following constants:
 	public static final int REGISTER_BITS = 64;
@@ -15,7 +15,7 @@ public class LittleMachine
 	
 	public static final int NUMBER_OF_REGISTERS = 32;
 	
-	public LittleMachine(int bufferSize)
+	public UltraMachine(int bufferSize)
 	{
 		this.buffer = new byte[bufferSize];
 		
@@ -23,7 +23,7 @@ public class LittleMachine
 		this.ip = 0;
 	}
 	
-	public LittleMachine(byte[] buffer, int start)
+	public UltraMachine(byte[] buffer, int start)
 	{
 		this.buffer = buffer;
 		

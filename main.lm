@@ -1,0 +1,8 @@
+
+buffer:
+	resb	1024
+
+start:
+	copy	buffer, r0_32[0]
+
+	copy	
