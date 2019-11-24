@@ -60,13 +60,13 @@ loop:
 	end
 
 	if ch == '='
-		if next() then yield new Token(EQ, )
+		if next() then yield new Token(EQ, 0, 0, 0, 0)
 
 	end
 
 	if ch.is_lower()
 		index += 1
-		if is_end 
+		if is_end then 
 
 	end
 

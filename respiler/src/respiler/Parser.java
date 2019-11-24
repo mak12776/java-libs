@@ -1,5 +1,6 @@
 package respiler;
 
+import respiler.types.tokens.Token;
 import tools.bytes.BufferUnpackedViews;
 import tools.bytes.PackedView;
 import tools.types.ByteTest;
@@ -23,6 +24,8 @@ public class Parser
 	{
 		if (view.lstrip(ByteTest.isBlank) && view.isEmpty())
 			return null;
+		
+		
 		
 		return null;
 	}
