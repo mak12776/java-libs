@@ -3,6 +3,9 @@
 
     [ not designed ]
 
+    adding methods to class types: ???
+        def Person.get_age(): int => self.age
+
     variable scopes: normal variable scope
 
     float & int variable casting: float with float, int with int

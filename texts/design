@@ -141,9 +141,9 @@ val persons = [
 	new Person("Armin", 17),
 	]
 
-class Point <T>
-	var x: T
-	var y: T
+class Point
+	var x
+	var y
 
 	def Point(var x: T, var y: T)
 		self.x = x
