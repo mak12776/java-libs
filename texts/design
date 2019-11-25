@@ -3,7 +3,7 @@
 	from        import      as
 
 	goto        label
-	if          then        else        end
+	if          do			else        end
 	repeat      for         in          while
 	switch      case        default
 	
@@ -13,55 +13,11 @@
 	def         yield       return
 
 	type        untype
-	block
 	struct      class       self        new
+	space
 	public      private
 
 	true        false       null
-
-# operations
-	+		add
-	-		sub
-	*		mul
-	/		div
-
-	%		mod
-	//		true div
-	**		exp
-
-	&		bitwise and
-	|		bitwise or
-	^		bitwise xor
-	~		bitwise not
-
-	>>		right shift
-	<<		left shift
-
-	&&		and
-	||		or
-	^^		xor
-	!!		not
-
-	==		equal
-	!=		not equal
-	<		less than
-	<=		less than equal
-	>		greater than
-	>=		greater than equal
-
-	=		assign
-	=>		ref assign
-
-	+=		add assign
-	-=		sub assign
-	*=		mul	assign
-	/=		div assign
-
-	%=		mod assign
-	//=		true div assign
-	**=		exp assign
-
-
 
 # built-in types:
 	char                    'a'
@@ -294,3 +250,52 @@ switch VALUE
 		STATEMENT
 		break
 end
+
+# operations:
+	+		add
+	-		sub
+	*		mul
+	/		div
+
+	%		mod
+	//		true div
+	**		exp
+
+	&		bitwise and
+	|		bitwise or
+	^		bitwise xor
+	~		bitwise not
+
+	>>		shift right
+	<<		shift left
+
+	=		assign
+	=>		ref assign
+
+	==		equal
+	!=		not equal
+	<		less than
+	<=		less than equal
+	>		greater than
+	>=		greater than equal
+
+	&&		and
+	||		or
+	^^		xor
+	!		not
+
+	+=		add assign
+	-=		sub assign
+	*=		mul	assign
+	/=		div assign
+
+	%=		mod assign
+	//=		true div assign
+	**=		exp assign
+
+	&=		bitwise and assign
+	|=		bitwise or assign
+	^=		bitwise xor assign
+
+	>>=		shift right assign
+	<<=		shift left assign
