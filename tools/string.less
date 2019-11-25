@@ -11,14 +11,14 @@ def count_lines(buffer: string): int
 
 	if ch == '\n'
 		total += 1
+
 	if ch == '\r'
 		total += 1
 
 		index += 1
 		if check_end then goto end
 
-		if ch == '\n' do index += 1
-
+		if ch != '\n' then goto loop
 	end
 
 	index += 1
