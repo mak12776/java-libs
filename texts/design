@@ -3,8 +3,9 @@
 	from        import      as
 
 	goto        label
-	if          do			else        end
+	if          then		else        end
 	repeat      for         in          while
+	do
 	switch      case        default
 	
 	break       continue
@@ -55,12 +56,6 @@ def string.is_lower()
 	return true
 end
 
-# type definitions:
-	int[]                   [1, 2, 3, 4]        ; array of ints
-	int[3]                  [1, 2, 3]           ; array of three ints
-	[int, int]              [1, 2]              ; array of two ints
-	(int | string)[]		[1, "Hi"]			; array of int or string
-
 # value definition
 
 val a = 0
@@ -83,20 +78,16 @@ ref b => a
 
 def sum(val a: int, val b: int): int => a + b
 
-def range(val start: int, val stop: int, val step: int): <int>
+def range(val start: int, val stop: int, val step: int): int[]
 	for i = start; i < stop; i += step
 		yield i
 	end
 end
 
-# types:
+# type definitions:
 
 type number = int
-type numbers = array[number]
-
-type null_string = null | string
-
-type null_int = null | int
+type numbers = int[]
 
 def type unsigned = (self ?= int) && (self >= 0)
 def type signed = (self ?= int)
@@ -108,9 +99,18 @@ end
 var a: unsigned = 100
 var b: int_limit(100, 200) = 150
 
+# type definition examples:
+
+	int[]					[1, 2, 3, 4]		; array of ints
+	int[3]					[1, 2, 3]			; array of three ints
+	[int, int]				[1, 2]				; array of two ints
+	(int | string)[]		[1, "Hi"]			; array of int or string
+	null_string				null | string		; a null or string
+	null_int				null | int			; a null or int
+
 # class:
 
-class Person implements Person
+class Person
 	val name: string
 	val age: int
 
@@ -137,8 +137,8 @@ val me: Person = new Person("Amin", 21)
 me.greeting("Armin")
 
 val persons = [
-	new ConstPerson("Amin", 21),
-	new ConstPerson("Armin", 17),
+	new Person("Amin", 21),
+	new Person("Armin", 17),
 	]
 
 class Point <T>
@@ -168,8 +168,8 @@ struct Point
 end
 
 var points = [
-	new Point {10, 20},
-	new Point {30, 40},
+	new Point {x = 10, y = 20},
+	new Point {x = 30, y = 40},
 	]
 
 ## control flow:
@@ -191,7 +191,7 @@ else
 	STATEMENT
 end
 
-if COND do STATEMENT
+if COND then STATEMENT
 
 # repeat
 
