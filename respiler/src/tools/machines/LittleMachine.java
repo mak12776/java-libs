@@ -1,38 +1,36 @@
 package tools.machines;
 
 public class LittleMachine
-{
-	public static final int NUMBER_OF_DATA_POINTERS = 0xFF;
-	public static final int NUMBER_OF_FILE_POINTERS = 0xFF;
-	
-	public LittleMachine(byte[] buffer)
+{	
+	public LittleMachine(byte[] dataBuffer, int start)
 	{
-		this.buffer = buffer;
-		this.ip = 0;
-		this.dp = new int[NUMBER_OF_DATA_POINTERS];
+		this.dataBuffer = dataBuffer;
 		this.fileBuffer = null;
-		this.fp = new int[NUMBER_OF_FILE_POINTERS];
+		this.ip = start;
+		this.dp = 0;
+		this.fp = 0;
 	}
 	
-	private byte[] buffer;
-	private int ip;
-	private int[] dp;
-	
+	private byte[] dataBuffer;
 	private byte[] fileBuffer;
-	private int[] fp;
+	private int ip;
+	private int dp;
+	private int fp;
+	private boolean test;
 	
 	// instructions
 	
 	public static final byte INST_NOOP =			0x00;
 	
-	public static final byte INST_COPY_A32_IP =		0x01;
+	public static final byte INST_COPY_A32_DP = 	0x01;
+	public static final byte INST_COPY_DP_DP = 		0x02;
 	
-	public static final byte INST_COPY_IP_BP = 		0x03;
-	public static final byte INST_COPY_BP_IP =		0x04;
+	public static final byte INST_COPY_DA_FA = 		0x03;
+	public static final byte INST_COPY_FA_DA = 		0x04;
 	
-	public static final byte INST_COPY_A32_BP =		0x02;
-	public static final byte INST_COPY_BP_BP =		0x05;
-	
-	public static final byte INST_COPY_ = 			0x06; 
-	
+	public void run(byte[] fileBuffer)
+	{
+		this.fileBuffer = fileBuffer;
+		
+	}
 }
