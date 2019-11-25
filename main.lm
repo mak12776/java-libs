@@ -3,6 +3,40 @@ buffer:
 	resb	1024
 
 start:
-	copy	buffer, r0_32[0]
+	copy	0	
 
-	copy	
+	test	fp0 = fs
+	tjmp	end
+
+
+loop:
+	test	[fp0] = '\n'
+	tjmp
+
+	add		fp0 1 fp0
+	jump	loop
+
+
+end:
+
+
+; --------------------------------
+
+
+
+; --------------------------------
+
+
+
+	fp = 0
+
+	if fp == fs goto end:
+
+	if [fp] == '\n'
+		
+
+
+
+end:
+
+
