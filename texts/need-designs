@@ -11,7 +11,7 @@
     [ designed ]
 
     adding methods to basic types: using the following
-        def type int.is_natural() = (self >= 0)
+        def int.is_natural() = (self >= 0)
 
     type casting: use functions
         from types import *
