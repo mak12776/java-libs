@@ -171,9 +171,14 @@ end
 
 # structure:
 
-struct Point
+class Point
 	var x: int
 	var y: int
+
+	def Point(x: int, y: int)
+		self.x = x
+		self.y = y
+	end
 
 	def add (point: Point)
 		self.x += point.x
@@ -193,6 +198,11 @@ struct Point
 		self.x = x
 		self.y = y
 	end
+end
+
+class ValPoint
+	val x: int
+	val y: int
 end
 
 var points = [
