@@ -1,24 +1,12 @@
 
-# keywords:
-	from        import      as
+# patterns
 
-	goto        label
-	if          then		else        end
-	repeat      for         in          while
-	do
-	switch      case        default
-	
-	break       continue
+keywords =		'[a-z]+'
+annotation =	'[a-z]+'
 
-	var         val         let         ref
-	def         yield       return
-
-	type        untype
-	struct      class       self        new
-	space
-	public      private
-
-	true        false       null
+variables =		'[a-zA-Z_][a-zA-Z_0-9]*'
+types =			'[a-zA-Z_][a-zA-Z_0-9]*'
+labels =		'[a-zA-Z_][a-zA-Z_0-9]*'
 
 # built-in types:
 	char                    'a'
@@ -56,6 +44,14 @@ def string.is_lower()
 	return true
 end
 
+# annotation definition:
+
+@public
+val a = 10
+
+@private
+val b = 30
+
 # value definition
 
 val a = 0
@@ -74,7 +70,7 @@ let b => a + 2
 var a = 1
 ref b => a
 
-# functions:
+# function definition:
 
 def sum(val a: int, val b: int): int => a + b
 
@@ -82,6 +78,10 @@ def range(val start: int, val stop: int, val step: int): int[]
 	for i = start; i < stop; i += step
 		yield i
 	end
+end
+
+def Hello(val name: = N)
+	printf("Hello {}!", (name instanceof null) ? "World" : name)
 end
 
 # type definitions:
@@ -128,9 +128,16 @@ class Person
 	end
 end
 
-def Hello(val name: = N)
-	printf("Hello " + (name == N ? "World" : name) + "!")
-	printf("Hello {}!", (name instanceof null) ? "World" : name)
+class MuttbalePerson extends Person
+	var name: string
+	var age: int
+end
+
+# interface:
+
+interface Person
+	def get_name(): string
+	def get_age(): int
 end
 
 val me: Person = new Person("Amin", 21)
@@ -141,9 +148,9 @@ val persons = [
 	new Person("Armin", 17),
 	]
 
-class Point
-	var x
-	var y
+class ValPoint
+	val x
+	val y
 
 	def Point(var x: T, var y: T)
 		self.x = x
@@ -151,11 +158,21 @@ class Point
 	end
 end
 
+class VarPoint from Point
+	var x
+	var y
+end
+
 # structure:
 
-struct Point
+class Point
 	var x: int
 	var y: int
+
+	def Point(x: int, y: int)
+		self.x = x
+		self.y = y
+	end
 
 	def add (point: Point)
 		self.x += point.x
@@ -165,6 +182,21 @@ struct Point
 	def distance (point: Point): float
 		return ((self.x - point.x) ** 2 + (self.y - point.y) ** 2) ** (1 / 2)
 	end
+
+	def add (a: int)
+		self.x += a
+		self.y += a
+	end
+
+	def add (x: int, y: int)
+		self.x = x
+		self.y = y
+	end
+end
+
+class ValPoint
+	val x: int
+	val y: int
 end
 
 var points = [
@@ -198,6 +230,8 @@ if COND then STATEMENT
 repeat VALUE
 	STATEMENT
 end
+
+repeat VALUE do STATEMENT
 
 # for 3 part
 
@@ -250,52 +284,3 @@ switch VALUE
 		STATEMENT
 		break
 end
-
-# operations:
-	+		add
-	-		sub
-	*		mul
-	/		div
-
-	%		mod
-	//		true div
-	**		exp
-
-	&		bitwise and
-	|		bitwise or
-	^		bitwise xor
-	~		bitwise not
-
-	>>		shift right
-	<<		shift left
-
-	=		assign
-	=>		ref assign
-
-	==		equal
-	!=		not equal
-	<		less than
-	<=		less than equal
-	>		greater than
-	>=		greater than equal
-
-	&&		and
-	||		or
-	^^		xor
-	!		not
-
-	+=		add assign
-	-=		sub assign
-	*=		mul	assign
-	/=		div assign
-
-	%=		mod assign
-	//=		true div assign
-	**=		exp assign
-
-	&=		bitwise and assign
-	|=		bitwise or assign
-	^=		bitwise xor assign
-
-	>>=		shift right assign
-	<<=		shift left assign
