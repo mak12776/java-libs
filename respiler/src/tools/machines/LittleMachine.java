@@ -14,8 +14,10 @@ public class LittleMachine
 	private byte[] dataBuffer;
 	private byte[] fileBuffer;
 	private int ip;
+	
 	private int dp;
 	private int fp;
+	
 	private boolean test;
 	
 	// instructions

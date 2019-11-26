@@ -64,12 +64,6 @@ public class PackedView implements BytesView
 		return newArray(size, null, 0, 0);
 	}
 	
-	public static PackedView[] newArrayFrom(byte[]... bytesArray)
-	{
-		// TODO: complete there.
-		return null;
-	}
-	
 	public int length()
 	{
 		return end - start;
