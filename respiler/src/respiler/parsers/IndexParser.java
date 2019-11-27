@@ -52,13 +52,13 @@ public class IndexParser
 	
 	private void setStartIndex()
 	{
-		token.start = index;
+		token.startIndex = index;
 		token.startLine = lnum;
 	}
 	
 	private void setEndIndex()
 	{
-		token.end = index;
+		token.endIndex = index;
 		token.endLine = lnum;
 	}
 	

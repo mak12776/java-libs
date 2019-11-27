@@ -40,20 +40,19 @@ public class Config
 		
 		put("switch", 				TokenType.SWITCH);
 		put("case",  				TokenType.CASE);
-		put("default",  			TokenType.DEFAUL);
+		put("default",  			TokenType.DEFAULT);
 		
 		put("break",  				TokenType.BREAK);
 		put("continue",  			TokenType.CONTINUE);
 		
 		put("var", 					TokenType.VAR);
-		put("const", 				TokenType.CONST);
+		put("const", 				TokenType.VAL);
 		put("let",  				TokenType.LET);
 		put("ref",  				TokenType.REF);
 		
 		put("type", 				TokenType.TYPE);
 		put("untype", 				TokenType.UNTYPE);
 		
-		put("struct", 				TokenType.STRUCT);
 		put("class", 				TokenType.CLASS);
 		put("self", 				TokenType.SELF);
 		
