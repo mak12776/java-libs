@@ -4,6 +4,7 @@ import respiler.types.tokens.Token;
 import respiler.types.tokens.TokenType;
 import tools.BytesTools;
 import tools.bytes.BufferUnpackedViews;
+import tools.types.ByteTest;
 
 public class Parser
 {
@@ -83,6 +84,38 @@ public class Parser
 		return false;
 	}
 	
+	private boolean readTokenWhile(ByteTest test, TokenType type)
+	{
+		if (test.test(getByte()))
+		{
+			setStartEndLine();
+			setStartIndex();
+			
+			incIndexWhile(test);
+			
+			setEndIndex();
+			setType(type);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean incIndexWhile(ByteTest test)
+	{
+		while (true)
+		{
+			incIndex();
+			if (end)
+				return true;
+			
+			if (!test.test(getByte()))
+				return false;
+		}
+	}
+	
+//	private static final ByteTest isUpperUnderScore = ByteTest.isUpper.or(ByteTest.isUnderScore);
+	
 	public Token nextToken()
 	{
 		if (end)
@@ -104,8 +137,30 @@ public class Parser
 		
 		else if (BytesTools.isLower(getByte()))
 		{
+			setStartEndLine();
+			setStartIndex();
+			
+			if (incIndexWhile(ByteTest.isLower))
+			{
+				setEndIndex();
+				
+				// check keyword token
+				return token;
+			}
+			
 			
 		}
+		
+		// name
+		
+		
+		
+		// number
+		
+		else if (readTokenWhile(ByteTest.isDigit, TokenType.NUMBER))
+			return token;
+		
+		// 
 		
 		return null;
 	}

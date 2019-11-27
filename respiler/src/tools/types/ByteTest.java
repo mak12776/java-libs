@@ -136,6 +136,15 @@ public interface ByteTest
 		}
 	};
 	
+	public static ByteTest isUnderScore = new ByteTest()
+	{
+		@Override
+		public boolean test(byte b)
+		{
+			return BytesTools.isUnderScore(b);
+		}
+	};
+	
 	public static ByteTest isUpper = new ByteTest()
 	{
 		@Override
