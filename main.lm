@@ -1,4 +1,83 @@
 
+buffers:
+	buffer array
+
+registers:
+	ix, ip		instruction pointer
+	
+	ap, bp, cp, dp, ep, fp, gp, hp
+
+	ax, bx, cx, dx, ex, fx, gx, hx
+
+	copy byte [ap] [cp]
+	copy quad [ap] [cp]
+
+; --------------------------------
+
+buffers:
+	data buffer:
+	file buffer
+
+registers:
+	ip: int
+	dp: int
+	fp: int
+	test: boolean
+
+instructions:
+	copy
+	comp
+
+	test
+	tjmp
+	fjmp
+
+	addi
+	subi
+	muli
+	divi
+
+; --------------------------------
+
+
+	open	0
+
+	copy	0, ap
+	test	ap = fs
+	tjmp	end
+
+	test 	[ap] = '\n'
+	tjmp	nl
+
+nl:
+	x
+	t
+	f
+
+
+end:
+
+; --------------------------------
+
+size_t count_lines(char *buffer, size_t size)
+{
+	size_t index;
+	size_t total;
+
+	if (index == size)
+		return 0;
+
+	total = 0;
+
+	if (buffer[index] == '\n')
+	{
+		index += 1;
+	}
+}
+
+
+; --------------------------------
+
 buffer:
 	resb	1024
 
@@ -21,22 +100,4 @@ end:
 
 
 ; --------------------------------
-
-
-
-; --------------------------------
-
-
-
-	fp = 0
-
-	if fp == fs goto end:
-
-	if [fp] == '\n'
-		
-
-
-
-end:
-
 

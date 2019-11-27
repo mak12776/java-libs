@@ -4,9 +4,8 @@
 
 	goto		label
 
-	if			else		end
-	repeat		for			in			while
-	then		do
+	if			then		else		end
+	repeat		for			in			while		do
 	switch      case        default
 	
 	break       continue
@@ -31,6 +30,14 @@
 	@private
 
 # operations:
+	[		left bracket
+	]		right bracket
+
+	;		semicolon
+	,		comma
+	:		colon
+
+
 	+		add
 	-		sub
 	*		mul

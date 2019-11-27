@@ -31,6 +31,11 @@ public class BufferUnpackedViews
 		return views[index].end;
 	}
 	
+	public int getViewsLength()
+	{
+		return views.length;
+	}
+	
 	public void copyViewTo(int index, BytesView view)
 	{
 		view.set(buffer, views[index].start, views[index].end);
