@@ -18,6 +18,44 @@ labels =		'[a-zA-Z_][a-zA-Z_0-9]*'
 	null					N
 	function				def (a, b) => a + b
 
+# string kinds:
+
+raw string: use 'r' before strings
+	r"hello \" world" -> hello " world
+	r"hello \\ world" -> hello \ world
+
+formated string: use 'f' before strings
+	var name = "World"
+	f"Hello {name}!" -> "Hello World!"
+
+multi-line strings:
+        a = "\
+    hello, I'm here to answer you.
+    "
+
+math operations:
+	+		add					%		mod
+	-		sub					//		true div
+	*		mul					**		exp
+	/		div
+	
+	+=		add assign
+	-=		sub assign
+	*=		mul	assign
+	/=		div assign
+
+	==		equal				!=		not equal
+	<		less than			<=		less than equal
+	>		greater than		>=		greater than equal
+
+	&		bitwisze and		and		logic and
+	|		bitwisze or			or 		logic or
+	^		bitwisze xor		xor		logic xor
+	~		bitwisze not		not		logic not
+
+	<<		shift left
+	>>		shift right
+
 
 # built-in types fields:
 
@@ -84,15 +122,17 @@ def Hello(val name: = N)
 	printf("Hello {}!", (name instanceof null) ? "World" : name)
 end
 
+# operations:
+
 # type definitions:
 
 type number = int
 type numbers = int[]
 
-def type unsigned = (self ?= int) && (self >= 0)
-def type signed = (self ?= int)
+def type unsigned => (self ?= int) && (self >= 0)
+def type signed => (self ?= int)
 
-def type int_limit(var min: int, var max: int)
+def type int_limit(min: int, max: int)
 	return (self ?= int) && (self >= min) && (self <= max)
 end
 
@@ -104,9 +144,37 @@ var b: int_limit(100, 200) = 150
 	int[]					[1, 2, 3, 4]		; array of ints
 	int[3]					[1, 2, 3]			; array of three ints
 	[int, int]				[1, 2]				; array of two ints
-	(int | string)[]		[1, "Hi"]			; array of int or string
-	null_string				null | string		; a null or string
-	null_int				null | int			; a null or int
+
+	{x: int, y: int}		{10, 20}			; dict of two ints
+	{name, age}				{"Jack", 20}		; dict of a name and an age
+
+	null or string			N					; a null or string
+	null or int				10					; a null or int
+	(int or string)[]		[1, "Hi"]			; array of int or string
+
+# dict:
+
+it's a type.
+
+dict Person
+	name: string or null
+	age: int
+
+	def hello(name = N)
+		name = (name == N) ? f" {name}," : ","
+		print(f"Hello {name}, my name is {self.name}")
+	end
+
+	def $()
+		return "Person({}, {})" % (name, age)
+	end
+end
+
+val persons = [val 1, val 2]
+
+var me = new Person("Amin", 20)
+
+persons.hello()
 
 # class:
 
@@ -119,18 +187,13 @@ class Person
 		self.age = age
 	end
 
-	def greeting (name: string = "")
-		if name == ""
+	def greeting (name: string or null = N)
+		if name == N
 			printf("Hello, my name is {}.", self.name)
 		else
 			printf("Hello {}, my name is {}.", name, self.name)
 		end
 	end
-end
-
-class MuttbalePerson extends Person
-	var name: string
-	var age: int
 end
 
 # interface:
@@ -140,13 +203,13 @@ interface Person
 	def get_age(): int
 end
 
-val me: Person = new Person("Amin", 21)
-me.greeting("Armin")
-
 val persons = [
 	new Person("Amin", 21),
 	new Person("Armin", 17),
 	]
+
+val me: Person = new Person("Amin", 21)
+me.greeting("Armin")
 
 class ConstPoint
 	val x
@@ -180,44 +243,44 @@ end
 
 # structure:
 
-class Point
-	var x: int
-	var y: int
-
-	def Point(x: int, y: int)
-		self.x = x
-		self.y = y
-	end
+struct Point
+	x: int
+	y: int
 
 	def add (point: Point)
 		self.x += point.x
 		self.y += point.y
 	end
 
-	def distance (point: Point): float
+	def distance (point: Point)
 		return ((self.x - point.x) ** 2 + (self.y - point.y) ** 2) ** (1 / 2)
 	end
 
-	def add (a: int)
-		self.x += a
-		self.y += a
+	def +(other: Point or int): Point
+		if other ?= Point
+			return {self.x + other.x, self.y + other.y}
+		else if other ?= int
+			return {self.x }
+		end
 	end
 
-	def add (x: int, y: int)
-		self.x = x
-		self.y = y
+	def -(other: Point or int)
+		if other ?= Point
+			return 
 	end
 end
 
-class ValPoint
-	val x: int
-	val y: int
-end
+
+if name.empty() and 
+
+
 
 var points = [
 	new Point {x = 10, y = 20},
 	new Point {x = 30, y = 40},
 	]
+
+points 
 
 ## control flow:
 
