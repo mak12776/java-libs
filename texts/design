@@ -148,19 +148,34 @@ val persons = [
 	new Person("Armin", 17),
 	]
 
-class ValPoint
+class ConstPoint
 	val x
 	val y
 
-	def Point(var x: T, var y: T)
+	def Point(var x, var y)
 		self.x = x
 		self.y = y
 	end
 end
 
-class VarPoint from Point
+class Point extends ConstPoint
 	var x
 	var y
+
+	def add(val a)
+		self.x += a
+		self.y += a
+	end
+
+	def add(val x, val y)
+		self.x += x
+		self.y += y
+	end
+
+	def sub(val a)
+		self.x -= a
+		self.y -= a
+	end
 end
 
 # structure:
