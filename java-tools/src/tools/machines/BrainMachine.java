@@ -1,4 +1,4 @@
-package brain.machine;
+package tools.machines;
 
 import tools.bytes.BufferUnpackedViews;
 import tools.bytes.PackedView;
