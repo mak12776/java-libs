@@ -1,13 +1,13 @@
-package respiler.parsers;
+package less.parsers;
 
 import java.util.Arrays;
 
-import respiler.Config;
-import respiler.exceptions.ParserException;
-import respiler.types.ErrorType;
-import respiler.types.tokens.NameToken;
-import respiler.types.tokens.TokenType;
-import respiler.types.tokens.olds.OldToken;
+import less.Config;
+import less.exceptions.ParserException;
+import less.types.ErrorType;
+import less.types.tokens.NameToken;
+import less.types.tokens.TokenType;
+import less.types.tokens.olds.OldToken;
 import tools.BytesTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.bytes.PackedView;

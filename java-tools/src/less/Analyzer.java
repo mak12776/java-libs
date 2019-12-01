@@ -1,9 +1,9 @@
-package respiler;
+package less;
 
-import respiler.exceptions.ParserException;
-import respiler.parsers.OldParser.TokenStream;
-import respiler.types.nodes.Node;
-import respiler.types.tokens.olds.OldToken;
+import less.exceptions.ParserException;
+import less.parsers.OldParser.TokenStream;
+import less.types.nodes.Node;
+import less.types.tokens.olds.OldToken;
 
 public class Analyzer 
 {

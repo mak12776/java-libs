@@ -1,8 +1,8 @@
-package respiler;
+package less;
 
 import java.util.AbstractMap.SimpleEntry;
 
-import respiler.types.tokens.TokenType;
+import less.types.tokens.TokenType;
 import tools.BytesTools;
 import tools.bytes.UnpackedView;
 

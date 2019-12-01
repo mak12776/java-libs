@@ -1,6 +1,6 @@
-package respiler.types.tokens;
+package less.types.tokens;
 
-import respiler.types.tokens.olds.OldToken;
+import less.types.tokens.olds.OldToken;
 import tools.StringBuilderTools;
 import tools.StringTools;
 

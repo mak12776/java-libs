@@ -1,6 +1,6 @@
-package respiler.exceptions;
+package less.exceptions;
 
-import respiler.types.ErrorType;
+import less.types.ErrorType;
 import tools.StringBuilderTools;
 import tools.StringTools;
 

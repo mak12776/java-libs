@@ -1,4 +1,4 @@
-package respiler.types.tokens;
+package less.types.tokens;
 
 public enum TokenType
 {

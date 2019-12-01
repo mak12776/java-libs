@@ -3,11 +3,11 @@ package tests.functions;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import respiler.exceptions.ParserException;
-import respiler.parsers.OldParser;
-import respiler.parsers.OldParser.TokenStream;
-import respiler.types.tokens.TokenType;
-import respiler.types.tokens.olds.OldToken;
+import less.exceptions.ParserException;
+import less.parsers.OldParser;
+import less.parsers.OldParser.TokenStream;
+import less.types.tokens.TokenType;
+import less.types.tokens.olds.OldToken;
 import tools.StreamTools;
 import tools.bytes.BufferUnpackedViews;
 import tools.exceptions.BaseException;

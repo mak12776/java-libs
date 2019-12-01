@@ -1,4 +1,4 @@
-package respiler.exceptions;
+package less.exceptions;
 
 import tools.exceptions.BaseException;
 

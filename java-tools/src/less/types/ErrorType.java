@@ -1,4 +1,4 @@
-package respiler.types;
+package less.types;
 
 public enum ErrorType 
 {
