@@ -36,6 +36,16 @@ public class Buffer
 		return length;
 	}
 	
+	public boolean isEmpty()
+	{
+		return (length == 0);
+	}
+	
+	public boolean isFull()
+	{
+		return (length == buffer.length);
+	}
+	
 	public void append(byte[] buffer, int start, int end)
 	{
 		int bufferLength = end - start;

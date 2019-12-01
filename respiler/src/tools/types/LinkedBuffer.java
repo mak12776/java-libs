@@ -26,12 +26,15 @@ public class LinkedBuffer
 	
 	public LinkedBuffer(int additiveSize)
 	{
-		this.additiveSize = additiveSize;
 		this.first = this.last = null;
+		this.additiveSize = additiveSize;
 	}
 	
 	public void append(byte[] buffer, int start, int end)
 	{
-		
+		if (first == null)
+		{
+			first = last = new BufferNode(additiveSize, null);
+		}
 	}
 }

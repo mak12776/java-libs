@@ -73,12 +73,13 @@ public class Parser
 		if (getByte() == ch)
 		{
 			setStartEndLine();
-			
 			setStartIndex();
-			incIndex();
-			setEndIndex();
 			
+			incIndex();
+			
+			setEndIndex();
 			setType(type);
+			
 			return true;
 		}
 		return false;
@@ -114,7 +115,7 @@ public class Parser
 		}
 	}
 	
-//	private static final ByteTest isUpperUnderScore = ByteTest.isUpper.or(ByteTest.isUnderScore);
+	private static final ByteTest isNameRestChar = ByteTest.isUpper.or(ByteTest.isUnderScore);
 	
 	public Token nextToken()
 	{
