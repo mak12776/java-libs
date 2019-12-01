@@ -85,7 +85,7 @@ public class Parser
 		return false;
 	}
 	
-	private boolean readTokenWhile(ByteTest test, TokenType type)
+	private boolean checkTokenWhile(ByteTest test, TokenType type)
 	{
 		if (test.test(getByte()))
 		{
@@ -102,20 +102,20 @@ public class Parser
 		return false;
 	}
 	
-	private boolean incIndexWhile(ByteTest test)
+	private void incIndexWhile(ByteTest test)
 	{
 		while (true)
 		{
 			incIndex();
 			if (end)
-				return true;
+				return;
 			
 			if (!test.test(getByte()))
-				return false;
+				return;
 		}
 	}
 	
-	private static final ByteTest isNameRestChar = ByteTest.isUpper.or(ByteTest.isUnderScore);
+	private static final ByteTest isUpperUnderscore = ByteTest.isUpper.or(ByteTest.isUnderScore);
 	
 	public Token nextToken()
 	{
@@ -140,25 +140,13 @@ public class Parser
 		{
 			setStartEndLine();
 			setStartIndex();
-			
-			if (incIndexWhile(ByteTest.isLower))
-			{
-				setEndIndex();
-				
-				// check keyword token
-				return token;
-			}
-			
-			
 		}
 		
 		// name
 		
-		
-		
 		// number
 		
-		else if (readTokenWhile(ByteTest.isDigit, TokenType.NUMBER))
+		else if (checkTokenWhile(ByteTest.isDigit, TokenType.NUMBER))
 			return token;
 		
 		// 

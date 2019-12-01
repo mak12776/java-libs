@@ -4,42 +4,23 @@ import tools.bytes.PackedView;
 
 public class BytesMachine
 {
-	private byte[] buffer;
-	private int index;
-	private int end;
+	private byte[] dataBuffer;
+	private byte[] fileBuffer;
 	
-	public BytesMachine(byte[] buffer, int start, int end)
+	private int ip;
+	
+	
+	public BytesMachine(byte[] buffer, int start)
 	{
-		this.buffer = buffer;
-		this.index = start;
-		this.end = end;
+		this.dataBuffer = buffer;
+		this.ip = start;
 	}
 	
-	public BytesMachine(PackedView view)
-	{
-		this(view.buffer, view.start, view.end);
-	}
-	
-	public byte[] getBuffer()
-	{
-		return buffer;
-	}
-	
-	private static final byte NOOP = 0;
-	private static final byte COPY = 1; 
+	private static final byte INST_NOOP = 0;
+	private static final byte INST_COPY = 1; 
 	
 	public void run()
 	{
-		while (index < end)
-		{
-			switch (buffer[index])
-			{
-			case NOOP:
-				break;
-			
-			case COPY:
-				break;
-			}
-		}
+		
 	}
 }
