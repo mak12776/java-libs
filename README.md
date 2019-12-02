@@ -1,1 +1,1 @@
-# Res Collection Library
+# A set of simple java libraries
