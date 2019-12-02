@@ -85,6 +85,19 @@ public class Parser
 		return false;
 	}
 	
+	private void incIndexWhile(ByteTest test)
+	{
+		while (true)
+		{
+			incIndex();
+			if (end)
+				return;
+			
+			if (!test.test(getByte()))
+				return;
+		}
+	}
+	
 	private boolean checkTokenWhile(ByteTest test, TokenType type)
 	{
 		if (test.test(getByte()))
@@ -100,19 +113,6 @@ public class Parser
 			return true;
 		}
 		return false;
-	}
-	
-	private void incIndexWhile(ByteTest test)
-	{
-		while (true)
-		{
-			incIndex();
-			if (end)
-				return;
-			
-			if (!test.test(getByte()))
-				return;
-		}
 	}
 	
 	private static final ByteTest isUpperUnderscore = ByteTest.isUpper.or(ByteTest.isUnderScore);
@@ -131,6 +131,8 @@ public class Parser
 		
 		token = new Token(null, 0, 0, 0, 0);
 		
+		// check newline
+		
 		if (checkSingleSymbol('\n', TokenType.NEWLINE))
 			return token;
 		
@@ -140,6 +142,10 @@ public class Parser
 		{
 			setStartEndLine();
 			setStartIndex();
+			
+			incIndexWhile(ByteTest.isLower);
+			
+			setEndIndex();
 		}
 		
 		// name

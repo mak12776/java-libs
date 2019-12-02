@@ -1,18 +1,16 @@
 package tools.machines;
 
-import tools.bytes.PackedView;
-
-public class BytesMachine
+public class Pattern
 {
+	private byte[] codeBuffer;
 	private byte[] dataBuffer;
-	private byte[] fileBuffer;
 	
 	private int ip;
+	private int dp;
 	
-	
-	public BytesMachine(byte[] buffer, int start)
+	public Pattern(byte[] buffer, int start)
 	{
-		this.dataBuffer = buffer;
+		this.codeBuffer = buffer;
 		this.ip = start;
 	}
 	
