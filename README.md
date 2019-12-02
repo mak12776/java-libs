@@ -1,1 +1,1 @@
-# A set of simple java libraries
+# A set of Simple Java Libraries
