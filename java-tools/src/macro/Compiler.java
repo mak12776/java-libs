@@ -4,11 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import macro.Compiler.Settings.SettingsKey;
-import tools.StreamTools;
-import tools.bytes.BufferUnpackedViews;
-import tools.bytes.PackedView;
-import tools.exceptions.BaseException;
-import tools.types.ByteTest;
+import tbx.bytes.BufferUnpackedViews;
+import tbx.bytes.PackedView;
+import tbx.exceptions.BaseException;
+import tbx.tools.StreamTools;
+import tbx.types.ByteTest;
 
 public class Compiler 
 {

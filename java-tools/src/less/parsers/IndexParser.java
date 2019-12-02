@@ -2,8 +2,8 @@ package less.parsers;
 
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
-import tools.BytesTools;
-import tools.bytes.BufferUnpackedViews;
+import tbx.bytes.BufferUnpackedViews;
+import tbx.tools.BytesTools;
 
 public class IndexParser
 {

@@ -1,6 +1,6 @@
 package less.exceptions;
 
-import tools.exceptions.BaseException;
+import tbx.exceptions.BaseException;
 
 public class AnalyzerException extends BaseException 
 {

@@ -1,8 +1,8 @@
 package less.types.tokens;
 
 import less.types.tokens.olds.OldToken;
-import tools.StringBuilderTools;
-import tools.StringTools;
+import tbx.tools.StringBuilderTools;
+import tbx.tools.StringTools;
 
 public class NameToken extends OldToken 
 {
