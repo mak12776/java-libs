@@ -1,8 +1,8 @@
 package less.exceptions;
 
 import less.types.ErrorType;
-import tbx.tools.StringBuilderTools;
-import tbx.tools.StringTools;
+import libs.tools.StringBuilderTools;
+import libs.tools.StringTools;
 
 public class ParserException extends Exception 
 {

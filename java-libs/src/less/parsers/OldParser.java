@@ -8,10 +8,10 @@ import less.types.ErrorType;
 import less.types.tokens.NameToken;
 import less.types.tokens.TokenType;
 import less.types.tokens.olds.OldToken;
-import tbx.bytes.BufferUnpackedViews;
-import tbx.bytes.PackedView;
-import tbx.tools.BytesTools;
-import tbx.types.ByteTest;
+import libs.bytes.BufferUnpackedViews;
+import libs.bytes.PackedView;
+import libs.tools.BytesTools;
+import libs.types.ByteTest;
 
 public class OldParser 
 {

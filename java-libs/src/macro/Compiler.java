@@ -3,12 +3,12 @@ package macro;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import libs.bytes.BufferUnpackedViews;
+import libs.bytes.PackedView;
+import libs.exceptions.BaseException;
+import libs.tools.StreamTools;
+import libs.types.ByteTest;
 import macro.Compiler.Settings.SettingsKey;
-import tbx.bytes.BufferUnpackedViews;
-import tbx.bytes.PackedView;
-import tbx.exceptions.BaseException;
-import tbx.tools.StreamTools;
-import tbx.types.ByteTest;
 
 public class Compiler 
 {

@@ -2,9 +2,9 @@ package less;
 
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
-import tbx.bytes.BufferUnpackedViews;
-import tbx.tools.BytesTools;
-import tbx.types.ByteTest;
+import libs.bytes.BufferUnpackedViews;
+import libs.tools.BytesTools;
+import libs.types.ByteTest;
 
 public class Parser
 {

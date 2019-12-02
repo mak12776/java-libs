@@ -3,8 +3,8 @@ package less;
 import java.util.AbstractMap.SimpleEntry;
 
 import less.types.tokens.TokenType;
-import tbx.bytes.UnpackedView;
-import tbx.tools.BytesTools;
+import libs.bytes.UnpackedView;
+import libs.tools.BytesTools;
 
 import java.util.ArrayList;
 import java.util.List;
