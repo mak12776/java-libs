@@ -31,11 +31,6 @@ public class BytesTools
 	{
 		return (b == '\r');
 	}
-	
-	public static boolean isUnderScore(byte b)
-	{
-		return (b == '_');
-	}
 
 	public static boolean isLower(byte b)
 	{
