@@ -9,8 +9,13 @@ public class Main
 	public static void main(String[] args) throws IOException
 	{
 		int size;
-		byte[] array = new byte[1000];
-		System.out.println(Long.BYTES);
-		System.out.println(Float.BYTES);
+		byte[] array = new byte[10];
+		while (true)
+		{
+			size = System.in.read(array);
+			System.out.println("size: " + size);
+			if (array[0] == 'q')
+				break;
+		}
 	}
 }
