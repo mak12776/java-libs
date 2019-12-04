@@ -4,10 +4,10 @@ public class SafeTools
 {
 	public static final boolean CHECK_INTEGER_BITS = true;
 	
-	public static void checkIntegerBits(final int size)
+	public static void checkIntegerBits(final int bits)
 	{
-		if ((size != Byte.SIZE) && (size != Short.SIZE) && (size != Integer.SIZE) && (size != Long.SIZE))
-			throw new IllegalArgumentException("invalid size: " + size);
+		if ((bits != Byte.SIZE) && (bits != Short.SIZE) && (bits != Integer.SIZE) && (bits != Long.SIZE))
+			throw new IllegalArgumentException("invalid size: " + bits);
 	}
 	
 	public static final boolean CHECK_INTEGER_BYTES = true;
@@ -15,7 +15,15 @@ public class SafeTools
 	public static void checkIntegerBytes(final int bytes)
 	{
 		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES) && (bytes != Long.BYTES))
-			throw new IllegalArgumentException("invalid bytes: " + bytes);
+			throw new IllegalArgumentException("invalid integer bytes: " + bytes);
+	}
+	
+	public static final boolean CHECK_ARRAY_SIZE_BYTES = false;
+	
+	public static void checkArraySizeBytes(final int bytes)
+	{
+		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES))
+			throw new IllegalArgumentException("invalid array size bytes: " + bytes);
 	}
 	
 	public static final boolean CHECK_BUFFER_START_END = false;

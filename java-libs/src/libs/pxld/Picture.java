@@ -18,8 +18,7 @@ public interface Picture
 	}
 	
 	public void draw(byte[] colorData);
+	public void map(MapFunction map);
 	
 	public void drawPicture(int x, int y, Picture picture);
-	
-	public void map(MapFunction map);
 }
