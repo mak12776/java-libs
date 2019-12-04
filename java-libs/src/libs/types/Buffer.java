@@ -1,8 +1,6 @@
 package libs.types;
 
-import libs.exceptions.BufferFullException;
 import libs.tools.BytesTools;
-import libs.tools.SafeTools;
 
 public class Buffer
 {	
@@ -50,13 +48,37 @@ public class Buffer
 	{
 		int bufferLength = end - start;
 		
-		BytesTools.copy(this.buffer, length, buffer, start, bufferLength);
+		BytesTools.copy(this.buffer, this.length, buffer, start, bufferLength);
 		length += bufferLength;
 	}
 	
 	public void append(int size, long value)
 	{	
-		BytesTools.write(buffer, length, size, value);
+		BytesTools.write(this.buffer, this.length, size, value);
 		length += size;
+	}
+	
+	public void appendByte(byte value)
+	{
+		BytesTools.writeByte(buffer, length, value);
+		length += Byte.BYTES;
+	}
+	
+	public void appendShort(short value)
+	{
+		BytesTools.writeShort(buffer, length, value);
+		length += Short.BYTES;
+	}
+	
+	public void appnedInt(int value)
+	{
+		BytesTools.writeInt(buffer, length, value);
+		length += Integer.BYTES;
+	}
+	
+	public void appendLong(long value)
+	{
+		BytesTools.writeLong(buffer, length, value);
+		length += Long.BYTES;
 	}
 }

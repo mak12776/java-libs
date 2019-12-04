@@ -1,10 +1,10 @@
-package libs.machines;
+package libs.incomplete.machines;
 
 import libs.bytes.BufferUnpackedViews;
 import libs.bytes.PackedView;
 import libs.types.ByteTest;
 
-public class BrainMachine
+public class BrainMachineCompiler
 {
 	private static String[] InstNames = new String[] {
 		"mov",

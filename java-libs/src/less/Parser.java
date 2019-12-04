@@ -115,7 +115,7 @@ public class Parser
 		return false;
 	}
 	
-	private static final ByteTest isUpperUnderscore = ByteTest.isUpper.or(ByteTest.isUnderScore);
+	private static final ByteTest isUpperUnderscore = ByteTest.isUpper.or(ByteTest.isEqual('_'));
 	
 	public Token nextToken()
 	{

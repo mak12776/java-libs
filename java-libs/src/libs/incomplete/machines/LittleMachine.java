@@ -1,8 +1,8 @@
-package libs.machines;
+package libs.incomplete.machines;
 
 public class LittleMachine
 {
-	private byte[] dataBuffer;
+	private byte[] instBuffer;
 	private byte[] fileBuffer;
 	
 	private int ip;
@@ -14,7 +14,7 @@ public class LittleMachine
 	
 	public LittleMachine(byte[] buffer, int start)
 	{
-		this.dataBuffer = buffer;
+		this.instBuffer = buffer;
 		this.fileBuffer = null;
 		
 		this.ip = start;
@@ -22,8 +22,10 @@ public class LittleMachine
 		this.fp = 0;
 	}
 	
-	public void run()
+	
+	
+	public int run(byte[] file)
 	{
-		
+		return 0;
 	}
 }
