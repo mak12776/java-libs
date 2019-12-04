@@ -22,10 +22,9 @@ public class LittleMachine
 		this.fp = 0;
 	}
 	
-	
-	
 	public int run(byte[] file)
 	{
+		
 		return 0;
 	}
 }
