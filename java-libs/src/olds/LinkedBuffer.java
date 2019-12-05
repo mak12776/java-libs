@@ -104,7 +104,7 @@ public class LinkedBuffer
 	{
 		int readNumber;
 		
-		if (Main.SAFE)
+		if (SAFE)
 		{
 			if (length == array.length)
 			{
