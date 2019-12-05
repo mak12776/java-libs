@@ -1,4 +1,4 @@
-package macro;
+package process;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import libs.bytes.PackedView;
 import libs.exceptions.BaseException;
 import libs.tools.StreamTools;
 import libs.types.ByteTest;
-import macro.Compiler.Settings.SettingsKey;
+import process.Compiler.Settings.SettingsKey;
 
 public class Compiler 
 {

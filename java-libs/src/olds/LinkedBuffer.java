@@ -3,10 +3,13 @@ package olds;
 import java.io.IOException;
 import java.io.InputStream;
 
+import libs.tools.SafeTools;
 import main.Main;
 
 public class LinkedBuffer 
 {
+	private static final boolean SAFE = true;
+	
 	public byte[] array;
 	public int length;
 	public LinkedBuffer next;
@@ -52,13 +55,8 @@ public class LinkedBuffer
 	
 	public void popFirst(int size)
 	{
-		if (Main.SAFE)
-		{
-			if (size < 0 || size > length)
-			{
-				throw new IllegalArgumentException("invalid size: " + String.valueOf(size));
-			}
-		}
+		if (SAFE)
+			SafeTools.checkInvalidSize(size, 0, length);
 		
 		length -= size; 
 		for (int i = 0; i < length; i += 1)
@@ -69,13 +67,8 @@ public class LinkedBuffer
 	
 	public void popLast(int size)
 	{
-		if (Main.SAFE)
-		{
-			if (size < 0 || size > length)
-			{
-				throw new IllegalArgumentException("invalid size: " + String.valueOf(size));
-			}
-		}
+		if (SAFE)
+			SafeTools.checkInvalidSize(size, 0, length);
 		
 		length -= size;
 	}
