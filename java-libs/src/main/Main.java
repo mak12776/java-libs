@@ -8,6 +8,7 @@ public class Main
 	{
 		boolean a = true;
 		int b = 10;
+		a ^= false;
 		if (a & (b == 10))
 			System.out.println("bye");
 	}

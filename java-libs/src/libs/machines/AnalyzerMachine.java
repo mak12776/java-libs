@@ -64,7 +64,15 @@ public class AnalyzerMachine
 	public static final byte INST_COPY_BP_DPA =				BASE6 + 5;
 	public static final byte INST_COPY_DP_DPA =				BASE6 + 6;
 	
-	private static final byte BASE2 =						INST_COPY_DP_DPA;
+	private static final byte BASE7 =						INST_COPY_DP_DPA;
+	
+	public static final byte INST_COPY_IA_BP =				BASE7 + 1;
+	public static final byte INST_COPY_IA_DP =				BASE7 + 2;
+	
+	public static final byte INST_COPY_BP_IA = 				BASE7 + 3;
+	public static final byte INST_COPY_DP_IA = 				BASE7 + 4;
+	
+	private static final byte BASE2 =						INST_COPY_DP_IA;
 	
 	public static final byte INST_TEST_BS_EQ_IM32 =			BASE2 + 1;
 	public static final byte INST_TEST_BS_NE_IM32 =			BASE2 + 2;
@@ -93,7 +101,16 @@ public class AnalyzerMachine
 	public static final byte INST_TEST_OR_BS_GT_IM32 =		BASE2 + 17;
 	public static final byte INST_TEST_OR_BS_GE_IM32 =		BASE2 + 18;
 	
-	private static final byte BASE3 =						INST_TEST_OR_BS_GE_IM32;
+	public static final byte INST_TEST_XOR_BS_EQ_IM32 =		BASE2 + 19;
+	public static final byte INST_TEST_XOR_BS_NE_IM32 =		BASE2 + 20;
+	
+	public static final byte INST_TEST_XOR_BS_LT_IM32 =		BASE2 + 21;
+	public static final byte INST_TEST_XOR_BS_LE_IM32 =		BASE2 + 22;
+	
+	public static final byte INST_TEST_XOR_BS_GT_IM32 =		BASE2 + 23;
+	public static final byte INST_TEST_XOR_BS_GE_IM32 =		BASE2 + 24;
+	
+	private static final byte BASE3 =						INST_TEST_XOR_BS_GE_IM32;
 	
 	public static final byte INST_TEST_DS_EQ_IM32 = 		BASE3 + 1;
 	public static final byte INST_TEST_DS_NE_IM32 = 		BASE3 + 2;
@@ -104,7 +121,34 @@ public class AnalyzerMachine
 	public static final byte INST_TEST_DS_GT_IM32 = 		BASE3 + 5;
 	public static final byte INST_TEST_DS_GE_IM32 = 		BASE3 + 6;
 	
-	private static final byte BASE4 =						INST_TEST_DS_GE_IM32;
+	public static final byte INST_TEST_AND_DS_EQ_IM32 = 	BASE3 + 7;
+	public static final byte INST_TEST_AND_DS_NE_IM32 = 	BASE3 + 8;
+	
+	public static final byte INST_TEST_AND_DS_LT_IM32 = 	BASE3 + 9;
+	public static final byte INST_TEST_AND_DS_LE_IM32 = 	BASE3 + 10;
+	
+	public static final byte INST_TEST_AND_DS_GT_IM32 = 	BASE3 + 11;
+	public static final byte INST_TEST_AND_DS_GE_IM32 = 	BASE3 + 12;
+	
+	public static final byte INST_TEST_OR_DS_EQ_IM32 = 		BASE3 + 13;
+	public static final byte INST_TEST_OR_DS_NE_IM32 = 		BASE3 + 14;
+	
+	public static final byte INST_TEST_OR_DS_LT_IM32 = 		BASE3 + 15;
+	public static final byte INST_TEST_OR_DS_LE_IM32 = 		BASE3 + 16;
+	
+	public static final byte INST_TEST_OR_DS_GT_IM32 = 		BASE3 + 17;
+	public static final byte INST_TEST_OR_DS_GE_IM32 = 		BASE3 + 18;
+	
+	public static final byte INST_TEST_XOR_DS_EQ_IM32 = 	BASE3 + 19;
+	public static final byte INST_TEST_XOR_DS_NE_IM32 = 	BASE3 + 20;
+	
+	public static final byte INST_TEST_XOR_DS_LT_IM32 = 	BASE3 + 21;
+	public static final byte INST_TEST_XOR_DS_LE_IM32 = 	BASE3 + 22;
+	
+	public static final byte INST_TEST_XOR_DS_GT_IM32 = 	BASE3 + 23;
+	public static final byte INST_TEST_XOR_DS_GE_IM32 = 	BASE3 + 24;
+	
+	private static final byte BASE4 =						INST_TEST_XOR_DS_GE_IM32;
 	
 	public static final byte INST_JUMP_A32 =				BASE4 + 1;
 	public static final byte INST_TJMP_A32 =				BASE4 + 2;
@@ -119,12 +163,16 @@ public class AnalyzerMachine
 		buffer = bytes;
 		int jp;
 		
+		main_loop:
 		while (ip < instBuffer.length)
 		{
 			switch (nextByte())
 			{
 			case INST_NOOP:
 				break;
+				
+			case INST_EXIT:
+				break main_loop;
 				
 			// copy IM32 XP
 				
@@ -156,10 +204,44 @@ public class AnalyzerMachine
 				data[dp] = nextInt();
 				break;
 				
-			// copy [BP] XP
+			// copy [DP] XP
 				
 			case INST_COPY_DPA_BP:
 				bp = data[dp];
+				break;
+				
+			case INST_COPY_DPA_DP:
+				dp = data[dp];
+				break;
+				
+			// copy XP [DP]
+				
+			case INST_COPY_BP_DPA:
+				data[dp] = bp;
+				break;
+				
+			case INST_COPY_DP_DPA:
+				data[dp] = dp;
+				break;
+				
+			// copy IA XP
+				
+			case INST_COPY_IA_BP:
+				bp = data[nextInt()];
+				break;
+				
+			case INST_COPY_IA_DP:
+				dp = data[nextInt()];
+				break;
+				
+			// copy XP IA
+				
+			case INST_COPY_BP_IA:
+				data[nextInt()] = bp;
+				break;
+				
+			case INST_COPY_DP_IA:
+				data[nextInt()] = dp;
 				break;
 				
 			// test BS ? IM32
@@ -240,6 +322,32 @@ public class AnalyzerMachine
 				test |= (buffer.length >= nextInt());
 				break;
 				
+			// test xor BS ? IM32
+				
+			case INST_TEST_XOR_BS_EQ_IM32:
+				test ^= (buffer.length == nextInt());
+				break;
+				
+			case INST_TEST_XOR_BS_NE_IM32:
+				test ^= (buffer.length != nextInt());
+				break;
+				
+			case INST_TEST_XOR_BS_LT_IM32:
+				test ^= (buffer.length < nextInt());
+				break;
+				
+			case INST_TEST_XOR_BS_LE_IM32:
+				test ^= (buffer.length <= nextInt());
+				break;
+				
+			case INST_TEST_XOR_BS_GT_IM32:
+				test ^= (buffer.length > nextInt());
+				break;
+				
+			case INST_TEST_XOR_BS_GE_IM32:
+				test ^= (buffer.length >= nextInt());
+				break;
+				
 			// test DS ? IM32
 				
 			case INST_TEST_DS_EQ_IM32:
@@ -265,6 +373,84 @@ public class AnalyzerMachine
 			case INST_TEST_DS_GE_IM32:
 				test = (data.length >= nextInt());
 				break;
+				
+			// test and DS ? IM32
+				
+			case INST_TEST_AND_DS_EQ_IM32:
+				test &= (data.length == nextInt());
+				break;
+				
+			case INST_TEST_AND_DS_NE_IM32:
+				test &= (data.length != nextInt());
+				break;
+				
+			case INST_TEST_AND_DS_LT_IM32:
+				test &= (data.length < nextInt());
+				break;
+				
+			case INST_TEST_AND_DS_LE_IM32:
+				test &= (data.length <= nextInt());
+				break;
+				
+			case INST_TEST_AND_DS_GT_IM32:
+				test &= (data.length > nextInt());
+				break;
+				
+			case INST_TEST_AND_DS_GE_IM32:
+				test &= (data.length >= nextInt());
+				break;
+				
+			// test or DS ? IM32
+				
+			case INST_TEST_OR_DS_EQ_IM32:
+				test |= (data.length == nextInt());
+				break;
+				
+			case INST_TEST_OR_DS_NE_IM32:
+				test |= (data.length != nextInt());
+				break;
+				
+			case INST_TEST_OR_DS_LT_IM32:
+				test |= (data.length < nextInt());
+				break;
+				
+			case INST_TEST_OR_DS_LE_IM32:
+				test |= (data.length <= nextInt());
+				break;
+				
+			case INST_TEST_OR_DS_GT_IM32:
+				test |= (data.length > nextInt());
+				break;
+				
+			case INST_TEST_OR_DS_GE_IM32:
+				test |= (data.length >= nextInt());
+				break;
+				
+			// test xor DS ? IM32
+				
+			case INST_TEST_XOR_DS_EQ_IM32:
+				test |= (data.length == nextInt());
+				break;
+				
+			case INST_TEST_XOR_DS_NE_IM32:
+				test |= (data.length != nextInt());
+				break;
+				
+			case INST_TEST_XOR_DS_LT_IM32:
+				test |= (data.length < nextInt());
+				break;
+				
+			case INST_TEST_XOR_DS_LE_IM32:
+				test |= (data.length <= nextInt());
+				break;
+				
+			case INST_TEST_XOR_DS_GT_IM32:
+				test |= (data.length > nextInt());
+				break;
+				
+			case INST_TEST_XOR_DS_GE_IM32:
+				test |= (data.length >= nextInt());
+				break;	
 			
 			// JUMP
 				
