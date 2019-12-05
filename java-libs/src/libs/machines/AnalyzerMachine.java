@@ -50,7 +50,21 @@ public class AnalyzerMachine
 	public static final byte INST_COPY_IM32_BP =		BASE1 + 1;
 	public static final byte INST_COPY_IM32_DP =		BASE1 + 2;
 	
-	private static final byte BASE2 =					INST_COPY_IM32_DP;
+	public static final byte INST_COPY_BS_BP =			BASE1 + 3;
+	public static final byte INST_COPY_DS_DP =			BASE1 + 4;
+	
+	private static final byte BASE6 =					INST_COPY_DS_DP;
+	
+	public static final byte INST_COPY_IM8_BPA =		BASE6 + 1;
+	public static final byte INST_COPY_IM32_DPA =		BASE6 + 2;
+	
+	public static final byte INST_COPY_DPA_BP =			BASE6 + 3;
+	public static final byte INST_COPY_DPA_DP =			BASE6 + 4;
+	
+	public static final byte INST_COPY_BP_DPA =			BASE6 + 5;
+	public static final byte INST_COPY_DP_DPA =			BASE6 + 5;
+	
+	private static final byte BASE2 =					INST_COPY_DP_DPA;
 	
 	public static final byte INST_TEST_BS_EQ_IM32 =		BASE2 + 1;
 	public static final byte INST_TEST_BS_NE_IM32 =		BASE2 + 2;
@@ -78,6 +92,10 @@ public class AnalyzerMachine
 	public static final byte INST_TJMP_A32 =			BASE4 + 2;
 	public static final byte INST_FJMP_A32 =			BASE4 + 3;
 	
+	private static final byte BASE5 =					INST_FJMP_A32;
+	
+	public static final byte INST_EXIT =				BASE5 + 1;
+	
 	public void run(byte[] bytes)
 	{		
 		buffer = bytes;
@@ -90,6 +108,8 @@ public class AnalyzerMachine
 			case INST_NOOP:
 				break;
 				
+			// COPY IM32 XP
+				
 			case INST_COPY_IM32_BP:
 				bp = nextInt();
 				break;
@@ -98,7 +118,17 @@ public class AnalyzerMachine
 				dp = nextInt();
 				break;
 				
-			// BS ?? IM32
+			// COPY XS XP
+				
+			case INST_COPY_BS_BP:
+				bp = buffer.length;
+				break;
+				
+			case INST_COPY_DS_DP:
+				dp = data.length;
+				break;
+				
+			// TEST BS ?? IM32
 			
 			case INST_TEST_BS_EQ_IM32:
 				test = (buffer.length == nextInt());
@@ -165,8 +195,7 @@ public class AnalyzerMachine
 				jp = nextInt();
 				if (!test) ip = jp;
 				break;
-				
-				
+			
 			}
 		}
 	}
