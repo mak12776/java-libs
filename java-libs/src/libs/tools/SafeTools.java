@@ -2,6 +2,8 @@ package libs.tools;
 
 public class SafeTools
 {
+	// bits & bytes
+	
 	public static final boolean CHECK_INTEGER_BITS = true;
 	
 	public static void checkIntegerBits(final int bits)
@@ -25,6 +27,26 @@ public class SafeTools
 		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES))
 			throw new IllegalArgumentException("invalid array size bytes: " + bytes);
 	}
+	
+	// index & size
+
+	public static final boolean CHECK_NEGATIVE_INDEX = true;
+	
+	public static void checkNegativeIndex(final int index)
+	{
+		if (index < 0)
+			throw new IllegalArgumentException("negative index: " + index);
+	}
+	
+	public static final boolean CHECK_INVALID_SIZE = true;
+	
+	public static void checkInvalidSize(final int size, int min, int max)
+	{
+		if (size < min || size > max)
+			throw new IllegalArgumentException("invalid size: " + size);
+	}
+	
+	// buffer index
 	
 	public static final boolean CHECK_BUFFER_START_END = false;
 	

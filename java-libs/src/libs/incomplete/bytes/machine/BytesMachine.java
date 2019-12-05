@@ -1,4 +1,4 @@
-package libs.machines;
+package libs.incomplete.bytes.machine;
 
 public class BytesMachine 
 {

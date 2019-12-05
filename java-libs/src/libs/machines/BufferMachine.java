@@ -19,6 +19,4 @@ public class BufferMachine
 		this.buffers = new byte[numberOfBuffers][];
 		this.bp = new int[numberOfPointers];
 	}
-	
-	
 }

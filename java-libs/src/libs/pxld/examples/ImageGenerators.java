@@ -4,7 +4,7 @@ import libs.pxld.Image;
 import libs.pxld.Picture.MapFunction;
 import libs.pxld.types.ColorMode;
 import libs.pxld.types.IntPoint;
-import olds.pxld.MathTools;
+import libs.tools.MathTools;
 
 public class ImageGenerators 
 {
