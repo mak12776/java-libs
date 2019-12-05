@@ -429,28 +429,28 @@ public class AnalyzerMachine
 			// test xor DS ? IM32
 				
 			case INST_TEST_XOR_DS_EQ_IM32:
-				test |= (data.length == nextInt());
+				test ^= (data.length == nextInt());
 				break;
 				
 			case INST_TEST_XOR_DS_NE_IM32:
-				test |= (data.length != nextInt());
+				test ^= (data.length != nextInt());
 				break;
 				
 			case INST_TEST_XOR_DS_LT_IM32:
-				test |= (data.length < nextInt());
+				test ^= (data.length < nextInt());
 				break;
 				
 			case INST_TEST_XOR_DS_LE_IM32:
-				test |= (data.length <= nextInt());
+				test ^= (data.length <= nextInt());
 				break;
 				
 			case INST_TEST_XOR_DS_GT_IM32:
-				test |= (data.length > nextInt());
+				test ^= (data.length > nextInt());
 				break;
 				
 			case INST_TEST_XOR_DS_GE_IM32:
-				test |= (data.length >= nextInt());
-				break;	
+				test ^= (data.length >= nextInt());
+				break;
 			
 			// JUMP
 				
