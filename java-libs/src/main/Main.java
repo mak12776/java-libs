@@ -6,6 +6,9 @@ public class Main
 	
 	public static void main(String[] args)
 	{
-		int a = 10;
+		boolean a = true;
+		int b = 10;
+		if (a & (b == 10))
+			System.out.println("bye");
 	}
 }

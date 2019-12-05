@@ -43,58 +43,76 @@ public class AnalyzerMachine
 	
 	// instruction
 	
-	public static final byte INST_NOOP = 				0x00;
+	public static final byte INST_NOOP = 					0x00;
 	
-	private static final byte BASE1 =					INST_NOOP;
+	private static final byte BASE1 =						INST_NOOP;
 	
-	public static final byte INST_COPY_IM32_BP =		BASE1 + 1;
-	public static final byte INST_COPY_IM32_DP =		BASE1 + 2;
+	public static final byte INST_COPY_IM32_BP =			BASE1 + 1;
+	public static final byte INST_COPY_IM32_DP =			BASE1 + 2;
 	
-	public static final byte INST_COPY_BS_BP =			BASE1 + 3;
-	public static final byte INST_COPY_DS_DP =			BASE1 + 4;
+	public static final byte INST_COPY_BS_BP =				BASE1 + 3;
+	public static final byte INST_COPY_DS_DP =				BASE1 + 4;
 	
-	private static final byte BASE6 =					INST_COPY_DS_DP;
+	private static final byte BASE6 =						INST_COPY_DS_DP;
 	
-	public static final byte INST_COPY_IM8_BPA =		BASE6 + 1;
-	public static final byte INST_COPY_IM32_DPA =		BASE6 + 2;
+	public static final byte INST_COPY_IM8_BPA =			BASE6 + 1;
+	public static final byte INST_COPY_IM32_DPA =			BASE6 + 2;
 	
-	public static final byte INST_COPY_DPA_BP =			BASE6 + 3;
-	public static final byte INST_COPY_DPA_DP =			BASE6 + 4;
+	public static final byte INST_COPY_DPA_BP =				BASE6 + 3;
+	public static final byte INST_COPY_DPA_DP =				BASE6 + 4;
 	
-	public static final byte INST_COPY_BP_DPA =			BASE6 + 5;
-	public static final byte INST_COPY_DP_DPA =			BASE6 + 5;
+	public static final byte INST_COPY_BP_DPA =				BASE6 + 5;
+	public static final byte INST_COPY_DP_DPA =				BASE6 + 6;
 	
-	private static final byte BASE2 =					INST_COPY_DP_DPA;
+	private static final byte BASE2 =						INST_COPY_DP_DPA;
 	
-	public static final byte INST_TEST_BS_EQ_IM32 =		BASE2 + 1;
-	public static final byte INST_TEST_BS_NE_IM32 =		BASE2 + 2;
+	public static final byte INST_TEST_BS_EQ_IM32 =			BASE2 + 1;
+	public static final byte INST_TEST_BS_NE_IM32 =			BASE2 + 2;
 	
-	public static final byte INST_TEST_BS_LT_IM32 =		BASE2 + 3;
-	public static final byte INST_TEST_BS_LE_IM32 =		BASE2 + 4;
+	public static final byte INST_TEST_BS_LT_IM32 =			BASE2 + 3;
+	public static final byte INST_TEST_BS_LE_IM32 =			BASE2 + 4;
 	
-	public static final byte INST_TEST_BS_GT_IM32 =		BASE2 + 5;
-	public static final byte INST_TEST_BS_GE_IM32 =		BASE2 + 6;
+	public static final byte INST_TEST_BS_GT_IM32 =			BASE2 + 5;
+	public static final byte INST_TEST_BS_GE_IM32 =			BASE2 + 6;
 	
-	private static final byte BASE3 =					INST_TEST_BS_GE_IM32;
+	public static final byte INST_TEST_AND_BS_EQ_IM32 =		BASE2 + 7;
+	public static final byte INST_TEST_AND_BS_NE_IM32 =		BASE2 + 8;
 	
-	public static final byte INST_TEST_DS_EQ_IM32 = 	BASE3 + 1;
-	public static final byte INST_TEST_DS_NE_IM32 = 	BASE3 + 2;
+	public static final byte INST_TEST_AND_BS_LT_IM32 =		BASE2 + 9;
+	public static final byte INST_TEST_AND_BS_LE_IM32 =		BASE2 + 10;
 	
-	public static final byte INST_TEST_DS_LT_IM32 = 	BASE3 + 3;
-	public static final byte INST_TEST_DS_LE_IM32 = 	BASE3 + 4;
+	public static final byte INST_TEST_AND_BS_GT_IM32 =		BASE2 + 11;
+	public static final byte INST_TEST_AND_BS_GE_IM32 =		BASE2 + 12;
 	
-	public static final byte INST_TEST_DS_GT_IM32 = 	BASE3 + 5;
-	public static final byte INST_TEST_DS_GE_IM32 = 	BASE3 + 6;
+	public static final byte INST_TEST_OR_BS_EQ_IM32 =		BASE2 + 13;
+	public static final byte INST_TEST_OR_BS_NE_IM32 =		BASE2 + 14;
 	
-	private static final byte BASE4 =					INST_TEST_DS_GE_IM32;
+	public static final byte INST_TEST_OR_BS_LT_IM32 =		BASE2 + 15;
+	public static final byte INST_TEST_OR_BS_LE_IM32 =		BASE2 + 16;
 	
-	public static final byte INST_JUMP_A32 =			BASE4 + 1;
-	public static final byte INST_TJMP_A32 =			BASE4 + 2;
-	public static final byte INST_FJMP_A32 =			BASE4 + 3;
+	public static final byte INST_TEST_OR_BS_GT_IM32 =		BASE2 + 17;
+	public static final byte INST_TEST_OR_BS_GE_IM32 =		BASE2 + 18;
 	
-	private static final byte BASE5 =					INST_FJMP_A32;
+	private static final byte BASE3 =						INST_TEST_OR_BS_GE_IM32;
 	
-	public static final byte INST_EXIT =				BASE5 + 1;
+	public static final byte INST_TEST_DS_EQ_IM32 = 		BASE3 + 1;
+	public static final byte INST_TEST_DS_NE_IM32 = 		BASE3 + 2;
+	
+	public static final byte INST_TEST_DS_LT_IM32 = 		BASE3 + 3;
+	public static final byte INST_TEST_DS_LE_IM32 = 		BASE3 + 4;
+	
+	public static final byte INST_TEST_DS_GT_IM32 = 		BASE3 + 5;
+	public static final byte INST_TEST_DS_GE_IM32 = 		BASE3 + 6;
+	
+	private static final byte BASE4 =						INST_TEST_DS_GE_IM32;
+	
+	public static final byte INST_JUMP_A32 =				BASE4 + 1;
+	public static final byte INST_TJMP_A32 =				BASE4 + 2;
+	public static final byte INST_FJMP_A32 =				BASE4 + 3;
+	
+	private static final byte BASE5 =						INST_FJMP_A32;
+	
+	public static final byte INST_EXIT =					BASE5 + 1;
 	
 	public void run(byte[] bytes)
 	{		
@@ -108,7 +126,7 @@ public class AnalyzerMachine
 			case INST_NOOP:
 				break;
 				
-			// COPY IM32 XP
+			// copy IM32 XP
 				
 			case INST_COPY_IM32_BP:
 				bp = nextInt();
@@ -118,7 +136,7 @@ public class AnalyzerMachine
 				dp = nextInt();
 				break;
 				
-			// COPY XS XP
+			// copy XS XP
 				
 			case INST_COPY_BS_BP:
 				bp = buffer.length;
@@ -128,7 +146,23 @@ public class AnalyzerMachine
 				dp = data.length;
 				break;
 				
-			// TEST BS ?? IM32
+			// copy IMX XPA
+				
+			case INST_COPY_IM8_BPA:
+				buffer[bp] = nextByte();
+				break;
+				
+			case INST_COPY_IM32_DPA:
+				data[dp] = nextInt();
+				break;
+				
+			// copy [BP] XP
+				
+			case INST_COPY_DPA_BP:
+				bp = data[dp];
+				break;
+				
+			// test BS ? IM32
 			
 			case INST_TEST_BS_EQ_IM32:
 				test = (buffer.length == nextInt());
@@ -154,7 +188,59 @@ public class AnalyzerMachine
 				test = (buffer.length >= nextInt());
 				break;
 				
-			// DS ?? IM32
+			// test and BS ? IM32
+				
+			case INST_TEST_AND_BS_EQ_IM32:
+				test &= (buffer.length == nextInt());
+				break;
+				
+			case INST_TEST_AND_BS_NE_IM32:
+				test &= (buffer.length != nextInt());
+				break;
+				
+			case INST_TEST_AND_BS_LT_IM32:
+				test &= (buffer.length < nextInt());
+				break;
+				
+			case INST_TEST_AND_BS_LE_IM32:
+				test &= (buffer.length <= nextInt());
+				break;
+				
+			case INST_TEST_AND_BS_GT_IM32:
+				test &= (buffer.length > nextInt());
+				break;
+				
+			case INST_TEST_AND_BS_GE_IM32:
+				test &= (buffer.length >= nextInt());
+				break;
+				
+			// test or BS ? IM32
+				
+			case INST_TEST_OR_BS_EQ_IM32:
+				test |= (buffer.length == nextInt());
+				break;
+				
+			case INST_TEST_OR_BS_NE_IM32:
+				test |= (buffer.length != nextInt());
+				break;
+				
+			case INST_TEST_OR_BS_LT_IM32:
+				test |= (buffer.length < nextInt());
+				break;
+				
+			case INST_TEST_OR_BS_LE_IM32:
+				test |= (buffer.length <= nextInt());
+				break;
+				
+			case INST_TEST_OR_BS_GT_IM32:
+				test |= (buffer.length > nextInt());
+				break;
+				
+			case INST_TEST_OR_BS_GE_IM32:
+				test |= (buffer.length >= nextInt());
+				break;
+				
+			// test DS ? IM32
 				
 			case INST_TEST_DS_EQ_IM32:
 				test = (data.length == nextInt());
