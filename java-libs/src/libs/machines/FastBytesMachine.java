@@ -88,6 +88,8 @@ public class FastBytesMachine
 			case INST_NOOP:
 				break;
 				
+			// INST_COPY_IM32_XP
+				
 			case INST_COPY_IM32_XP | B_BIT:
 				bp = nextInt();
 				break;
@@ -96,6 +98,7 @@ public class FastBytesMachine
 				dp = nextInt();
 				break;
 				
+			// INST_COPY_IMX_XPA
 				
 			case INST_COPY_IMX_XPA | B_BIT:
 				buffer[bp] = nextByte();
@@ -104,7 +107,8 @@ public class FastBytesMachine
 			case INST_COPY_IMX_XPA | D_BIT:
 				data[dp] = nextInt();
 				break;
-				
+			
+			// INST_TEST_XX_EQ_IM32 | BP
 
 			case INST_TEST_XX_EQ_IM32 | BP_BIT | TEST_BIT:
 				test = (bp == nextInt());
@@ -130,6 +134,7 @@ public class FastBytesMachine
 				test = (bp <= nextInt());
 				break;
 				
+			// INST_TEST_XX_EQ_IM32 | DP
 				
 			case INST_TEST_XX_EQ_IM32 | DP_BIT | TEST_BIT:
 				test = (dp == nextInt());
@@ -154,7 +159,8 @@ public class FastBytesMachine
 			case INST_TEST_XX_GT_IM32 | DP_BIT | NOT_BIT:
 				test = (dp <= nextInt());
 				break;
-				
+			
+			// INST_TEST_XX_EQ_IM32 | BS
 				
 			case INST_TEST_XX_EQ_IM32 | BS_BIT | TEST_BIT:
 				test = (buffer.length == nextInt());
@@ -180,6 +186,7 @@ public class FastBytesMachine
 				test = (buffer.length <= nextInt());
 				break;
 				
+			// INST_TEST_XX_EQ_IM32 | DS
 				
 			case INST_TEST_XX_EQ_IM32 | DS_BIT | TEST_BIT:
 				test = (data.length == nextInt());
