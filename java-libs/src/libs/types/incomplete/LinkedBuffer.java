@@ -1,4 +1,6 @@
-package libs.types;
+package libs.types.incomplete;
+
+import libs.types.Buffer;
 
 public class LinkedBuffer
 {

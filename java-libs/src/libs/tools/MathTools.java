@@ -2,50 +2,60 @@ package libs.tools;
 
 public class MathTools 
 {
+	private MathTools() {}
+	
 	// minimum & maximum
 	
-	public static double min(double a, double... others)
+	public static class Double
 	{
-		double min = a;
-		for (int i = 0; i < others.length; i += 1)
+		private Double() {};
+		
+		public static double min(double a, double... others)
 		{
-			if (others[i] < min)
-				min = others[i];
+			double min = a;
+			for (int i = 0; i < others.length; i += 1)
+			{
+				if (others[i] < min)
+					min = others[i];
+			}
+			return min;
 		}
-		return min;
+		
+		public static double max(double a, double... others)
+		{
+			double max = a;
+			for (int i = 0; i < others.length; i += 1)
+			{
+				if (others[i] > max)
+					max = others[i];
+			}
+			return max;
+		}
 	}
 	
-	public static double max(double a, double... others)
+	public static class Integer
 	{
-		double max = a;
-		for (int i = 0; i < others.length; i += 1)
+		public static int min(int a, int... others)
 		{
-			if (others[i] > max)
-				max = others[i];
+			int min = a;
+			for (int i = 0; i < others.length; i += 1)
+			{
+				if (others[i] < min)
+					min = others[i];
+			}
+			return min;
 		}
-		return max;
-	}
-	
-	public static int min(int a, int... others)
-	{
-		int min = a;
-		for (int i = 0; i < others.length; i += 1)
+		
+		public static int max(int a, int... others)
 		{
-			if (others[i] < min)
-				min = others[i];
+			int max = a;
+			for (int i = 0; i < others.length; i += 1)
+			{
+				if (others[i] > max)
+					max = others[i];
+			}
+			return max;
 		}
-		return min;
-	}
-	
-	public static int max(int a, int... others)
-	{
-		int max = a;
-		for (int i = 0; i < others.length; i += 1)
-		{
-			if (others[i] > max)
-				max = others[i];
-		}
-		return max;
 	}
 	
 	// point calculations
