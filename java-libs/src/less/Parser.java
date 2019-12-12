@@ -3,7 +3,7 @@ package less;
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
 import libs.bytes.BufferUnpackedViews;
-import libs.tools.BytesTools;
+import libs.tools.ByteTools;
 import libs.types.ByteTest;
 
 public class Parser
@@ -122,7 +122,7 @@ public class Parser
 		if (end)
 			return null;
 		
-		while (BytesTools.isBlank(getByte()))
+		while (ByteTools.isBlank(getByte()))
 		{
 			incIndex();
 			if (end)
@@ -138,7 +138,7 @@ public class Parser
 		
 		// check keyword
 		
-		else if (BytesTools.isLower(getByte()))
+		else if (ByteTools.isLower(getByte()))
 		{
 			setStartEndLine();
 			setStartIndex();

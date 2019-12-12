@@ -1,6 +1,6 @@
 package libs.types;
 
-import libs.tools.BytesTools;
+import libs.tools.ByteTools;
 
 public interface ByteTest
 {
@@ -39,7 +39,7 @@ public interface ByteTest
 			@Override
 			public boolean test(byte b)
 			{
-				return BytesTools.byteIn(b, bytes);
+				return ByteTools.byteIn(b, bytes);
 			}
 		};
 	}
@@ -53,7 +53,7 @@ public interface ByteTest
 			@Override
 			public boolean test(byte b)
 			{
-				return BytesTools.byteIn(b, bytes);
+				return ByteTools.byteIn(b, bytes);
 			}
 		}; 
 	}
@@ -105,7 +105,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isNull(b);
+			return ByteTools.isNull(b);
 		}
 	};
 	
@@ -114,7 +114,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b) 
 		{
-			return BytesTools.isBlank(b);
+			return ByteTools.isBlank(b);
 		}
 	};
 	
@@ -123,7 +123,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isCarriageReturn(b);
+			return ByteTools.isCarriageReturn(b);
 		}
 	};
 	
@@ -132,7 +132,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b) 
 		{
-			return BytesTools.isNewline(b);
+			return ByteTools.isNewline(b);
 		}
 	};
 	
@@ -141,7 +141,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isUpper(b);
+			return ByteTools.isUpper(b);
 		}
 	};
 	
@@ -150,7 +150,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isLower(b);
+			return ByteTools.isLower(b);
 		}
 	};
 	
@@ -159,7 +159,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isLetter(b);
+			return ByteTools.isLetter(b);
 		}
 	};
 	
@@ -168,7 +168,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isLetterDigit(b);
+			return ByteTools.isLetterDigit(b);
 		}
 	};
 	
@@ -177,7 +177,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isDigit(b);
+			return ByteTools.isDigit(b);
 		}
 	};
 	
@@ -186,7 +186,7 @@ public interface ByteTest
 		@Override
 		public boolean test(byte b)
 		{
-			return BytesTools.isHexDigit(b);
+			return ByteTools.isHexDigit(b);
 		}
 	};
 }

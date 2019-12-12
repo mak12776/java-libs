@@ -1,7 +1,7 @@
 package libs.incomplete.machines;
 
 import libs.exceptions.InvalidByteCodeException;
-import libs.tools.BytesTools;
+import libs.tools.ByteTools;
 import libs.tools.SafeTools;
 
 public class OldUltraMachine
@@ -117,7 +117,7 @@ public class OldUltraMachine
 		nextReg(size);
 		nextIm(size);
 		
-		registers[regNum] = (registers[regNum] & ~(BytesTools.getMask(size) << regIndex)) | (IM << regIndex);
+		registers[regNum] = (registers[regNum] & ~(ByteTools.getMask(size) << regIndex)) | (IM << regIndex);
 	}
 	
 	public static final short INST_COPY_RA_IM8 = 	0x5;
@@ -130,7 +130,7 @@ public class OldUltraMachine
 		nextRegAddr();
 		nextIm(size);
 		
-		BytesTools.write(buffer, ADDR, size, IM);
+		ByteTools.write(buffer, ADDR, size, IM);
 	}
 	
 	public static final short INST_COPY_IA_IM8 = 	0x9;
@@ -143,7 +143,7 @@ public class OldUltraMachine
 		nextImAddr();
 		nextIm(size);
 		
-		BytesTools.write(buffer, ADDR, size, IM);
+		ByteTools.write(buffer, ADDR, size, IM);
 	}
 	
 	public static final short INST_EXIT =			0xFF;

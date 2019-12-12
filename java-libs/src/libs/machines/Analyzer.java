@@ -1,6 +1,6 @@
 package libs.machines;
 
-public class AnalyzerMachine
+public class Analyzer
 {
 	private byte[] instBuffer;
 	private byte[] buffer;
@@ -15,7 +15,7 @@ public class AnalyzerMachine
 	//	bs: buffer size
 	//	ds:	data size
 	
-	public AnalyzerMachine(byte[] instBuffer, int dataSize, int startPointer, int initialBufferPointer, int initalDataPointer)
+	public Analyzer(byte[] instBuffer, int dataSize, int startPointer, int initialBufferPointer, int initalDataPointer)
 	{
 		this.instBuffer = instBuffer;
 		this.data = new int[dataSize];
@@ -59,12 +59,11 @@ public class AnalyzerMachine
 	public static final byte INST_COPY_IM32_DPA =			BASE6 + 2;
 	
 	public static final byte INST_COPY_DPA_BP =				BASE6 + 3;
-	public static final byte INST_COPY_DPA_DP =				BASE6 + 4;
+	public static final byte INST_COPY_BP_DPA =				BASE6 + 4;
 	
-	public static final byte INST_COPY_BP_DPA =				BASE6 + 5;
-	public static final byte INST_COPY_DP_DPA =				BASE6 + 6;
+	// unnecessary: INST_COPY_DPA_DP, INST_COPY_DP_DPA
 	
-	private static final byte BASE7 =						INST_COPY_DP_DPA;
+	private static final byte BASE7 =						INST_COPY_BP_DPA;
 	
 	public static final byte INST_COPY_IA_BP =				BASE7 + 1;
 	public static final byte INST_COPY_IA_DP =				BASE7 + 2;
@@ -204,24 +203,16 @@ public class AnalyzerMachine
 				data[dp] = nextInt();
 				break;
 				
-			// copy [DP] XP
+			// copy [DP] BP
 				
 			case INST_COPY_DPA_BP:
 				bp = data[dp];
 				break;
 				
-			case INST_COPY_DPA_DP:
-				dp = data[dp];
-				break;
-				
-			// copy XP [DP]
+			// copy BP [DP]
 				
 			case INST_COPY_BP_DPA:
 				data[dp] = bp;
-				break;
-				
-			case INST_COPY_DP_DPA:
-				data[dp] = dp;
 				break;
 				
 			// copy IA XP
@@ -467,7 +458,6 @@ public class AnalyzerMachine
 				jp = nextInt();
 				if (!test) ip = jp;
 				break;
-			
 			}
 		}
 	}

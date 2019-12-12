@@ -4,7 +4,7 @@ import libs.types.Buffer;
 
 public class LinkedBuffer
 {
-	private static class BufferNode extends Buffer
+	public static class BufferNode extends Buffer
 	{
 		public BufferNode next;
 		

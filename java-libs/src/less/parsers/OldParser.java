@@ -10,7 +10,7 @@ import less.types.tokens.TokenType;
 import less.types.tokens.olds.OldToken;
 import libs.bytes.BufferUnpackedViews;
 import libs.bytes.PackedView;
-import libs.tools.BytesTools;
+import libs.tools.ByteTools;
 import libs.types.ByteTest;
 
 public class OldParser 
@@ -109,7 +109,7 @@ public class OldParser
 					return null;
 				}
 				
-				while (BytesTools.isBlank(getByte()))
+				while (ByteTools.isBlank(getByte()))
 				{
 					incIndex();
 					if (end)
@@ -130,7 +130,7 @@ public class OldParser
 				
 				// keyword or name
 				
-				else if (BytesTools.isLower(getByte()))
+				else if (ByteTools.isLower(getByte()))
 				{
 					setStartIndex();
 					
@@ -150,7 +150,7 @@ public class OldParser
 						return token;
 					}
 					
-					while (BytesTools.isLower(getByte()))
+					while (ByteTools.isLower(getByte()))
 					{
 						incIndex();
 						if (end)
@@ -161,7 +161,7 @@ public class OldParser
 						}
 					}
 					
-					if (BytesTools.isUpper(getByte()) || BytesTools.isDigit(getByte()) || (getByte() == '_'))
+					if (ByteTools.isUpper(getByte()) || ByteTools.isDigit(getByte()) || (getByte() == '_'))
 					{
 						incIndex();
 						if (end)
@@ -172,7 +172,7 @@ public class OldParser
 							return token;
 						}
 						
-						while (BytesTools.isLetter(getByte()) || BytesTools.isDigit(getByte()) || (getByte() == '_'))
+						while (ByteTools.isLetter(getByte()) || ByteTools.isDigit(getByte()) || (getByte() == '_'))
 						{
 							incIndex();
 							if (end)
@@ -193,7 +193,7 @@ public class OldParser
 				
 				// name
 				
-				else if (BytesTools.isUpper(getByte()) || (getByte() == '_'))
+				else if (ByteTools.isUpper(getByte()) || (getByte() == '_'))
 				{
 					setStartIndex();
 					
@@ -206,7 +206,7 @@ public class OldParser
 						return token;
 					}
 					
-					while (BytesTools.isLetter(getByte()) || BytesTools.isDigit(getByte()) || (getByte() == '_'))
+					while (ByteTools.isLetter(getByte()) || ByteTools.isDigit(getByte()) || (getByte() == '_'))
 					{
 						incIndex();
 						if (end)
@@ -229,7 +229,7 @@ public class OldParser
 				
 				// number
 				
-				else if (BytesTools.isDigit(getByte()))
+				else if (ByteTools.isDigit(getByte()))
 				{
 					setStartIndex();
 					
@@ -242,7 +242,7 @@ public class OldParser
 						return token;
 					}
 					
-					while (BytesTools.isDigit(getByte()))
+					while (ByteTools.isDigit(getByte()))
 					{
 						incIndex();
 						if (end)
