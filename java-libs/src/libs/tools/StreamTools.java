@@ -51,7 +51,7 @@ public class StreamTools
 	
 	public static BytesView[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
 	{
-		return BytesTools.splitLines(c, readFile(stream));
+		return ByteTools.splitLines(c, readFile(stream));
 	}
 	
 	public static BufferUnpackedViews readLineViews(FileInputStream stream) throws IOException, BaseException
@@ -59,7 +59,7 @@ public class StreamTools
 		BufferUnpackedViews result = new BufferUnpackedViews(null, null);
 		
 		result.buffer = readFile(stream);
-		result.views = (UnpackedView[]) BytesTools.splitLines(UnpackedView.class, result.buffer);
+		result.views = (UnpackedView[]) ByteTools.splitLines(UnpackedView.class, result.buffer);
 		return result;
 	}
 	

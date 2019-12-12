@@ -10,7 +10,7 @@ import libs.exceptions.UnknownClassException;
 import libs.tests.junit.BytesToolsTest;
 import libs.types.ByteTest;
 
-public class BytesTools
+public class ByteTools
 {	
 	public static boolean isNull(byte b)
 	{

@@ -1,6 +1,6 @@
 package libs.types;
 
-import libs.tools.BytesTools;
+import libs.tools.ByteTools;
 
 public class Buffer
 {	
@@ -48,37 +48,37 @@ public class Buffer
 	{
 		int bufferLength = end - start;
 		
-		BytesTools.copy(this.buffer, this.length, buffer, start, bufferLength);
+		ByteTools.copy(this.buffer, this.length, buffer, start, bufferLength);
 		length += bufferLength;
 	}
 	
 	public void append(int size, long value)
 	{	
-		BytesTools.write(this.buffer, this.length, size, value);
+		ByteTools.write(this.buffer, this.length, size, value);
 		length += size;
 	}
 	
 	public void appendByte(byte value)
 	{
-		BytesTools.writeByte(buffer, length, value);
+		ByteTools.writeByte(buffer, length, value);
 		length += Byte.BYTES;
 	}
 	
 	public void appendShort(short value)
 	{
-		BytesTools.writeShort(buffer, length, value);
+		ByteTools.writeShort(buffer, length, value);
 		length += Short.BYTES;
 	}
 	
 	public void appnedInt(int value)
 	{
-		BytesTools.writeInt(buffer, length, value);
+		ByteTools.writeInt(buffer, length, value);
 		length += Integer.BYTES;
 	}
 	
 	public void appendLong(long value)
 	{
-		BytesTools.writeLong(buffer, length, value);
+		ByteTools.writeLong(buffer, length, value);
 		length += Long.BYTES;
 	}
 }
