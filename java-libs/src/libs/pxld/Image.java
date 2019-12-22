@@ -37,12 +37,6 @@ public class Image implements Picture
 		this.yWidth = height * xWidth;
 	}
 	
-	public Image(ColorMode mode, int x, int y, MapFunction map)
-	{
-		this(mode, x, y);
-		this.map(map);
-	}
-	
 	public Image(ColorMode mode, IntPoint size)
 	{
 		this(mode, size.x, size.y);

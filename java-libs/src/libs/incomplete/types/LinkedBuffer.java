@@ -1,4 +1,4 @@
-package libs.types.incomplete;
+package libs.incomplete.types;
 
 import libs.types.Buffer;
 
