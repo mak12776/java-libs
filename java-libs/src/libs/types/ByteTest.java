@@ -6,14 +6,14 @@ public interface ByteTest
 {
 	public boolean test(byte b);
 	
-	public static ByteTest isEqual(byte b1)
+	public static ByteTest isEqual(byte ch)
 	{
 		return new ByteTest()
 		{
 			@Override
 			public boolean test(byte b)
 			{
-				return b == b1;
+				return b == ch;
 			}
 		};
 	}

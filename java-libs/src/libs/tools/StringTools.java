@@ -9,7 +9,6 @@ public class StringTools
 		return builder.toString();
 	}
 	
-
 	public static String byteArrayToString(byte[] array, int start, int end)
 	{
 		StringBuilder builder = new StringBuilder();
