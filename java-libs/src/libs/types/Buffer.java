@@ -1,5 +1,8 @@
 package libs.types;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import libs.tools.ByteTools;
 
 public class Buffer
@@ -42,6 +45,42 @@ public class Buffer
 	public boolean isFull()
 	{
 		return (length == buffer.length);
+	}
+	
+	public int readFile(InputStream stream) throws IOException
+	{
+		length = stream.read(buffer);
+		if (length == -1)
+			length = 0;
+		return length;
+	}
+	
+	public int readFileFull(InputStream stream) throws IOException
+	{
+		int readNumber;
+		
+		length = 0;
+		while (length != buffer.length)
+		{
+			readNumber = stream.read(buffer, length, buffer.length - length);
+			if (readNumber == -1)
+				return length;
+			length += readNumber;
+		}
+		return length;
+	}
+	
+	public int readFileMore(InputStream stream) throws IOException
+	{
+		int readNumber;
+		
+		
+		readNumber = stream.read(buffer, length, buffer.length - length);
+		
+		if (readNumber == -1)
+			return 0;
+		length += readNumber;
+		return readNumber;
 	}
 	
 	public void append(byte[] buffer, int start, int end)
