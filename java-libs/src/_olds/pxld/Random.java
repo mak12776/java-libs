@@ -1,4 +1,4 @@
-package olds.pxld;
+package _olds.pxld;
 
 import pxld.types.ColorMode;
 import pxld.types.IntPoint;
