@@ -1,7 +1,0 @@
-
-data types:
-    #moved to design
-
-type function nullstring (var)
-    return (var ?= string) || (var ?= null)
-end type
