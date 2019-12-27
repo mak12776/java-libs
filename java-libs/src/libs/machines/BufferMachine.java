@@ -40,16 +40,23 @@ public class BufferMachine
 	
 	// instructions
 	
-	public final byte INST_NOOP = 0x00;
+	public final short INST_NOOP = 0x00;
 	
 	public void run()
 	{
-		byte inst;
+		short inst;
 		
 		while (true)
 		{
-			inst = nextByte();
+			inst = nextShort();
 			
+			switch (inst)
+			{
+			case INST_NOOP:
+				break;
+				
+				
+			}
 		}
 	}
 }

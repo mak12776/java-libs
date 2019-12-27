@@ -2,7 +2,7 @@ package olds.pxld;
 
 import java.util.Arrays;
 
-import libs.pxld.types.ColorMode;
+import pxld.types.ColorMode;
 
 public class Color 
 {

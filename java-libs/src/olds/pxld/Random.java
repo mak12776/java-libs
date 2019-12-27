@@ -1,7 +1,7 @@
 package olds.pxld;
 
-import libs.pxld.types.ColorMode;
-import libs.pxld.types.IntPoint;
+import pxld.types.ColorMode;
+import pxld.types.IntPoint;
 
 public class Random 
 {

@@ -7,8 +7,8 @@ import libs.bytes.BytesView;
 import libs.bytes.PackedView;
 import libs.bytes.UnpackedView;
 import libs.exceptions.UnknownClassException;
-import libs.tests.junit.BytesToolsTest;
 import libs.types.ByteTest;
+import tests.junit.BytesToolsTest;
 
 public class ByteTools
 {	
