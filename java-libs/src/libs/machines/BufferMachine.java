@@ -40,7 +40,15 @@ public class BufferMachine
 	
 	// instructions
 	
-	public final short INST_NOOP = 0x00;
+	public static final short INST_NOOP = 			0x00;
+	
+	private static final short BASE1 = 				INST_NOOP;
+	
+	public static final short INST_COPY_IM32_DP = 	BASE1 + 1;
+	public static final short INST_COPY_DP_DP = 	BASE1 + 2;
+	
+	private static final short BASE2 = 				INST_COPY_DP_DP;
+	
 	
 	public void run()
 	{

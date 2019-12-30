@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import libs.tools.ByteTools;
+import libs.tools.SafeTools;
 
 public class Buffer
 {	
@@ -35,6 +36,14 @@ public class Buffer
 	public int length()
 	{
 		return length;
+	}
+	
+	public byte get(int index)
+	{
+		if (SafeTools.CHECK_INDEX_OUT_OF_BOUNDS)
+			SafeTools.checkIndexOutOfBounds(index, 0, length);
+		
+		return buffer[index];
 	}
 	
 	public boolean isEmpty()
@@ -74,9 +83,7 @@ public class Buffer
 	{
 		int readNumber;
 		
-		
 		readNumber = stream.read(buffer, length, buffer.length - length);
-		
 		if (readNumber == -1)
 			return 0;
 		length += readNumber;

@@ -2,15 +2,17 @@ package libs.tools;
 
 public class SafeTools
 {
-	// bits & bytes
+	// check integer bits
 	
 	public static final boolean CHECK_INTEGER_BITS = true;
 	
 	public static void checkIntegerBits(final int bits)
 	{
 		if ((bits != Byte.SIZE) && (bits != Short.SIZE) && (bits != Integer.SIZE) && (bits != Long.SIZE))
-			throw new IllegalArgumentException("invalid size: " + bits);
+			throw new IllegalArgumentException("invalid integer bits: " + bits);
 	}
+	
+	// check integer bytes
 	
 	public static final boolean CHECK_INTEGER_BYTES = true;
 	
@@ -19,6 +21,8 @@ public class SafeTools
 		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES) && (bytes != Long.BYTES))
 			throw new IllegalArgumentException("invalid integer bytes: " + bytes);
 	}
+	
+	// check array size bytes
 	
 	public static final boolean CHECK_ARRAY_SIZE_BYTES = false;
 	
@@ -36,6 +40,22 @@ public class SafeTools
 	{
 		if (index < 0)
 			throw new IllegalArgumentException("negative index: " + index);
+	}
+	
+	// out of bounds
+	
+	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
+	
+	public static void checkIndexOutOfBounds(final int index, final int max)
+	{
+		if (index >= max)
+			throw new IndexOutOfBoundsException("index is out of bounds: " + index);
+	}
+	
+	public static void checkIndexOutOfBounds(final int index, final int min, final int max)
+	{
+		if ((index < min) || (index >= max))
+			throw new IndexOutOfBoundsException("index is out of bounds: " + index);
 	}
 	
 	// size
