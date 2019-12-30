@@ -29,6 +29,7 @@ public class ImageGenerators
 	public static Image image2(IntPoint size)
 	{
 		Image image = new Image(ColorMode.L, size);
+		
 		return image;
 	}
 }
