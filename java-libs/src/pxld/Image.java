@@ -242,13 +242,15 @@ public class Image implements Picture
 	
 	public void save(DataOutputStream stream) throws IOException
 	{
-		byte colorByteCode = mode.getByteCode();
+		int colorWidth = mode.getWidth();
 		
-		stream.write(new byte[] {'i', 'm', 'g', '\n'});
+		stream.write(new byte[] {'i', 'm', 'g', '.'});
 		
+		stream.writeByte(4); // size width
+		stream.writeInt(colorWidth);
 		stream.writeInt(width);
 		stream.writeInt(height);
-		stream.writeByte(colorByteCode);
+		
 		
 		stream.write(data);
 	}
