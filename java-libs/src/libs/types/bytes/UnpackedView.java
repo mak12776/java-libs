@@ -1,4 +1,4 @@
-package libs.bytes;
+package libs.types.bytes;
 
 public class UnpackedView implements BytesView
 {

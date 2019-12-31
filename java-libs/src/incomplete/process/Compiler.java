@@ -4,11 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import incomplete.process.Compiler.Settings.SettingsKey;
-import libs.bytes.BufferUnpackedViews;
-import libs.bytes.PackedView;
 import libs.exceptions.BaseException;
 import libs.tools.StreamTools;
 import libs.types.ByteTest;
+import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.PackedView;
 
 public class Compiler 
 {

@@ -4,14 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import libs.bytes.BufferUnpackedViews;
-import libs.bytes.BytesView;
-import libs.bytes.UnpackedView;
 import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.types.Buffer;
+import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BytesView;
+import libs.types.bytes.UnpackedView;
 
 public class StreamTools
 {	

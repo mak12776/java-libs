@@ -2,10 +2,10 @@ package tests.functions;
 
 import java.io.IOException;
 
-import libs.bytes.BufferUnpackedViews;
 import libs.exceptions.BaseException;
 import libs.tools.ByteTools;
 import libs.tools.StreamTools;
+import libs.types.bytes.BufferUnpackedViews;
 
 public class ToolsTest extends BaseTest
 {

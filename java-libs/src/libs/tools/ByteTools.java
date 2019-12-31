@@ -3,11 +3,11 @@ package libs.tools;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import libs.bytes.BytesView;
-import libs.bytes.PackedView;
-import libs.bytes.UnpackedView;
 import libs.exceptions.UnknownClassException;
 import libs.types.ByteTest;
+import libs.types.bytes.BytesView;
+import libs.types.bytes.PackedView;
+import libs.types.bytes.UnpackedView;
 
 public class ByteTools
 {	

@@ -1,6 +1,6 @@
 package libs.machines;
 
-public class BufferMachine
+public class Machine
 {
 	private byte[][] buffers;
 	private int[] dp;
@@ -8,7 +8,7 @@ public class BufferMachine
 	private int bip;
 	private int ip;
 	
-	public BufferMachine(byte[][] buffers, int[] pointers, int baseInstPointer, int instPointer)
+	public Machine(byte[][] buffers, int[] pointers, int baseInstPointer, int instPointer)
 	{
 		this.buffers = buffers;
 		this.dp = pointers;
@@ -44,27 +44,35 @@ public class BufferMachine
 	
 	private static final short BASE1 = 				INST_NOOP;
 	
-	public static final short INST_COPY_IM32_DP = 	BASE1 + 1;
-	public static final short INST_COPY_DP_DP = 	BASE1 + 2;
+	public static final short INST_COPY_IM32_DPI = 	BASE1 + 1;
+	public static final short INST_COPY_DPI_DPI = 	BASE1 + 2;
 	
-	private static final short BASE2 = 				INST_COPY_DP_DP;
+	private static final short BASE2 = 				INST_COPY_DPI_DPI;
 	
 	
-	public void run()
+	public void run() throws MachineRuntimeException
 	{
 		short inst;
+		byte[] instBuffer;
 		
-		while (true)
+		while (bip < buffers.length)
 		{
-			inst = nextShort();
-			
-			switch (inst)
+			instBuffer = buffers[bip];
+			if (instBuffer == null)
 			{
-			case INST_NOOP:
-				break;
-				
+				throw new MachineRuntimeException(
+						ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
+						"null buffer pointer: " + bip);
+			}
+			
+			while (ip < instBuffer[bip])
+			{
 				
 			}
 		}
+		
+		throw new MachineRuntimeException(
+				ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
+				"base instruction pointer is out of range: " + bip);
 	}
 }

@@ -6,6 +6,7 @@ public class BufferStream implements Stream<Buffer>
 {
 	private FileInputStream stream;
 	private Buffer buffer;
+	private boolean getNext;
 	
 	public BufferStream(FileInputStream stream, int bufferSize)
 	{
