@@ -1,4 +1,4 @@
-package libs.types;
+package libs.types.bytes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +22,8 @@ public class Buffer
 		this.buffer = new byte[size];
 		this.length = 0;
 	}
+	
+	// fields functions
 	
 	public byte[] getBytes()
 	{
@@ -56,6 +58,8 @@ public class Buffer
 		return (length == buffer.length);
 	}
 	
+	// file reading functions
+	
 	public int readFile(InputStream stream) throws IOException
 	{
 		length = stream.read(buffer);
@@ -89,6 +93,8 @@ public class Buffer
 		length += readNumber;
 		return readNumber;
 	}
+	
+	// append functions
 	
 	public void append(byte[] buffer, int start, int end)
 	{

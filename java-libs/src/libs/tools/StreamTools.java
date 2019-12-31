@@ -8,21 +8,13 @@ import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
-import libs.types.Buffer;
+import libs.types.bytes.Buffer;
 import libs.types.bytes.BufferUnpackedViews;
 import libs.types.bytes.BytesView;
 import libs.types.bytes.UnpackedView;
 
 public class StreamTools
-{	
-	public static long countLines(FileInputStream stream, int bufferSize)
-	{
-		Buffer buffer = new Buffer(bufferSize);
-		
-		
-		return 0;
-	}
-	
+{
 	public static byte[] readFile(FileInputStream stream) throws IOException, BaseException
 	{
 		long fileSize;

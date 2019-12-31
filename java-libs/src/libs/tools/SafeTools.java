@@ -32,17 +32,7 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid array size bytes: " + bytes);
 	}
 	
-	// index
-
-	public static final boolean CHECK_NEGATIVE_INDEX = true;
-	
-	public static void checkNegativeIndex(final int index)
-	{
-		if (index < 0)
-			throw new IllegalArgumentException("negative index: " + index);
-	}
-	
-	// out of bounds
+	// index out of bounds
 	
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
 	
@@ -62,9 +52,15 @@ public class SafeTools
 	
 	public static final boolean CHECK_INVALID_SIZE = true;
 	
+	public static void checkInvalidSize(final int size, int max)
+	{
+		if (size >= max)
+			throw new IllegalArgumentException("invalid size: " + size);
+	}
+	
 	public static void checkInvalidSize(final int size, int min, int max)
 	{
-		if (size < min || size > max)
+		if ((size < min) || (size >= max))
 			throw new IllegalArgumentException("invalid size: " + size);
 	}
 	

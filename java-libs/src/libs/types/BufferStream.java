@@ -1,12 +1,14 @@
 package libs.types;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 
-public class BufferStream implements Stream<Buffer> 
+import libs.types.bytes.Buffer;
+
+public class BufferStream 
 {
 	private FileInputStream stream;
 	private Buffer buffer;
-	private boolean getNext;
 	
 	public BufferStream(FileInputStream stream, int bufferSize)
 	{
@@ -14,15 +16,10 @@ public class BufferStream implements Stream<Buffer>
 		this.buffer = new Buffer(bufferSize);
 	}
 	
-	@Override
-	public boolean hasNext()
+	public Buffer next() throws IOException
 	{
-		return false;
-	}
-	
-	@Override
-	public Buffer next()
-	{
-		return null;
+		if (buffer.readFile(stream) == 0)
+			return null;
+		return buffer;
 	}
 }

@@ -55,8 +55,8 @@ public class LinkedBuffer
 	
 	public void popFirst(int size)
 	{
-		if (SAFE)
-			SafeTools.checkInvalidSize(size, 0, length);
+		if (SafeTools.CHECK_INVALID_SIZE)
+			SafeTools.checkInvalidSize(size, length);
 		
 		length -= size; 
 		for (int i = 0; i < length; i += 1)
@@ -67,8 +67,8 @@ public class LinkedBuffer
 	
 	public void popLast(int size)
 	{
-		if (SAFE)
-			SafeTools.checkInvalidSize(size, 0, length);
+		if (SafeTools.CHECK_INVALID_SIZE)
+			SafeTools.checkInvalidSize(size, length);
 		
 		length -= size;
 	}

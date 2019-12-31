@@ -59,13 +59,13 @@ public class ByteTools
 		}
 	}
 	
-	public static void writeHex(byte[] buffer, int start, int size, long value, boolean upper)
+	public static void writeHex(byte[] buffer, int offset, int size, long value, boolean upper)
 	{
 		if (SafeTools.CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(size);
 		
 		size *= 2;
-		for (int index = start + size - 1; index >= start; index -= 1)
+		for (int index = offset + size - 1; index >= offset; index -= 1)
 		{
 			buffer[index] = toHex((int) (value & 0x0F), upper);
 			value >>>= 4;
@@ -138,6 +138,8 @@ public class ByteTools
 		return result;
 	}
 	
+	// read functions
+	
 	public static long read(byte[] buffer, int offset, int size)
 	{
 		if (SafeTools.CHECK_INTEGER_BYTES)
@@ -201,6 +203,8 @@ public class ByteTools
 		return value;
 	}
 	
+	// write functions
+	
 	public static void write(byte[] buffer, int offset, int size, long value)
 	{
 		if (SafeTools.CHECK_INTEGER_BYTES)
@@ -243,6 +247,8 @@ public class ByteTools
 		buffer[offset] = (byte) (value & 0xFF);
 	}
 
+	// algorithms
+	
 	public static int find(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;

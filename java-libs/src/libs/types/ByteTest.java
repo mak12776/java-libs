@@ -103,10 +103,9 @@ public interface ByteTest
 			}
 		};
 	}
-	
+
 	// functions
 	
-
 	public static boolean isNull(byte b)
 	{
 		return (b == '\0');
@@ -162,7 +161,7 @@ public interface ByteTest
 				(('A' <= b) && (b <= 'F'));
 	}
 	
-	// class objects
+	// objects
 	
 	public static ByteTest isNullObject = new ByteTest()
 	{

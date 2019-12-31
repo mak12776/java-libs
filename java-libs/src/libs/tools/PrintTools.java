@@ -2,8 +2,6 @@ package libs.tools;
 
 public class PrintTools
 {
-
-	
 	public static void print(long a)
 	{
 		System.out.println("long: " + a);
