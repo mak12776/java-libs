@@ -3,11 +3,11 @@ package less;
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
 import libs.types.ByteTest;
-import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BufferViews;
 
 public class Parser
 {
-	private BufferUnpackedViews bufferLines;
+	private BufferViews bufferLines;
 	
 	private int lnum;
 	private int index;
@@ -16,7 +16,7 @@ public class Parser
 	
 	private Token token;
 	
-	public Parser(BufferUnpackedViews bufferLines)
+	public Parser(BufferViews bufferLines)
 	{
 		this.bufferLines = bufferLines;
 		this.lnum = 0;
@@ -114,7 +114,7 @@ public class Parser
 		return false;
 	}
 	
-	private static final ByteTest isUpperUnderscore = ByteTest.isUpperObject.or(ByteTest.isEqual('_'));
+	private static final ByteTest isUpperUnderscore = ByteTest.Class.isUpper.or(ByteTest.isEqual('_'));
 	
 	public Token nextToken()
 	{
@@ -142,7 +142,7 @@ public class Parser
 			setStartEndLine();
 			setStartIndex();
 			
-			incIndexWhile(ByteTest.isLowerObject);
+			incIndexWhile(ByteTest.Class.isLower);
 			
 			setEndIndex();
 		}
@@ -151,7 +151,7 @@ public class Parser
 		
 		// number
 		
-		else if (checkTokenWhile(ByteTest.isDigitObject, TokenType.NUMBER))
+		else if (checkTokenWhile(ByteTest.Class.isDigit, TokenType.NUMBER))
 			return token;
 		
 		// 

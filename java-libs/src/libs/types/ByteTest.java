@@ -163,93 +163,98 @@ public interface ByteTest
 	
 	// objects
 	
-	public static ByteTest isNullObject = new ByteTest()
+	public static class Class
 	{
-		@Override
-		public boolean test(byte b)
+		public static ByteTest isNull = new ByteTest()
 		{
-			return isNull(b);
-		}
-	};
+			@Override
+			public boolean test(byte b)
+			{
+				return isNull(b);
+			}
+		};
+		
+		public static ByteTest isBlank = new ByteTest() 
+		{
+			@Override
+			public boolean test(byte b) 
+			{
+				return isBlank(b);
+			}
+		};
+		
+		public static ByteTest isCarriageReturn = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isCarriageReturn(b);
+			}
+		};
+		
+		public static ByteTest isNewline = new ByteTest() 
+		{
+			@Override
+			public boolean test(byte b) 
+			{
+				return isNewline(b);
+			}
+		};
+		
+		public static ByteTest isUpper = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isUpper(b);
+			}
+		};
+		
+		public static ByteTest isLower = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isLower(b);
+			}
+		};
+		
+		public static ByteTest isLetter = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isLetter(b);
+			}
+		};
+		
+		public static ByteTest isLetterDigit = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isLetterDigit(b);
+			}
+		};
+		
+		public static ByteTest isDigit = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isDigit(b);
+			}
+		};
+		
+		public static ByteTest isHexDigit = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				return isHexDigit(b);
+			}
+		};
+	}
 	
-	public static ByteTest isBlankObject = new ByteTest() 
-	{
-		@Override
-		public boolean test(byte b) 
-		{
-			return isBlank(b);
-		}
-	};
 	
-	public static ByteTest isCarriageReturnObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isCarriageReturn(b);
-		}
-	};
-	
-	public static ByteTest isNewlineObject = new ByteTest() 
-	{
-		@Override
-		public boolean test(byte b) 
-		{
-			return isNewline(b);
-		}
-	};
-	
-	public static ByteTest isUpperObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isUpper(b);
-		}
-	};
-	
-	public static ByteTest isLowerObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isLower(b);
-		}
-	};
-	
-	public static ByteTest isLetterObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isLetter(b);
-		}
-	};
-	
-	public static ByteTest isLetterDigitObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isLetterDigit(b);
-		}
-	};
-	
-	public static ByteTest isDigitObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isDigit(b);
-		}
-	};
-	
-	public static ByteTest isHexDigitObject = new ByteTest()
-	{
-		@Override
-		public boolean test(byte b)
-		{
-			return isHexDigit(b);
-		}
-	};
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import libs.exceptions.BaseException;
 import libs.tools.ByteTools;
 import libs.tools.StreamTools;
-import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BufferViews;
 
 public class ToolsTest extends BaseTest
 {
@@ -13,7 +13,7 @@ public class ToolsTest extends BaseTest
 	{
 		try
 		{
-			BufferUnpackedViews bufferLines = StreamTools.readLines(name);
+			BufferViews bufferLines = StreamTools.readLines(name);
 			for (int lnum = 0; lnum < bufferLines.views.length; lnum += 1)
 			{
 				output.println(lnum + ": [" + bufferLines.getLineString(lnum) + "]");

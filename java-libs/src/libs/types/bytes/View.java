@@ -1,16 +1,16 @@
 package libs.types.bytes;
 
-public class UnpackedView implements BytesView
+public class View implements BytesView
 {
 	public int start;
 	public int end;
 	
-	public UnpackedView(int start, int end)
+	public View(int start, int end)
 	{
 		set(null, start, end);
 	}
 	
-	public UnpackedView()
+	public View()
 	{
 		this(0, 0);
 	}
@@ -27,20 +27,20 @@ public class UnpackedView implements BytesView
 		this.end = end;
 	}
 	
-	public void copyTo(UnpackedView view)
+	public void copyTo(View view)
 	{
 		view.start = start;
 		view.end = end;
 	}
 	
-	public static UnpackedView[] newArray(int size)
+	public static View[] newArray(int size)
 	{
-		UnpackedView[] result;
+		View[] result;
 		
-		result = new UnpackedView[size];
+		result = new View[size];
 		for (int i = 0; i < result.length; i += 1)
 		{
-			result[i] = new UnpackedView();
+			result[i] = new View();
 		}
 		return result;
 	}

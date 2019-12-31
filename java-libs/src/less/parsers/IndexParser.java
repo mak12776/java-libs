@@ -3,11 +3,11 @@ package less.parsers;
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
 import libs.types.ByteTest;
-import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BufferViews;
 
 public class IndexParser
 {
-	private BufferUnpackedViews bufferLines;
+	private BufferViews bufferLines;
 	private int lnum;
 	private int index;
 	
@@ -15,7 +15,7 @@ public class IndexParser
 	
 	private Token token;
 	
-	public IndexParser(BufferUnpackedViews bufferLines)
+	public IndexParser(BufferViews bufferLines)
 	{
 		this.bufferLines = bufferLines;
 		this.lnum = 0;

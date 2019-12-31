@@ -3,7 +3,7 @@ package libs.types.bytes;
 import libs.tools.ByteTools;
 import libs.types.ByteTest;
 
-public class PackedView implements BytesView
+public class BufferView implements BytesView
 {
 	/*
 	 * 	Slow Packed Bytes View
@@ -27,42 +27,44 @@ public class PackedView implements BytesView
 		view.set(buffer, start, end);
 	}
 	
-	public void swap(PackedView view)
+	public void swap(BufferView view)
 	{
-		PackedView temp = new PackedView();
+		BufferView temp = new BufferView();
 		
 		temp.set(buffer, start, end);
 		set(view.buffer, view.start, view.end);
 		view.set(buffer, start, end);
 	}
 	
-	public PackedView(byte[] buffer, int start, int end)
+	public BufferView(byte[] buffer, int start, int end)
 	{
 		this.set(buffer, start, end);
 	}
 	
-	public PackedView()
+	public BufferView()
 	{
 		this(null, 0, 0);
 	}
 	
-	public static PackedView[] newArray(int size, byte[] buffer, int start, int end)
+	public static BufferView[] newArray(int size, byte[] buffer, int start, int end)
 	{
-		PackedView[] result;
+		BufferView[] result;
 		
-		result = new PackedView[size];
+		result = new BufferView[size];
 		for (int i = 0; i < result.length; i += 1)
 		{
-			result[i] = new PackedView(buffer, start, end);
+			result[i] = new BufferView(buffer, start, end);
 		}
 		
 		return result;
 	}
 	
-	public static PackedView[] newArray(int size)
+	public static BufferView[] newArray(int size)
 	{
 		return newArray(size, null, 0, 0);
 	}
+	
+	// fields functions
 	
 	public int length()
 	{
@@ -79,18 +81,20 @@ public class PackedView implements BytesView
 		return (start != end);
 	}
 	
+	// functions
+	
 	@Override
 	public boolean equals(Object arg0)
 	{
-		return (arg0 instanceof PackedView) ? isEqual((PackedView) arg0) : false;
+		return (arg0 instanceof BufferView) ? isEqual((BufferView) arg0) : false;
 	}
 	
-	public boolean isEqual(PackedView view)
+	public boolean isEqual(BufferView view)
 	{
 		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
 	
-	public boolean isEqual(BufferUnpackedViews views, int index)
+	public boolean isEqual(BufferViews views, int index)
 	{
 		return (length() == views.getLength(index)) && ByteTools.isEqual(buffer, start, views.buffer, views.getStart(index), views.getEnd(index));
 	}
@@ -100,12 +104,12 @@ public class PackedView implements BytesView
 		return (length() == buffer.length) && ByteTools.isEqual(buffer, start, buffer, 0, buffer.length);
 	}
 	
-	public boolean startsWith(PackedView view)
+	public boolean startsWith(BufferView view)
 	{
 		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
-	public boolean startsWith(BufferUnpackedViews views, int index)
+	public boolean startsWith(BufferViews views, int index)
 	{
 		return ByteTools.startsWith(buffer, start, end, views.buffer, views.getStart(index), views.getEnd(index));
 	}
@@ -115,12 +119,12 @@ public class PackedView implements BytesView
 		return ByteTools.startsWith(buffer, start, end, buffer, 0, buffer.length);
 	}
 	
-	public boolean endsWith(PackedView view)
+	public boolean endsWith(BufferView view)
 	{
 		return ByteTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
-	public boolean endsWith(BufferUnpackedViews views, int index)
+	public boolean endsWith(BufferViews views, int index)
 	{
 		return ByteTools.endsWith(buffer, start, end, views.buffer, views.getStart(index), views.getEnd(index));
 	}
@@ -150,17 +154,17 @@ public class PackedView implements BytesView
 		return ByteTools.rfindNot(buffer, start, end, test);
 	}
 	
-	public int search(PackedView view)
+	public int search(BufferView view)
 	{
 		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
-	public int lsearch(PackedView view)
+	public int lsearch(BufferView view)
 	{
 		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
-	public boolean lstrip(PackedView view)
+	public boolean lstrip(BufferView view)
 	{
 		if (startsWith(view))
 		{
@@ -170,7 +174,7 @@ public class PackedView implements BytesView
 		return false;
 	}
 	
-	public boolean rstrip(PackedView view)
+	public boolean rstrip(BufferView view)
 	{
 		if (endsWith(view))
 		{
@@ -180,7 +184,7 @@ public class PackedView implements BytesView
 		return false;
 	}
 	
-	public boolean strip(PackedView prefix, PackedView suffix)
+	public boolean strip(BufferView prefix, BufferView suffix)
 	{
 		if (startsWith(prefix))
 		{

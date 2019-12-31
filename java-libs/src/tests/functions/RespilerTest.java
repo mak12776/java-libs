@@ -10,7 +10,7 @@ import less.types.tokens.TokenType;
 import less.types.tokens.olds.OldToken;
 import libs.exceptions.BaseException;
 import libs.tools.StreamTools;
-import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BufferViews;
 
 public class RespilerTest extends BaseTest
 {
@@ -18,7 +18,7 @@ public class RespilerTest extends BaseTest
 	
 	public static void TestAnalyzer()
 	{
-		BufferUnpackedViews bufferLines = null;
+		BufferViews bufferLines = null;
 		TokenStream stream = null;
 		
 		try 

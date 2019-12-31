@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import libs.exceptions.UnknownClassException;
 import libs.types.ByteTest;
 import libs.types.bytes.BytesView;
-import libs.types.bytes.PackedView;
-import libs.types.bytes.UnpackedView;
+import libs.types.bytes.BufferView;
+import libs.types.bytes.View;
 
 public class ByteTools
 {
@@ -526,13 +526,13 @@ public class ByteTools
 	{
 		BytesView[] result;
 		
-		if (c.isAssignableFrom(PackedView.class))
+		if (c.isAssignableFrom(BufferView.class))
 		{
-			result = PackedView.newArray(countLines(array, 0, array.length));
+			result = BufferView.newArray(countLines(array, 0, array.length));
 		}
-		else if (c.isAssignableFrom(UnpackedView.class))
+		else if (c.isAssignableFrom(View.class))
 		{
-			result = UnpackedView.newArray(countLines(array, 0, array.length));
+			result = View.newArray(countLines(array, 0, array.length));
 		}
 		else
 		{

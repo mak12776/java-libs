@@ -1,8 +1,8 @@
 package incomplete.machines;
 
 import libs.types.ByteTest;
-import libs.types.bytes.BufferUnpackedViews;
-import libs.types.bytes.PackedView;
+import libs.types.bytes.BufferViews;
+import libs.types.bytes.BufferView;
 
 public class BrainMachineCompiler
 {
@@ -27,12 +27,12 @@ public class BrainMachineCompiler
 		}
 	}
 	
-	private static BufferUnpackedViews InstNamesBuffer = BufferUnpackedViews.from(InstNames);
+	private static BufferViews InstNamesBuffer = BufferViews.from(InstNames);
 	
-	public static void compileLines(BufferUnpackedViews lines)
+	public static void compileLines(BufferViews lines)
 	{
-		PackedView view = new PackedView();
-		PackedView inst = new PackedView();
+		BufferView view = new BufferView();
+		BufferView inst = new BufferView();
 		
 		int lnum = 0;
 		
@@ -45,7 +45,7 @@ public class BrainMachineCompiler
 			
 			while (true)
 			{
-				if (view.lstrip(ByteTest.isBlankObject) && view.isEmpty())
+				if (view.lstrip(ByteTest.Class.isBlank) && view.isEmpty())
 					break;
 				
 				

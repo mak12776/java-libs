@@ -9,7 +9,7 @@ import less.types.tokens.NameToken;
 import less.types.tokens.TokenType;
 import less.types.tokens.olds.OldToken;
 import libs.types.ByteTest;
-import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BufferViews;
 
 public class OldParser 
 {
@@ -18,7 +18,7 @@ public class OldParser
 		public OldToken nextToken() throws ParserException;
 	}
 	
-	public static TokenStream parseBufferLines(BufferUnpackedViews bufferLines)
+	public static TokenStream parseBufferLines(BufferViews bufferLines)
 	{
 		return new TokenStream() 
 		{

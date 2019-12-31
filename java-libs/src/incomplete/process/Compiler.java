@@ -7,21 +7,21 @@ import incomplete.process.Compiler.Settings.SettingsKey;
 import libs.exceptions.BaseException;
 import libs.tools.StreamTools;
 import libs.types.ByteTest;
-import libs.types.bytes.BufferUnpackedViews;
-import libs.types.bytes.PackedView;
+import libs.types.bytes.BufferViews;
+import libs.types.bytes.BufferView;
 
 public class Compiler 
 {
 	public static class Settings
 	{
-		BufferUnpackedViews views;
+		BufferViews views;
 		
 		public Settings(
 				byte[] macroPrefix, byte[] macroSuffix, 
 				byte[] variablePrefix, byte[] variableSuffix, 
 				byte[] evaluationPrefix, byte[] evaluationSuffix)
 		{
-			views = BufferUnpackedViews.from(
+			views = BufferViews.from(
 					macroPrefix, macroSuffix,
 					variablePrefix, variableSuffix,
 					evaluationPrefix, evaluationSuffix,
@@ -49,21 +49,21 @@ public class Compiler
 			}
 		}
 		
-		public void copyValueTo(SettingsKey key, PackedView view)
+		public void copyValueTo(SettingsKey key, BufferView view)
 		{
 			views.copyViewTo(key.index, view);
 		}
 		
-		public PackedView copyValue(SettingsKey key)
+		public BufferView copyValue(SettingsKey key)
 		{
-			PackedView view = new PackedView();
+			BufferView view = new BufferView();
 			
 			views.copyViewTo(key.index, view);
 			return view;
 		}
 	}
 	
-	private BufferUnpackedViews lines;
+	private BufferViews lines;
 	private Settings settings;
 	
 	public Compiler(FileInputStream stream, Settings settings) throws IOException, BaseException
@@ -74,9 +74,9 @@ public class Compiler
 	
 	public void Compile()
 	{
-		PackedView view = new PackedView();
-		PackedView prefix = new PackedView();
-		PackedView suffix = new PackedView();
+		BufferView view = new BufferView();
+		BufferView prefix = new BufferView();
+		BufferView suffix = new BufferView();
 		
 		int lnum;
 		
@@ -86,7 +86,7 @@ public class Compiler
 		{
 			lines.copyViewTo(lnum, view);
 			
-			view.strip(ByteTest.isBlankObject);
+			view.strip(ByteTest.Class.isBlank);
 			if (!view.isEmpty())
 			{
 				settings.copyValueTo(SettingsKey.macroPrefix, prefix);

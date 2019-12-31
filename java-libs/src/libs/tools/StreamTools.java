@@ -9,9 +9,9 @@ import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.types.bytes.Buffer;
-import libs.types.bytes.BufferUnpackedViews;
+import libs.types.bytes.BufferViews;
 import libs.types.bytes.BytesView;
-import libs.types.bytes.UnpackedView;
+import libs.types.bytes.View;
 
 public class StreamTools
 {
@@ -52,16 +52,16 @@ public class StreamTools
 		return ByteTools.splitLines(c, readFile(stream));
 	}
 	
-	public static BufferUnpackedViews readLineViews(FileInputStream stream) throws IOException, BaseException
+	public static BufferViews readLineViews(FileInputStream stream) throws IOException, BaseException
 	{
-		BufferUnpackedViews result = new BufferUnpackedViews(null, null);
+		BufferViews result = new BufferViews(null, null);
 		
 		result.buffer = readFile(stream);
-		result.views = (UnpackedView[]) ByteTools.splitLines(UnpackedView.class, result.buffer);
+		result.views = (View[]) ByteTools.splitLines(View.class, result.buffer);
 		return result;
 	}
 	
-	public static BufferUnpackedViews readLines(String name) throws FileNotFoundException, IOException, BaseException
+	public static BufferViews readLines(String name) throws FileNotFoundException, IOException, BaseException
 	{
 		return readLineViews(new FileInputStream(name));
 	}
