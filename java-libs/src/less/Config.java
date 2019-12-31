@@ -3,7 +3,7 @@ package less;
 import java.util.AbstractMap.SimpleEntry;
 
 import less.types.tokens.TokenType;
-import libs.tools.ByteTools;
+import libs.types.ByteTest;
 import libs.types.bytes.UnpackedView;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class Config
 		{
 			for (int i = 0; i < bytes.length; i += 1)
 			{
-				if (!ByteTools.isLower(bytes[i]))
+				if (!ByteTest.isLower(bytes[i]))
 				{
 					return true;
 				}

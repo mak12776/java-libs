@@ -2,7 +2,7 @@ package less.parsers;
 
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
-import libs.tools.ByteTools;
+import libs.types.ByteTest;
 import libs.types.bytes.BufferUnpackedViews;
 
 public class IndexParser
@@ -86,7 +86,7 @@ public class IndexParser
 		if (end)
 			return null;
 		
-		while (ByteTools.isBlank(getByte()))
+		while (ByteTest.isBlank(getByte()))
 		{
 			incIndex();
 			if (end)
@@ -102,7 +102,7 @@ public class IndexParser
 		
 		// keyword or name
 		
-		else if (ByteTools.isLower(getByte()))
+		else if (ByteTest.isLower(getByte()))
 		{
 			setStartIndex();
 			
@@ -116,7 +116,7 @@ public class IndexParser
 		
 		// name
 		
-		else if (ByteTools.isUpper(getByte()) || getByte() == '_')
+		else if (ByteTest.isUpper(getByte()) || getByte() == '_')
 		{
 			
 		}

@@ -2,7 +2,6 @@ package less;
 
 import less.types.tokens.Token;
 import less.types.tokens.TokenType;
-import libs.tools.ByteTools;
 import libs.types.ByteTest;
 import libs.types.bytes.BufferUnpackedViews;
 
@@ -115,14 +114,14 @@ public class Parser
 		return false;
 	}
 	
-	private static final ByteTest isUpperUnderscore = ByteTest.isUpper.or(ByteTest.isEqual('_'));
+	private static final ByteTest isUpperUnderscore = ByteTest.isUpperObject.or(ByteTest.isEqual('_'));
 	
 	public Token nextToken()
 	{
 		if (end)
 			return null;
 		
-		while (ByteTools.isBlank(getByte()))
+		while (ByteTest.isBlank(getByte()))
 		{
 			incIndex();
 			if (end)
@@ -138,12 +137,12 @@ public class Parser
 		
 		// check keyword
 		
-		else if (ByteTools.isLower(getByte()))
+		else if (ByteTest.isLower(getByte()))
 		{
 			setStartEndLine();
 			setStartIndex();
 			
-			incIndexWhile(ByteTest.isLower);
+			incIndexWhile(ByteTest.isLowerObject);
 			
 			setEndIndex();
 		}
@@ -152,7 +151,7 @@ public class Parser
 		
 		// number
 		
-		else if (checkTokenWhile(ByteTest.isDigit, TokenType.NUMBER))
+		else if (checkTokenWhile(ByteTest.isDigitObject, TokenType.NUMBER))
 			return token;
 		
 		// 

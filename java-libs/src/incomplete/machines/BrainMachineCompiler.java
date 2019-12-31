@@ -45,7 +45,7 @@ public class BrainMachineCompiler
 			
 			while (true)
 			{
-				if (view.lstrip(ByteTest.isBlank) && view.isEmpty())
+				if (view.lstrip(ByteTest.isBlankObject) && view.isEmpty())
 					break;
 				
 				

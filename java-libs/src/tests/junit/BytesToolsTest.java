@@ -31,7 +31,7 @@ public class BytesToolsTest
 	@Test
 	public void testFindNot()
 	{
-		assertEquals(5, ByteTools.findNot(sent, 0, sent.length, ByteTest.isLetter));
+		assertEquals(5, ByteTools.findNot(sent, 0, sent.length, ByteTest.isLetterObject));
 		assertEquals(4, ByteTools.findNot(sent, 0, sent.length, ByteTest.inString("Hel")));
 	}
 	
