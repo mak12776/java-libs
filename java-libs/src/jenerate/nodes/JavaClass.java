@@ -3,7 +3,7 @@ package jenerate.nodes;
 import java.util.List;
 
 import jenerate.modifiers.JavaAccessModifier;
-import jenerate.nodes.statements.JavaVariableDefinition;
+import jenerate.statements.JavaVariableDefinition;
 
 public class JavaClass
 {

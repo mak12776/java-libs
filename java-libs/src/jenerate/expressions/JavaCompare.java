@@ -1,4 +1,4 @@
-package jenerate.nodes.expressions;
+package jenerate.expressions;
 
 import jenerate.interfaces.JavaExpression;
 import jenerate.modifiers.JavaSymbol;

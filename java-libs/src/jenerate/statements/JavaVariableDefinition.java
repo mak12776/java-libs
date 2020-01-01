@@ -1,4 +1,4 @@
-package jenerate.nodes.statements;
+package jenerate.statements;
 
 import jenerate.interfaces.JavaExpression;
 import jenerate.interfaces.JavaStatement;
