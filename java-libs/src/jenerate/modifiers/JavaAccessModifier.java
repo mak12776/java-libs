@@ -1,4 +1,4 @@
-package jenerate.nodes;
+package jenerate.modifiers;
 
 public enum JavaAccessModifier
 {

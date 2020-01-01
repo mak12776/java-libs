@@ -1,11 +1,10 @@
-package jenerate.nodes;
+package jenerate.nodes.statements;
 
-import java.util.List;
-
+import jenerate.interfaces.JavaExpression;
 import jenerate.interfaces.JavaStatement;
 import jenerate.modifiers.JavaAccessModifier;
 
-public class JavaFunction
+public class JavaVariableDefinition implements JavaStatement
 {
 	public JavaAccessModifier accessModifier;
 	
@@ -14,8 +13,5 @@ public class JavaFunction
 	
 	public String name;
 	
-	public JavaType returnType;
-	
-	
-	public List<JavaStatement> statements;
+	public JavaExpression value;
 }
