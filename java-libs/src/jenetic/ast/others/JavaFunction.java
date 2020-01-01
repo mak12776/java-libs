@@ -2,7 +2,7 @@ package jenetic.ast.others;
 
 import java.util.List;
 
-import jenetic.ast.nodes.JavaType;
+import jenetic.ast.nodes.JavaCompoundName;
 import jenetic.interfaces.JavaStatement;
 import jenetic.modifiers.JavaAccessModifier;
 
@@ -15,8 +15,7 @@ public class JavaFunction
 	
 	public String name;
 	
-	public JavaType returnType;
-	
+	public JavaCompoundName returnType;
 	
 	public List<JavaStatement> statements;
 }

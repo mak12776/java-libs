@@ -9,10 +9,11 @@ import jenetic.modifiers.JavaAccessModifier;
 public class JavaClass
 {
 	public JavaAccessModifier accessModifier;
-	public String name;
 	
 	public boolean isAbstract;
 	public boolean isFinal;
+	
+	public String name;
 	
 	public List<String> implementsList;
 	public List<String> extendsList;
