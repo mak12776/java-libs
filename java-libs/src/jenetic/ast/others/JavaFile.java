@@ -1,8 +1,8 @@
-package jenerate.nodes;
+package jenetic.ast.others;
 
 import java.util.List;
 
-public class JavaPackage
+public class JavaFile
 {
 	public String name;
 	

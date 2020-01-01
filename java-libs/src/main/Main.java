@@ -2,13 +2,12 @@ package main;
 
 import java.io.IOException;
 
-import pxld.Image;
-import pxld.examples.ImageGenerators;
+import jenetic.ast.expressions.symbols.JavaCompareSymbol;
 
 public class Main 
 {
 	public static void main(String[] args) throws IOException
 	{
-		System.out.println("Done");
+		System.out.println(JavaCompareSymbol.EQ);
 	}
 }

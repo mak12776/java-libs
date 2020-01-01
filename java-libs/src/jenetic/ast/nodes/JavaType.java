@@ -1,4 +1,4 @@
-package jenerate.nodes;
+package jenetic.ast.nodes;
 
 public class JavaType
 {

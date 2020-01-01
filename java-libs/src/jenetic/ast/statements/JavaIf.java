@@ -1,9 +1,9 @@
-package jenerate.statements;
+package jenetic.ast.statements;
 
 import java.util.List;
 
-import jenerate.interfaces.JavaExpression;
-import jenerate.interfaces.JavaStatement;
+import jenetic.interfaces.JavaExpression;
+import jenetic.interfaces.JavaStatement;
 
 public class JavaIf
 {

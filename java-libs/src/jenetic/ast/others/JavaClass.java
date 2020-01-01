@@ -1,9 +1,10 @@
-package jenerate.nodes;
+package jenetic.ast.others;
 
 import java.util.List;
 
-import jenerate.modifiers.JavaAccessModifier;
-import jenerate.statements.JavaVariableDefinition;
+import jenetic.ast.statements.JavaVariableDefinition;
+import jenetic.interfaces.JavaNode;
+import jenetic.modifiers.JavaAccessModifier;
 
 public class JavaClass
 {

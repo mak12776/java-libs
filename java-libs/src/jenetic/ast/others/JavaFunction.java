@@ -1,9 +1,10 @@
-package jenerate.nodes;
+package jenetic.ast.others;
 
 import java.util.List;
 
-import jenerate.interfaces.JavaStatement;
-import jenerate.modifiers.JavaAccessModifier;
+import jenetic.ast.nodes.JavaType;
+import jenetic.interfaces.JavaStatement;
+import jenetic.modifiers.JavaAccessModifier;
 
 public class JavaFunction
 {

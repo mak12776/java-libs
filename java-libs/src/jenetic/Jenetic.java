@@ -2,7 +2,7 @@ package jenetic;
 
 import java.io.OutputStream;
 
-import jenerate.interfaces.JavaNode;
+import jenetic.interfaces.JavaNode;
 
 public class Jenetic
 {

@@ -1,4 +1,4 @@
-package jenerate.interfaces;
+package jenetic.interfaces;
 
 public interface JavaExpression
 {

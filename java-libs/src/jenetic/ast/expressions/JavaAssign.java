@@ -1,6 +1,6 @@
-package jenerate.expressions;
+package jenetic.ast.expressions;
 
-import jenerate.interfaces.JavaExpression;
+import jenetic.interfaces.JavaExpression;
 
 public class JavaAssign implements JavaExpression
 {

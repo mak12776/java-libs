@@ -1,8 +1,8 @@
-package jenerate.statements;
+package jenetic.ast.statements;
 
-import jenerate.interfaces.JavaExpression;
-import jenerate.interfaces.JavaStatement;
-import jenerate.modifiers.JavaAccessModifier;
+import jenetic.interfaces.JavaExpression;
+import jenetic.interfaces.JavaStatement;
+import jenetic.modifiers.JavaAccessModifier;
 
 public class JavaVariableDefinition implements JavaStatement
 {
