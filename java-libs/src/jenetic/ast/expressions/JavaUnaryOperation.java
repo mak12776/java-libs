@@ -1,4 +1,4 @@
-package jenetic.ast.expressions.operations;
+package jenetic.ast.expressions;
 
 import jenetic.interfaces.JavaExpression;
 

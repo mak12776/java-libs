@@ -1,6 +1,6 @@
-package jenetic.ast.expressions;
+package jenetic.ast.expressions.olds;
 
-import jenetic.ast.expressions.operations.JavaBinaryOperation;
+import jenetic.ast.expressions.JavaBinaryOperation;
 
 public class JavaLogicOperation extends JavaBinaryOperation
 {
