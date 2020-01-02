@@ -2,7 +2,7 @@ package jenetic.ast.others;
 
 import java.util.List;
 
-import jenetic.ast.nodes.JavaCompoundName;
+import jenetic.ast.JavaCompoundName;
 import jenetic.interfaces.JavaStatement;
 import jenetic.modifiers.JavaAccessModifier;
 

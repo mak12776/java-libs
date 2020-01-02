@@ -1,6 +1,6 @@
 package jenetic.ast.expressions;
 
-import jenetic.ast.nodes.JavaCompoundName;
+import jenetic.ast.JavaCompoundName;
 import jenetic.interfaces.JavaExpression;
 
 public class JavaAssign implements JavaExpression

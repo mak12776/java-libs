@@ -6,7 +6,7 @@ public class CUnaryOperation
 {
 	public enum CUnaryOperationSymbol
 	{
-		
+		ADD, SUB, 
 	}
 	
 	public CUnaryOperationSymbol symbol;

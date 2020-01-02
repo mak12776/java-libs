@@ -1,4 +1,4 @@
-package jenetic.ast.nodes;
+package jenetic.ast;
 
 public class JavaCompoundName
 {
