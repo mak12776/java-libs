@@ -1,4 +1,4 @@
-package cman.tree;
+package cman.tree.others;
 
 import cman.interfaces.CType;
 

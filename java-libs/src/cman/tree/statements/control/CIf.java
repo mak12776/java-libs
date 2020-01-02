@@ -1,6 +1,12 @@
-package cman.statements;
+package cman.tree.statements.control;
 
-public class CIf
+import java.util.List;
+
+import cman.interfaces.CExpression;
+import cman.interfaces.CStatement;
+
+public class CIf implements CStatement
 {
-	
+	public CExpression test;
+	public List<CStatement> statements;
 }
