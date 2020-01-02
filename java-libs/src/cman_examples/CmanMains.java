@@ -11,8 +11,7 @@ public class CmanMains
 		CFile cFile = new CFile();
 		
 		cFile.statements.add(new CInclude(true, "stdio.h"));
+		cFile.statements.add(new CDefine("DEFAULT_NAME", "\"machine\""));
 		
-		
-		cFile.statements.add(new CDefine("", ""));
 	}
 }
