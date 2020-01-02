@@ -12,6 +12,8 @@ public class CmanMains
 		
 		cFile.statements.add(new CInclude(true, "stdio.h"));
 		
+		
+		
 		cFile.statements.add(new CFunction());
 	}
 }
