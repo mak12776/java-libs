@@ -6,9 +6,12 @@ public abstract class JavaBinaryOperation implements JavaExpression
 {
 	public static enum JavaBinaryOperationSymbol
 	{
-		ADD, SUB, MUL, DIV,
-		EQ, NE, LT, LE, GT, GE,
-		AND, OR, BIT_AND, BIT_OR, 
+		ADD, SUB, MUL, DIV, MOD,
+		EQ, NE, LT, LE, GT, GE, 
+		INSTANCE_OF,
+		SHL, SHR, SHRU,
+		AND, OR, 
+		BIT_AND, BIT_OR, BIT_XOR, 
 	}
 	
 	public JavaBinaryOperationSymbol symbol;
