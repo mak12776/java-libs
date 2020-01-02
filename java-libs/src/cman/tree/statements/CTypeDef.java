@@ -6,6 +6,5 @@ import cman.interfaces.CType;
 public class CTypeDef implements CStatement
 {
 	public CType type;
-	
 	public String name;
 }

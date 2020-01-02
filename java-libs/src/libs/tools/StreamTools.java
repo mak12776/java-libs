@@ -8,10 +8,10 @@ import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
+import libs.types.View;
 import libs.types.bytes.Buffer;
 import libs.types.bytes.BufferViews;
 import libs.types.bytes.BytesView;
-import libs.types.bytes.View;
 
 public class StreamTools
 {

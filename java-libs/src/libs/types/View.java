@@ -1,4 +1,6 @@
-package libs.types.bytes;
+package libs.types;
+
+import libs.types.bytes.BytesView;
 
 public class View implements BytesView
 {

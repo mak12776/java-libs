@@ -5,9 +5,9 @@ import java.io.OutputStream;
 
 import libs.exceptions.UnknownClassException;
 import libs.types.ByteTest;
+import libs.types.View;
 import libs.types.bytes.BytesView;
 import libs.types.bytes.BufferView;
-import libs.types.bytes.View;
 
 public class ByteTools
 {

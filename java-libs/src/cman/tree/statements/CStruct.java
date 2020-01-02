@@ -8,6 +8,5 @@ import cman.interfaces.CType;
 public class CStruct implements CType, CStatement
 {
 	public String name;
-	
 	public List<CVariable> members;
 }
