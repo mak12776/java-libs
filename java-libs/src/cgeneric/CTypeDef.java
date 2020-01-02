@@ -2,6 +2,7 @@ package cgeneric;
 
 public class CTypeDef
 {
-	public String name;
 	public CType type;
+	
+	public String name;
 }

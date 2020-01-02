@@ -8,7 +8,6 @@ public class CBinaryOperation
 	{
 		ADD, SUB, MUL, DIV, MOD,
 		EQ, NE, LT, LE, GT, GE,
-		
 	}
 	
 	public CBinarySymbol symbol;
