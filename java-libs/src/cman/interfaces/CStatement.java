@@ -1,6 +1,6 @@
 package cman.interfaces;
 
-public interface CStatement
+public interface CStatement extends CMacroOrStatement
 {
 
 }

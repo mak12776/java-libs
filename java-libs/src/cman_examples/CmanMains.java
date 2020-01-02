@@ -1,6 +1,8 @@
 package cman_examples;
 
 import cman.tree.CFile;
+import cman.tree.macros.CInclude;
+import cman.tree.statements.CFunction;
 
 public class CmanMains
 {
@@ -8,5 +10,8 @@ public class CmanMains
 	{
 		CFile cFile = new CFile();
 		
+		cFile.statements.add(new CInclude(true, "stdio.h"));
+		
+		cFile.statements.add(new CFunction());
 	}
 }

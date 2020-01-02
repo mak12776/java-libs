@@ -1,6 +1,6 @@
 package cman.interfaces;
 
-public interface CMacro
+public interface CMacro extends CMacroOrStatement
 {
 
 }

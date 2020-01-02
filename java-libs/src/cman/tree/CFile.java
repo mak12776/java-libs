@@ -2,9 +2,9 @@ package cman.tree;
 
 import java.util.List;
 
-import cman.interfaces.CStatement;
+import cman.interfaces.CMacroOrStatement;
 
 public class CFile
 {
-	public List<CStatement> statements;
+	public List<CMacroOrStatement> statements;
 }
