@@ -1,6 +1,6 @@
-package cgeneric;
+package cman.tree;
 
-public class CVariable
+public class CTypeDef
 {
 	public CType type;
 	

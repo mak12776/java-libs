@@ -1,4 +1,4 @@
-package cgeneric.expressions;
+package cman.tree.expressions;
 
 public class CAssign
 {

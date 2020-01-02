@@ -1,4 +1,4 @@
-package cgeneric.interfaces;
+package cman.interfaces;
 
 public interface CExpression
 {

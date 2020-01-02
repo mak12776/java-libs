@@ -1,4 +1,4 @@
-package cgeneric;
+package cman.tree;
 
 public class CFunction
 {

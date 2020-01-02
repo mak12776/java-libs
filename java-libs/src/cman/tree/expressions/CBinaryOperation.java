@@ -1,6 +1,6 @@
-package cgeneric.expressions;
+package cman.tree.expressions;
 
-import cgeneric.interfaces.CExpression;
+import cman.interfaces.CExpression;
 
 public class CBinaryOperation
 {

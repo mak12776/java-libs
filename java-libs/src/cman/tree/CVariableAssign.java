@@ -1,6 +1,6 @@
-package cgeneric;
+package cman.tree;
 
-import cgeneric.interfaces.CExpression;
+import cman.interfaces.CExpression;
 
 public class CVariableAssign extends CVariable
 {

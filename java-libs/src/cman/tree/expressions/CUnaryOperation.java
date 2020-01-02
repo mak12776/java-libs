@@ -1,6 +1,6 @@
-package cgeneric.expressions;
+package cman.tree.expressions;
 
-import cgeneric.interfaces.CExpression;
+import cman.interfaces.CExpression;
 
 public class CUnaryOperation
 {
@@ -8,6 +8,9 @@ public class CUnaryOperation
 	{
 		POSITIVE, NEGATIVE,
 		POST_ADD, POST_SUB,
+		PRE_ADD, PRE_SUB,
+		NOT, BIT_NOT,
+		INDIRECT, ADDR_OF, SIZEOF,
 	}
 	
 	public CUnaryOperationSymbol symbol;
