@@ -1,4 +1,4 @@
-package cman.tree;
+package cman.tree.statements;
 
 import cman.interfaces.CExpression;
 

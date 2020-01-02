@@ -2,7 +2,7 @@ package cman.tree.expressions;
 
 import cman.interfaces.CExpression;
 
-public class CBinaryOperation
+public class CBinaryOperation implements CExpression
 {
 	public static enum CBinarySymbol
 	{

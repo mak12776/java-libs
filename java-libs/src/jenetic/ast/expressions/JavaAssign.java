@@ -15,6 +15,6 @@ public class JavaAssign implements JavaExpression
 	
 	public JavaAssignSymbol symbol;
 	
-	public JavaCompoundName name;
-	public JavaExpression value;
+	public JavaExpression left;
+	public JavaExpression right;
 }
