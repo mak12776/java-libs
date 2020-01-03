@@ -8,3 +8,5 @@ spoon/
 spoon-source/
 
 BigFile.txt
+
+__pycache__/
