@@ -1,6 +1,6 @@
 package libs.types;
 
-import libs.types.bytes.BytesView;
+import libs.bytes.BytesView;
 
 public class View implements BytesView
 {

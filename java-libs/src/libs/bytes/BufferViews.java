@@ -1,6 +1,5 @@
-package libs.types.bytes;
+package libs.bytes;
 
-import libs.tools.ByteTools;
 import libs.tools.StringBuilderTools;
 import libs.types.View;
 

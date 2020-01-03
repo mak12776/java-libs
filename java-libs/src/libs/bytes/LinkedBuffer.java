@@ -1,4 +1,4 @@
-package libs.types.bytes;
+package libs.bytes;
 
 public class LinkedBuffer
 {

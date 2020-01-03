@@ -1,12 +1,9 @@
-package libs.types.bytes;
-
-import libs.tools.ByteTools;
-import libs.types.ByteTest;
+package libs.bytes;
 
 public class BufferView implements BytesView
 {
 	/*
-	 * 	Slow Packed Bytes View
+	 * 	Buffer View
 	 */
 	
 	public byte[] buffer;

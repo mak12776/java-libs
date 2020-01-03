@@ -3,15 +3,17 @@ package libs.tools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
+import libs.bytes.Buffer;
+import libs.bytes.BufferViews;
+import libs.bytes.ByteTools;
+import libs.bytes.BytesView;
 import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.types.View;
-import libs.types.bytes.Buffer;
-import libs.types.bytes.BufferViews;
-import libs.types.bytes.BytesView;
 
 public class StreamTools
 {
@@ -40,6 +42,69 @@ public class StreamTools
 			throw new InvalidReadNumberException("read number: " + readNumber + ", file size: " + fileSize);
 		}
 		return array;
+	}
+	
+	public static long countLines(byte[] buffer, InputStream stream) throws IOException, BaseException
+	{
+		int readNumber;
+		int index;
+		int total;
+		boolean checkNewline;
+		
+		checkNewline = false;
+		total = 0;
+		
+		readNumber = stream.read(buffer);
+		if (readNumber == -1)
+			throw new ZeroFileSizeExeption();
+		
+		while (true)
+		{			
+			index = 0;
+			
+			if (checkNewline && buffer[0] == '\n')
+				index += 1;
+			
+			while (index < readNumber)
+			{
+				if (buffer[index] == '\n')
+				{
+					total += 1;
+				}
+				else if (buffer[index] == '\r')
+				{
+					total += 1;
+					
+					index += 1;
+					if (index == readNumber)
+					{
+						checkNewline = true;
+						break;
+					}
+						
+					
+					if (buffer[index] == '\n')
+						index += 1;
+					
+					continue;
+				}
+				index += 1;
+			}
+			
+			readNumber = stream.read(buffer);
+			if (readNumber == -1)
+			{
+				if (buffer[index - 1] != '\n' && buffer[index - 1] != '\r')
+					total += 1;
+				break;
+			}
+		}
+		return total;
+	}
+	
+	public static long countLines(int bufferSize, InputStream stream) throws IOException, BaseException
+	{
+		return countLines(new byte[bufferSize], stream);
 	}
 
 	public static byte[] readFile(String name) throws FileNotFoundException, IOException, BaseException

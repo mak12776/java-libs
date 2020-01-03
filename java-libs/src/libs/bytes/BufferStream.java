@@ -1,9 +1,7 @@
-package libs.types;
+package libs.bytes;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import libs.types.bytes.Buffer;
 
 public class BufferStream 
 {

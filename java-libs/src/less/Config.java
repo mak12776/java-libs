@@ -3,7 +3,7 @@ package less;
 import java.util.AbstractMap.SimpleEntry;
 
 import less.types.tokens.TokenType;
-import libs.types.ByteTest;
+import libs.bytes.ByteTest;
 import libs.types.View;
 
 import java.util.ArrayList;

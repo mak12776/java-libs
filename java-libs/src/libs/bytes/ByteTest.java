@@ -1,6 +1,4 @@
-package libs.types;
-
-import libs.tools.ByteTools;
+package libs.bytes;
 
 public interface ByteTest
 {
