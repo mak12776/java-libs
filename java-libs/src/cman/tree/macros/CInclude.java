@@ -7,9 +7,6 @@ public class CInclude implements CMacro
 	public boolean isGlobal;
 	public String name;
 	
-	public CInclude()
-	{ }
-	
 	public CInclude(boolean isGlobal, String name)
 	{
 		this.isGlobal = isGlobal;

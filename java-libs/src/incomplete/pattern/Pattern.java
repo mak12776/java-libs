@@ -1,4 +1,4 @@
-package libs.pattern;
+package incomplete.pattern;
 
 public class Pattern
 {
