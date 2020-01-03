@@ -1,7 +1,6 @@
 package tests.functions;
 
 import java.io.IOException;
-import java.io.PrintStream;
 
 import less.exceptions.ParserException;
 import less.parsers.OldParser;

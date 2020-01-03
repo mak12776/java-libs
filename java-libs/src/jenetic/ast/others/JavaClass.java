@@ -3,7 +3,6 @@ package jenetic.ast.others;
 import java.util.List;
 
 import jenetic.ast.statements.JavaVariableDefinition;
-import jenetic.interfaces.JavaNode;
 import jenetic.modifiers.JavaAccessModifier;
 
 public class JavaClass

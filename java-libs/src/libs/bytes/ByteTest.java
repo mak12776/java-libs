@@ -1,6 +1,17 @@
 
 package libs.bytes;
 
+import static libs.bytes.ByteTest.isBlank;
+import static libs.bytes.ByteTest.isCarriageReturn;
+import static libs.bytes.ByteTest.isDigit;
+import static libs.bytes.ByteTest.isHexDigit;
+import static libs.bytes.ByteTest.isLetter;
+import static libs.bytes.ByteTest.isLetterDigit;
+import static libs.bytes.ByteTest.isLower;
+import static libs.bytes.ByteTest.isNewline;
+import static libs.bytes.ByteTest.isNull;
+import static libs.bytes.ByteTest.isUpper;
+
 import libs.tools.ByteTools;
 
 public interface ByteTest

@@ -3,8 +3,8 @@ package libs.tools;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import libs.bytes.ByteView;
 import libs.bytes.ByteTest;
+import libs.bytes.ByteView;
 import libs.exceptions.UnknownClassException;
 import libs.views.ByteViewInterface;
 import libs.views.View;
@@ -152,8 +152,8 @@ public class ByteTools
 	{		
 		short value = 0;
 		
-		value |= ((short) buffer[offset++] & 0xFF) << 8;
-		value |= ((short) buffer[offset] & 0xFF);
+		value |= (buffer[offset++] & 0xFF) << 8;
+		value |= (buffer[offset] & 0xFF);
 		
 		return value; 
 	}
@@ -162,10 +162,10 @@ public class ByteTools
 	{
 		int value = 0;	
 		
-		value |= ((int) buffer[offset++] & 0xFF) << 24;
-		value |= ((int) buffer[offset++] & 0xFF) << 16;
-		value |= ((int) buffer[offset++] & 0xFF) << 8;
-		value |= ((int) buffer[offset] & 0xFF);
+		value |= (buffer[offset++] & 0xFF) << 24;
+		value |= (buffer[offset++] & 0xFF) << 16;
+		value |= (buffer[offset++] & 0xFF) << 8;
+		value |= (buffer[offset] & 0xFF);
 		
 		return value;
 	}

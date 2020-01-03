@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import libs.tools.SafeTools;
-import main.Main;
 
 public class LinkedBuffer 
 {

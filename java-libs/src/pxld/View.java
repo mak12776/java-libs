@@ -44,6 +44,7 @@ public class View implements Picture
 	
 	// [ low-level info functions ]
 	
+	@Override
 	public byte[] getData() 
 	{
 		return data;

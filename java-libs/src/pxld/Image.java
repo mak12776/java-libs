@@ -44,26 +44,31 @@ public class Image implements Picture
 	
 	// [ low-level info functions ]
 	
+	@Override
 	public byte[] getData()
 	{
 		return data;
 	}
 	
+	@Override
 	public ColorMode getColorMode()
 	{
 		return mode;
 	}
 	
+	@Override
 	public int getColorWidth()
 	{
 		return colorWidth;
 	}
 	
+	@Override
 	public int width()
 	{
 		return width;
 	}
 	
+	@Override
 	public int height()
 	{
 		return height;
@@ -138,6 +143,7 @@ public class Image implements Picture
 	
 	// [ low-level drawing functions ]
 	
+	@Override
 	public void draw(byte[] colorData)
 	{
 		for (int i = 0; i < yWidth; i += colorWidth)
@@ -172,6 +178,7 @@ public class Image implements Picture
 		}
 	}
 	
+	@Override
 	public void drawPicture(int x, int y, Picture picture)
 	{
 		if (picture instanceof Image)
@@ -218,6 +225,7 @@ public class Image implements Picture
 		}
 	}
 	
+	@Override
 	public void map(MapFunction map)
 	{
 		for (int y = 0, yIndex = 0; y < yWidth; y += xWidth, yIndex += 1)

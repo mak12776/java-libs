@@ -24,12 +24,12 @@ public class PrintTools
 	
 	public static void printHex(byte b)
 	{
-		System.out.println("byte: " + Integer.toHexString((int)b & 0xFF));
+		System.out.println("byte: " + Integer.toHexString(b & 0xFF));
 	}
 	
 	public static void printHex(short a)
 	{
-		System.out.println("short: " + Integer.toHexString((int)a & 0xFFFF));
+		System.out.println("short: " + Integer.toHexString(a & 0xFFFF));
 	}
 	
 	public static void printHex(int a)
