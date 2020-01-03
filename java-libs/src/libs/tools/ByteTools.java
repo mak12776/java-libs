@@ -11,20 +11,31 @@ import libs.views.View;
 
 public class ByteTools
 {
+	public static byte[] newSpaceLine(int size)
+	{
+		byte[] result;
+		
+		result = new byte[size];
+		
+		size -= 1;
+		for (int index = 0; index < size; index += 1)
+		{
+			result[index] = ' ';
+		}
+		result[size] = '\n';
+		
+		return result;
+	}
+	
 	public static final long getMask(final int size)
 	{
 		switch (size)
 		{
-		case 8:
-			return 0xFFL;
-		case 16:
-			return 0xFFFFL;
-		case 32:
-			return 0xFFFFFFFFL;
-		case 64:
-			return 0xFFFFFFFFFFFFFFL;
-		default:
-			throw new IllegalArgumentException("invalid size: " + size);
+		case 8:	 return 0xFFL;
+		case 16: return 0xFFFFL;
+		case 32: return 0xFFFFFFFFL;
+		case 64: return 0xFFFFFFFFFFFFFFL;
+		default: throw new IllegalArgumentException("invalid size: " + size);
 		}
 	}
 	
@@ -34,24 +45,12 @@ public class ByteTools
 		
 		switch (value)
 		{
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
-		case 9:
+		case 0: case 1: case 2: case 3: case 4: 
+		case 5: case 6: case 7: case 8: case 9:
 			return (byte) (value + '0');
 			
-		case 10:
-		case 11:
-		case 12:
-		case 13:
-		case 14:
-		case 15:
+		case 10: case 11: case 12: case 13: 
+		case 14: case 15:
 			return (byte) (value + first);
 			
 		default:
@@ -120,22 +119,6 @@ public class ByteTools
 			
 			offset += 16;
 		}
-	}
-	
-	public static byte[] newSpaceLine(int size)
-	{
-		byte[] result;
-		
-		result = new byte[size];
-		
-		size -= 1;
-		for (int index = 0; index < size; index += 1)
-		{
-			result[index] = ' ';
-		}
-		result[size] = '\n';
-		
-		return result;
 	}
 	
 	// read functions
@@ -247,7 +230,51 @@ public class ByteTools
 		buffer[offset] = (byte) (value & 0xFF);
 	}
 
-	// algorithms
+	// +++ algorithms +++
+	
+	// test all and any
+	
+	public static boolean byteIn(byte b, byte[] bytes)
+	{
+		for (int index = 0; index < bytes.length; index += 1)
+			if (bytes[index] == b)
+				return true;
+		return false;
+	}
+	
+	public static boolean testAny(byte[] buffer, int start, int end, ByteTest test)
+	{
+		for (; start < end; start += 1)
+			if (test.test(buffer[start]))
+				return true;
+		return false;
+	}
+	
+	public static boolean testAny(byte[] buffer, int start, int end, byte value)
+	{
+		for (; start < end; start += 1)
+			if (buffer[start] == value)
+				return true;
+		return false;
+	}
+	
+	public static boolean testAll(byte[] buffer, int start, int end, ByteTest test)
+	{
+		for (; start < end; start += 1)
+			if (!test.test(buffer[start]))
+				return false;
+		return true;
+	}
+	
+	public static boolean testAll(byte[] buffer, int start, int end, byte value)
+	{
+		for (; start < end; start += 1)
+			if (buffer[start] != value)
+				return false;
+		return true;
+	}
+	
+	// find test functions
 	
 	public static int find(byte[] buffer, int start, int end, ByteTest test)
 	{
@@ -317,15 +344,7 @@ public class ByteTools
 		return end;
 	}
 	
-	public static boolean byteIn(byte b, byte[] bytes)
-	{
-		for (int i = 0; i < bytes.length; i += 1)
-		{
-			if (bytes[i] == b)
-				return true;
-		}
-		return false;
-	}
+	// comparison functions
 	
 	public static int compare(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
 	{
@@ -337,17 +356,6 @@ public class ByteTools
 				break;
 		}
 		return diff;
-	}
-	
-	public static boolean test(byte[] buffer, int start, int end, ByteTest test)
-	{
-		for (int index = 0; index < end; index += 1)
-		{
-			if (test.test(buffer[index]))
-				continue;
-			return false;
-		}
-		return true;
 	}
 	
 	public static boolean isEqual(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
@@ -363,6 +371,8 @@ public class ByteTools
 		}
 	}
 	
+	// starts with & ends with
+	
 	public static boolean startsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
 		int bufferLength = bufferEnd - bufferStart;
@@ -376,6 +386,8 @@ public class ByteTools
 		int bytesLength = bytesEnd - bytesStart;
 		return (bufferLength >= bytesLength) && isEqual(buffer, bufferEnd - bytesLength, bytes, bytesStart, bytesLength);
 	}
+	
+	// search
 	
 	public static int search(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
@@ -409,24 +421,14 @@ public class ByteTools
 		return bufferEnd;
 	}
 	
-	public static int sumBytesArrayLength(byte[]... bytesArray)
-	{
-		int length = 0;
-		
-		for (int i = 0; i < bytesArray.length; i += 1)
-		{
-			length += bytesArray[i].length;
-		}
-		
-		return length;
-	}
+	// join bytes array
 	
 	public static byte[] joinBytes(byte[]... bytesArray)
 	{
 		byte[] result;
 		int length;
 		
-		length = sumBytesArrayLength(bytesArray);
+		length = ArrayTools.sumArrayLengths(bytesArray);
 		
 		if (length == 0)
 			return null;
@@ -442,6 +444,8 @@ public class ByteTools
 		
 		return result;
 	}
+	
+	// count lines & split lines
 	
 	public static int countLines(byte[] buffer, int start, int end)
 	{

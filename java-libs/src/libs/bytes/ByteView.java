@@ -105,6 +105,8 @@ public class ByteView implements ByteViewInterface
 		return (length() == buffer.length) && ByteTools.isEqual(buffer, start, buffer, 0, buffer.length);
 	}
 	
+	// starts with functions
+	
 	public boolean startsWith(ByteView view)
 	{
 		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
@@ -120,6 +122,8 @@ public class ByteView implements ByteViewInterface
 		return ByteTools.startsWith(buffer, start, end, buffer, 0, buffer.length);
 	}
 	
+	// ends with functions
+	
 	public boolean endsWith(ByteView view)
 	{
 		return ByteTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
@@ -134,6 +138,8 @@ public class ByteView implements ByteViewInterface
 	{
 		return ByteTools.endsWith(buffer, start, end, buffer, 0, buffer.length);
 	}
+	
+	// find test functions
 	
 	public int find(ByteTest test)
 	{
@@ -155,6 +161,8 @@ public class ByteView implements ByteViewInterface
 		return ByteTools.rfindNot(buffer, start, end, test);
 	}
 	
+	// search functions
+	
 	public int search(ByteView view)
 	{
 		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
@@ -164,6 +172,8 @@ public class ByteView implements ByteViewInterface
 	{
 		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
 	}
+	
+	// strip functions
 	
 	public boolean lstrip(ByteView view)
 	{
@@ -233,12 +243,7 @@ public class ByteView implements ByteViewInterface
 		return false;
 	}
 	
-	public boolean strip(ByteTest test)
-	{
-		boolean l = lstrip(test);
-		boolean r = rstrip(test);
-		return l || r;
-	}
+	// split functions
 	
 	public boolean lsplit(ByteTest test, ByteViewInterface view)
 	{
@@ -268,5 +273,12 @@ public class ByteView implements ByteViewInterface
 		view.set(buffer, index, end);
 		end = index;
 		return true;
+	}
+	
+	public boolean strip(ByteTest test)
+	{
+		boolean l = lstrip(test);
+		boolean r = rstrip(test);
+		return l || r;
 	}
 }

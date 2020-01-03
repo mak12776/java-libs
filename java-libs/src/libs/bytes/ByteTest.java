@@ -193,7 +193,7 @@ public interface ByteTest
 			@Override
 			public boolean test(byte b)
 			{
-				return ByteTools.byteIn(b, bytes);
+				return ByteTools.testAny(bytes, 0, bytes.length, b);
 			}
 		};
 	}
