@@ -3,6 +3,7 @@ package libs.bytes;
 import java.io.IOException;
 import java.io.InputStream;
 
+import libs.tools.ByteTools;
 import libs.tools.SafeTools;
 
 public class Buffer

@@ -3,8 +3,8 @@ package tests.functions;
 import java.io.IOException;
 
 import libs.bytes.BufferViews;
-import libs.bytes.ByteTools;
 import libs.exceptions.BaseException;
+import libs.tools.ByteTools;
 import libs.tools.StreamTools;
 
 public class ToolsTest extends BaseTest

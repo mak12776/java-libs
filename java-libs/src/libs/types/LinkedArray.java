@@ -163,10 +163,9 @@ public class LinkedArray<T> implements List<T>
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a)
+	public <N> N[] toArray(N[] a)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

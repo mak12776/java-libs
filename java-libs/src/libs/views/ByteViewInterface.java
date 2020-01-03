@@ -1,6 +1,6 @@
-package libs.types.bytes;
+package libs.views;
 
-public interface BytesView
+public interface ByteViewInterface
 {
 	public void set(byte[] buffer, int start, int end);
 }

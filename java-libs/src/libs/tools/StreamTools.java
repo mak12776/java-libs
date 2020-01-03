@@ -5,15 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.Buffer;
 import libs.bytes.BufferViews;
-import libs.bytes.ByteTools;
-import libs.bytes.BytesView;
 import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
-import libs.types.View;
+import libs.views.ByteViewInterface;
+import libs.views.View;
 
 public class StreamTools
 {
@@ -112,7 +110,7 @@ public class StreamTools
 		return readFile(new FileInputStream(name));
 	}
 	
-	public static BytesView[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
+	public static ByteViewInterface[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
 	{
 		return ByteTools.splitLines(c, readFile(stream));
 	}

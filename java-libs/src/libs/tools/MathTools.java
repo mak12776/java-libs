@@ -4,58 +4,52 @@ public class MathTools
 {
 	private MathTools() {}
 	
-	// minimum & maximum
+	// minimum
 	
-	public static class Double
+	public static int min(int first, int... others)
 	{
-		private Double() {};
-		
-		public static double min(double a, double... others)
+		int min = first;
+		for (int i = 0; i < others.length; i += 1)
 		{
-			double min = a;
-			for (int i = 0; i < others.length; i += 1)
-			{
-				if (others[i] < min)
-					min = others[i];
-			}
-			return min;
+			if (others[i] < min)
+				min = others[i];
 		}
-		
-		public static double max(double a, double... others)
-		{
-			double max = a;
-			for (int i = 0; i < others.length; i += 1)
-			{
-				if (others[i] > max)
-					max = others[i];
-			}
-			return max;
-		}
+		return min;
 	}
 	
-	public static class Integer
+	public static double min(double first, double... others)
 	{
-		public static int min(int a, int... others)
+		double min = first;
+		for (int i = 0; i < others.length; i += 1)
 		{
-			int min = a;
-			for (int i = 0; i < others.length; i += 1)
-			{
-				if (others[i] < min)
-					min = others[i];
-			}
-			return min;
+			if (others[i] < min)
+				min = others[i];
 		}
-		
-		public static int max(int a, int... others)
+		return min;
+	}
+	
+	// maximum
+	
+	public static int max(int first, int... others)
+	{
+		int max = first;
+		for (int i = 0; i < others.length; i += 1)
 		{
-			int max = a;
-			for (int i = 0; i < others.length; i += 1)
-			{
-				if (others[i] > max)
-					max = others[i];
-			}
-			return max;
+			if (others[i] > max)
+				max = others[i];
 		}
+		return max;
+	}
+	
+	public static double max(double first, double... others)
+	{
+		double max = first;
+		for (int i = 0; i < others.length; i += 1)
+		{
+			if (others[i] > max)
+				max = others[i];
+		}
+		return max;
 	}
 	
 	// point calculations

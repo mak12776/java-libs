@@ -1,11 +1,13 @@
-package libs.bytes;
+package libs.tools;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
+import libs.bytes.ByteView;
+import libs.bytes.ByteTest;
 import libs.exceptions.UnknownClassException;
-import libs.tools.SafeTools;
-import libs.types.View;
+import libs.views.ByteViewInterface;
+import libs.views.View;
 
 public class ByteTools
 {
@@ -477,7 +479,7 @@ public class ByteTools
 		return total;
 	}
 	
-	private static void splitLines(byte[] buffer, int bufferStart, int bufferEnd, BytesView[] lines)
+	private static void splitLines(byte[] buffer, int bufferStart, int bufferEnd, ByteViewInterface[] lines)
 	{
 		int lnum;
 		int start;
@@ -520,13 +522,13 @@ public class ByteTools
 		lines[lnum].set(buffer, start, end);
 	}
 	
-	public static BytesView[] splitLines(Class<?> c, byte[] array)
+	public static ByteViewInterface[] splitLines(Class<?> c, byte[] array)
 	{
-		BytesView[] result;
+		ByteViewInterface[] result;
 		
-		if (c.isAssignableFrom(BufferView.class))
+		if (c.isAssignableFrom(ByteView.class))
 		{
-			result = BufferView.newArray(countLines(array, 0, array.length));
+			result = ByteView.newArray(countLines(array, 0, array.length));
 		}
 		else if (c.isAssignableFrom(View.class))
 		{

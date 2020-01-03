@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import libs.bytes.ByteTest;
-import libs.bytes.ByteTools;
+import libs.tools.ByteTools;
 
 public class BytesToolsTest
 {	

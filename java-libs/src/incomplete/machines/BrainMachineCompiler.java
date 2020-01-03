@@ -1,6 +1,6 @@
 package incomplete.machines;
 
-import libs.bytes.BufferView;
+import libs.bytes.ByteView;
 import libs.bytes.BufferViews;
 import libs.bytes.ByteTest;
 
@@ -31,8 +31,8 @@ public class BrainMachineCompiler
 	
 	public static void compileLines(BufferViews lines)
 	{
-		BufferView view = new BufferView();
-		BufferView inst = new BufferView();
+		ByteView view = new ByteView();
+		ByteView inst = new ByteView();
 		
 		int lnum = 0;
 		

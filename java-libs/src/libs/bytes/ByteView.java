@@ -1,6 +1,9 @@
 package libs.bytes;
 
-public class BufferView implements BytesView
+import libs.tools.ByteTools;
+import libs.views.ByteViewInterface;
+
+public class ByteView implements ByteViewInterface
 {
 	/*
 	 * 	Buffer View
@@ -11,6 +14,8 @@ public class BufferView implements BytesView
 	public int start;
 	public int end;
 	
+	// ByteViewInterface functions
+	
 	@Override
 	public void set(byte[] buffer, int start, int end)
 	{
@@ -19,46 +24,45 @@ public class BufferView implements BytesView
 		this.end = end;
 	}
 	
-	public void copyTo(BytesView view)
-	{
-		view.set(buffer, start, end);
-	}
+	// constructor
 	
-	public void swap(BufferView view)
-	{
-		BufferView temp = new BufferView();
-		
-		temp.set(buffer, start, end);
-		set(view.buffer, view.start, view.end);
-		view.set(buffer, start, end);
-	}
-	
-	public BufferView(byte[] buffer, int start, int end)
+	public ByteView(byte[] buffer, int start, int end)
 	{
 		this.set(buffer, start, end);
 	}
-	
-	public BufferView()
+
+	public ByteView()
 	{
 		this(null, 0, 0);
 	}
 	
-	public static BufferView[] newArray(int size, byte[] buffer, int start, int end)
+	// array creation
+	
+	public static ByteView[] newArray(int size, byte[] buffer, int start, int end)
 	{
-		BufferView[] result;
+		ByteView[] result;
 		
-		result = new BufferView[size];
+		result = new ByteView[size];
 		for (int i = 0; i < result.length; i += 1)
 		{
-			result[i] = new BufferView(buffer, start, end);
+			result[i] = new ByteView(buffer, start, end);
 		}
 		
 		return result;
 	}
 	
-	public static BufferView[] newArray(int size)
+	public static ByteView[] newArray(int size)
 	{
 		return newArray(size, null, 0, 0);
+	}
+	
+	public void swap(ByteView view)
+	{
+		ByteView temp = new ByteView();
+		
+		temp.set(buffer, start, end);
+		set(view.buffer, view.start, view.end);
+		view.set(buffer, start, end);
 	}
 	
 	// fields functions
@@ -83,10 +87,10 @@ public class BufferView implements BytesView
 	@Override
 	public boolean equals(Object arg0)
 	{
-		return (arg0 instanceof BufferView) ? isEqual((BufferView) arg0) : false;
+		return (arg0 instanceof ByteView) ? isEqual((ByteView) arg0) : false;
 	}
 	
-	public boolean isEqual(BufferView view)
+	public boolean isEqual(ByteView view)
 	{
 		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
@@ -101,7 +105,7 @@ public class BufferView implements BytesView
 		return (length() == buffer.length) && ByteTools.isEqual(buffer, start, buffer, 0, buffer.length);
 	}
 	
-	public boolean startsWith(BufferView view)
+	public boolean startsWith(ByteView view)
 	{
 		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
@@ -116,7 +120,7 @@ public class BufferView implements BytesView
 		return ByteTools.startsWith(buffer, start, end, buffer, 0, buffer.length);
 	}
 	
-	public boolean endsWith(BufferView view)
+	public boolean endsWith(ByteView view)
 	{
 		return ByteTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
@@ -151,17 +155,17 @@ public class BufferView implements BytesView
 		return ByteTools.rfindNot(buffer, start, end, test);
 	}
 	
-	public int search(BufferView view)
+	public int search(ByteView view)
 	{
 		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
-	public int lsearch(BufferView view)
+	public int lsearch(ByteView view)
 	{
 		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
 	}
 	
-	public boolean lstrip(BufferView view)
+	public boolean lstrip(ByteView view)
 	{
 		if (startsWith(view))
 		{
@@ -171,7 +175,7 @@ public class BufferView implements BytesView
 		return false;
 	}
 	
-	public boolean rstrip(BufferView view)
+	public boolean rstrip(ByteView view)
 	{
 		if (endsWith(view))
 		{
@@ -181,7 +185,7 @@ public class BufferView implements BytesView
 		return false;
 	}
 	
-	public boolean strip(BufferView prefix, BufferView suffix)
+	public boolean strip(ByteView prefix, ByteView suffix)
 	{
 		if (startsWith(prefix))
 		{
@@ -236,7 +240,7 @@ public class BufferView implements BytesView
 		return l || r;
 	}
 	
-	public boolean lsplit(ByteTest test, BytesView view)
+	public boolean lsplit(ByteTest test, ByteViewInterface view)
 	{
 		int index;
 		
@@ -250,7 +254,7 @@ public class BufferView implements BytesView
 		return true;
 	}
 	
-	public boolean rsplit(ByteTest test, BytesView view)
+	public boolean rsplit(ByteTest test, ByteViewInterface view)
 	{
 		int index;
 		
