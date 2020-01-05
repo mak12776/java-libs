@@ -73,22 +73,32 @@ public class Machine
 	
 	// instructions
 	
-	public static final byte INST_NOOP = 				0x00;
+	/*
+	 * 		symbol		size			description
+	 * 		IM			8/16/32/64		immediate
+	 * 		PI			32				pointer index 32bit
+	 * 		M_PI_PI		64				memory at [PI:PI]
+	 * 		M_PI_IM32	64				memory at [PI:IM32]
+	 * 		M_IM32_PI	64				memory at [IM32:PI]
+	 * 		M_PI_IM32	64				memory at [PI:IM32]
+	 */
 	
-	private static final byte BASE1 = 					INST_NOOP;
+	public static final byte INST_NOOP = 					0x00;
 	
-	public static final byte INST_COPY_IM32_PI = 		BASE1 + 1;
-	public static final byte INST_COPY_PI_PI = 			BASE1 + 2;
+	private static final byte BASE1 = 						INST_NOOP;
 	
-	private static final byte BASE2 =					INST_COPY_PI_PI;
+	public static final byte INST_COPY_IM32_PI = 			BASE1 + 1;
+	public static final byte INST_COPY_PI_PI = 				BASE1 + 2;
 	
-	public static final byte INST_COPY_IM8_BII =		BASE2 + 1;
-	public static final byte INST_COPY_IM8_BPI =		BASE2 + 2;
-	public static final byte INST_COPY_IM8_BIP =		BASE2 + 3;
-	public static final byte INST_COPY_IM8_BPP =		BASE2 + 4;
+	private static final byte BASE2 =						INST_COPY_PI_PI;
 	
-	public static final byte INST_COPY_BII_BII =		BASE2 + 5;
-	public static final byte INST_COPY_BIP_BII = 		BASE2 + 6;
+	public static final byte INST_COPY__IM8__M_PI_PI =		BASE2 + 1;
+	public static final byte INST_COPY__IM8__M_PI_IM =		BASE2 + 2;
+	public static final byte INST_COPY__IM8__M_IM_PI =		BASE2 + 3;
+	public static final byte INST_COPY__IM8__M_IM_IM =		BASE2 + 4;
+	
+	public static final byte INST_COPY__M_PI_PI__M_PI_PI =	BASE2 + 5;
+	public static final byte INST_COPY__M_PI_PI__M_PI_IM = 	BASE2 + 6;
 	
 	public void run() throws MachineRuntimeException
 	{
@@ -127,7 +137,7 @@ public class Machine
 				pointers[nextPointerIndex()] = pointers[nextPointerIndex()];
 				break;
 				
-			case INST_COPY_IM8_BII:
+			case INST_COPY__IM8__M_PI_PI:
 				
 			}
 		}

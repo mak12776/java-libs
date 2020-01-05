@@ -10,3 +10,7 @@ spoon-source/
 BigFile.txt
 
 __pycache__/
+
+*.jar
+
+*.py
