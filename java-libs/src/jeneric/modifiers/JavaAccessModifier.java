@@ -1,4 +1,4 @@
-package jenetic.modifiers;
+package jeneric.modifiers;
 
 public enum JavaAccessModifier
 {

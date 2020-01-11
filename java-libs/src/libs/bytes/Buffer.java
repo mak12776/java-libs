@@ -3,6 +3,7 @@ package libs.bytes;
 import java.io.IOException;
 import java.io.InputStream;
 
+import libs.exceptions.BufferIsFullException;
 import libs.tools.ByteTools;
 import libs.tools.SafeTools;
 
@@ -100,37 +101,60 @@ public class Buffer
 	{
 		int bufferLength = end - start;
 		
+		if (bufferLength > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+		
 		ByteTools.copy(this.buffer, this.length, buffer, start, bufferLength);
 		length += bufferLength;
 	}
 	
 	public void append(int size, long value)
-	{	
+	{
+		if (SafeTools.CHECK_INTEGER_BYTES)
+			SafeTools.checkIntegerBytes(size);
+		
+		if (size > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+		
 		ByteTools.write(this.buffer, this.length, size, value);
 		length += size;
 	}
 	
 	public void appendByte(byte value)
 	{
+		if (Byte.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+		
 		ByteTools.writeByte(buffer, length, value);
 		length += Byte.BYTES;
 	}
 	
 	public void appendShort(short value)
 	{
+		if (Short.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+		
 		ByteTools.writeShort(buffer, length, value);
 		length += Short.BYTES;
 	}
 	
 	public void appnedInt(int value)
 	{
+		if (Integer.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+		
 		ByteTools.writeInt(buffer, length, value);
 		length += Integer.BYTES;
 	}
 	
 	public void appendLong(long value)
 	{
+		if (Long.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+		
 		ByteTools.writeLong(buffer, length, value);
 		length += Long.BYTES;
 	}
+	
+	
 }
