@@ -1,4 +1,4 @@
-package jenetic.interfaces;
+package jeneric.interfaces;
 
 public interface JavaStatement
 {

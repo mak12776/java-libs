@@ -1,6 +1,6 @@
-package jenetic.ast.expressions;
+package jeneric.ast.expressions;
 
-import jenetic.interfaces.JavaExpression;
+import jeneric.interfaces.JavaExpression;
 
 public abstract class JavaBinaryOperation implements JavaExpression
 {

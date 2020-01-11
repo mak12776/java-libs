@@ -1,9 +1,9 @@
-package jenetic.ast.others;
+package jeneric.ast.mains;
 
 import java.util.List;
 
-import jenetic.ast.statements.JavaVariableDefinition;
-import jenetic.modifiers.JavaAccessModifier;
+import jeneric.ast.statements.JavaVariableDefinition;
+import jeneric.modifiers.JavaAccessModifier;
 
 public class JavaClass
 {

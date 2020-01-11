@@ -1,7 +1,7 @@
-package jenetic.ast.expressions;
+package jeneric.ast.expressions;
 
-import jenetic.ast.JavaCompoundName;
-import jenetic.interfaces.JavaExpression;
+import jeneric.ast.JavaCompoundName;
+import jeneric.interfaces.JavaExpression;
 
 public class JavaFunctionCall implements JavaExpression
 {

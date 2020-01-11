@@ -1,10 +1,10 @@
-package jenetic.ast.others;
+package jeneric.ast.mains;
 
 import java.util.List;
 
-import jenetic.ast.JavaCompoundName;
-import jenetic.interfaces.JavaStatement;
-import jenetic.modifiers.JavaAccessModifier;
+import jeneric.ast.JavaCompoundName;
+import jeneric.interfaces.JavaStatement;
+import jeneric.modifiers.JavaAccessModifier;
 
 public class JavaFunction
 {
@@ -18,4 +18,6 @@ public class JavaFunction
 	public JavaCompoundName returnType;
 	
 	public List<JavaStatement> statements;
+	
+	
 }
