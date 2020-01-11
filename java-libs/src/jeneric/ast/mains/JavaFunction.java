@@ -18,6 +18,4 @@ public class JavaFunction
 	public JavaCompoundName returnType;
 	
 	public List<JavaStatement> statements;
-	
-	
 }

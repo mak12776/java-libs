@@ -8,6 +8,5 @@ import jeneric.interfaces.JavaStatement;
 public class JavaIf
 {
 	public JavaExpression condition;
-	
 	public List<JavaStatement> statements; 
 }

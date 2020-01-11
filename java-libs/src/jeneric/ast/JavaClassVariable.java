@@ -1,10 +1,10 @@
-package jeneric.ast.statements;
+package jeneric.ast;
 
 import jeneric.interfaces.JavaExpression;
 import jeneric.interfaces.JavaStatement;
 import jeneric.modifiers.JavaAccessModifier;
 
-public class JavaVariableDefinition implements JavaStatement
+public class JavaClassVariable
 {
 	public JavaAccessModifier accessModifier;
 	

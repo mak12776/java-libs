@@ -8,11 +8,10 @@ public abstract class JavaUnaryOperation
 	{
 		POSTIVE, NEGATIVE,
 		LOGIC_NOT, BITWISE_NOT,
-		POST_ADD, POST_SUB,
-		PRE_ADD, PRE_SUB,
+		PRE_ADD, POST_ADD,
+		PRE_SUB, POST_SUB,
 	}
 	
 	public JavaUnarySymbol symbol;
-	
 	public JavaExpression value;
 }
