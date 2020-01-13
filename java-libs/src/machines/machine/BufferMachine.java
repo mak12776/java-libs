@@ -21,19 +21,10 @@ public class BufferMachine
 	}
 
 	private byte[] instBuffer;
-	private byte[] dataBuffer;
 
 	private byte nextByte()
 	{
 		return instBuffer[ip++];
-	}
-
-	private short nextShort()
-	{
-		return (short) (
-				((instBuffer[ip++] & 0xff) << 8) | 
-				(instBuffer[ip++] & 0xff)
-				);
 	}
 
 	private int nextInt()
