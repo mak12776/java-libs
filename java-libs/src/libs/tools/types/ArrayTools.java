@@ -1,4 +1,4 @@
-package libs.tools;
+package libs.tools.types;
 
 public class ArrayTools 
 {

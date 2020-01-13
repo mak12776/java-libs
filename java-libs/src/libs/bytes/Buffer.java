@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import libs.exceptions.BufferIsFullException;
-import libs.tools.ByteTools;
+import libs.io.ByteIO;
 import libs.tools.SafeTools;
+import libs.tools.types.ByteTools;
 
 public class Buffer
 {	
@@ -116,7 +117,7 @@ public class Buffer
 		if (size > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 		
-		ByteTools.write(this.buffer, this.length, size, value);
+		ByteIO.write(this.buffer, this.length, size, value);
 		length += size;
 	}
 	
@@ -125,7 +126,7 @@ public class Buffer
 		if (Byte.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 		
-		ByteTools.writeByte(buffer, length, value);
+		ByteIO.writeByte(buffer, length, value);
 		length += Byte.BYTES;
 	}
 	
@@ -134,7 +135,7 @@ public class Buffer
 		if (Short.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 		
-		ByteTools.writeShort(buffer, length, value);
+		ByteIO.writeShort(buffer, length, value);
 		length += Short.BYTES;
 	}
 	
@@ -143,7 +144,7 @@ public class Buffer
 		if (Integer.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 		
-		ByteTools.writeInt(buffer, length, value);
+		ByteIO.writeInt(buffer, length, value);
 		length += Integer.BYTES;
 	}
 	
@@ -152,7 +153,7 @@ public class Buffer
 		if (Long.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 		
-		ByteTools.writeLong(buffer, length, value);
+		ByteIO.writeLong(buffer, length, value);
 		length += Long.BYTES;
 	}
 	

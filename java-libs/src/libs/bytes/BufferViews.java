@@ -1,7 +1,7 @@
 package libs.bytes;
 
-import libs.tools.ByteTools;
-import libs.tools.StringBuilderTools;
+import libs.tools.types.ByteTools;
+import libs.tools.types.StringBuilderTools;
 import libs.views.ByteViewInterface;
 import libs.views.View;
 

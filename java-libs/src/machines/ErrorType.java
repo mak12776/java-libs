@@ -1,4 +1,4 @@
-package libs.machines;
+package machines;
 
 public enum ErrorType
 {

@@ -8,7 +8,7 @@ import libs.bytes.BufferViews;
 import libs.bytes.ByteTest;
 import libs.bytes.ByteView;
 import libs.exceptions.BaseException;
-import libs.tools.StreamTools;
+import libs.tools.types.StreamTools;
 
 public class Compiler 
 {

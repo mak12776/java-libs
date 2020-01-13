@@ -1,5 +1,7 @@
 package libs.tools;
 
+import libs.tools.types.StringTools;
+
 public class SafeTools
 {
 	// check integer bits

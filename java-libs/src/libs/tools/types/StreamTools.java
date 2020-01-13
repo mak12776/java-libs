@@ -1,4 +1,4 @@
-package libs.tools;
+package libs.tools.types;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

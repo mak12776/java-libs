@@ -12,7 +12,7 @@ import static libs.bytes.ByteTest.isNewline;
 import static libs.bytes.ByteTest.isNull;
 import static libs.bytes.ByteTest.isUpper;
 
-import libs.tools.ByteTools;
+import libs.tools.types.ByteTools;
 
 public interface ByteTest
 {

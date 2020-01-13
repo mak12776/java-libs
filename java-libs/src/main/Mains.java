@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import libs.exceptions.BaseException;
-import libs.tools.StreamTools;
+import libs.tools.types.StreamTools;
 
 public class Mains
 {

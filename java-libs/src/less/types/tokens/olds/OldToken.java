@@ -1,7 +1,7 @@
 package less.types.tokens.olds;
 
 import less.types.tokens.TokenType;
-import libs.tools.StringBuilderTools;
+import libs.tools.types.StringBuilderTools;
 
 public class OldToken 
 {
