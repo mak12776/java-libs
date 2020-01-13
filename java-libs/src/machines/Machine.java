@@ -30,13 +30,18 @@ public class Machine
 
 	private short nextShort()
 	{
-		return (short) (((instBuffer[ip++] & 0xff) << 8) | (instBuffer[ip++] & 0xff));
+		return (short) (
+				((instBuffer[ip++] & 0xff) << 8) | 
+				(instBuffer[ip++] & 0xff)
+				);
 	}
 
 	private int nextInt()
 	{
-		return ((instBuffer[ip++] & 0xff) << 24) | ((instBuffer[ip++] & 0xff) << 16) | ((instBuffer[ip++] & 0xff) << 8)
-				| (instBuffer[ip++] & 0xff);
+		return 	((instBuffer[ip++] & 0xff) << 24) | 
+				((instBuffer[ip++] & 0xff) << 16) | 
+				((instBuffer[ip++] & 0xff) << 8) | 
+				(instBuffer[ip++] & 0xff);
 	}
 
 	private void checkPointerIndex(final int index)
@@ -70,9 +75,14 @@ public class Machine
 	// instructions
 
 	/*
-	 * symbol size description IM 8/16/32/64 immediate PI 32 pointer index 32bit
-	 * M_PI_PI 64 memory at [PI:PI] M_PI_IM32 64 memory at [PI:IM32] M_IM32_PI 64
-	 * memory at [IM32:PI] M_PI_IM32 64 memory at [PI:IM32]
+	 * symbol 		size 			description 
+	 * IM 			8/16/32/64 		immediate 
+	 * PI 			32 				pointer index 32bit
+	 * 
+	 * M_PI_PI 		64 				memory at [PI:PI]
+	 * M_PI_IM32 	64 				memory at [PI:IM32]	
+	 * M_IM32_PI 	64				memory at [IM32:PI]
+	 * M_PI_IM32 	64 				memory at [PI:IM32]
 	 */
 
 	public static final byte INST_NOOP = 0x00;

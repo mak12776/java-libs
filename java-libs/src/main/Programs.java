@@ -7,7 +7,7 @@ import java.io.IOException;
 import libs.exceptions.BaseException;
 import libs.tools.types.StreamTools;
 
-public class Mains
+public class Programs
 {
 	public static void countLinesMain(String[] args)
 	{
