@@ -1,5 +1,5 @@
 
-package machines;
+package machines.analyzer;
 
 public class Analyzer
 {

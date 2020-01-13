@@ -1,5 +1,5 @@
 
-package machines;
+package machines.machine;
 
 public enum ErrorType
 {

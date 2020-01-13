@@ -1,7 +1,7 @@
 
-package machines;
+package machines.machine;
 
-public class Machine
+public class BufferMachine
 {
 	private static final boolean SAFE = false;
 
@@ -11,7 +11,7 @@ public class Machine
 	private int bip;
 	private int ip;
 
-	public Machine(byte[][] buffers, int[] pointers, int baseInstPointer, int instPointer)
+	public BufferMachine(byte[][] buffers, int[] pointers, int baseInstPointer, int instPointer)
 	{
 		this.buffers = buffers;
 		this.pointers = pointers;
@@ -47,13 +47,13 @@ public class Machine
 	private void checkPointerIndex(final int index)
 	{
 		if ((index < 0) || (index >= pointers.length))
-			throw new MachineRuntimeException(ErrorType.INVALID_POINTER_INDEX);
+			throw new RuntimeError(ErrorType.INVALID_POINTER_INDEX);
 	}
 
 	private void checkBasePointerIndex(final int index)
 	{
 		if ((index < 0) || (index >= buffers.length))
-			throw new MachineRuntimeException(ErrorType.INVALID_BASE_POINTER_INDEX);
+			throw new RuntimeError(ErrorType.INVALID_BASE_POINTER_INDEX);
 	}
 
 	private int nextPointerIndex()
@@ -102,14 +102,14 @@ public class Machine
 	public static final byte INST_COPY__M_PI_PI__M_PI_PI = BASE2 + 5;
 	public static final byte INST_COPY__M_PI_PI__M_PI_IM = BASE2 + 6;
 
-	public void run() throws MachineRuntimeException
+	public void run() throws RuntimeError
 	{
 		short inst;
 		byte[] instBuffer;
 
 		if (bip >= buffers.length)
 		{
-			throw new MachineRuntimeException(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
+			throw new RuntimeError(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
 					"base instruction pointer is out of range: " + bip);
 		}
 
@@ -117,7 +117,7 @@ public class Machine
 
 		if (instBuffer == null)
 		{
-			throw new MachineRuntimeException(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
+			throw new RuntimeError(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
 					"null buffer pointer: " + bip);
 		}
 
