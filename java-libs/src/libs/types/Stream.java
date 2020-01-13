@@ -1,6 +1,7 @@
+
 package libs.types;
 
-public interface Stream<T> 
+public interface Stream<T>
 {
 	T next();
 }

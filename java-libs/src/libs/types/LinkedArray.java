@@ -1,3 +1,4 @@
+
 package libs.types;
 
 import java.util.Collection;
@@ -19,7 +20,7 @@ public class LinkedArray<T> implements List<T>
 	public void add(int index, T element)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class LinkedArray<T> implements List<T>
 	public void clear()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

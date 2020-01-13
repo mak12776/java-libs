@@ -1,6 +1,7 @@
+
 package less.types.nodes;
 
-public enum NodeType 
+public enum NodeType
 {
-	
+
 }

@@ -1,16 +1,17 @@
+
 package _olds;
 
-public class Line 
+public class Line
 {
 	public LinkedBuffer buffer;
 	public int start;
 	public int length;
 
 	public long number;
-	
+
 	public Line next;
-	
-	public Line(LinkedBuffer buffer, int start, int length, long lineNumber, Line next) 
+
+	public Line(LinkedBuffer buffer, int start, int length, long lineNumber, Line next)
 	{
 		this.buffer = buffer;
 		this.start = start;
@@ -18,7 +19,7 @@ public class Line
 		this.number = lineNumber;
 		this.next = next;
 	}
-	
+
 	public String getLine()
 	{
 		StringBuilder builder = new StringBuilder();
@@ -28,7 +29,7 @@ public class Line
 		while (length != 0)
 		{
 			builder.append((char) buffer.array[index]);
-			
+
 			index += 1;
 			if (index == buffer.length)
 			{

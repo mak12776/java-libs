@@ -1,3 +1,4 @@
+
 package tests.functions;
 
 import java.io.IOException;
@@ -14,19 +15,19 @@ import libs.tools.types.StreamTools;
 public class RespilerTest extends BaseTest
 {
 	public static String codeFileName = "code.rest";
-	
+
 	public static void TestAnalyzer()
 	{
 		BufferViews bufferLines = null;
 		TokenStream stream = null;
-		
-		try 
+
+		try
 		{
 			bufferLines = StreamTools.readLines(codeFileName);
 			stream = OldParser.parseBufferLines(bufferLines);
-			
+
 			int lnum = 0;
-			
+
 			OldToken token;
 			while ((token = stream.nextToken()) != null)
 			{
@@ -37,14 +38,12 @@ public class RespilerTest extends BaseTest
 				}
 				output.println(token);
 			}
-		}
-		catch (IOException | BaseException e)
+		} catch (IOException | BaseException e)
 		{
 			e.printStackTrace();
-		}
-		catch (ParserException e) 
+		} catch (ParserException e)
 		{
-			System.out.println((char)bufferLines.buffer[e.startIndex]);
+			System.out.println((char) bufferLines.buffer[e.startIndex]);
 			e.printStackTrace();
 		}
 	}

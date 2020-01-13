@@ -1,6 +1,7 @@
+
 package libs.tools.types;
 
-public final class StringBuilderTools 
+public final class StringBuilderTools
 {
 	public static void appendObjects(StringBuilder builder, Object... objects)
 	{
@@ -9,7 +10,7 @@ public final class StringBuilderTools
 			builder.append(objects[i]);
 		}
 	}
-	
+
 	public static void appendByte(StringBuilder builder, byte b)
 	{
 		switch (b)
@@ -17,20 +18,20 @@ public final class StringBuilderTools
 		case '\n':
 			builder.append("\\n");
 			break;
-			
+
 		case '\r':
 			builder.append("\\r");
 			break;
-		
+
 		case '\t':
 			builder.append("   ~");
 			break;
 
 		default:
-			builder.append((char)b);
+			builder.append((char) b);
 		}
 	}
-	
+
 	public static void appendBytes(StringBuilder builder, byte[] array, int start, int end)
 	{
 		for (int index = start; index < end; index += 1)

@@ -1,7 +1,8 @@
+
 package _olds;
 
-public class LinkedBytes 
+public class LinkedBytes
 {
-	public byte [] array;
+	public byte[] array;
 	public LinkedBytes next;
 }

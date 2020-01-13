@@ -1,3 +1,4 @@
+
 package cman.tree.statements;
 
 import java.util.List;
@@ -10,11 +11,11 @@ public class CFunction implements CStatement
 {
 	public boolean isStatic;
 	public boolean isInline;
-	
+
 	public CSimpleType returnType;
-	
+
 	public String name;
-	
+
 	public List<CArgument> arguments;
 	public List<CStatement> statements;
 }

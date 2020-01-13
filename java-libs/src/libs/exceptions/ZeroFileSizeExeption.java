@@ -1,10 +1,11 @@
+
 package libs.exceptions;
 
-public class ZeroFileSizeExeption extends BaseException 
+public class ZeroFileSizeExeption extends BaseException
 {
 	private static final long serialVersionUID = -2801635447599821114L;
-	
-	public ZeroFileSizeExeption() 
+
+	public ZeroFileSizeExeption()
 	{
 		super(null);
 	}

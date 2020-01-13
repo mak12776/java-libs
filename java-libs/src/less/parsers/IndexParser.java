@@ -1,3 +1,4 @@
+
 package less.parsers;
 
 import less.types.tokens.Token;
@@ -10,11 +11,11 @@ public class IndexParser
 	private BufferViews bufferLines;
 	private int lnum;
 	private int index;
-	
+
 	private boolean end;
-	
+
 	private Token token;
-	
+
 	public IndexParser(BufferViews bufferLines)
 	{
 		this.bufferLines = bufferLines;
@@ -23,12 +24,12 @@ public class IndexParser
 		this.end = false;
 		this.token = null;
 	}
-	
+
 	private byte getByte()
 	{
 		return bufferLines.buffer[index];
 	}
-	
+
 	private void incIndex()
 	{
 		index += 1;
@@ -44,29 +45,29 @@ public class IndexParser
 			index = bufferLines.getStart(lnum);
 		}
 	}
-	
+
 	private void setType(TokenType type)
 	{
 		token.type = type;
 	}
-	
+
 	private void setStartIndex()
 	{
 		token.startIndex = index;
 		token.startLine = lnum;
 	}
-	
+
 	private void setEndIndex()
 	{
 		token.endIndex = index;
 		token.endLine = lnum;
 	}
-	
+
 	private void setNameTypeCheckKeyword()
 	{
-		
+
 	}
-	
+
 	private boolean checkSymbolOne(char ch, TokenType type)
 	{
 		if (getByte() == ch)
@@ -74,53 +75,53 @@ public class IndexParser
 			setStartIndex();
 			incIndex();
 			setEndIndex();
-			
+
 			setType(type);
 			return true;
 		}
 		return false;
 	}
-	
+
 	public Token nextToken()
 	{
 		if (end)
 			return null;
-		
+
 		while (ByteTest.isBlank(getByte()))
 		{
 			incIndex();
 			if (end)
 				return null;
 		}
-		
+
 		token = new Token(null, 0, 0, 0, 0);
-		
+
 		// newline
-		
+
 		if (checkSymbolOne('\n', TokenType.NEWLINE))
 			return token;
-		
+
 		// keyword or name
-		
+
 		else if (ByteTest.isLower(getByte()))
 		{
 			setStartIndex();
-			
+
 			incIndex();
 			if (end)
 			{
 				setEndIndex();
-				
+
 			}
 		}
-		
+
 		// name
-		
+
 		else if (ByteTest.isUpper(getByte()) || getByte() == '_')
 		{
-			
+
 		}
-		
+
 		return token;
 	}
 }

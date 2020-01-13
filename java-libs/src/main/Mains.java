@@ -1,3 +1,4 @@
+
 package main;
 
 import java.io.FileInputStream;
@@ -15,13 +16,12 @@ public class Mains
 			System.out.println("usage: " + " [PATH]");
 			return;
 		}
-		
+
 		try
 		{
 			FileInputStream stream = new FileInputStream(args[0]);
 			System.out.println("number of lines: " + StreamTools.countLines(512, stream));
-		}
-		catch (IOException | BaseException e)
+		} catch (IOException | BaseException e)
 		{
 			e.printStackTrace();
 		}

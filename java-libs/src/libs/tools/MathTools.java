@@ -1,11 +1,14 @@
+
 package libs.tools;
 
-public class MathTools 
+public class MathTools
 {
-	private MathTools() {}
-	
+	private MathTools()
+	{
+	}
+
 	// minimum
-	
+
 	public static int min(int first, int... others)
 	{
 		int min = first;
@@ -16,7 +19,7 @@ public class MathTools
 		}
 		return min;
 	}
-	
+
 	public static double min(double first, double... others)
 	{
 		double min = first;
@@ -27,9 +30,9 @@ public class MathTools
 		}
 		return min;
 	}
-	
+
 	// maximum
-	
+
 	public static int max(int first, int... others)
 	{
 		int max = first;
@@ -40,7 +43,7 @@ public class MathTools
 		}
 		return max;
 	}
-	
+
 	public static double max(double first, double... others)
 	{
 		double max = first;
@@ -51,19 +54,19 @@ public class MathTools
 		}
 		return max;
 	}
-	
+
 	// point calculations
-	
+
 	public static double distance(int x1, int y1, int x2, int y2)
 	{
 		return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 	}
-	
+
 	public static double inverseDistance(int x1, int y1, int x2, int y2, double max)
 	{
 		return max - Math.min(distance(x1, y1, x2, y2), max);
 	}
-	
+
 	public static double inverseDistanceFraction(int x1, int y1, int x2, int y2, double max)
 	{
 		return inverseDistance(x1, y1, x2, y2, max) / max;

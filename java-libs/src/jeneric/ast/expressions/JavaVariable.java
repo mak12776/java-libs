@@ -1,3 +1,4 @@
+
 package jeneric.ast.expressions;
 
 import jeneric.ast.JavaCompoundName;

@@ -1,3 +1,4 @@
+
 package libs.tools.types;
 
 public class StringTools
@@ -8,14 +9,14 @@ public class StringTools
 		StringBuilderTools.appendObjects(builder, objects);
 		return builder.toString();
 	}
-	
+
 	public static String byteArrayToString(byte[] array, int start, int end)
 	{
 		StringBuilder builder = new StringBuilder();
 		StringBuilderTools.appendBytes(builder, array, start, end);
 		return builder.toString();
 	}
-	
+
 	public static String byteArrayToString(byte[] array, int start, int end, Object prefix, Object suffix)
 	{
 		StringBuilder builder = new StringBuilder();
@@ -24,12 +25,12 @@ public class StringTools
 		builder.append(suffix);
 		return builder.toString();
 	}
-	
+
 	public static String toHex(int value)
 	{
 		return Integer.toHexString(value);
 	}
-	
+
 	public static String toHex(long value)
 	{
 		return Long.toHexString(value);

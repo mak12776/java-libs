@@ -1,3 +1,4 @@
+
 package jeneric.modifiers;
 
 public enum JavaAccessModifier

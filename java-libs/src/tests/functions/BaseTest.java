@@ -1,3 +1,4 @@
+
 package tests.functions;
 
 import java.io.PrintStream;

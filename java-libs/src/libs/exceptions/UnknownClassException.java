@@ -1,3 +1,4 @@
+
 package libs.exceptions;
 
 public class UnknownClassException extends BaseRuntimeException
@@ -7,5 +8,5 @@ public class UnknownClassException extends BaseRuntimeException
 	public UnknownClassException(String string)
 	{
 		super(string);
-	}	
+	}
 }

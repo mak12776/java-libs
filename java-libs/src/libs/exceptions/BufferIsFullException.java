@@ -1,3 +1,4 @@
+
 package libs.exceptions;
 
 public class BufferIsFullException extends BaseRuntimeException

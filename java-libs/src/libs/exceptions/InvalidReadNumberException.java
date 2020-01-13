@@ -1,10 +1,11 @@
+
 package libs.exceptions;
 
-public class InvalidReadNumberException extends BaseException 
+public class InvalidReadNumberException extends BaseException
 {
 	private static final long serialVersionUID = 499474532888552035L;
-	
-	public InvalidReadNumberException(String string) 
+
+	public InvalidReadNumberException(String string)
 	{
 		super(string);
 	}

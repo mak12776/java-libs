@@ -1,3 +1,4 @@
+
 package libs.exceptions;
 
 public class EndOfBufferException extends BaseException
@@ -8,7 +9,7 @@ public class EndOfBufferException extends BaseException
 	{
 		super(message);
 	}
-	
+
 	public EndOfBufferException()
 	{
 		super();
