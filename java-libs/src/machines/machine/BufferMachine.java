@@ -21,6 +21,7 @@ public class BufferMachine
 	}
 
 	private byte[] instBuffer;
+	private byte[] dataBuffer;
 
 	private byte nextByte()
 	{
@@ -35,31 +36,91 @@ public class BufferMachine
 				(instBuffer[ip++] & 0xff);
 	}
 
-	private void checkPointerIndex(final int index)
+	private void checkPointersIndex(final int index)
 	{
 		if ((index < 0) || (index >= pointers.length))
-			throw new RuntimeError(ErrorType.INVALID_POINTER_INDEX);
+			throw new RuntimeError(ErrorType.INVALID_POINTERS_INDEX);
 	}
-
-	private void checkBasePointerIndex(final int index)
+	
+	private void checkBuffersIndex(final int index)
 	{
 		if ((index < 0) || (index >= buffers.length))
-			throw new RuntimeError(ErrorType.INVALID_BASE_POINTER_INDEX);
+			throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX);
 	}
-
-	private int nextPointerIndex()
+	
+	private void checkDataBuffersIndex(final int index)
+	{
+		if ((index < 0) || (index >= dataBuffer.length))
+			throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX);
+	}
+	
+	private void checkNullDataBuffer()
+	{
+		if (dataBuffer == null)
+			throw new RuntimeError(ErrorType.NULL_DATA_POINTER);
+	}
+	
+	private int nextPointersIndex()
 	{
 		int index = nextInt();
 		if (SAFE)
-			checkPointerIndex(index);
+			checkPointersIndex(index);
 		return index;
 	}
 
-	private int nextBasePointerIndex()
+	private int nextBuffersIndex()
 	{
 		int index = nextInt();
 		if (SAFE)
-			checkBasePointerIndex(index);
+			checkBuffersIndex(index);
+		return index;
+	}
+	
+	private void setDataBufferFromBuffersIndex()
+	{
+		int index;
+		index = nextBuffersIndex();
+		dataBuffer = buffers[index];
+		if (SAFE)
+			checkNullDataBuffer();
+	}
+	
+	private int nextBuffersIndexAtPointersIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkPointersIndex(index);
+		index = pointers[index];
+		if (SAFE)
+			checkBuffersIndex(index);
+		return index;
+	}
+	
+	private void setDataBufferFromBuffersIndexAtPointersIndex()
+	{
+		int index;
+		index = nextBuffersIndexAtPointersIndex();
+		dataBuffer = buffers[index];
+		if (SAFE)
+			checkNullDataBuffer();
+	}
+	
+	private int nextDataBufferIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkDataBuffersIndex(index);
+		return index;
+	}
+	
+	private int nextDataBufferIndexAtPointersIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkPointersIndex(index);
+		index = pointers[index];
+		if (SAFE)
+			checkDataBuffersIndex(index);
 		return index;
 	}
 
@@ -67,31 +128,52 @@ public class BufferMachine
 
 	/*
 	 * symbol 		size 			description 
-	 * IM 			8/16/32/64 		immediate 
-	 * PI 			32 				pointer index 32bit
+	 * IM8/32 		8/32	 		immediate 
+	 * PI 			32 				pointers index
+	 * BI			32				buffers index
 	 * 
-	 * M_PI_PI 		64 				memory at [PI:PI]
-	 * M_PI_IM32 	64 				memory at [PI:IM32]	
-	 * M_IM32_PI 	64				memory at [IM32:PI]
-	 * M_PI_IM32 	64 				memory at [PI:IM32]
+	 * PI:PI		32 + 32			address at:		buffers [pointers[PI]] [pointers[PI]]
+	 * BI:BI		32 + 32			address at:		buffers [buffer index] [buffer index]
+	 * 
+	 * PI:BI		32 + 32			address at:		...
+	 * BI:PI		32 + 32			address at:		...
 	 */
 
-	public static final byte INST_NOOP = 0x00;
+	public static final byte INST_NOOP = 						0x00;
 
-	private static final byte BASE1 = INST_NOOP;
+	private static final byte BASE1 = 							INST_NOOP;
 
-	public static final byte INST_COPY_IM32_PI = BASE1 + 1;
-	public static final byte INST_COPY_PI_PI = BASE1 + 2;
+	public static final byte INST_COPY_IM32_PI = 				BASE1 + 1;
+	public static final byte INST_COPY_PI_PI = 					BASE1 + 2;
 
-	private static final byte BASE2 = INST_COPY_PI_PI;
+	private static final byte BASE2 = 							INST_COPY_PI_PI;
 
-	public static final byte INST_COPY__IM8__M_PI_PI = BASE2 + 1;
-	public static final byte INST_COPY__IM8__M_PI_IM = BASE2 + 2;
-	public static final byte INST_COPY__IM8__M_IM_PI = BASE2 + 3;
-	public static final byte INST_COPY__IM8__M_IM_IM = BASE2 + 4;
+	public static final byte INST_COPY__IM8__PI_PI = 			BASE2 + 1;
+	public static final byte INST_COPY__IM8__BI_PI = 			BASE2 + 2;
+	public static final byte INST_COPY__IM8__PI_BI = 			BASE2 + 3;
+	public static final byte INST_COPY__IM8__BI_BI = 			BASE2 + 4;
+	
+	private static final byte BASE3 = 							INST_COPY__IM8__BI_BI;
 
-	public static final byte INST_COPY__M_PI_PI__M_PI_PI = BASE2 + 5;
-	public static final byte INST_COPY__M_PI_PI__M_PI_IM = BASE2 + 6;
+	public static final byte INST_COPY__BI_BI__BI_BI =			BASE3 + 5;
+	public static final byte INST_COPY__BI_BI__BI_PI =			BASE3 + 6;
+	public static final byte INST_COPY__BI_BI__PI_BI =			BASE3 + 7;
+	public static final byte INST_COPY__BI_BI__PI_PI =			BASE3 + 8;
+
+	public static final byte INST_COPY__BI_PI__BI_BI =			BASE3 + 9;
+	public static final byte INST_COPY__BI_PI__BI_PI =			BASE3 + 10;
+	public static final byte INST_COPY__BI_PI__PI_BI =			BASE3 + 11;
+	public static final byte INST_COPY__BI_PI__PI_PI =			BASE3 + 12;
+
+	public static final byte INST_COPY__PI_BI__BI_BI =			BASE3 + 13;
+	public static final byte INST_COPY__PI_BI__BI_PI =			BASE3 + 14;
+	public static final byte INST_COPY__PI_BI__PI_BI =			BASE3 + 15;
+	public static final byte INST_COPY__PI_BI__PI_PI =			BASE3 + 16;
+
+	public static final byte INST_COPY__PI_PI__BI_BI =			BASE3 + 17;
+	public static final byte INST_COPY__PI_PI__BI_PI =			BASE3 + 18;
+	public static final byte INST_COPY__PI_PI__PI_BI =			BASE3 + 19;
+	public static final byte INST_COPY__PI_PI__PI_PI =			BASE3 + 20;
 
 	public void run() throws RuntimeError
 	{
@@ -101,15 +183,15 @@ public class BufferMachine
 		if (bip >= buffers.length)
 		{
 			throw new RuntimeError(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
-					"base instruction pointer is out of range: " + bip);
+					String.valueOf(bip));
 		}
 
 		instBuffer = buffers[bip];
 
 		if (instBuffer == null)
 		{
-			throw new RuntimeError(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
-					"null buffer pointer: " + bip);
+			throw new RuntimeError(ErrorType.NULL_INSTRUCTION_POINTER, 
+					String.valueOf(bip));
 		}
 
 		while (ip < instBuffer.length)
@@ -121,15 +203,21 @@ public class BufferMachine
 				break;
 
 			case INST_COPY_IM32_PI:
-				pointers[nextPointerIndex()] = nextInt();
+				pointers[nextPointersIndex()] = nextInt();
 				break;
 
 			case INST_COPY_PI_PI:
-				pointers[nextPointerIndex()] = pointers[nextPointerIndex()];
+				pointers[nextPointersIndex()] = pointers[nextPointersIndex()];
 				break;
 
-			case INST_COPY__IM8__M_PI_PI:
-
+			case INST_COPY__IM8__PI_PI:
+				setDataBufferFromBuffersIndexAtPointersIndex();
+				dataBuffer[nextDataBufferIndexAtPointersIndex()] = nextByte();
+				break;
+				
+			case INST_COPY__IM8__BI_BI:
+				setDataBufferFromBuffersIndex();
+				dataBuffer[nextDataBufferIndex()] = nextByte();
 			}
 		}
 	}
