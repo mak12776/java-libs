@@ -155,25 +155,25 @@ public class BufferMachine
 	
 	private static final byte BASE3 = 							INST_COPY__IM8__BI_BI;
 
-	public static final byte INST_COPY__BI_BI__BI_BI =			BASE3 + 5;
-	public static final byte INST_COPY__BI_BI__BI_PI =			BASE3 + 6;
-	public static final byte INST_COPY__BI_BI__PI_BI =			BASE3 + 7;
-	public static final byte INST_COPY__BI_BI__PI_PI =			BASE3 + 8;
+	public static final byte INST_COPY__BI_BI__BI_BI =			BASE3 + 1;
+	public static final byte INST_COPY__BI_BI__BI_PI =			BASE3 + 2;
+	public static final byte INST_COPY__BI_BI__PI_BI =			BASE3 + 3;
+	public static final byte INST_COPY__BI_BI__PI_PI =			BASE3 + 4;
 
-	public static final byte INST_COPY__BI_PI__BI_BI =			BASE3 + 9;
-	public static final byte INST_COPY__BI_PI__BI_PI =			BASE3 + 10;
-	public static final byte INST_COPY__BI_PI__PI_BI =			BASE3 + 11;
-	public static final byte INST_COPY__BI_PI__PI_PI =			BASE3 + 12;
+	public static final byte INST_COPY__BI_PI__BI_BI =			BASE3 + 5;
+	public static final byte INST_COPY__BI_PI__BI_PI =			BASE3 + 6;
+	public static final byte INST_COPY__BI_PI__PI_BI =			BASE3 + 7;
+	public static final byte INST_COPY__BI_PI__PI_PI =			BASE3 + 8;
 
-	public static final byte INST_COPY__PI_BI__BI_BI =			BASE3 + 13;
-	public static final byte INST_COPY__PI_BI__BI_PI =			BASE3 + 14;
-	public static final byte INST_COPY__PI_BI__PI_BI =			BASE3 + 15;
-	public static final byte INST_COPY__PI_BI__PI_PI =			BASE3 + 16;
+	public static final byte INST_COPY__PI_BI__BI_BI =			BASE3 + 9;
+	public static final byte INST_COPY__PI_BI__BI_PI =			BASE3 + 10;
+	public static final byte INST_COPY__PI_BI__PI_BI =			BASE3 + 11;
+	public static final byte INST_COPY__PI_BI__PI_PI =			BASE3 + 12;
 
-	public static final byte INST_COPY__PI_PI__BI_BI =			BASE3 + 17;
-	public static final byte INST_COPY__PI_PI__BI_PI =			BASE3 + 18;
-	public static final byte INST_COPY__PI_PI__PI_BI =			BASE3 + 19;
-	public static final byte INST_COPY__PI_PI__PI_PI =			BASE3 + 20;
+	public static final byte INST_COPY__PI_PI__BI_BI =			BASE3 + 13;
+	public static final byte INST_COPY__PI_PI__BI_PI =			BASE3 + 14;
+	public static final byte INST_COPY__PI_PI__PI_BI =			BASE3 + 15;
+	public static final byte INST_COPY__PI_PI__PI_PI =			BASE3 + 16;
 
 	public void run() throws RuntimeError
 	{
