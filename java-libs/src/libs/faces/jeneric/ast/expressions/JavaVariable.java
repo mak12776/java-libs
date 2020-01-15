@@ -1,8 +1,8 @@
 
-package jeneric.ast.expressions;
+package libs.faces.jeneric.ast.expressions;
 
-import jeneric.ast.JavaCompoundName;
-import jeneric.interfaces.JavaExpression;
+import libs.faces.jeneric.ast.JavaCompoundName;
+import libs.faces.jeneric.interfaces.JavaExpression;
 
 public class JavaVariable implements JavaExpression
 {

@@ -1,5 +1,5 @@
 
-package jeneric.interfaces;
+package libs.faces.jeneric.interfaces;
 
 public interface JavaStatement
 {

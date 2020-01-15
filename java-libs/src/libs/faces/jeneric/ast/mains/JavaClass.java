@@ -1,10 +1,10 @@
 
-package jeneric.ast.mains;
+package libs.faces.jeneric.ast.mains;
 
 import java.util.List;
 
-import jeneric.ast.JavaClassVariable;
-import jeneric.modifiers.JavaAccessModifier;
+import libs.faces.jeneric.ast.JavaClassVariable;
+import libs.faces.jeneric.modifiers.JavaAccessModifier;
 
 public class JavaClass
 {

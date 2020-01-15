@@ -1,5 +1,5 @@
 
-package jeneric.ast.expressions.values;
+package libs.faces.jeneric.ast.expressions.values;
 
 public class JavaInteger
 {

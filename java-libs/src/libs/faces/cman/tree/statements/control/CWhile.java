@@ -1,10 +1,10 @@
 
-package cman.tree.statements.control;
+package libs.faces.cman.tree.statements.control;
 
 import java.util.List;
 
-import cman.interfaces.CExpression;
-import cman.interfaces.CStatement;
+import libs.faces.cman.interfaces.CExpression;
+import libs.faces.cman.interfaces.CStatement;
 
 public class CWhile
 {

@@ -1,7 +1,7 @@
 
-package cman.tree.statements.control;
+package libs.faces.cman.tree.statements.control;
 
-import cman.interfaces.CExpression;
+import libs.faces.cman.interfaces.CExpression;
 
 public class CSwitch
 {

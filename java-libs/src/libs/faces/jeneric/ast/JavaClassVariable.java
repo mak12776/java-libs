@@ -1,8 +1,8 @@
 
-package jeneric.ast;
+package libs.faces.jeneric.ast;
 
-import jeneric.interfaces.JavaExpression;
-import jeneric.modifiers.JavaAccessModifier;
+import libs.faces.jeneric.interfaces.JavaExpression;
+import libs.faces.jeneric.modifiers.JavaAccessModifier;
 
 public class JavaClassVariable
 {
