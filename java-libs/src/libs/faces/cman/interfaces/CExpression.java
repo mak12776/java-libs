@@ -1,0 +1,7 @@
+
+package libs.faces.cman.interfaces;
+
+public interface CExpression
+{
+
+}
