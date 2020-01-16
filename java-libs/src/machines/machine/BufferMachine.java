@@ -221,12 +221,6 @@ public class BufferMachine
 	public static final byte INST_COPY_PI_PI = 						BASE1 + 2;
 
 	private static final byte BASE2 = 								INST_COPY_PI_PI;
-	
-	//# for (i = 0; i < 100; i += 1)
-	//# 	file.write("	public static final byte INST_COPY__IM8__PI_PI_8 = 				BASE2 + 1;");
-	
-	//# def write_inst(name, value):
-	//# 	file.write(f"	public static final byte {name} = 				{value};");
 
 	public static final byte INST_COPY__IM8__PI_PI_8 = 				BASE2 + 1;
 	public static final byte INST_COPY__IM8__BI_PI_8 = 				BASE2 + 2;
@@ -257,14 +251,127 @@ public class BufferMachine
 	
 	private static final byte BASE4 =								INST_COPY__PI_PI_8__PI_PI_8;
 	
-	//# for opr1 in operands
-		//# for opr2 in operands
-		//# write('public static final byte {} = {};')
 	public static final byte INST_TEST__IM8__EQ__BI_BI_8 =			BASE4 + 1;
-		//# end for
-	//# end for
+	public static final byte INST_TEST__IM8__EQ__BI_PI_8 =			BASE4 + 2;
+	public static final byte INST_TEST__IM8__EQ__PI_BI_8 =			BASE4 + 3;
+	public static final byte INST_TEST__IM8__EQ__PI_PI_8 =			BASE4 + 4;
+
+	public static final byte INST_TEST__IM8__NE__BI_BI_8 =			BASE4 + 5;
+	public static final byte INST_TEST__IM8__NE__BI_PI_8 =			BASE4 + 6;
+	public static final byte INST_TEST__IM8__NE__PI_BI_8 =			BASE4 + 7;
+	public static final byte INST_TEST__IM8__NE__PI_PI_8 =			BASE4 + 8;
+
+	public static final byte INST_TEST__IM8__GT__BI_BI_8 =			BASE4 + 9;
+	public static final byte INST_TEST__IM8__GT__BI_PI_8 =			BASE4 + 10;
+	public static final byte INST_TEST__IM8__GT__PI_BI_8 =			BASE4 + 11;
+	public static final byte INST_TEST__IM8__GT__PI_PI_8 =			BASE4 + 12;
+
+	public static final byte INST_TEST__IM8__GE__BI_BI_8 =			BASE4 + 13;
+	public static final byte INST_TEST__IM8__GE__BI_PI_8 =			BASE4 + 14;
+	public static final byte INST_TEST__IM8__GE__PI_BI_8 =			BASE4 + 15;
+	public static final byte INST_TEST__IM8__GE__PI_PI_8 =			BASE4 + 16;
+
+	public static final byte INST_TEST__IM8__LT__BI_BI_8 =			BASE4 + 17;
+	public static final byte INST_TEST__IM8__LT__BI_PI_8 =			BASE4 + 18;
+	public static final byte INST_TEST__IM8__LT__PI_BI_8 =			BASE4 + 19;
+	public static final byte INST_TEST__IM8__LT__PI_PI_8 =			BASE4 + 20;
+
+	public static final byte INST_TEST__IM8__LE__BI_BI_8 =			BASE4 + 21;
+	public static final byte INST_TEST__IM8__LE__BI_PI_8 =			BASE4 + 22;
+	public static final byte INST_TEST__IM8__LE__PI_BI_8 =			BASE4 + 23;
+	public static final byte INST_TEST__IM8__LE__PI_PI_8 =			BASE4 + 24;
+
+	public static final byte INST_TEST__AND__IM8__EQ__BI_BI_8 =			BASE4 + 25;
+	public static final byte INST_TEST__AND__IM8__EQ__BI_PI_8 =			BASE4 + 26;
+	public static final byte INST_TEST__AND__IM8__EQ__PI_BI_8 =			BASE4 + 27;
+	public static final byte INST_TEST__AND__IM8__EQ__PI_PI_8 =			BASE4 + 28;
+
+	public static final byte INST_TEST__AND__IM8__NE__BI_BI_8 =			BASE4 + 29;
+	public static final byte INST_TEST__AND__IM8__NE__BI_PI_8 =			BASE4 + 30;
+	public static final byte INST_TEST__AND__IM8__NE__PI_BI_8 =			BASE4 + 31;
+	public static final byte INST_TEST__AND__IM8__NE__PI_PI_8 =			BASE4 + 32;
+
+	public static final byte INST_TEST__AND__IM8__GT__BI_BI_8 =			BASE4 + 33;
+	public static final byte INST_TEST__AND__IM8__GT__BI_PI_8 =			BASE4 + 34;
+	public static final byte INST_TEST__AND__IM8__GT__PI_BI_8 =			BASE4 + 35;
+	public static final byte INST_TEST__AND__IM8__GT__PI_PI_8 =			BASE4 + 36;
+
+	public static final byte INST_TEST__AND__IM8__GE__BI_BI_8 =			BASE4 + 37;
+	public static final byte INST_TEST__AND__IM8__GE__BI_PI_8 =			BASE4 + 38;
+	public static final byte INST_TEST__AND__IM8__GE__PI_BI_8 =			BASE4 + 39;
+	public static final byte INST_TEST__AND__IM8__GE__PI_PI_8 =			BASE4 + 40;
+
+	public static final byte INST_TEST__AND__IM8__LT__BI_BI_8 =			BASE4 + 41;
+	public static final byte INST_TEST__AND__IM8__LT__BI_PI_8 =			BASE4 + 42;
+	public static final byte INST_TEST__AND__IM8__LT__PI_BI_8 =			BASE4 + 43;
+	public static final byte INST_TEST__AND__IM8__LT__PI_PI_8 =			BASE4 + 44;
+
+	public static final byte INST_TEST__AND__IM8__LE__BI_BI_8 =			BASE4 + 45;
+	public static final byte INST_TEST__AND__IM8__LE__BI_PI_8 =			BASE4 + 46;
+	public static final byte INST_TEST__AND__IM8__LE__PI_BI_8 =			BASE4 + 47;
+	public static final byte INST_TEST__AND__IM8__LE__PI_PI_8 =			BASE4 + 48;
+
+	public static final byte INST_TEST__OR__IM8__EQ__BI_BI_8 =			BASE4 + 49;
+	public static final byte INST_TEST__OR__IM8__EQ__BI_PI_8 =			BASE4 + 50;
+	public static final byte INST_TEST__OR__IM8__EQ__PI_BI_8 =			BASE4 + 51;
+	public static final byte INST_TEST__OR__IM8__EQ__PI_PI_8 =			BASE4 + 52;
+
+	public static final byte INST_TEST__OR__IM8__NE__BI_BI_8 =			BASE4 + 53;
+	public static final byte INST_TEST__OR__IM8__NE__BI_PI_8 =			BASE4 + 54;
+	public static final byte INST_TEST__OR__IM8__NE__PI_BI_8 =			BASE4 + 55;
+	public static final byte INST_TEST__OR__IM8__NE__PI_PI_8 =			BASE4 + 56;
+
+	public static final byte INST_TEST__OR__IM8__GT__BI_BI_8 =			BASE4 + 57;
+	public static final byte INST_TEST__OR__IM8__GT__BI_PI_8 =			BASE4 + 58;
+	public static final byte INST_TEST__OR__IM8__GT__PI_BI_8 =			BASE4 + 59;
+	public static final byte INST_TEST__OR__IM8__GT__PI_PI_8 =			BASE4 + 60;
+
+	public static final byte INST_TEST__OR__IM8__GE__BI_BI_8 =			BASE4 + 61;
+	public static final byte INST_TEST__OR__IM8__GE__BI_PI_8 =			BASE4 + 62;
+	public static final byte INST_TEST__OR__IM8__GE__PI_BI_8 =			BASE4 + 63;
+	public static final byte INST_TEST__OR__IM8__GE__PI_PI_8 =			BASE4 + 64;
+
+	public static final byte INST_TEST__OR__IM8__LT__BI_BI_8 =			BASE4 + 65;
+	public static final byte INST_TEST__OR__IM8__LT__BI_PI_8 =			BASE4 + 66;
+	public static final byte INST_TEST__OR__IM8__LT__PI_BI_8 =			BASE4 + 67;
+	public static final byte INST_TEST__OR__IM8__LT__PI_PI_8 =			BASE4 + 68;
+
+	public static final byte INST_TEST__OR__IM8__LE__BI_BI_8 =			BASE4 + 69;
+	public static final byte INST_TEST__OR__IM8__LE__BI_PI_8 =			BASE4 + 70;
+	public static final byte INST_TEST__OR__IM8__LE__PI_BI_8 =			BASE4 + 71;
+	public static final byte INST_TEST__OR__IM8__LE__PI_PI_8 =			BASE4 + 72;
+
+	public static final byte INST_TEST__XOR__IM8__EQ__BI_BI_8 =			BASE4 + 73;
+	public static final byte INST_TEST__XOR__IM8__EQ__BI_PI_8 =			BASE4 + 74;
+	public static final byte INST_TEST__XOR__IM8__EQ__PI_BI_8 =			BASE4 + 75;
+	public static final byte INST_TEST__XOR__IM8__EQ__PI_PI_8 =			BASE4 + 76;
+
+	public static final byte INST_TEST__XOR__IM8__NE__BI_BI_8 =			BASE4 + 77;
+	public static final byte INST_TEST__XOR__IM8__NE__BI_PI_8 =			BASE4 + 78;
+	public static final byte INST_TEST__XOR__IM8__NE__PI_BI_8 =			BASE4 + 79;
+	public static final byte INST_TEST__XOR__IM8__NE__PI_PI_8 =			BASE4 + 80;
+
+	public static final byte INST_TEST__XOR__IM8__GT__BI_BI_8 =			BASE4 + 81;
+	public static final byte INST_TEST__XOR__IM8__GT__BI_PI_8 =			BASE4 + 82;
+	public static final byte INST_TEST__XOR__IM8__GT__PI_BI_8 =			BASE4 + 83;
+	public static final byte INST_TEST__XOR__IM8__GT__PI_PI_8 =			BASE4 + 84;
+
+	public static final byte INST_TEST__XOR__IM8__GE__BI_BI_8 =			BASE4 + 85;
+	public static final byte INST_TEST__XOR__IM8__GE__BI_PI_8 =			BASE4 + 86;
+	public static final byte INST_TEST__XOR__IM8__GE__PI_BI_8 =			BASE4 + 87;
+	public static final byte INST_TEST__XOR__IM8__GE__PI_PI_8 =			BASE4 + 88;
+
+	public static final byte INST_TEST__XOR__IM8__LT__BI_BI_8 =			BASE4 + 89;
+	public static final byte INST_TEST__XOR__IM8__LT__BI_PI_8 =			BASE4 + 90;
+	public static final byte INST_TEST__XOR__IM8__LT__PI_BI_8 =			BASE4 + 91;
+	public static final byte INST_TEST__XOR__IM8__LT__PI_PI_8 =			BASE4 + 92;
+
+	public static final byte INST_TEST__XOR__IM8__LE__BI_BI_8 =			BASE4 + 93;
+	public static final byte INST_TEST__XOR__IM8__LE__BI_PI_8 =			BASE4 + 94;
+	public static final byte INST_TEST__XOR__IM8__LE__PI_BI_8 =			BASE4 + 95;
+	public static final byte INST_TEST__XOR__IM8__LE__PI_PI_8 =			BASE4 + 96;
 	
-	private static final byte BASE5 =								INST_TEST__IM8__EQ__BI_BI_8;
+	private static final byte BASE5 =								INST_TEST__XOR__IM8__LE__PI_PI_8;
 
 	public static final byte INST_TEST__BI_BI_8__EQ__BI_BI_8 =		BASE5 + 1;
 	public static final byte INST_TEST__BI_BI_8__EQ__BI_PI_8 =		BASE5 + 2;
