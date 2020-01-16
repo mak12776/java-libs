@@ -1,5 +1,5 @@
 
-package libs.faces.jeneric.ast.mains;
+package labs.faces.jeneric.ast.mains;
 
 public class JavaInterface
 {

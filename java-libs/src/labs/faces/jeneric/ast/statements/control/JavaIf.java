@@ -1,10 +1,10 @@
 
-package libs.faces.jeneric.ast.statements.control;
+package labs.faces.jeneric.ast.statements.control;
 
 import java.util.List;
 
-import libs.faces.jeneric.interfaces.JavaExpression;
-import libs.faces.jeneric.interfaces.JavaStatement;
+import labs.faces.jeneric.interfaces.JavaExpression;
+import labs.faces.jeneric.interfaces.JavaStatement;
 
 public class JavaIf
 {

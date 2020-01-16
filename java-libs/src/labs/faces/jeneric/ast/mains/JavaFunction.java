@@ -1,11 +1,11 @@
 
-package libs.faces.jeneric.ast.mains;
+package labs.faces.jeneric.ast.mains;
 
 import java.util.List;
 
-import libs.faces.jeneric.ast.JavaCompoundName;
-import libs.faces.jeneric.interfaces.JavaStatement;
-import libs.faces.jeneric.modifiers.JavaAccessModifier;
+import labs.faces.jeneric.ast.JavaCompoundName;
+import labs.faces.jeneric.interfaces.JavaStatement;
+import labs.faces.jeneric.modifiers.JavaAccessModifier;
 
 public class JavaFunction
 {

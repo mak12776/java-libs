@@ -1,7 +1,7 @@
 
-package libs.faces.jeneric.ast.expressions;
+package labs.faces.jeneric.ast.expressions;
 
-import libs.faces.jeneric.interfaces.JavaExpression;
+import labs.faces.jeneric.interfaces.JavaExpression;
 
 public abstract class JavaUnaryOperation
 {

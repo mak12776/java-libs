@@ -1,5 +1,5 @@
 
-package libs.faces.jeneric.ast;
+package labs.faces.jeneric.ast;
 
 public class JavaFile
 {

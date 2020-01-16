@@ -1,5 +1,5 @@
 
-package libs.faces.jeneric.interfaces;
+package labs.faces.jeneric.interfaces;
 
 public interface JavaExpression
 {

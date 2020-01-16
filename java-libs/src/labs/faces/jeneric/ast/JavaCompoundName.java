@@ -1,9 +1,9 @@
 
-package libs.faces.jeneric.ast;
+package labs.faces.jeneric.ast;
 
 import java.util.List;
 
-import libs.faces.jeneric.Jeneric;
+import labs.faces.jeneric.Jeneric;
 
 public class JavaCompoundName
 {
