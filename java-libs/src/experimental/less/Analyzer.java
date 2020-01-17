@@ -1,10 +1,10 @@
 
-package less;
+package experimental.less;
 
-import less.exceptions.ParserException;
-import less.parsers.OldParser.TokenStream;
-import less.types.nodes.Node;
-import less.types.tokens.olds.OldToken;
+import experimental.less.exceptions.ParserException;
+import experimental.less.parsers.OldParser.TokenStream;
+import experimental.less.types.nodes.Node;
+import experimental.less.types.tokens.olds.OldToken;
 
 public class Analyzer
 {

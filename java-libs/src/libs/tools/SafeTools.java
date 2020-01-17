@@ -25,15 +25,24 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid integer bytes: " + bytes);
 	}
 
-	// check array size bytes
+	// check array index
 
-	public static final boolean CHECK_ARRAY_SIZE_BYTES = false;
+	public static final boolean CHECK_ARRAY_INDEX_BYTES = false;
 
-	public static void checkArraySizeBytes(final int bytes)
+	public static void checkArrayIndexBytes(final int bytes)
 	{
 		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES))
 			throw new IllegalArgumentException("invalid array size bytes: " + bytes);
 	}
+	
+	public static final boolean CHECK_ARRAY_INDEX_BITS = false;
+	
+	public static void checkArrayIndexBits(final int bits)
+	{
+		if ((bits != Byte.SIZE) && (bits != Short.SIZE) && (bits != Integer.SIZE))
+			throw new IllegalArgumentException("invalid array size bytes: " + bits);
+	}
+	
 
 	// index out of bounds
 
@@ -49,6 +58,12 @@ public class SafeTools
 	{
 		if ((index < min) || (index >= max))
 			throw new IndexOutOfBoundsException("index is out of bounds: " + index);
+	}
+	
+	public static void checkNegativeZeroIndex(final int size, String name)
+	{
+		if (size <= 0)
+			throw new IllegalArgumentException("negative, zero " + name + ": " + size);
 	}
 
 	// size

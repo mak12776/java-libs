@@ -13,6 +13,8 @@ import libs.views.View;
 
 public class ByteTools
 {
+	public final static boolean OPTIMIZED = true;
+	
 	public static byte[] newSpaceLine(int size)
 	{
 		byte[] result;
@@ -282,9 +284,12 @@ public class ByteTools
 
 	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
 	{
-		for (int index = 0; index < length; index += 1)
+		if (OPTIMIZED)
+			System.arraycopy(source, sourceOffset, destination, destinationOffset, length);
+		else
 		{
-			destination[destinationOffset + index] = source[sourceOffset + index];
+			for (int index = 0; index < length; index += 1)
+				destination[destinationOffset + index] = source[sourceOffset + index];
 		}
 	}
 

@@ -1,5 +1,5 @@
 
-package less.types.tokens;
+package experimental.less.types.tokens;
 
 public enum TokenType
 {

@@ -1,5 +1,5 @@
 
-package less.types;
+package experimental.less.types;
 
 public enum ErrorType
 {
