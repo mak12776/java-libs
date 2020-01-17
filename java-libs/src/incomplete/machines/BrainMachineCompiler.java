@@ -1,7 +1,7 @@
 
 package incomplete.machines;
 
-import libs.bytes.BufferViews;
+import libs.buffers.BufferViews;
 import libs.bytes.ByteTest;
 import libs.bytes.ByteView;
 

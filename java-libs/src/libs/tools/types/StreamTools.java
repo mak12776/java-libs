@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.BufferViews;
+import libs.buffers.BufferViews;
 import libs.bytes.ByteViewInterface;
 import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;

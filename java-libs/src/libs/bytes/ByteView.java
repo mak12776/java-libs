@@ -1,6 +1,7 @@
 
 package libs.bytes;
 
+import libs.buffers.BufferViews;
 import libs.tools.types.ByteTools;
 
 public class ByteView implements ByteViewInterface
