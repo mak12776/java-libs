@@ -3,9 +3,9 @@ package libs.fio;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class JavaOutFile extends OutFile
+public class JavaOutputFile extends OutputFile
 {
-	public JavaOutFile(OutputStream stream)
+	public JavaOutputFile(OutputStream stream)
 	{
 		super(stream);
 	}

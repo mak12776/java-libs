@@ -3,20 +3,20 @@ package libs.fio;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class OutFile
+public class OutputFile
 {
 	private OutputStream stream;
 	private String newline;
 	
 	// constructors
 	
-	public OutFile(OutputStream stream, String newline)
+	public OutputFile(OutputStream stream, String newline)
 	{
 		this.stream = stream;
 		this.newline = newline;
 	}
 	
-	public OutFile(OutputStream stream)
+	public OutputFile(OutputStream stream)
 	{
 		this(stream, "\n");
 	}

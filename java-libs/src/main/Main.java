@@ -3,7 +3,7 @@ package main;
 
 import java.io.IOException;
 
-import libs.fio.JavaOutFile;
+import libs.fio.JavaOutputFile;
 
 public class Main
 {
@@ -12,7 +12,7 @@ public class Main
 		String className = "Machine";
 		String safeVariableName = "SAFE";
 		
-		JavaOutFile file = new JavaOutFile(System.out);
+		JavaOutputFile file = new JavaOutputFile(System.out);
 		
 		file.print("// Hello World");
 		file.print();
