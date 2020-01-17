@@ -1,5 +1,5 @@
 
-package libs.views;
+package libs.bytes;
 
 public interface ByteViewInterface
 {

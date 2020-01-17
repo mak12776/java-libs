@@ -3,7 +3,6 @@ package libs.bytes;
 
 import libs.tools.types.ByteTools;
 import libs.tools.types.StringBuilderTools;
-import libs.views.ByteViewInterface;
 import libs.views.View;
 
 public class BufferViews

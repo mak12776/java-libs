@@ -1,6 +1,8 @@
 
 package libs.views;
 
+import libs.bytes.ByteViewInterface;
+
 public class View implements ByteViewInterface
 {
 	public int start;

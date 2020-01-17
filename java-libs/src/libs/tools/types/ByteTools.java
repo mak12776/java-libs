@@ -6,9 +6,9 @@ import java.io.OutputStream;
 
 import libs.bytes.ByteTest;
 import libs.bytes.ByteView;
+import libs.bytes.ByteViewInterface;
 import libs.exceptions.UnknownClassException;
 import libs.tools.SafeTools;
-import libs.views.ByteViewInterface;
 import libs.views.View;
 
 public class ByteTools
@@ -181,6 +181,14 @@ public class ByteTools
 			if (buffer[start] != value)
 				return false;
 		return true;
+	}
+	
+	// fill functions
+	
+	public static void fill(byte[] buffer, int start, int end, byte value)
+	{
+		for (; start < end; start += 1)
+			buffer[start] = value;
 	}
 
 	// find test functions

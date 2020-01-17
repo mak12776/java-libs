@@ -5,8 +5,8 @@ import java.io.OutputStream;
 
 public class OutputFile
 {
-	private OutputStream stream;
-	private String newline;
+	protected OutputStream stream;
+	protected String newline;
 	
 	// constructors
 	
@@ -20,6 +20,8 @@ public class OutputFile
 	{
 		this(stream, "\n");
 	}
+	
+	// functions
 	
 	public void write(byte[] buffer) throws IOException
 	{
