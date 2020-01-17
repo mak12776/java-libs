@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import libs.exceptions.BaseException;
+import libs.fio.JavaOutputFile;
 import libs.tools.types.StreamTools;
 
 public class Programs
@@ -25,5 +26,31 @@ public class Programs
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public static void writeCode(String[] args) throws IOException
+	{
+		String className = "Machine";
+		String safeVariableName = "SAFE";
+		
+		JavaOutputFile file = new JavaOutputFile(System.out);
+		
+		file.print("// Hello World");
+		file.print();
+		file.print("public class " + className);
+		file.printLeftBrace();
+		file.print("private static final boolean " + safeVariableName + " = false;");
+		
+		file.print();
+		file.print("private byte[][] buffers;");
+		file.print("private int[] pointers;");
+		file.print("private boolean test;");
+		file.print();
+		
+		file.print("// Hello World");
+		file.print("// I'm some one in the middle of world.");
+		file.print("// I can be any one, and any can be me.");
+		
+		file.printRightBrace();
 	}
 }

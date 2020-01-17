@@ -44,6 +44,14 @@ public class BufferMachine
 	}
 	
 	// check: index
+	
+	private void checkBaseInstructionPointer()
+	{
+		if ((bip < 0) || (bip >= buffers.length))
+			throw new RuntimeError(
+					ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
+					String.valueOf(bip));
+	}
 
 	private void checkPointersIndex(final int index)
 	{
@@ -836,13 +844,7 @@ public class BufferMachine
 		byte[] instBuffer;
 
 		if (SAFE)
-		{
-			if (bip >= buffers.length)
-			{
-				throw new RuntimeError(ErrorType.INVALID_BASE_INSTRUCTION_POINTER,
-						String.valueOf(bip));
-			}
-		}
+			checkBaseInstructionPointer();
 		
 		instBuffer = buffers[bip];
 
@@ -865,7 +867,7 @@ public class BufferMachine
 				pointers[nextPointersIndex()] = pointers[nextPointersIndex()];
 				break;
 				
-			// copy IM8, MI 8
+			// copy IM8, MI8
 
 			case INST_COPY__IM8__PI_PI_8:
 				setByteAt_PI_PI(nextByte());
