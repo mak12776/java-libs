@@ -1,5 +1,5 @@
 
-package less.exceptions;
+package experimental.less.exceptions;
 
 import libs.exceptions.BaseException;
 

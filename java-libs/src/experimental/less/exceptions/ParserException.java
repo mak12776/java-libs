@@ -1,7 +1,7 @@
 
-package less.exceptions;
+package experimental.less.exceptions;
 
-import less.types.ErrorType;
+import experimental.less.types.ErrorType;
 import libs.tools.types.StringTools;
 
 public class ParserException extends Exception
