@@ -287,10 +287,8 @@ public class ByteTools
 		if (OPTIMIZED)
 			System.arraycopy(source, sourceOffset, destination, destinationOffset, length);
 		else
-		{
 			for (int index = 0; index < length; index += 1)
 				destination[destinationOffset + index] = source[sourceOffset + index];
-		}
 	}
 
 	// starts with & ends with

@@ -3,6 +3,10 @@ package libs.tools.types;
 
 public class StringTools
 {
+	// functions Algorithms
+	
+	
+	
 	public static String joinObject(Object... objects)
 	{
 		StringBuilder builder = new StringBuilder();
@@ -25,6 +29,8 @@ public class StringTools
 		builder.append(suffix);
 		return builder.toString();
 	}
+	
+	// toHex functions
 
 	public static String toHex(int value)
 	{
