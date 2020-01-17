@@ -1,7 +1,7 @@
 
 package incomplete.types;
 
-import libs.buffers.Buffer;
+import libs.bytes.buffers.Buffer;
 
 public class LinkedBuffer
 {

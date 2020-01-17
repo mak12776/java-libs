@@ -1,5 +1,5 @@
 
-package libs.buffers;
+package libs.bytes.buffers;
 
 public class LinkedBuffer
 {

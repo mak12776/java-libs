@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import incomplete.process.Compiler.Settings.SettingsKey;
-import libs.buffers.BufferViews;
 import libs.bytes.ByteTest;
 import libs.bytes.ByteView;
+import libs.bytes.buffers.BufferViews;
 import libs.exceptions.BaseException;
 import libs.tools.types.StreamTools;
 

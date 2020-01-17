@@ -1,5 +1,5 @@
 
-package libs.buffers;
+package libs.bytes.buffers;
 
 import libs.bytes.ByteViewInterface;
 import libs.tools.types.ByteTools;
