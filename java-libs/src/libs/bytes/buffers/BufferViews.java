@@ -2,7 +2,7 @@
 package libs.bytes.buffers;
 
 import libs.bytes.ByteViewInterface;
-import libs.functions.ByteFunctions;
+import libs.tools.types.ByteTools;
 import libs.tools.types.StringBuilderTools;
 import libs.views.View;
 
@@ -53,7 +53,7 @@ public class BufferViews
 		length = 0;
 		for (int i = 0; i < bytesArray.length; i += 1)
 		{
-			ByteFunctions.copy(result.buffer, length, bytesArray[i], 0, bytesArray[i].length);
+			ByteTools.copy(result.buffer, length, bytesArray[i], 0, bytesArray[i].length);
 
 			result.views[i].start = length;
 			length += bytesArray[i].length;

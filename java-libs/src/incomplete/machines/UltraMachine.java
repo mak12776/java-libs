@@ -2,9 +2,9 @@
 package incomplete.machines;
 
 import libs.exceptions.InvalidByteCodeException;
-import libs.functions.ByteFunctions;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
+import libs.tools.types.ByteTools;
 
 public class UltraMachine
 {
@@ -117,7 +117,7 @@ public class UltraMachine
 
 		nextRegIndex(length);
 
-		ByteFunctions.copy(registers, regIndex, buffer, ip, length);
+		ByteTools.copy(registers, regIndex, buffer, ip, length);
 		ip += length;
 	}
 
@@ -133,7 +133,7 @@ public class UltraMachine
 
 		nextRegAddr();
 
-		ByteFunctions.copy(buffer, address, buffer, ip, size);
+		ByteTools.copy(buffer, address, buffer, ip, size);
 		ip += size;
 	}
 
@@ -149,7 +149,7 @@ public class UltraMachine
 
 		nextImAddr();
 
-		ByteFunctions.copy(buffer, address, buffer, ip, size);
+		ByteTools.copy(buffer, address, buffer, ip, size);
 		ip += size;
 	}
 

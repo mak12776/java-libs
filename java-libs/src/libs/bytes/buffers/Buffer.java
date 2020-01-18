@@ -6,9 +6,9 @@ import java.io.InputStream;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
-import libs.functions.ByteFunctions;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
+import libs.tools.types.ByteTools;
 
 public class Buffer
 {
@@ -109,7 +109,7 @@ public class Buffer
 		if (bufferLength > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 
-		ByteFunctions.copy(this.buffer, this.length, buffer, start, bufferLength);
+		ByteTools.copy(this.buffer, this.length, buffer, start, bufferLength);
 		length += bufferLength;
 	}
 

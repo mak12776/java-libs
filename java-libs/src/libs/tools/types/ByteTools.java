@@ -1,11 +1,10 @@
 
-package libs.functions;
+package libs.tools.types;
 
 import libs.bytes.ByteTest;
 import libs.tools.SafeTools;
-import libs.tools.types.ArrayTools;
 
-public class ByteFunctions
+public class ByteTools
 {
 	public static final boolean CHECK_BUFFER_START_END = false;
 	public static final boolean CHECK_BUFFER_OFFSET_LENGTH = false;
