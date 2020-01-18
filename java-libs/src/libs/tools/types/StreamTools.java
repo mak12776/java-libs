@@ -12,6 +12,7 @@ import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
+import libs.tools.LinesTools;
 import libs.views.View;
 
 public class StreamTools
@@ -110,7 +111,7 @@ public class StreamTools
 
 	public static ByteViewInterface[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
 	{
-		return ByteTools.splitLines(c, readFile(stream));
+		return LinesTools.splitLines(c, readFile(stream));
 	}
 
 	public static BufferViews readLineViews(FileInputStream stream) throws IOException, BaseException
@@ -118,7 +119,7 @@ public class StreamTools
 		BufferViews result = new BufferViews(null, null);
 
 		result.buffer = readFile(stream);
-		result.views = (View[]) ByteTools.splitLines(View.class, result.buffer);
+		result.views = (View[]) LinesTools.splitLines(View.class, result.buffer);
 		return result;
 	}
 

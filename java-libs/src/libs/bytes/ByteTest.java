@@ -1,17 +1,6 @@
 
 package libs.bytes;
 
-import static libs.bytes.ByteTest.isBlank;
-import static libs.bytes.ByteTest.isCarriageReturn;
-import static libs.bytes.ByteTest.isDigit;
-import static libs.bytes.ByteTest.isHexDigit;
-import static libs.bytes.ByteTest.isLetter;
-import static libs.bytes.ByteTest.isLetterDigit;
-import static libs.bytes.ByteTest.isLower;
-import static libs.bytes.ByteTest.isNewline;
-import static libs.bytes.ByteTest.isNull;
-import static libs.bytes.ByteTest.isUpper;
-
 import libs.tools.types.ByteTools;
 
 public interface ByteTest
@@ -214,7 +203,7 @@ public interface ByteTest
 			@Override
 			public boolean test(byte b)
 			{
-				return ByteTools.byteIn(b, bytes);
+				return ByteTools.testAny(bytes, 0, bytes.length, b);
 			}
 		};
 	}

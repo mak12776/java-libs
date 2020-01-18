@@ -3,9 +3,31 @@ package libs.tools.types;
 
 public class StringTools
 {
-	// functions Algorithms
+	// algorithms
 	
+	public static String strip(String string, String chars)
+	{
+		int start = 0;
+		int end = string.length();
+		
+		while (start < end)
+		{
+			if (chars.indexOf(string.charAt(start)) == -1)
+				break;
+			start += 1;
+		}
+		
+		while (end > start)
+		{
+			end -= 1;
+			if (chars.indexOf(string.charAt(end)) == -1)
+			{
+				
+			}
+		}
+	}
 	
+	// misc
 	
 	public static String joinObject(Object... objects)
 	{

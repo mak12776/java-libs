@@ -4,6 +4,7 @@ package incomplete.machines;
 import libs.exceptions.InvalidByteCodeException;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
+import libs.tools.Tools;
 import libs.tools.types.ByteTools;
 
 public class OldUltraMachine
@@ -119,7 +120,7 @@ public class OldUltraMachine
 		nextReg(size);
 		nextIm(size);
 
-		registers[regNum] = (registers[regNum] & ~(ByteTools.getMask(size) << regIndex)) | (IM << regIndex);
+		registers[regNum] = (registers[regNum] & ~(Tools.getMask(size) << regIndex)) | (IM << regIndex);
 	}
 
 	public static final short INST_COPY_RA_IM8 = 0x5;
