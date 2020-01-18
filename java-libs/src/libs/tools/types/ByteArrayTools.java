@@ -61,8 +61,66 @@ public class ByteArrayTools
 		return newArray;
 	}
 	
+	public static byte[] joinSep(byte[] sep, byte[]...arrays)
+	{
+		int length;
+		byte[] newArray;
+		
+		if (sep.length == 0)
+			return join(arrays);
+		
+		length = ArrayTools.sumArrayLengths(arrays);
+		
+		if (length == 0)
+			return null;
+		
+		length += (arrays.length - 1) * sep.length;
+		
+		newArray = new byte[length];
+	
+		System.arraycopy(arrays[0], 0, newArray, 0, arrays[0].length);
+		length = arrays[0].length;
+		
+		for (int i = 1; i < arrays.length; i += 1)
+		{
+			System.arraycopy(sep, 0, newArray, length, sep.length);
+			length += sep.length;
+			
+			System.arraycopy(arrays[i], 0, newArray, length, arrays[i].length);
+			length += sep.length;
+		}
+		
+		return newArray;
+	}
+	
+	public static byte[] join(byte[]... bytesArray)
+	{
+		byte[] result;
+		int length;
+
+		length = ArrayTools.sumArrayLengths(bytesArray);
+
+		if (length == 0)
+			return null;
+
+		result = new byte[length];
+
+		length = 0;
+		for (int i = 0; i < bytesArray.length; i += 1)
+		{
+			System.arraycopy(bytesArray[i], 0, result, length, bytesArray[i].length);
+			length += bytesArray[i].length;
+		}
+
+		return result;
+	}
+	
+	
 	public static byte[] copy(byte[] buffer, int start, int end)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		int length = end - start;
 		
 		byte[] newArray = new byte[length];
@@ -71,3 +129,4 @@ public class ByteArrayTools
 		return newArray;
 	}
 }
+

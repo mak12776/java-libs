@@ -3,6 +3,7 @@ package libs.tools.types;
 
 public class ArrayTools
 {
+	@SafeVarargs
 	public static <T> int sumArrayLengths(T[]... arrays)
 	{
 		int total = 0;
