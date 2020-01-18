@@ -7,7 +7,8 @@ public class ByteArrayTools
 {
 	// +++ algorithms +++
 	
-	public static final boolean CHECK_ZERO_NEGATIVE_SIZE = false; 
+	public static final boolean CHECK_ZERO_NEGATIVE_SIZE = false;
+	public static final boolean CHECK_BUFFER_START_END = false;
 	
 	public static byte[] resize(byte[] buffer, int size, int offset)
 	{
@@ -16,6 +17,19 @@ public class ByteArrayTools
 		
 		byte[] newArray = new byte[size];
 		System.arraycopy(buffer, 0, newArray, offset, MathTools.min(buffer.length, size));
+		
+		return newArray;
+	}
+	
+	public static byte[] slice(byte[] buffer, int start, int end)
+	{
+		int length = end - start;
+		
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		byte[] newArray = new byte[length];
+		System.arraycopy(buffer, start, newArray, 0, length);
 		
 		return newArray;
 	}
@@ -46,8 +60,6 @@ public class ByteArrayTools
 		
 		return newArray;
 	}
-	
-	// copy bytes
 	
 	public static byte[] copy(byte[] buffer, int start, int end)
 	{
