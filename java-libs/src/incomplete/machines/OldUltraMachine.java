@@ -5,7 +5,6 @@ import libs.exceptions.InvalidByteCodeException;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
 import libs.tools.Tools;
-import libs.tools.types.ByteTools;
 
 public class OldUltraMachine
 {
