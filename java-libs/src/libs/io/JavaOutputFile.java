@@ -20,8 +20,9 @@ public class JavaOutputFile extends OutputFile
 		this(stream, "\n", "\t");
 	}
 	
-	@Override
-	public void print(String string) throws IOException
+	// functions
+	
+	public void printIndent(String string) throws IOException
 	{
 		for (int i = 0; i < indent; i += 1)
 			stream.write(tab.getBytes());
@@ -29,8 +30,7 @@ public class JavaOutputFile extends OutputFile
 		stream.write(newline.getBytes());
 	}
 	
-	@Override
-	public void print() throws IOException
+	public void printIndent() throws IOException
 	{
 		stream.write(newline.getBytes());
 	}

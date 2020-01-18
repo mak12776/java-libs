@@ -23,22 +23,22 @@ public class OutputFile
 	
 	// functions
 	
-	public void write(byte[] buffer) throws IOException
+	public final void write(byte[] buffer) throws IOException
 	{
 		stream.write(buffer);
 	}
 	
-	public void write(byte[] buffer, int offset, int length) throws IOException
+	public final void write(byte[] buffer, int offset, int length) throws IOException
 	{
 		stream.write(buffer, offset, length);
 	}
 	
-	public void print() throws IOException
+	public final void print() throws IOException
 	{
 		stream.write(newline.getBytes());
 	}
 	
-	public void print(String string) throws IOException
+	public final void print(String string) throws IOException
 	{
 		stream.write(string.getBytes());
 		print();

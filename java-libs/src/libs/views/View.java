@@ -8,34 +8,19 @@ public class View implements ByteViewInterface
 	public int start;
 	public int end;
 
-	// ByteViewInterface functions
-
-	@Override
-	public void set(byte[] buffer, int start, int end)
-	{
-		this.start = start;
-		this.end = end;
-	}
-
 	// constructor
 
 	public View(int start, int end)
 	{
-		set(null, start, end);
+		this.start = start;
+		this.end = end;
 	}
 
 	public View()
 	{
 		this(0, 0);
 	}
-
-	// fields functions
-
-	public int length()
-	{
-		return this.end - this.start;
-	}
-
+	
 	// array creation
 
 	public static View[] newArray(int size)
@@ -48,5 +33,21 @@ public class View implements ByteViewInterface
 			result[i] = new View();
 		}
 		return result;
+	}
+	
+	// ByteViewInterface functions
+
+	@Override
+	public void set(byte[] buffer, int start, int end)
+	{
+		this.start = start;
+		this.end = end;
+	}
+
+	// fields functions
+
+	public int length()
+	{
+		return this.end - this.start;
 	}
 }

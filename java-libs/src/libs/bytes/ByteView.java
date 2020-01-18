@@ -15,21 +15,13 @@ public class ByteView implements ByteViewInterface
 	public int start;
 	public int end;
 
-	// ByteViewInterface functions
-
-	@Override
-	public void set(byte[] buffer, int start, int end)
-	{
-		this.buffer = buffer;
-		this.start = start;
-		this.end = end;
-	}
-
 	// constructor
 
 	public ByteView(byte[] buffer, int start, int end)
 	{
-		this.set(buffer, start, end);
+		this.buffer = buffer;
+		this.start = start;
+		this.end = end;
 	}
 
 	public ByteView()
@@ -56,7 +48,19 @@ public class ByteView implements ByteViewInterface
 	{
 		return newArray(size, null, 0, 0);
 	}
+	
+	// ByteViewInterface functions
 
+	@Override
+	public void set(byte[] buffer, int start, int end)
+	{
+		this.buffer = buffer;
+		this.start = start;
+		this.end = end;
+	}
+	
+	// swap function
+	
 	public void swap(ByteView view)
 	{
 		ByteView temp = new ByteView();
