@@ -21,10 +21,10 @@ public class StringTools
 		{
 			end -= 1;
 			if (chars.indexOf(string.charAt(end)) == -1)
-			{
-				
-			}
+				break;
 		}
+		
+		return null;
 	}
 	
 	// misc
