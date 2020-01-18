@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import libs.exceptions.BaseException;
-import libs.fio.JavaOutputFile;
+import libs.io.JavaOutputFile;
 import libs.tools.types.StreamTools;
 
 public class Programs

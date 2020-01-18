@@ -1,4 +1,4 @@
-package libs.fio;
+package libs.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
