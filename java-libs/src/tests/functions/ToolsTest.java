@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import libs.bytes.buffers.BufferViews;
 import libs.exceptions.BaseException;
-import libs.tools.types.ByteTools;
+import libs.functions.ByteFunctions;
 import libs.tools.types.StreamTools;
 
 public class ToolsTest extends BaseTest
@@ -27,7 +27,7 @@ public class ToolsTest extends BaseTest
 
 	public static int compare(byte[] buffer, byte[] bytes)
 	{
-		return ByteTools.compare(buffer, 0, bytes, 0, buffer.length);
+		return ByteFunctions.compare(buffer, 0, bytes, 0, buffer.length);
 	}
 
 	public void TestCompare()

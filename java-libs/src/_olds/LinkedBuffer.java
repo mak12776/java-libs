@@ -8,7 +8,7 @@ import libs.tools.SafeTools;
 
 public class LinkedBuffer
 {
-	private static final boolean SAFE = true;
+	private static final boolean CHECK_INVALID_SIZE = true;
 
 	public byte[] array;
 	public int length;
@@ -55,8 +55,8 @@ public class LinkedBuffer
 
 	public void popFirst(int size)
 	{
-		if (SafeTools.CHECK_INVALID_SIZE)
-			SafeTools.checkInvalidSize(size, length);
+		if (CHECK_INVALID_SIZE)
+			SafeTools.checkInvalidIndex(size, 0, length, "size");
 
 		length -= size;
 		for (int i = 0; i < length; i += 1)
@@ -67,8 +67,8 @@ public class LinkedBuffer
 
 	public void popLast(int size)
 	{
-		if (SafeTools.CHECK_INVALID_SIZE)
-			SafeTools.checkInvalidSize(size, length);
+		if (CHECK_INVALID_SIZE)
+			SafeTools.checkInvalidIndex(size, 0, length, "size");
 
 		length -= size;
 	}
@@ -104,7 +104,7 @@ public class LinkedBuffer
 	{
 		int readNumber;
 
-		if (SAFE)
+		if (CHECK_INVALID_SIZE)
 		{
 			if (length == array.length)
 			{
