@@ -6,12 +6,14 @@ import java.io.InputStream;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
+import libs.functions.ByteFunctions;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
-import libs.tools.types.ByteTools;
 
 public class Buffer
 {
+	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
+	
 	private byte[] buffer;
 	private int length;
 
@@ -46,8 +48,8 @@ public class Buffer
 
 	public byte get(int index)
 	{
-		if (SafeTools.CHECK_INDEX_OUT_OF_BOUNDS)
-			SafeTools.checkIndexOutOfBounds(index, 0, length);
+		if (CHECK_INDEX_OUT_OF_BOUNDS)
+			SafeTools.checkIndexOutOfBounds(index, 0, length, "index");
 
 		return buffer[index];
 	}
@@ -107,7 +109,7 @@ public class Buffer
 		if (bufferLength > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 
-		ByteTools.copy(this.buffer, this.length, buffer, start, bufferLength);
+		ByteFunctions.copy(this.buffer, this.length, buffer, start, bufferLength);
 		length += bufferLength;
 	}
 

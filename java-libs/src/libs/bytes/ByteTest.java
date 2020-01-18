@@ -12,7 +12,7 @@ import static libs.bytes.ByteTest.isNewline;
 import static libs.bytes.ByteTest.isNull;
 import static libs.bytes.ByteTest.isUpper;
 
-import libs.tools.types.ByteTools;
+import libs.functions.ByteFunctions;
 
 public interface ByteTest
 {
@@ -200,7 +200,7 @@ public interface ByteTest
 			@Override
 			public boolean test(byte b)
 			{
-				return ByteTools.testAny(bytes, 0, bytes.length, b);
+				return ByteFunctions.testAny(bytes, 0, bytes.length, b);
 			}
 		};
 	}
@@ -214,7 +214,7 @@ public interface ByteTest
 			@Override
 			public boolean test(byte b)
 			{
-				return ByteTools.testAny(bytes, 0, bytes.length, b);
+				return ByteFunctions.testAny(bytes, 0, bytes.length, b);
 			}
 		};
 	}
