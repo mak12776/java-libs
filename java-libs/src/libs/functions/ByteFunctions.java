@@ -1,17 +1,24 @@
 
-package libs.tools.types;
+package libs.functions;
 
 import libs.bytes.ByteTest;
 import libs.tools.SafeTools;
+import libs.tools.types.ArrayTools;
 
-public class ByteTools
+public class ByteFunctions
 {
+	public static final boolean CHECK_BUFFER_START_END = false;
+	public static final boolean CHECK_BUFFER_OFFSET_LENGTH = false;
+	
 	// +++ algorithms +++
 
 	// test all and any
 
 	public static boolean testAny(byte[] buffer, int start, int end, ByteTest test)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		for (; start < end; start += 1)
 			if (test.test(buffer[start]))
 				return true;
@@ -20,6 +27,9 @@ public class ByteTools
 
 	public static boolean testAny(byte[] buffer, int start, int end, byte value)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		for (; start < end; start += 1)
 			if (buffer[start] == value)
 				return true;
@@ -28,6 +38,9 @@ public class ByteTools
 
 	public static boolean testAll(byte[] buffer, int start, int end, ByteTest test)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		for (; start < end; start += 1)
 			if (!test.test(buffer[start]))
 				return false;
@@ -36,6 +49,9 @@ public class ByteTools
 
 	public static boolean testAll(byte[] buffer, int start, int end, byte value)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		for (; start < end; start += 1)
 			if (buffer[start] != value)
 				return false;
@@ -46,6 +62,9 @@ public class ByteTools
 	
 	public static void fill(byte[] buffer, int start, int end, byte value)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		for (; start < end; start += 1)
 			buffer[start] = value;
 	}
@@ -56,7 +75,7 @@ public class ByteTools
 	{
 		int index;
 
-		if (SafeTools.CHECK_BUFFER_START_END)
+		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 
 		index = start;
@@ -73,7 +92,7 @@ public class ByteTools
 	{
 		int index;
 
-		if (SafeTools.CHECK_BUFFER_START_END)
+		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 
 		index = start;
@@ -90,7 +109,7 @@ public class ByteTools
 	{
 		int index;
 
-		if (SafeTools.CHECK_BUFFER_START_END)
+		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 
 		index = end;
@@ -107,7 +126,7 @@ public class ByteTools
 	{
 		int index;
 
-		if (SafeTools.CHECK_BUFFER_START_END)
+		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 
 		index = end;
@@ -124,6 +143,12 @@ public class ByteTools
 
 	public static int compare(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
 	{
+		if (CHECK_BUFFER_OFFSET_LENGTH)
+		{
+			SafeTools.checkBufferOffsetLength(buffer, bufferOffset, length, "buffer");
+			SafeTools.checkBufferOffsetLength(bytes, bytesOffset, length, "bytes");
+		}
+		
 		int diff = 0;
 		for (int i = 0; i < length; i += 1)
 		{
@@ -136,11 +161,23 @@ public class ByteTools
 
 	public static boolean isEqual(byte[] buffer, int bufferOffset, byte[] bytes, int bytesOffset, int length)
 	{
+		if (CHECK_BUFFER_OFFSET_LENGTH)
+		{
+			SafeTools.checkBufferOffsetLength(buffer, bufferOffset, length, "buffer");
+			SafeTools.checkBufferOffsetLength(bytes, bytesOffset, length, "bytes");
+		}
+		
 		return compare(buffer, bufferOffset, bytes, bytesOffset, length) == 0;
 	}
 
 	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
 	{
+		if (CHECK_BUFFER_OFFSET_LENGTH)
+		{
+			SafeTools.checkBufferOffsetLength(destination, destinationOffset, length, "destination");;
+			SafeTools.checkBufferOffsetLength(source, sourceOffset, length, "source");;
+		}
+		
 		System.arraycopy(source, sourceOffset, destination, destinationOffset, length);
 	}
 
@@ -149,16 +186,30 @@ public class ByteTools
 	public static boolean startsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart,
 			int bytesEnd)
 	{
+		if (CHECK_BUFFER_START_END)
+		{
+			SafeTools.checkBufferStartEnd(buffer, bufferStart, bufferEnd, "buffer");
+			SafeTools.checkBufferStartEnd(bytes, bytesStart, bytesEnd, "bytes");
+		}
+		
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
+		
 		return (bufferLength >= bytesLength) && isEqual(buffer, bufferStart, bytes, bytesStart, bytesLength);
 	}
 
 	public static boolean endsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart,
 			int bytesEnd)
 	{
+		if (CHECK_BUFFER_START_END)
+		{
+			SafeTools.checkBufferStartEnd(buffer, bufferStart, bufferEnd, "buffer");
+			SafeTools.checkBufferStartEnd(bytes, bytesStart, bytesEnd, "bytes");
+		}
+		
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
+		
 		return (bufferLength >= bytesLength)
 				&& isEqual(buffer, bufferEnd - bytesLength, bytes, bytesStart, bytesLength);
 	}
@@ -167,6 +218,12 @@ public class ByteTools
 
 	public static int search(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
+		if (CHECK_BUFFER_START_END)
+		{
+			SafeTools.checkBufferStartEnd(buffer, bufferStart, bufferEnd, "buffer");
+			SafeTools.checkBufferStartEnd(bytes, bytesStart, bytesEnd, "bytes");
+		}
+		
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
 
@@ -183,6 +240,12 @@ public class ByteTools
 
 	public static int lsearch(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
+		if (CHECK_BUFFER_START_END)
+		{
+			SafeTools.checkBufferStartEnd(buffer, bufferStart, bufferEnd, "buffer");
+			SafeTools.checkBufferStartEnd(bytes, bytesStart, bytesEnd, "bytes");
+		}
+		
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
 
@@ -195,29 +258,5 @@ public class ByteTools
 			}
 		}
 		return bufferEnd;
-	}
-
-	// join bytes array
-
-	public static byte[] joinBytes(byte[]... bytesArray)
-	{
-		byte[] result;
-		int length;
-
-		length = ArrayTools.sumArrayLengths(bytesArray);
-
-		if (length == 0)
-			return null;
-
-		result = new byte[length];
-
-		length = 0;
-		for (int i = 0; i < bytesArray.length; i += 1)
-		{
-			copy(result, length, bytesArray[i], 0, bytesArray[i].length);
-			length += bytesArray[i].length;
-		}
-
-		return result;
 	}
 }

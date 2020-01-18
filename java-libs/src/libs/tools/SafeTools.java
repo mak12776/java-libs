@@ -1,8 +1,6 @@
 
 package libs.tools;
 
-import libs.tools.types.StringTools;
-
 public class SafeTools
 {
 	// check integer bits
@@ -27,12 +25,10 @@ public class SafeTools
 
 	// check array index
 
-	public static final boolean CHECK_ARRAY_INDEX_BYTES = false;
-
 	public static void checkArrayIndexBytes(final int bytes)
 	{
 		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES))
-			throw new IllegalArgumentException("invalid array size bytes: " + bytes);
+			throw new IllegalArgumentException("invalid array index bytes: " + bytes);
 	}
 	
 	public static final boolean CHECK_ARRAY_INDEX_BITS = false;
@@ -40,64 +36,76 @@ public class SafeTools
 	public static void checkArrayIndexBits(final int bits)
 	{
 		if ((bits != Byte.SIZE) && (bits != Short.SIZE) && (bits != Integer.SIZE))
-			throw new IllegalArgumentException("invalid array size bytes: " + bits);
+			throw new IllegalArgumentException("invalid array index bytes: " + bits);
 	}
 	
-
+	// functions
+	
 	// index out of bounds
-
-	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
-
-	public static void checkIndexOutOfBounds(final int index, final int max)
-	{
-		if (index >= max)
-			throw new IndexOutOfBoundsException("index is out of bounds: " + index);
-	}
-
-	public static void checkIndexOutOfBounds(final int index, final int min, final int max)
+	
+	public static void checkIndexOutOfBounds(final int index, final int min, final int max, String name)
 	{
 		if ((index < min) || (index >= max))
-			throw new IndexOutOfBoundsException("index is out of bounds: " + index);
+			throw new IndexOutOfBoundsException(name + " is out of bounds: " + index);
+	}
+	
+	// invalid index
+	
+	public static void checkInvalidIndex(final int index, final int min, final int max, String name)
+	{
+		if ((index < min) || (index >= max))
+			throw new IllegalArgumentException("invalid " + name + ": " + index);
 	}
 	
 	public static void checkNegativeZeroIndex(final int size, String name)
 	{
 		if (size <= 0)
-			throw new IllegalArgumentException("negative, zero " + name + ": " + size);
-	}
-
-	// size
-
-	public static final boolean CHECK_INVALID_SIZE = true;
-
-	public static void checkInvalidSize(final int size, int max)
-	{
-		if (size >= max)
-			throw new IllegalArgumentException("invalid size: " + size);
-	}
-
-	public static void checkInvalidSize(final int size, int min, int max)
-	{
-		if ((size < min) || (size >= max))
-			throw new IllegalArgumentException("invalid size: " + size);
+			throw new IllegalArgumentException("negative or zero " + name + ": " + size);
 	}
 
 	// buffer index
 
-	public static final boolean CHECK_BUFFER_START_END = false;
-
-	private static void checkBufferIndex(byte[] buffer, int index, String name)
+	public static void checkBufferIndex(byte[] buffer, int index, final String name)
 	{
 		if ((index < 0) || (index > buffer.length))
 			throw new IllegalArgumentException("invalid " + name + ": " + index);
 	}
-
+	
+	// buffer start & end index
+	
+	public static void checkBufferStartEnd(byte[] buffer, int start, int end, final String bufferName)
+	{
+		if ((start < 0) || (start >= buffer.length))
+			throw new IllegalArgumentException("invalid buffer start index: " + start);
+		
+		if ((end < 0) || (end >= buffer.length))
+			throw new IllegalArgumentException("invalid buffer end index: " + end);
+		
+		if (end <= start)
+			throw new IllegalArgumentException(
+					bufferName + " end index must be greater than " + bufferName + " start index" +
+					", start: " + start + ", end: " + end);
+	}
+	
 	public static void checkBufferStartEnd(byte[] buffer, int start, int end)
 	{
-		checkBufferIndex(buffer, start, "start");
-		checkBufferIndex(buffer, start, "end");
-		if (start > end)
-			throw new IllegalArgumentException(
-					StringTools.joinObject("start is greater than end: start = ", start, ", end = ", end));
+		checkBufferStartEnd(buffer, start, end, "buffer");
+	}
+	
+	// buffer offset & length
+	
+	public static void checkBufferOffsetLength(byte[] buffer, int offset, int length, final String bufferName)
+	{
+		if ((offset < 0) || (offset >= buffer.length))
+			throw new IllegalArgumentException("invalid " + bufferName + " offset: " + offset);
+		
+		if ((length < 0) || (offset + length > buffer.length))
+			throw new IllegalArgumentException("invalid " + bufferName +  " length: " + length);
+	}
+	
+	public static void checkBufferOffsetLength(byte[] buffer, int offset, int length)
+	{
+		checkBufferOffsetLength(buffer, offset, length, "buffer");
 	}
 }
+
