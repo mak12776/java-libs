@@ -1,5 +1,6 @@
 package libs.types;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import libs.buffers.Buffer;
@@ -18,12 +19,13 @@ public class LineStream
 		this.view = new BufferView();
 	}
 	
-	public BufferView next()
+	public BufferView next() throws IOException
 	{
 		if (buffer.length() == 0)
-		{
-			
-		}
+			if (buffer.readFile(stream) == 0)
+				return null;
+		
+		
 		
 		return view;
 	}
