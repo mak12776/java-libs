@@ -10,4 +10,9 @@ public class CIf implements CStatement
 {
 	public CExpression test;
 	public List<CStatement> statements;
+	
+	public List<CExpression> elseIfTests;
+	public List<List<CStatement>> elseIfStatements;
+	
+	public List<CStatement> elseStatements;
 }

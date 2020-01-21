@@ -1,6 +1,8 @@
 package labs.faces.cface.nodes.expressions;
 
-public class CFunctionCall
-{
+import labs.faces.cface.interfaces.CExpression;
 
+public class CFunctionCall implements CExpression
+{
+	
 }
