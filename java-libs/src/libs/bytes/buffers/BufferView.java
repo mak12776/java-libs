@@ -1,7 +1,7 @@
 
-package libs.bytes;
+package libs.bytes.buffers;
 
-import libs.bytes.buffers.BufferViews;
+import libs.bytes.ByteTest;
 import libs.tools.types.ByteTools;
 
 public class BufferView implements BufferViewInterface
@@ -49,7 +49,7 @@ public class BufferView implements BufferViewInterface
 		return newArray(size, null, 0, 0);
 	}
 	
-	// ByteViewInterface functions
+	// BufferViewInterface functions
 
 	@Override
 	public void set(byte[] buffer, int start, int end)
