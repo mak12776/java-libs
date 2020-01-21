@@ -1,9 +1,9 @@
 
 package labs.faces.examples.cface;
 
-import labs.faces.cface.tree.CFile;
-import labs.faces.cface.tree.macros.CDefine;
-import labs.faces.cface.tree.macros.CInclude;
+import labs.faces.cface.nodes.CFile;
+import labs.faces.cface.nodes.macros.CDefine;
+import labs.faces.cface.nodes.macros.CInclude;
 
 public class CmanMains
 {

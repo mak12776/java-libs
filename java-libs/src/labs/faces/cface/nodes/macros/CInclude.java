@@ -1,5 +1,5 @@
 
-package labs.faces.cface.tree.macros;
+package labs.faces.cface.nodes.macros;
 
 import labs.faces.cface.interfaces.CMacro;
 

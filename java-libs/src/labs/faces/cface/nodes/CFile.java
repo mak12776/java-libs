@@ -1,9 +1,9 @@
 
-package labs.faces.cface.tree;
+package labs.faces.cface.nodes;
 
 import java.util.List;
 
-import labs.faces.cface.Cman;
+import labs.faces.cface.CFace;
 import labs.faces.cface.interfaces.CMacroOrStatement;
 
 public class CFile
@@ -12,6 +12,6 @@ public class CFile
 
 	public CFile()
 	{
-		this.statements = Cman.newList();
+		this.statements = CFace.newList();
 	}
 }

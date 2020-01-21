@@ -1,11 +1,11 @@
 
-package labs.faces.cface.tree.statements;
+package labs.faces.cface.nodes.statements;
 
 import java.util.List;
 
 import labs.faces.cface.interfaces.CStatement;
-import labs.faces.cface.tree.others.CArgument;
-import labs.faces.cface.tree.others.CSimpleType;
+import labs.faces.cface.nodes.others.CArgument;
+import labs.faces.cface.nodes.others.CSimpleType;
 
 public class CFunction implements CStatement
 {

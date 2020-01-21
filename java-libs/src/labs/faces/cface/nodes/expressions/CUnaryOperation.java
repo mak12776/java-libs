@@ -1,5 +1,5 @@
 
-package labs.faces.cface.tree.expressions;
+package labs.faces.cface.nodes.expressions;
 
 import labs.faces.cface.interfaces.CExpression;
 

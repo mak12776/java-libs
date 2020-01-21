@@ -856,6 +856,10 @@ public class BufferMachine
 			inst = nextByte();
 			switch (inst)
 			{
+			default:
+				
+				break;
+			
 			case INST_NOOP:
 				break;
 

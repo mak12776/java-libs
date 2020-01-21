@@ -1,5 +1,5 @@
 
-package labs.faces.cface.tree.others;
+package labs.faces.cface.nodes.others;
 
 import labs.faces.cface.interfaces.CType;
 
