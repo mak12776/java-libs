@@ -1,5 +1,5 @@
 
-package libs.bytes.buffers;
+package libs.buffers;
 
 import libs.tools.types.ByteTools;
 import libs.tools.types.StringBuilderTools;

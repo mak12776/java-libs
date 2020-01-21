@@ -1,7 +1,7 @@
 package libs.tools.others;
 
-import libs.bytes.buffers.BufferView;
-import libs.bytes.buffers.BufferViewInterface;
+import libs.buffers.BufferView;
+import libs.buffers.BufferViewInterface;
 import libs.exceptions.UnknownClassException;
 import libs.views.View;
 

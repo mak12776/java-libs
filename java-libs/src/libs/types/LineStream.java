@@ -2,8 +2,8 @@ package libs.types;
 
 import java.io.InputStream;
 
-import libs.bytes.buffers.Buffer;
-import libs.bytes.buffers.BufferView;
+import libs.buffers.Buffer;
+import libs.buffers.BufferView;
 
 public class LineStream
 {

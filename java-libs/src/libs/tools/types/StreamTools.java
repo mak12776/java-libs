@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.buffers.BufferViewInterface;
-import libs.bytes.buffers.BufferViews;
+import libs.buffers.BufferViewInterface;
+import libs.buffers.BufferViews;
 import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
