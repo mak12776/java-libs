@@ -10,6 +10,17 @@ import libs.tools.types.StreamTools;
 
 public class Programs
 {
+	public static void sumNumbers(String[] args)
+	{
+		if (args.length != 1)
+			System.out.println("usage: sum [PATH]");
+		
+		
+	}
+	
+	
+	
+	
 	public static void countLinesMain(String[] args)
 	{
 		if (args.length != 1)

@@ -5,8 +5,6 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import labs.faces.cface.CFace.Key;
-
 public class CFace
 {
 	public static <T> List<T> newList()

@@ -1,22 +1,32 @@
 
 package libs.bytes;
 
-import static libs.bytes.ByteTest.isBlank;
-import static libs.bytes.ByteTest.isCarriageReturn;
-import static libs.bytes.ByteTest.isDigit;
-import static libs.bytes.ByteTest.isHexDigit;
-import static libs.bytes.ByteTest.isLetter;
-import static libs.bytes.ByteTest.isLetterDigit;
-import static libs.bytes.ByteTest.isLower;
-import static libs.bytes.ByteTest.isNewline;
-import static libs.bytes.ByteTest.isNull;
-import static libs.bytes.ByteTest.isUpper;
-
 import libs.tools.types.ByteTools;
 
 public interface ByteTest
 {
 	boolean test(byte b);
+	
+	public default byte[] getTestData()
+	{
+		byte[] array;
+		int size;
+		int index;
+		
+		size = 0;
+		for (int value = 0; value < 256; value += 1)
+			if (test((byte) value)) 
+				size += 1;
+		
+		array = new byte[size];
+		
+		index = 0;
+		for (int value = 0; value < 256; value += 1)
+			if (test((byte) value)) 
+				array[index] = (byte) value;
+		
+		return array;
+	}
 
 	// functions
 

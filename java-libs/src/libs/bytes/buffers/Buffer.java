@@ -7,12 +7,13 @@ import java.io.InputStream;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.io.ByteIO;
-import libs.tools.SafeTools;
+import libs.tools.others.SafeTools;
 import libs.tools.types.ByteTools;
 
 public class Buffer
 {
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
+	public static final boolean CHECK_INTEGER_BYTES = true;
 	
 	private byte[] buffer;
 	private int length;
@@ -92,7 +93,7 @@ public class Buffer
 	public int readFileMore(InputStream stream) throws IOException
 	{
 		int readNumber;
-
+		
 		readNumber = stream.read(buffer, length, buffer.length - length);
 		if (readNumber == -1)
 			return 0;
@@ -115,7 +116,7 @@ public class Buffer
 
 	public void append(int size, long value)
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(size);
 
 		if (size > this.buffer.length - this.length)
@@ -165,7 +166,7 @@ public class Buffer
 	
 	public long pop(int size)
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(size);
 		
 		if (size > this.length)

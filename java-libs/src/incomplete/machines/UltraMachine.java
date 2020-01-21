@@ -3,7 +3,7 @@ package incomplete.machines;
 
 import libs.exceptions.InvalidByteCodeException;
 import libs.io.ByteIO;
-import libs.tools.SafeTools;
+import libs.tools.others.SafeTools;
 import libs.tools.types.ByteTools;
 
 public class UltraMachine

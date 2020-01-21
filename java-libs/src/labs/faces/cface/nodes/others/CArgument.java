@@ -1,8 +1,10 @@
 
 package labs.faces.cface.nodes.others;
 
+import labs.faces.cface.interfaces.CType;
+
 public class CArgument
 {
-	public CSimpleType type;
+	public CType type;
 	public String name;
 }

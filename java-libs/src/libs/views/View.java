@@ -1,9 +1,9 @@
 
 package libs.views;
 
-import libs.bytes.ByteViewInterface;
+import libs.bytes.BufferViewInterface;
 
-public class View implements ByteViewInterface
+public class View implements BufferViewInterface
 {
 	public int start;
 	public int end;

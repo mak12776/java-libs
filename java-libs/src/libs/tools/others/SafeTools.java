@@ -1,5 +1,5 @@
 
-package libs.tools;
+package libs.tools.others;
 
 public class SafeTools
 {

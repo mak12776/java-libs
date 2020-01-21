@@ -2,7 +2,7 @@
 package libs.tools.types;
 
 import libs.bytes.ByteTest;
-import libs.tools.SafeTools;
+import libs.tools.others.SafeTools;
 
 public class ByteTools
 {
@@ -12,17 +12,6 @@ public class ByteTools
 	// +++ algorithms +++
 
 	// test all and any
-
-	public static boolean testAny(byte[] buffer, int start, int end, ByteTest test)
-	{
-		if (CHECK_BUFFER_START_END)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		for (; start < end; start += 1)
-			if (test.test(buffer[start]))
-				return true;
-		return false;
-	}
 
 	public static boolean testAny(byte[] buffer, int start, int end, byte value)
 	{
@@ -35,17 +24,6 @@ public class ByteTools
 		return false;
 	}
 
-	public static boolean testAll(byte[] buffer, int start, int end, ByteTest test)
-	{
-		if (CHECK_BUFFER_START_END)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		for (; start < end; start += 1)
-			if (!test.test(buffer[start]))
-				return false;
-		return true;
-	}
-
 	public static boolean testAll(byte[] buffer, int start, int end, byte value)
 	{
 		if (CHECK_BUFFER_START_END)
@@ -53,6 +31,28 @@ public class ByteTools
 		
 		for (; start < end; start += 1)
 			if (buffer[start] != value)
+				return false;
+		return true;
+	}
+	
+	public static boolean testAny(byte[] buffer, int start, int end, ByteTest test)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		for (; start < end; start += 1)
+			if (test.test(buffer[start]))
+				return true;
+		return false;
+	}
+	
+	public static boolean testAll(byte[] buffer, int start, int end, ByteTest test)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		for (; start < end; start += 1)
+			if (!test.test(buffer[start]))
 				return false;
 		return true;
 	}
@@ -237,7 +237,7 @@ public class ByteTools
 		return bufferEnd;
 	}
 
-	public static int lsearch(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
+	public static int rsearch(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
 		if (CHECK_BUFFER_START_END)
 		{

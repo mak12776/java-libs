@@ -1,7 +1,7 @@
 
 package libs.bytes.buffers;
 
-import libs.bytes.ByteViewInterface;
+import libs.bytes.BufferViewInterface;
 import libs.tools.types.ByteTools;
 import libs.tools.types.StringBuilderTools;
 import libs.views.View;
@@ -85,7 +85,7 @@ public class BufferViews
 		return views.length;
 	}
 
-	public void copyViewTo(int index, ByteViewInterface view)
+	public void copyViewTo(int index, BufferViewInterface view)
 	{
 		view.set(buffer, views[index].start, views[index].end);
 	}

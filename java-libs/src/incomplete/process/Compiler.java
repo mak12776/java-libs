@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import incomplete.process.Compiler.Settings.SettingsKey;
 import libs.bytes.ByteTest;
-import libs.bytes.ByteView;
+import libs.bytes.BufferView;
 import libs.bytes.buffers.BufferViews;
 import libs.exceptions.BaseException;
 import libs.tools.types.StreamTools;
@@ -41,14 +41,14 @@ public class Compiler
 			}
 		}
 
-		public void copyValueTo(SettingsKey key, ByteView view)
+		public void copyValueTo(SettingsKey key, BufferView view)
 		{
 			views.copyViewTo(key.index, view);
 		}
 
-		public ByteView copyValue(SettingsKey key)
+		public BufferView copyValue(SettingsKey key)
 		{
-			ByteView view = new ByteView();
+			BufferView view = new BufferView();
 
 			views.copyViewTo(key.index, view);
 			return view;
@@ -66,9 +66,9 @@ public class Compiler
 
 	public void Compile()
 	{
-		ByteView view = new ByteView();
-		ByteView prefix = new ByteView();
-		ByteView suffix = new ByteView();
+		BufferView view = new BufferView();
+		BufferView prefix = new BufferView();
+		BufferView suffix = new BufferView();
 
 		int lnum;
 

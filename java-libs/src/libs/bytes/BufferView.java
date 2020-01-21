@@ -4,7 +4,7 @@ package libs.bytes;
 import libs.bytes.buffers.BufferViews;
 import libs.tools.types.ByteTools;
 
-public class ByteView implements ByteViewInterface
+public class BufferView implements BufferViewInterface
 {
 	/*
 	 * Buffer View
@@ -17,34 +17,34 @@ public class ByteView implements ByteViewInterface
 
 	// constructor
 
-	public ByteView(byte[] buffer, int start, int end)
+	public BufferView(byte[] buffer, int start, int end)
 	{
 		this.buffer = buffer;
 		this.start = start;
 		this.end = end;
 	}
 
-	public ByteView()
+	public BufferView()
 	{
 		this(null, 0, 0);
 	}
 
 	// array creation
 
-	public static ByteView[] newArray(int size, byte[] buffer, int start, int end)
+	public static BufferView[] newArray(int size, byte[] buffer, int start, int end)
 	{
-		ByteView[] result;
+		BufferView[] result;
 
-		result = new ByteView[size];
+		result = new BufferView[size];
 		for (int i = 0; i < result.length; i += 1)
 		{
-			result[i] = new ByteView(buffer, start, end);
+			result[i] = new BufferView(buffer, start, end);
 		}
 
 		return result;
 	}
 
-	public static ByteView[] newArray(int size)
+	public static BufferView[] newArray(int size)
 	{
 		return newArray(size, null, 0, 0);
 	}
@@ -61,9 +61,9 @@ public class ByteView implements ByteViewInterface
 	
 	// swap function
 	
-	public void swap(ByteView view)
+	public void swap(BufferView view)
 	{
-		ByteView temp = new ByteView();
+		BufferView temp = new BufferView();
 
 		temp.set(buffer, start, end);
 		set(view.buffer, view.start, view.end);
@@ -92,10 +92,10 @@ public class ByteView implements ByteViewInterface
 	@Override
 	public boolean equals(Object arg0)
 	{
-		return (arg0 instanceof ByteView) ? isEqual((ByteView) arg0) : false;
+		return (arg0 instanceof BufferView) && isEqual((BufferView) arg0);
 	}
 
-	public boolean isEqual(ByteView view)
+	public boolean isEqual(BufferView view)
 	{
 		return (length() == view.length()) && ByteTools.isEqual(buffer, start, view.buffer, view.start, length());
 	}
@@ -113,7 +113,7 @@ public class ByteView implements ByteViewInterface
 
 	// starts with functions
 
-	public boolean startsWith(ByteView view)
+	public boolean startsWith(BufferView view)
 	{
 		return ByteTools.startsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
@@ -130,7 +130,7 @@ public class ByteView implements ByteViewInterface
 
 	// ends with functions
 
-	public boolean endsWith(ByteView view)
+	public boolean endsWith(BufferView view)
 	{
 		return ByteTools.endsWith(buffer, start, end, view.buffer, view.start, view.end);
 	}
@@ -169,19 +169,19 @@ public class ByteView implements ByteViewInterface
 
 	// search functions
 
-	public int search(ByteView view)
+	public int search(BufferView view)
 	{
 		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
 	}
 
-	public int lsearch(ByteView view)
+	public int rsearch(BufferView view)
 	{
-		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
+		return ByteTools.rsearch(buffer, start, end, view.buffer, view.start, view.end);
 	}
 
-	// strip functions
+	// strip buffer functions
 
-	public boolean lstrip(ByteView view)
+	public boolean lstrip(BufferView view)
 	{
 		if (startsWith(view))
 		{
@@ -191,7 +191,7 @@ public class ByteView implements ByteViewInterface
 		return false;
 	}
 
-	public boolean rstrip(ByteView view)
+	public boolean rstrip(BufferView view)
 	{
 		if (endsWith(view))
 		{
@@ -201,7 +201,7 @@ public class ByteView implements ByteViewInterface
 		return false;
 	}
 
-	public boolean strip(ByteView prefix, ByteView suffix)
+	public boolean strip(BufferView prefix, BufferView suffix)
 	{
 		if (startsWith(prefix))
 		{
@@ -215,6 +215,8 @@ public class ByteView implements ByteViewInterface
 		}
 		return false;
 	}
+	
+	// strip test functions
 
 	public boolean lstrip(ByteTest test)
 	{
@@ -249,9 +251,9 @@ public class ByteView implements ByteViewInterface
 		return false;
 	}
 
-	// split functions
+	// split test functions
 
-	public boolean lsplit(ByteTest test, ByteViewInterface view)
+	public boolean lsplit(ByteTest test, BufferViewInterface view)
 	{
 		int index;
 
@@ -265,7 +267,7 @@ public class ByteView implements ByteViewInterface
 		return true;
 	}
 
-	public boolean rsplit(ByteTest test, ByteViewInterface view)
+	public boolean rsplit(ByteTest test, BufferViewInterface view)
 	{
 		int index;
 
