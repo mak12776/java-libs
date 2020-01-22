@@ -167,7 +167,11 @@ public class ByteTools
 		
 		return compare(buffer, bufferOffset, bytes, bytesOffset, length) == 0;
 	}
-
+	
+	/*
+	 * 	@Deprecated use System.arraycopy instead.
+	 */
+	@Deprecated
 	public static void copy(byte[] destination, int destinationOffset, byte[] source, int sourceOffset, int length)
 	{
 		if (CHECK_BUFFER_OFFSET_LENGTH)

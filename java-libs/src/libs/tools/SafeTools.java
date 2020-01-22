@@ -3,9 +3,19 @@ package libs.tools;
 
 public class SafeTools
 {
-	// check integer bits
-
+	/* SafeTools options exist in:
+	 * 		Buffer
+	 * 		BufferQueue
+	 */
+	
+	// *** variables ***
+	
 	public static final boolean CHECK_INTEGER_BITS = true;
+	public static final boolean CHECK_INTEGER_BYTES = true;
+
+	// *** functions ***
+	
+	// check integer bits
 
 	public static void checkIntegerBits(final int bits)
 	{
@@ -14,8 +24,6 @@ public class SafeTools
 	}
 
 	// check integer bytes
-
-	public static final boolean CHECK_INTEGER_BYTES = true;
 
 	public static void checkIntegerBytes(final int bytes)
 	{
@@ -31,15 +39,11 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid array index bytes: " + bytes);
 	}
 	
-	public static final boolean CHECK_ARRAY_INDEX_BITS = false;
-	
 	public static void checkArrayIndexBits(final int bits)
 	{
 		if ((bits != Byte.SIZE) && (bits != Short.SIZE) && (bits != Integer.SIZE))
 			throw new IllegalArgumentException("invalid array index bytes: " + bits);
 	}
-	
-	// functions
 	
 	// index out of bounds
 	

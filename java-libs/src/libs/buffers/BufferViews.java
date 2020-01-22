@@ -52,7 +52,7 @@ public class BufferViews
 		length = 0;
 		for (int i = 0; i < bytesArray.length; i += 1)
 		{
-			ByteTools.copy(result.buffer, length, bytesArray[i], 0, bytesArray[i].length);
+			System.arraycopy(bytesArray[i], 0, result.buffer, length, bytesArray[i].length);
 
 			result.views[i].start = length;
 			length += bytesArray[i].length;

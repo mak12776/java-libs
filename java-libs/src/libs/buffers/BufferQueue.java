@@ -81,10 +81,22 @@ public class BufferQueue
 	
 	public void append(byte[] buffer, int start, int end)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		int bufferLength = end - start;
+		
+		if (bufferLength <= this.buffer.length - this.end)
+		{
+			System.arraycopy(buffer, start, this.buffer, this.end, bufferLength);
+			this.end += bufferLength;
+			return;
+		}
+		
 		
 	}
 	
-	public void append()
+	public void append(int size, long value)
 	{
 		
 	}

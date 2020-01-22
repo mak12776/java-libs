@@ -118,7 +118,7 @@ public class Buffer
 		if (bufferLength > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 
-		ByteTools.copy(this.buffer, this.length, buffer, start, bufferLength);
+		System.arraycopy(buffer, start, this.buffer, this.length, bufferLength);
 		length += bufferLength;
 	}
 
