@@ -57,6 +57,12 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid " + name + ": " + index);
 	}
 	
+	public static void checkInvalidIndex(final int index, final int min, String name)
+	{
+		if ((index < min))
+			throw new IllegalArgumentException("invalid " + name + ": " + index);
+	}
+	
 	public static void checkNegativeZeroIndex(final int size, String name)
 	{
 		if (size <= 0)
