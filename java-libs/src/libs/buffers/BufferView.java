@@ -2,7 +2,7 @@
 package libs.buffers;
 
 import libs.bytes.ByteTest;
-import libs.tools.types.ByteTools;
+import libs.bytes.ByteTools;
 
 public class BufferView implements BufferViewInterface
 {
@@ -27,6 +27,11 @@ public class BufferView implements BufferViewInterface
 	public BufferView()
 	{
 		this(null, 0, 0);
+	}
+	
+	public BufferView(Buffer buffer)
+	{
+		this(buffer.getBytes(), 0, buffer.length());
 	}
 
 	// array creation
@@ -169,9 +174,9 @@ public class BufferView implements BufferViewInterface
 
 	// search functions
 
-	public int search(BufferView view)
+	public int lsearch(BufferView view)
 	{
-		return ByteTools.search(buffer, start, end, view.buffer, view.start, view.end);
+		return ByteTools.lsearch(buffer, start, end, view.buffer, view.start, view.end);
 	}
 
 	public int rsearch(BufferView view)

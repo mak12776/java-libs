@@ -1,8 +1,7 @@
 
-package libs.tools.types;
+package libs.bytes;
 
-import libs.bytes.ByteTest;
-import libs.tools.others.SafeTools;
+import libs.tools.SafeTools;
 
 public class ByteTools
 {
@@ -215,7 +214,7 @@ public class ByteTools
 
 	// search
 
-	public static int search(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
+	public static int lsearch(byte[] buffer, int bufferStart, int bufferEnd, byte[] bytes, int bytesStart, int bytesEnd)
 	{
 		if (CHECK_BUFFER_START_END)
 		{

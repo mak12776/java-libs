@@ -1,7 +1,7 @@
 
 package libs.buffers;
 
-import libs.tools.types.ByteTools;
+import libs.bytes.ByteTools;
 import libs.tools.types.StringBuilderTools;
 import libs.views.View;
 

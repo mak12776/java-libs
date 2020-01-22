@@ -1,10 +1,10 @@
 
 package incomplete.machines;
 
+import libs.bytes.ByteTools;
 import libs.exceptions.InvalidByteCodeException;
 import libs.io.ByteIO;
-import libs.tools.others.SafeTools;
-import libs.tools.types.ByteTools;
+import libs.tools.SafeTools;
 
 public class UltraMachine
 {

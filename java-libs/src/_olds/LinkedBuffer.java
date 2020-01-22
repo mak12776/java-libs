@@ -4,7 +4,7 @@ package _olds;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.tools.others.SafeTools;
+import libs.tools.SafeTools;
 
 public class LinkedBuffer
 {

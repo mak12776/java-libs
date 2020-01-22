@@ -1,8 +1,6 @@
 
 package libs.bytes;
 
-import libs.tools.types.ByteTools;
-
 public interface ByteTest
 {
 	boolean test(byte b);

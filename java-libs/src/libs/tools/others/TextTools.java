@@ -3,6 +3,8 @@ package libs.tools.others;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import libs.tools.SafeTools;
+
 public class TextTools
 {
 	public static byte toHex(int value, boolean upper)
