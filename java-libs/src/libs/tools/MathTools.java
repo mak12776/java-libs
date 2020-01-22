@@ -1,11 +1,9 @@
 
-package libs.tools.others;
+package libs.tools;
 
 public class MathTools
 {
-	private MathTools()
-	{
-	}
+	private MathTools() { }
 
 	// minimum
 

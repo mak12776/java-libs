@@ -13,7 +13,9 @@ import libs.tools.SafeTools;
 public class Buffer
 {
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
+	public static final boolean CHECK_INVALID_SIZE = false;
 	public static final boolean CHECK_INTEGER_BYTES = true;
+	public static final boolean CHECK_BUFFER_START_END = false;
 	
 	private byte[] buffer;
 	private int length;
@@ -26,6 +28,9 @@ public class Buffer
 
 	public Buffer(int size)
 	{
+		if (CHECK_INVALID_SIZE)
+			SafeTools.checkNegativeZeroIndex(size, "size");
+		
 		this.buffer = new byte[size];
 		this.length = 0;
 	}
@@ -105,6 +110,9 @@ public class Buffer
 
 	public void append(byte[] buffer, int start, int end)
 	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
 		int bufferLength = end - start;
 
 		if (bufferLength > this.buffer.length - this.length)
