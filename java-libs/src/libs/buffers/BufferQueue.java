@@ -120,7 +120,7 @@ public class BufferQueue
 	
 	// append methods
 	
-	public void append(byte[] buffer, int start, int end, int shift)
+	public void append(byte[] buffer, int start, int end, final boolean toLeft, int shift)
 	{
 		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);

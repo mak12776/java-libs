@@ -1,5 +1,6 @@
 package libs.bytes;
 
+import libs.exceptions.UnimplementedCodeException;
 import libs.tools.MathTools;
 import libs.tools.SafeTools;
 import libs.tools.types.ArrayTools;
@@ -117,6 +118,11 @@ public class ByteArrayTools
 		return result;
 	}
 	
+	public static byte[] splitLine(byte[] buffer, int start, int end)
+	{
+		// TODO: unimplemented code
+		throw new UnimplementedCodeException();
+	}
 	
 	public static byte[] copy(byte[] buffer, int start, int end)
 	{

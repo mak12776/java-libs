@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
+import libs.exceptions.UnimplementedCodeException;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
 
@@ -121,27 +122,7 @@ public class Buffer
 		this.length = 0;
 	}
 	
-	public void delete(int length, final boolean checkEnoughData)
-	{
-		if (CHECK_INVALID_LENGTH)
-			SafeTools.checkInvalidIndexMinimum(length, 0, "length");
-		
-		if (length == 0) 
-			return;
-		
-		if (length >= this.length)
-		{
-			if (checkEnoughData && length > this.length)
-				throw new NotEnoughDataException();
-			
-			this.length = 0;
-			return;
-		}
-		
-		this.length -= length;
-	}
-	
-	public void deleteLeft(int length, final boolean checkEnoughData)
+	public void delete(int length, final boolean checkEnoughData, final boolean fromLeft)
 	{
 		if (CHECK_BUFFER_START_END)
 			SafeTools.checkInvalidIndexMaximum(length, 0, "length");
@@ -158,7 +139,9 @@ public class Buffer
 			return;
 		}
 		
-		System.arraycopy(buffer, length, buffer, 0, this.length - length);
+		if (fromLeft)
+			System.arraycopy(buffer, length, buffer, 0, this.length - length);
+		
 		this.length -= length;
 	}
 
@@ -313,6 +296,9 @@ public class Buffer
 			{
 				view.set(buffer, 0, index);
 				
+				
+				// TODO: unimplemented code
+				throw new UnimplementedCodeException();
 			}
 		}
 		return false;
