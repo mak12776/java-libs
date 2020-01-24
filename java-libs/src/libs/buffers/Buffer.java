@@ -11,10 +11,11 @@ import libs.tools.SafeTools;
 
 public class Buffer
 {
-	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
-	public static final boolean CHECK_INVALID_SIZE = false;
 	public static final boolean CHECK_INTEGER_BYTES = true;
+	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
 	public static final boolean CHECK_BUFFER_START_END = false;
+	public static final boolean CHECK_INVALID_SIZE = false;
+	public static final boolean CHECK_INVALID_LENGTH = false;
 	
 	private byte[] buffer;
 	private int length;
@@ -112,8 +113,61 @@ public class Buffer
 		length += readNumber;
 		return readNumber;
 	}
+	
+	// delete functions
+	
+	public void clear()
+	{
+		this.length = 0;
+	}
+	
+	public void delete(int length, final boolean checkEnoughData)
+	{
+		if (CHECK_INVALID_LENGTH)
+			SafeTools.checkInvalidIndexMinimum(length, 0, "length");
+		
+		if (length == 0) 
+			return;
+		
+		if (length >= this.length)
+		{
+			if (checkEnoughData && length > this.length)
+				throw new NotEnoughDataException();
+			
+			this.length = 0;
+			return;
+		}
+		
+		this.length -= length;
+	}
+	
+	public void deleteLeft(int length, final boolean checkEnoughData)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkInvalidIndexMaximum(length, 0, "length");
+		
+		if (length == 0) 
+			return;
+		
+		if (length >= this.length)
+		{
+			if (checkEnoughData && length > this.length)
+				throw new NotEnoughDataException();
+			
+			this.length = 0;
+			return;
+		}
+		
+		System.arraycopy(buffer, length, buffer, 0, this.length - length);
+		this.length -= length;
+	}
 
 	// append functions
+	
+	public void append(byte[] buffer)
+	{
+		append(buffer, 0, buffer.length);
+	}
 
 	public void append(byte[] buffer, int start, int end)
 	{
@@ -179,9 +233,23 @@ public class Buffer
 	
 	// pop functions
 	
-	public void pop(byte[] array, int start, int end)
+	public void pop(byte[] buffer)
 	{
+		pop(buffer, 0, buffer.length);
+	}
+	
+	public void pop(byte[] buffer, int start, int end)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		int bufferLength = end - start;
+		
+		if (bufferLength > this.length)
+			throw new NotEnoughDataException();
+		
+		System.arraycopy(this.buffer, this.length - 1, buffer, start, bufferLength);
+		this.length -= bufferLength;
 	}
 	
 	public long pop(int size)
@@ -230,5 +298,23 @@ public class Buffer
 		
 		length -= Long.BYTES;
 		return ByteIO.readLong(buffer, length);
+	}
+	
+	// split line
+	
+	public boolean splitLine(BufferViewInterface view)
+	{
+		int index;
+		
+		index = 0;
+		while (index < length)
+		{
+			if (buffer[index] == '\n')
+			{
+				view.set(buffer, 0, index);
+				
+			}
+		}
+		return false;
 	}
 }

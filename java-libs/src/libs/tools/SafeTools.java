@@ -123,5 +123,13 @@ public class SafeTools
 	{
 		checkBufferOffsetLength(buffer, offset, length, "buffer");
 	}
+	
+	// buffer equal length
+	
+	public static void checkEqualBufferLength(byte[] buffer1, byte[] buffer2, final String bufferName1, final String bufferName2)
+	{
+		if (buffer1.length != buffer2.length)
+			throw new IllegalArgumentException("length of " + bufferName1 + " & " + bufferName2 + " must be equal.");
+	}
 }
 

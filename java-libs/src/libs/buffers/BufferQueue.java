@@ -1,5 +1,6 @@
 package libs.buffers;
 
+import libs.exceptions.UnimplementedCodeException;
 import libs.tools.SafeTools;
 
 public class BufferQueue
@@ -104,9 +105,22 @@ public class BufferQueue
 		return (start == 0) && (end == buffer.length);
 	}
 	
+	// functions
+	
+	public static final int MAX_SHIFT = Integer.MAX_VALUE;
+	
+	public void shift(int index)
+	{
+		if (index == 0)
+			return;
+		
+		// TODO: unimplemented code
+		throw new UnimplementedCodeException();
+	}
+	
 	// append methods
 	
-	public void append(byte[] buffer, int start, int end)
+	public void append(byte[] buffer, int start, int end, int shift)
 	{
 		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
@@ -119,5 +133,8 @@ public class BufferQueue
 			this.end += bufferLength;
 			return;
 		}
+		
+		// TODO: unimplemented code
+		throw new UnimplementedCodeException();
 	}
 }

@@ -1,7 +1,8 @@
-package libs.tools.types;
+package libs.bytes;
 
 import libs.tools.MathTools;
 import libs.tools.SafeTools;
+import libs.tools.types.ArrayTools;
 
 public class ByteArrayTools
 {
@@ -9,6 +10,7 @@ public class ByteArrayTools
 	
 	public static final boolean CHECK_ZERO_NEGATIVE_SIZE = false;
 	public static final boolean CHECK_BUFFER_START_END = false;
+	public static final boolean CHECK_BUFFER_LENGTH = false;
 	
 	public static byte[] resize(byte[] buffer, int size, int offset)
 	{
@@ -127,6 +129,14 @@ public class ByteArrayTools
 		System.arraycopy(buffer, start, newArray, 0, length);
 		
 		return newArray;
+	}
+	
+	public static void copy(byte[] src, byte[] dest)
+	{
+		if (CHECK_BUFFER_LENGTH)
+			SafeTools.checkEqualBufferLength(src, dest, "src", "dest");
+		
+		System.arraycopy(src, 0, dest, 0, src.length);
 	}
 }
 
