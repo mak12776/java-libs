@@ -118,12 +118,6 @@ public class ByteArrayTools
 		return result;
 	}
 	
-	public static byte[] splitLine(byte[] buffer, int start, int end)
-	{
-		// TODO: unimplemented code
-		throw new UnimplementedCodeException();
-	}
-	
 	public static byte[] copy(byte[] buffer, int start, int end)
 	{
 		if (CHECK_BUFFER_START_END)

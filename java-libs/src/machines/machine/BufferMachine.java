@@ -960,6 +960,9 @@ public class BufferMachine
 			case INST_COPY__PI_PI_8__PI_PI_8:
 				setByteAt_PI_PI(getByteAt_PI_PI());
 				break;
+				
+				
+				
 			}
 		}
 	}
