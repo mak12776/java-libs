@@ -172,6 +172,11 @@ public class Buffer
 	
 	// pop functions
 	
+	public void pop(byte[] array, int start, int end)
+	{
+		
+	}
+	
 	public long pop(int size)
 	{
 		if (CHECK_INTEGER_BYTES)

@@ -117,7 +117,7 @@ public class UltraMachine
 
 		nextRegIndex(length);
 
-		ByteTools.copy(registers, regIndex, buffer, ip, length);
+		System.arraycopy(buffer, ip, registers, regIndex, length);
 		ip += length;
 	}
 
@@ -133,7 +133,7 @@ public class UltraMachine
 
 		nextRegAddr();
 
-		ByteTools.copy(buffer, address, buffer, ip, size);
+		System.arraycopy(buffer, ip, buffer, address, size);
 		ip += size;
 	}
 
@@ -148,8 +148,8 @@ public class UltraMachine
 			SafeTools.checkIntegerBytes(size);
 
 		nextImAddr();
-
-		ByteTools.copy(buffer, address, buffer, ip, size);
+		
+		System.arraycopy(buffer, ip, buffer, address, size);
 		ip += size;
 	}
 

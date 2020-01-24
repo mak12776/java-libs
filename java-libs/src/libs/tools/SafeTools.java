@@ -97,7 +97,7 @@ public class SafeTools
 		if ((end < 0) || (end >= buffer.length))
 			throw new IllegalArgumentException("invalid buffer end index: " + end);
 		
-		if (end <= start)
+		if (end < start)
 			throw new IllegalArgumentException(
 					bufferName + " end index must be greater than " + bufferName + " start index" +
 					", start: " + start + ", end: " + end);

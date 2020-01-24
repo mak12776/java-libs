@@ -62,6 +62,16 @@ public class BufferQueue
 		return buffer.length - end + start; 
 	}
 	
+	public int leftRemaining()
+	{
+		return start;
+	}
+	
+	public int rightRemaining()
+	{
+		return buffer.length - end;
+	}
+	
 	public int size()
 	{
 		return buffer.length;
@@ -92,12 +102,5 @@ public class BufferQueue
 			this.end += bufferLength;
 			return;
 		}
-		
-		
-	}
-	
-	public void append(int size, long value)
-	{
-		
 	}
 }
