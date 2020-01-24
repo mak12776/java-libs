@@ -4,7 +4,6 @@ package libs.buffers;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.io.ByteIO;
@@ -58,6 +57,14 @@ public class Buffer
 			SafeTools.checkIndexOutOfBounds(index, 0, length, "index");
 
 		return buffer[index];
+	}
+	
+	public void set(int index, byte value)
+	{
+		if (CHECK_INDEX_OUT_OF_BOUNDS)
+			SafeTools.checkIndexOutOfBounds(index, 0, length, "index");
+
+		buffer[index] = value;
 	}
 
 	public boolean isEmpty()

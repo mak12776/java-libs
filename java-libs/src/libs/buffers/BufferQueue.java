@@ -6,6 +6,7 @@ public class BufferQueue
 {
 	public static final boolean CHECK_BUFFER_START_END = false;
 	public static final boolean CHECK_INVALID_SIZE = false;
+	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = false;
 	
 	private byte[] buffer;
 	private int start;
@@ -35,7 +36,7 @@ public class BufferQueue
 	
 	// fields functions
 	
-	public byte[] getBuffer()
+	public byte[] getBytes()
 	{
 		return buffer;
 	}
@@ -48,6 +49,22 @@ public class BufferQueue
 	public int getEnd()
 	{
 		return end;
+	}
+	
+	public byte get(int index)
+	{
+		if (CHECK_INDEX_OUT_OF_BOUNDS)
+			SafeTools.checkIndexOutOfBounds(index, 0, end - start, "index");
+		
+		return buffer[start + index];
+	}
+	
+	public void set(int index, byte value)
+	{
+		if (CHECK_INDEX_OUT_OF_BOUNDS)
+			SafeTools.checkIndexOutOfBounds(index, 0, end - start, "index");
+		
+		buffer[start + index] = value;
 	}
 	
 	// properties
