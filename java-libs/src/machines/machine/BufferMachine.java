@@ -7,7 +7,7 @@ public class BufferMachine
 
 	private byte[][] buffers;
 	private int[] pointers;
-	private boolean test;
+	private byte flag;
 
 	private int bip;
 	private int ip;
@@ -21,13 +21,18 @@ public class BufferMachine
 
 		this.bip = baseInstPointer;
 		this.ip = instPointer;
+		this.flag = 0;
 	}
 	
 	// internal data members
 
 	private byte[] instBuffer;
 	private byte[] dataBuffer;
+	private byte[] tempBuffer;
 
+	private int dataBufferIndex;
+	private int tempBufferIndex;
+	
 	// reading inst buffer
 	
 	private byte nextByte()
@@ -73,10 +78,18 @@ public class BufferMachine
 			throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX);
 	}
 	
+	// check: data buffer index & temp buffer index
+	
 	private void checkDataBufferIndex(final int index)
 	{
 		if ((index < 0) || (index >= dataBuffer.length))
 			throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX);
+	}
+	
+	private void checkTempBufferIndex(final int index)
+	{
+		if ((index < 0) || (index >= tempBuffer.length))
+			throw new RuntimeError(ErrorType.NULL_TEMP_POINTER);
 	}
 	
 	// check: null pointer
@@ -94,7 +107,13 @@ public class BufferMachine
 			throw new RuntimeError(ErrorType.NULL_DATA_POINTER);
 	}
 	
-	// get next pointer
+	private void checkNullTempBuffer()
+	{
+		if (tempBuffer == null)
+			throw new RuntimeError(ErrorType.NULL_TEMP_POINTER);
+	}
+	
+	// get next: index
 	
 	private int nextPointersIndex()
 	{
@@ -123,23 +142,7 @@ public class BufferMachine
 		return index;
 	}
 	
-	// set data buffer pointer
-	
-	private void setDataBufferFromBuffersIndex()
-	{
-		dataBuffer = buffers[nextBuffersIndex()];
-		if (SAFE)
-			checkNullDataBuffer();
-	}
-	
-	private void setDataBufferFromBuffersIndexAtPointersIndex()
-	{
-		dataBuffer = buffers[nextBuffersIndexAtPointersIndex()];
-		if (SAFE)
-			checkNullDataBuffer();
-	}
-
-	// get next data buffer index
+	// get next: data buffer index
 	
 	private int nextDataBufferIndex()
 	{
@@ -159,6 +162,107 @@ public class BufferMachine
 			checkDataBufferIndex(index);
 		return index;
 	}
+	
+	// get next: temp buffer index
+	
+	private int nextTempBufferIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkTempBufferIndex(index);
+		return index;
+	}
+	
+	private int nextTempBufferIndexAtPointersIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkPointersIndex(index);
+		index = pointers[index];
+		if (SAFE)
+			checkTempBufferIndex(index);
+		return index;
+	}
+	
+	// set: data buffer
+	
+	private void setDataBufferFromBuffersIndex()
+	{
+		dataBuffer = buffers[nextBuffersIndex()];
+		if (SAFE)
+			checkNullDataBuffer();
+	}
+	
+	private void setDataBufferFromBuffersIndexAtPointersIndex()
+	{
+		dataBuffer = buffers[nextBuffersIndexAtPointersIndex()];
+		if (SAFE)
+			checkNullDataBuffer();
+	}
+	
+	// set: temp buffer
+	
+	private void setTempBufferFromBuffersIndex()
+	{
+		tempBuffer = buffers[nextBuffersIndex()];
+		if (SAFE)
+			checkNullTempBuffer();
+	}
+	
+	private void setTempBufferFromBuffersIndexAtPointersIndex()
+	{
+		tempBuffer = buffers[nextBuffersIndexAtPointersIndex()];
+		if (SAFE)
+			checkNullTempBuffer();
+	}
+	
+	// set: data buffer index
+	
+	private void setDataBufferIndex()
+	{
+		dataBufferIndex = nextInt();
+		if (SAFE)
+			checkDataBufferIndex(dataBufferIndex);
+	}
+	
+	private void setDataBufferIndexAtPointersIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkPointersIndex(index);
+		dataBufferIndex = pointers[index];
+		if (SAFE)
+			checkDataBufferIndex(dataBufferIndex);
+	}
+	
+	// set: temp buffer index
+	
+	private void setTempBufferIndex()
+	{
+		tempBufferIndex = nextInt();
+		if (SAFE)
+			checkTempBufferIndex(dataBufferIndex);
+	}
+	
+	private void setTempBufferIndexAtPointersIndex()
+	{
+		int index = nextInt();
+		if (SAFE)
+			checkPointersIndex(index);
+		tempBufferIndex = pointers[index];
+		if (SAFE)
+			checkTempBufferIndex(dataBufferIndex);
+	}
+	
+	// set: data buffer pointer & index
+	
+	private void setDataBufferAndIndex_BI_BI()
+	{
+		setDataBufferFromBuffersIndex();
+		setDataBufferIndex();
+	}
+	
+	// * byte setters & getters * 
 	
 	// set byte at specific address
 	
@@ -849,6 +953,7 @@ public class BufferMachine
 	public void run() throws RuntimeError
 	{
 		short inst;
+		byte reg8;
 
 		if (SAFE)
 			checkBaseInstructionPointer();
@@ -969,7 +1074,8 @@ public class BufferMachine
 			// SWAP MI8, MI8
 				
 			case INST_SWAP__BI_BI_8__BI_BI_8:
-				
+				setDataBufferFromBuffersIndex();
+				setTempBufferFromBuffersIndex();
 				break;
 				
 			}
