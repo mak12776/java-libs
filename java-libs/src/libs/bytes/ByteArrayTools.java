@@ -1,6 +1,5 @@
 package libs.bytes;
 
-import libs.exceptions.UnimplementedCodeException;
 import libs.tools.MathTools;
 import libs.tools.SafeTools;
 import libs.tools.types.ArrayTools;

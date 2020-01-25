@@ -35,6 +35,14 @@ public class BufferMachine
 		return instBuffer[ip++];
 	}
 
+	private short nextShort()
+	{
+		return (short) (
+				((instBuffer[ip++] & 0xFF) << 8) | 
+				(instBuffer[ip++] & 0xFF)
+			);
+	}
+	
 	private int nextInt()
 	{
 		return 	((instBuffer[ip++] & 0xff) << 24) | 
@@ -65,7 +73,7 @@ public class BufferMachine
 			throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX);
 	}
 	
-	private void checkDataBuffersIndex(final int index)
+	private void checkDataBufferIndex(final int index)
 	{
 		if ((index < 0) || (index >= dataBuffer.length))
 			throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX);
@@ -73,17 +81,17 @@ public class BufferMachine
 	
 	// check: null pointer
 	
-	private void checkNullDataBuffer()
-	{
-		if (dataBuffer == null)
-			throw new RuntimeError(ErrorType.NULL_DATA_POINTER);
-	}
-	
 	private void checkNullInstructionBuffer(final int index)
 	{
 		if (instBuffer == null)
 			throw new RuntimeError(ErrorType.NULL_INSTRUCTION_POINTER,
 					String.valueOf(index));
+	}
+	
+	private void checkNullDataBuffer()
+	{
+		if (dataBuffer == null)
+			throw new RuntimeError(ErrorType.NULL_DATA_POINTER);
 	}
 	
 	// get next pointer
@@ -130,16 +138,16 @@ public class BufferMachine
 		if (SAFE)
 			checkNullDataBuffer();
 	}
+
+	// get next data buffer index
 	
 	private int nextDataBufferIndex()
 	{
 		int index = nextInt();
 		if (SAFE)
-			checkDataBuffersIndex(index);
+			checkDataBufferIndex(index);
 		return index;
 	}
-	
-	// get next data buffer index
 	
 	private int nextDataBufferIndexAtPointersIndex()
 	{
@@ -148,7 +156,7 @@ public class BufferMachine
 			checkPointersIndex(index);
 		index = pointers[index];
 		if (SAFE)
-			checkDataBuffersIndex(index);
+			checkDataBufferIndex(index);
 		return index;
 	}
 	
@@ -228,8 +236,8 @@ public class BufferMachine
 	// COPY IM32, PI
 	// COPY PI, PI
 
-	public static final short INST_COPY_IM32_PI =						0x1;
-	public static final short INST_COPY_PI_PI =							0x2;
+	public static final short INST_COPY_IM32_PI32 =						0x1;
+	public static final short INST_COPY_PI32_PI32 =						0x2;
 
 	// COPY IM8, MI8
 
@@ -262,25 +270,25 @@ public class BufferMachine
 
 	// SWAP MI8, MI8
 
-	public static final short INST_SWAP_BI_BI_8__BI_BI_8 =				0x17;
-	public static final short INST_SWAP_BI_BI_8__BI_PI_8 =				0x18;
-	public static final short INST_SWAP_BI_BI_8__PI_BI_8 =				0x19;
-	public static final short INST_SWAP_BI_BI_8__PI_PI_8 =				0x1a;
+	public static final short INST_SWAP__BI_BI_8__BI_BI_8 =				0x17;
+	public static final short INST_SWAP__BI_BI_8__BI_PI_8 =				0x18;
+	public static final short INST_SWAP__BI_BI_8__PI_BI_8 =				0x19;
+	public static final short INST_SWAP__BI_BI_8__PI_PI_8 =				0x1a;
 
-	public static final short INST_SWAP_BI_PI_8__BI_BI_8 =				0x1b;
-	public static final short INST_SWAP_BI_PI_8__BI_PI_8 =				0x1c;
-	public static final short INST_SWAP_BI_PI_8__PI_BI_8 =				0x1d;
-	public static final short INST_SWAP_BI_PI_8__PI_PI_8 =				0x1e;
+	public static final short INST_SWAP__BI_PI_8__BI_BI_8 =				0x1b;
+	public static final short INST_SWAP__BI_PI_8__BI_PI_8 =				0x1c;
+	public static final short INST_SWAP__BI_PI_8__PI_BI_8 =				0x1d;
+	public static final short INST_SWAP__BI_PI_8__PI_PI_8 =				0x1e;
 
-	public static final short INST_SWAP_PI_BI_8__BI_BI_8 =				0x1f;
-	public static final short INST_SWAP_PI_BI_8__BI_PI_8 =				0x20;
-	public static final short INST_SWAP_PI_BI_8__PI_BI_8 =				0x21;
-	public static final short INST_SWAP_PI_BI_8__PI_PI_8 =				0x22;
+	public static final short INST_SWAP__PI_BI_8__BI_BI_8 =				0x1f;
+	public static final short INST_SWAP__PI_BI_8__BI_PI_8 =				0x20;
+	public static final short INST_SWAP__PI_BI_8__PI_BI_8 =				0x21;
+	public static final short INST_SWAP__PI_BI_8__PI_PI_8 =				0x22;
 
-	public static final short INST_SWAP_PI_PI_8__BI_BI_8 =				0x23;
-	public static final short INST_SWAP_PI_PI_8__BI_PI_8 =				0x24;
-	public static final short INST_SWAP_PI_PI_8__PI_BI_8 =				0x25;
-	public static final short INST_SWAP_PI_PI_8__PI_PI_8 =				0x26;
+	public static final short INST_SWAP__PI_PI_8__BI_BI_8 =				0x23;
+	public static final short INST_SWAP__PI_PI_8__BI_PI_8 =				0x24;
+	public static final short INST_SWAP__PI_PI_8__PI_BI_8 =				0x25;
+	public static final short INST_SWAP__PI_PI_8__PI_PI_8 =				0x26;
 
 	// TEST IM8, MI8
 
@@ -841,7 +849,6 @@ public class BufferMachine
 	public void run() throws RuntimeError
 	{
 		short inst;
-		byte[] instBuffer;
 
 		if (SAFE)
 			checkBaseInstructionPointer();
@@ -853,21 +860,22 @@ public class BufferMachine
 
 		while (ip < instBuffer.length)
 		{
-			inst = nextByte();
+			inst = nextShort();
 			switch (inst)
 			{
 			default:
-				
-				break;
+				throw new RuntimeError(
+						ErrorType.UNKNOWN_INSTRUCTION, 
+						Integer.toHexString(inst));
 			
 			case INST_NOOP:
 				break;
 
-			case INST_COPY_IM32_PI:
+			case INST_COPY_IM32_PI32:
 				pointers[nextPointersIndex()] = nextInt();
 				break;
 
-			case INST_COPY_PI_PI:
+			case INST_COPY_PI32_PI32:
 				pointers[nextPointersIndex()] = pointers[nextPointersIndex()];
 				break;
 				
@@ -907,8 +915,7 @@ public class BufferMachine
 				setByteAt_PI_PI(getByteAt_BI_BI());
 				break;
 				
-			// -
-
+				
 			case INST_COPY__BI_PI_8__BI_BI_8:
 				setByteAt_BI_BI(getByteAt_BI_PI());
 				break;
@@ -925,7 +932,6 @@ public class BufferMachine
 				setByteAt_PI_PI(getByteAt_BI_PI());
 				break;
 				
-			// -
 
 			case INST_COPY__PI_BI_8__BI_BI_8:
 				setByteAt_BI_BI(getByteAt_PI_BI());
@@ -943,7 +949,6 @@ public class BufferMachine
 				setByteAt_PI_PI(getByteAt_PI_BI());
 				break;
 				
-			// -
 
 			case INST_COPY__PI_PI_8__BI_BI_8:
 				setByteAt_BI_BI(getByteAt_PI_PI());
@@ -961,7 +966,11 @@ public class BufferMachine
 				setByteAt_PI_PI(getByteAt_PI_PI());
 				break;
 				
+			// SWAP MI8, MI8
 				
+			case INST_SWAP__BI_BI_8__BI_BI_8:
+				
+				break;
 				
 			}
 		}
