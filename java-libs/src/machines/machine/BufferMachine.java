@@ -80,15 +80,27 @@ public class BufferMachine
 	
 	// check: data buffer index & temp buffer index
 	
-	private void checkDataBufferIndex(final int index)
+	private void checkDataBufferIndex(int index)
 	{
 		if ((index < 0) || (index >= dataBuffer.length))
 			throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX);
 	}
 	
-	private void checkTempBufferIndex(final int index)
+	private void checkTempBufferIndex(int index)
 	{
-		if ((index < 0) || (index >= tempBuffer.length))
+		if ((index < 0) || (index >= dataBuffer.length))
+			throw new RuntimeError(ErrorType.INVALID_TEMP_BUFFER_INDEX);
+	}
+	
+	private void checkClassDataBufferIndex()
+	{
+		if ((dataBufferIndex < 0) || (dataBufferIndex >= dataBuffer.length))
+			throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX);
+	}
+	
+	private void checkClassTempBufferIndex()
+	{
+		if ((tempBufferIndex < 0) || (tempBufferIndex >= dataBuffer.length))
 			throw new RuntimeError(ErrorType.NULL_TEMP_POINTER);
 	}
 	
@@ -222,7 +234,7 @@ public class BufferMachine
 	{
 		dataBufferIndex = nextInt();
 		if (SAFE)
-			checkDataBufferIndex(dataBufferIndex);
+			checkClassDataBufferIndex();
 	}
 	
 	private void setDataBufferIndexAtPointersIndex()
@@ -232,7 +244,7 @@ public class BufferMachine
 			checkPointersIndex(index);
 		dataBufferIndex = pointers[index];
 		if (SAFE)
-			checkDataBufferIndex(dataBufferIndex);
+			checkClassDataBufferIndex();
 	}
 	
 	// set: temp buffer index
@@ -241,7 +253,7 @@ public class BufferMachine
 	{
 		tempBufferIndex = nextInt();
 		if (SAFE)
-			checkTempBufferIndex(dataBufferIndex);
+			checkClassTempBufferIndex();
 	}
 	
 	private void setTempBufferIndexAtPointersIndex()
@@ -251,15 +263,7 @@ public class BufferMachine
 			checkPointersIndex(index);
 		tempBufferIndex = pointers[index];
 		if (SAFE)
-			checkTempBufferIndex(dataBufferIndex);
-	}
-	
-	// set: data buffer pointer & index
-	
-	private void setDataBufferAndIndex_BI_BI()
-	{
-		setDataBufferFromBuffersIndex();
-		setDataBufferIndex();
+			checkClassTempBufferIndex();
 	}
 	
 	// * byte setters & getters * 

@@ -22,6 +22,7 @@ public enum ErrorType
 	// check Data Buffer Index
 	
 	INVALID_DATA_BUFFER_INDEX,
+	INVALID_TEMP_BUFFER_INDEX,
 	
 	// unknown instruction
 	
