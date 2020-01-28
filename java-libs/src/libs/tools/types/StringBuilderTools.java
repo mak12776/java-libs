@@ -11,32 +11,26 @@ public final class StringBuilderTools
 		}
 	}
 
-	public static void appendByte(StringBuilder builder, byte b)
+	public static void appendReprByte(StringBuilder builder, byte b)
 	{
 		switch (b)
 		{
-		case '\n':
-			builder.append("\\n");
-			break;
-
-		case '\r':
-			builder.append("\\r");
-			break;
-
-		case '\t':
-			builder.append("   ~");
-			break;
-
-		default:
-			builder.append((char) b);
+		case '\n': builder.append("\\n"); break;
+		case '\r': builder.append("\\r"); break;
+		case '\t': builder.append("\\t"); break;
+		default: builder.append((char) b);
 		}
+	}
+	
+	public static void appendReprBytes(StringBuilder builder, byte[] array, int start, int end)
+	{
+		for (int index = start; index < end; index += 1)
+			appendReprByte(builder, array[index]);
 	}
 
 	public static void appendBytes(StringBuilder builder, byte[] array, int start, int end)
 	{
 		for (int index = start; index < end; index += 1)
-		{
-			appendByte(builder, array[index]);
-		}
+			builder.append((char) array[index]);
 	}
 }

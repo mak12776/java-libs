@@ -3,6 +3,7 @@ package libs.bytes;
 import libs.tools.MathTools;
 import libs.tools.SafeTools;
 import libs.tools.types.ArrayTools;
+import libs.types.ObjectReference;
 
 public class ByteArrayTools
 {
@@ -61,6 +62,24 @@ public class ByteArrayTools
 		System.arraycopy(buffer2, 0, newArray, buffer1.length, buffer2.length);
 		
 		return newArray;
+	}
+	
+	public static byte[] concatenate(byte[] buffer1, int start1, int end1, byte[] buffer2, int start2, int end2)
+	{
+		if (CHECK_BUFFER_START_END)
+		{
+			SafeTools.checkBufferStartEnd(buffer1, start1, end1);
+			SafeTools.checkBufferStartEnd(buffer2, start2, end2);
+		}
+		
+		int length1 = end1 - start1;
+		int length2 = end2 - start2;
+		
+		byte[] result = new byte[length1 + length2];
+		System.arraycopy(buffer1, start1, result, 0, length1);
+		System.arraycopy(buffer2, start2, result, length1, length2);
+		
+		return result;
 	}
 	
 	public static byte[] joinSep(byte[] sep, byte[]...arrays)
@@ -136,6 +155,11 @@ public class ByteArrayTools
 			SafeTools.checkEqualBufferLength(src, dest, "src", "dest");
 		
 		System.arraycopy(src, 0, dest, 0, src.length);
+	}
+	
+	public static void splitLine(byte[] buffer, int start, int end, ObjectReference<byte[]> result)
+	{
+		
 	}
 }
 

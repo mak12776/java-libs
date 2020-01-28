@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 public class JavaLine
 {
-	public static void generate(InputStream inStream, OutputStream outStream, GeneratorSettings settings)
+	public static void generate(InputStream inputStream, OutputStream outputStream, GeneratorSettings settings)
 	{
 		
 	}
