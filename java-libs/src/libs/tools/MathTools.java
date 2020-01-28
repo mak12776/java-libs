@@ -17,6 +17,17 @@ public class MathTools
 		}
 		return min;
 	}
+	
+	public static float min(float first, float... others)
+	{
+		float min = first;
+		for (int i = 0; i < others.length; i += 1)
+		{
+			if (others[i] < min)
+				min = others[i];
+		}
+		return min;
+	}
 
 	public static double min(double first, double... others)
 	{

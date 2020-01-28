@@ -1,5 +1,6 @@
 package libs.buffers;
 
+import libs.exceptions.BufferIsFullException;
 import libs.exceptions.UnimplementedCodeException;
 import libs.tools.SafeTools;
 
@@ -7,6 +8,7 @@ public class BufferQueue
 {
 	public static final boolean CHECK_BUFFER_START_END = false;
 	public static final boolean CHECK_INVALID_SIZE = false;
+	public static final boolean CHECK_INVALID_SHIFT = false;
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = false;
 	
 	private byte[] buffer;
@@ -109,32 +111,129 @@ public class BufferQueue
 	
 	public static final int MAX_SHIFT = Integer.MAX_VALUE;
 	
-	public void shift(int index)
+	public void shiftRight(int shift)
 	{
-		if (index == 0)
+		if (shift == 0)
 			return;
 		
-		// TODO: unimplemented code
-		throw new UnimplementedCodeException();
+		if (shift > buffer.length - end)
+			shift = buffer.length - end;
+		
+		System.arraycopy(buffer, start, buffer, start + shift, end - start);
+		start += shift;
+		end += shift;
+	}
+	
+	public void shiftLeft(int shift)
+	{
+		if (CHECK_INVALID_SHIFT)
+			SafeTools.checkInvalidIndex(shift, 0, MAX_SHIFT, "shift");
+		
+		if (shift == 0)
+			return;
+		
+		if (shift > start)
+			shift = start;
+		
+		System.arraycopy(buffer, start, buffer, start - shift, end - start);
+		start -= shift;
+		end -= shift;
+	}
+	
+	public void shift(int shift)
+	{
+		if (CHECK_INVALID_SHIFT)
+			SafeTools.checkInvalidIndex(shift, 0, MAX_SHIFT, "shift");
+		
+		if (shift == 0)
+			return;
+		
+		if (shift == Integer.MIN_VALUE)
+			shiftLeft(MAX_SHIFT);
+		
+		if (shift < 0)
+			shiftLeft(-shift);
+		else
+			shiftRight(shift);
 	}
 	
 	// append methods
 	
-	public void append(byte[] buffer, int start, int end, final boolean toLeft, int shift)
+	public void appendLeft(byte[] buffer, int start, int end)
 	{
 		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
 		int bufferLength = end - start;
 		
-		if (bufferLength <= this.buffer.length - this.end)
+		if (bufferLength > this.start)
+			throw new BufferIsFullException();
+		
+		start -= bufferLength;
+		System.arraycopy(buffer, start, this.buffer, start, bufferLength);
+	}
+	
+	public void appendRigth(byte[] buffer, int start, int end)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		int bufferLength = end - start;
+		
+		if (bufferLength > this.buffer.length - this.end)
+			throw new BufferIsFullException();
+		
+		System.arraycopy(buffer, start, this.buffer, end, bufferLength);
+		end += bufferLength;
+	}
+	
+	public void append(byte[] buffer, int start, int end, final int minShift, final boolean toLeft)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		if (CHECK_INVALID_SHIFT)
+			SafeTools.checkInvalidIndex(minShift, 0, MAX_SHIFT, "shift");
+		
+		int bufferLength = end - start;
+		
+		if (toLeft)
 		{
+			if (bufferLength <= this.start)
+			{
+				System.arraycopy(buffer, start, this.buffer, this.start - bufferLength, bufferLength);
+				start -= bufferLength;
+				return;
+			}
+		}
+		else
+		{
+			if (bufferLength <= this.buffer.length - this.end)
+			{
+				System.arraycopy(buffer, start, this.buffer, this.end, bufferLength);
+				this.end += bufferLength;
+				return;
+			}
+		}
+		
+		if (bufferLength > this.buffer.length - this.end + this.start)
+			throw new BufferIsFullException();
+		
+		if (toLeft)
+		{
+			shiftRight(Math.min(bufferLength - this.start, minShift));
+			
+			System.arraycopy(buffer, start, this.buffer, this.start - bufferLength, bufferLength);
+			start -= bufferLength;
+			return;
+		}
+		else
+		{
+			shiftLeft(Math.min(this.buffer.length - this.end - bufferLength, minShift));
+			
 			System.arraycopy(buffer, start, this.buffer, this.end, bufferLength);
 			this.end += bufferLength;
 			return;
 		}
-		
-		// TODO: unimplemented code
-		throw new UnimplementedCodeException();
 	}
 }
