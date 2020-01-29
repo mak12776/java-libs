@@ -1,2 +1,0 @@
-label Hi
-goto Hi

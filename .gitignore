@@ -1,16 +1,4 @@
-qdox/
-clsvis/
-
-javaparser-master/
-
-spoon/
-
-spoon-source/
-
-BigFile.txt
+other-libs/
 
 __pycache__/
-
-*.jar
-
 *.py
