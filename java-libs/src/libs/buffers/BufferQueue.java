@@ -1,7 +1,7 @@
 package libs.buffers;
 
 import libs.exceptions.BufferIsFullException;
-import libs.exceptions.UnimplementedCodeException;
+import libs.exceptions.NotEnoughDataException;
 import libs.tools.SafeTools;
 
 public class BufferQueue
@@ -173,7 +173,7 @@ public class BufferQueue
 		System.arraycopy(buffer, start, this.buffer, start, bufferLength);
 	}
 	
-	public void appendRigth(byte[] buffer, int start, int end)
+	public void appendRight(byte[] buffer, int start, int end)
 	{
 		if (CHECK_BUFFER_START_END)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
@@ -201,8 +201,8 @@ public class BufferQueue
 		{
 			if (bufferLength <= this.start)
 			{
-				System.arraycopy(buffer, start, this.buffer, this.start - bufferLength, bufferLength);
 				start -= bufferLength;
+				System.arraycopy(buffer, start, this.buffer, this.start, bufferLength);
 				return;
 			}
 		}
@@ -223,8 +223,8 @@ public class BufferQueue
 		{
 			shiftRight(Math.min(bufferLength - this.start, minShift));
 			
-			System.arraycopy(buffer, start, this.buffer, this.start - bufferLength, bufferLength);
 			start -= bufferLength;
+			System.arraycopy(buffer, start, this.buffer, this.start, bufferLength);
 			return;
 		}
 		else
@@ -235,5 +235,35 @@ public class BufferQueue
 			this.end += bufferLength;
 			return;
 		}
+	}
+	
+	// pop methods
+	
+	public void popLeft(byte[] buffer, int start, int end)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		int bufferLength = end - start;
+		
+		if (bufferLength > this.end - this.start)
+			throw new NotEnoughDataException();
+		
+		System.arraycopy(this.buffer, this.start, buffer, start, bufferLength);
+		this.start += bufferLength;
+	}
+	
+	public void popRight(byte[] buffer, int start, int end)
+	{
+		if (CHECK_BUFFER_START_END)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		int bufferLength = end - start;
+		
+		if (bufferLength > this.end - this.start)
+			throw new NotEnoughDataException();
+		
+		this.end -= bufferLength;
+		System.arraycopy(this.buffer, this.end, buffer, start, bufferLength);
 	}
 }

@@ -2,9 +2,9 @@ package libs.ranges;
 
 public class IntRange
 {
-	private Integer start;
-	private Integer end;
-	private Integer step;
+	private int start;
+	private int end;
+	private int step;
 	
 	public IntRange(int start, int end, int step)
 	{
@@ -12,5 +12,4 @@ public class IntRange
 		this.end = end;
 		this.step = step;
 	}
-	
 }
