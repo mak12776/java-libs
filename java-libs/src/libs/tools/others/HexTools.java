@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import libs.tools.SafeTools;
 
-public class TextTools
+public class HexTools
 {
 	public static byte toHex(int value, boolean upper)
 	{

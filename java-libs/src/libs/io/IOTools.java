@@ -12,11 +12,12 @@ import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
-import libs.tools.others.LinesTools;
 import libs.views.View;
 
-public class StreamTools
+public class IOTools
 {
+	// read file functions
+	
 	public static byte[] readFile(FileInputStream stream) throws IOException, BaseException
 	{
 		long fileSize;
@@ -42,73 +43,14 @@ public class StreamTools
 		}
 		return array;
 	}
-
-	public static long countLines(byte[] buffer, InputStream stream) throws IOException, BaseException
-	{
-		int readNumber;
-		int index;
-		int total;
-		boolean checkNewline;
-
-		checkNewline = false;
-		total = 0;
-
-		readNumber = stream.read(buffer);
-		if (readNumber == -1)
-			throw new ZeroFileSizeExeption();
-
-		while (true)
-		{
-			index = 0;
-
-			if (checkNewline && buffer[0] == '\n')
-				index += 1;
-
-			while (index < readNumber)
-			{
-				if (buffer[index] == '\n')
-				{
-					total += 1;
-				} else if (buffer[index] == '\r')
-				{
-					total += 1;
-
-					index += 1;
-					if (index == readNumber)
-					{
-						checkNewline = true;
-						break;
-					}
-
-					if (buffer[index] == '\n')
-						index += 1;
-
-					continue;
-				}
-				index += 1;
-			}
-
-			readNumber = stream.read(buffer);
-			if (readNumber == -1)
-			{
-				if (buffer[index - 1] != '\n' && buffer[index - 1] != '\r')
-					total += 1;
-				break;
-			}
-		}
-		return total;
-	}
-
-	public static long countLines(int bufferSize, InputStream stream) throws IOException, BaseException
-	{
-		return countLines(new byte[bufferSize], stream);
-	}
-
+	
 	public static byte[] readFile(String name) throws FileNotFoundException, IOException, BaseException
 	{
 		return readFile(new FileInputStream(name));
 	}
 
+	// read lines functions
+	
 	public static BufferViewInterface[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
 	{
 		return LinesTools.splitLines(c, readFile(stream));

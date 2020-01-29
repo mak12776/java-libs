@@ -7,7 +7,8 @@ import java.io.IOException;
 import libs.buffers.Buffer;
 import libs.exceptions.BaseException;
 import libs.io.JavaOutputFile;
-import libs.io.StreamTools;
+import libs.io.LinesTools;
+import libs.io.IOTools;
 
 public class Programs
 {
@@ -43,7 +44,7 @@ public class Programs
 		try
 		{
 			FileInputStream stream = new FileInputStream(args[0]);
-			System.out.println("number of lines: " + StreamTools.countLines(512, stream));
+			System.out.println("number of lines: " + LinesTools.countLines(512, stream));
 		} 
 		catch (IOException | BaseException e)
 		{

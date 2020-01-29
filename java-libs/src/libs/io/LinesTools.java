@@ -1,12 +1,80 @@
-package libs.tools.others;
+package libs.io;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import libs.buffers.BufferView;
 import libs.buffers.BufferViewInterface;
+import libs.exceptions.BaseException;
 import libs.exceptions.UnknownClassException;
+import libs.exceptions.ZeroFileSizeExeption;
 import libs.views.View;
 
 public class LinesTools
 {
+	// count lines
+
+	public static long countLines(byte[] buffer, InputStream stream) throws IOException, BaseException
+	{
+		int readNumber;
+		int index;
+		int total;
+		boolean checkNewline;
+
+		checkNewline = false;
+		total = 0;
+
+		readNumber = stream.read(buffer);
+		if (readNumber == -1)
+			throw new ZeroFileSizeExeption();
+
+		while (true)
+		{
+			index = 0;
+
+			if (checkNewline && buffer[0] == '\n')
+				index += 1;
+
+			while (index < readNumber)
+			{
+				if (buffer[index] == '\n')
+				{
+					total += 1;
+				} else if (buffer[index] == '\r')
+				{
+					total += 1;
+
+					index += 1;
+					if (index == readNumber)
+					{
+						checkNewline = true;
+						break;
+					}
+
+					if (buffer[index] == '\n')
+						index += 1;
+
+					continue;
+				}
+				index += 1;
+			}
+
+			readNumber = stream.read(buffer);
+			if (readNumber == -1)
+			{
+				if (buffer[index - 1] != '\n' && buffer[index - 1] != '\r')
+					total += 1;
+				break;
+			}
+		}
+		return total;
+	}
+
+	public static long countLines(int bufferSize, InputStream stream) throws IOException, BaseException
+	{
+		return countLines(new byte[bufferSize], stream);
+	}
+	
 	public static int countLines(byte[] buffer, int start, int end)
 	{
 		int index;
@@ -42,6 +110,8 @@ public class LinesTools
 		return total;
 	}
 
+	// split lines functions
+	
 	private static void splitLines(byte[] buffer, int bufferStart, int bufferEnd, BufferViewInterface[] lines)
 	{
 		int lnum;
