@@ -4,10 +4,10 @@ package libs.buffers;
 import java.io.IOException;
 import java.io.InputStream;
 
+import libs.bytes.ByteIO;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
-import libs.io.ByteIO;
 import libs.safe.SafeTools;
 
 public class Buffer

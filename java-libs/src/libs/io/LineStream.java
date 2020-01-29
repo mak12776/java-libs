@@ -1,4 +1,4 @@
-package libs.types;
+package libs.io;
 
 import java.io.IOException;
 import java.io.InputStream;

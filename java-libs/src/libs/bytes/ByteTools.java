@@ -197,8 +197,7 @@ public class ByteTools
 		int bufferLength = bufferEnd - bufferStart;
 		int bytesLength = bytesEnd - bytesStart;
 		
-		return (bufferLength >= bytesLength)
-				&& isEqual(buffer, bufferEnd - bytesLength, bytes, bytesStart, bytesLength);
+		return (bufferLength >= bytesLength) && isEqual(buffer, bufferEnd - bytesLength, bytes, bytesStart, bytesLength);
 	}
 
 	// search
