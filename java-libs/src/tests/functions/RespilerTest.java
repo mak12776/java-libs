@@ -10,7 +10,7 @@ import experimental.less.types.tokens.TokenType;
 import experimental.less.types.tokens.olds.OldToken;
 import libs.buffers.BufferViews;
 import libs.exceptions.BaseException;
-import libs.tools.types.StreamTools;
+import libs.io.StreamTools;
 
 public class RespilerTest extends BaseTest
 {

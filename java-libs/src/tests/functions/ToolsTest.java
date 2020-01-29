@@ -6,7 +6,7 @@ import java.io.IOException;
 import libs.buffers.BufferViews;
 import libs.bytes.ByteTools;
 import libs.exceptions.BaseException;
-import libs.tools.types.StreamTools;
+import libs.io.StreamTools;
 
 public class ToolsTest extends BaseTest
 {

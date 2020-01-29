@@ -9,7 +9,7 @@ import libs.buffers.BufferView;
 import libs.buffers.BufferViews;
 import libs.bytes.ByteTest;
 import libs.exceptions.BaseException;
-import libs.tools.types.StreamTools;
+import libs.io.StreamTools;
 
 public class Compiler
 {

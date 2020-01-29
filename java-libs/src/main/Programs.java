@@ -7,7 +7,7 @@ import java.io.IOException;
 import libs.buffers.Buffer;
 import libs.exceptions.BaseException;
 import libs.io.JavaOutputFile;
-import libs.tools.types.StreamTools;
+import libs.io.StreamTools;
 
 public class Programs
 {
