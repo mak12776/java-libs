@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import libs.buffers.Buffer;
 import libs.exceptions.BaseException;
-import libs.io.JavaOutputFile;
+import libs.files.JavaOutputFile;
 import libs.io.LinesTools;
 
 public class Programs

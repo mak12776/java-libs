@@ -1,4 +1,4 @@
-package libs.tools.others;
+package libs.tools;
 
 public class Tools
 {

@@ -4,7 +4,7 @@ package incomplete.machines;
 import libs.exceptions.InvalidByteCodeException;
 import libs.io.ByteIO;
 import libs.safe.SafeTools;
-import libs.tools.others.Tools;
+import libs.tools.Tools;
 
 public class OldUltraMachine
 {

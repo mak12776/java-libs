@@ -1,4 +1,4 @@
-package libs.tools.others;
+package libs.tools;
 
 import java.io.IOException;
 import java.io.OutputStream;

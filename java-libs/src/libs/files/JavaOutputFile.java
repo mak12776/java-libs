@@ -1,4 +1,4 @@
-package libs.io;
+package libs.files;
 
 import java.io.IOException;
 import java.io.OutputStream;
