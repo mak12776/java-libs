@@ -1,7 +1,7 @@
 package libs.bytes;
 
+import libs.safe.SafeTools;
 import libs.tools.MathTools;
-import libs.tools.SafeTools;
 import libs.tools.types.ArrayTools;
 import libs.types.ObjectReference;
 

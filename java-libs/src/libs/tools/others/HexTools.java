@@ -3,7 +3,7 @@ package libs.tools.others;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import libs.tools.SafeTools;
+import libs.safe.SafeTools;
 
 public class HexTools
 {

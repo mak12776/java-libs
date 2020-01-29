@@ -8,7 +8,7 @@ import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
 import libs.io.ByteIO;
-import libs.tools.SafeTools;
+import libs.safe.SafeTools;
 
 public class Buffer
 {

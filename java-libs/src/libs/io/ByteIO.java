@@ -1,7 +1,7 @@
 
 package libs.io;
 
-import libs.tools.SafeTools;
+import libs.safe.SafeTools;
 
 public class ByteIO
 {

@@ -1,7 +1,7 @@
 
 package libs.bytes;
 
-import libs.tools.SafeTools;
+import libs.safe.SafeTools;
 
 public class ByteTools
 {

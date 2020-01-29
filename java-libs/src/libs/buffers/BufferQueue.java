@@ -2,7 +2,7 @@ package libs.buffers;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
-import libs.tools.SafeTools;
+import libs.safe.SafeTools;
 
 public class BufferQueue
 {

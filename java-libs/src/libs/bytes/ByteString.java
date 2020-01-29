@@ -3,7 +3,7 @@ package libs.bytes;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.tools.SafeTools;
+import libs.safe.SafeTools;
 import libs.tools.types.StringBuilderTools;
 
 public class ByteString
