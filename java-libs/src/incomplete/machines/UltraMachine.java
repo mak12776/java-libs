@@ -1,7 +1,6 @@
 
 package incomplete.machines;
 
-import libs.bytes.ByteTools;
 import libs.exceptions.InvalidByteCodeException;
 import libs.io.ByteIO;
 import libs.tools.SafeTools;
