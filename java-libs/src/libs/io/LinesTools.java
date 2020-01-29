@@ -14,6 +14,11 @@ public class LinesTools
 {
 	// count lines
 
+	public static long countLines(int bufferSize, InputStream stream) throws IOException, BaseException
+	{
+		return countLines(new byte[bufferSize], stream);
+	}
+	
 	public static long countLines(byte[] buffer, InputStream stream) throws IOException, BaseException
 	{
 		int readNumber;
@@ -68,11 +73,6 @@ public class LinesTools
 			}
 		}
 		return total;
-	}
-
-	public static long countLines(int bufferSize, InputStream stream) throws IOException, BaseException
-	{
-		return countLines(new byte[bufferSize], stream);
 	}
 	
 	public static int countLines(byte[] buffer, int start, int end)

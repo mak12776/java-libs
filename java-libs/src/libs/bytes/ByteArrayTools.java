@@ -157,9 +157,9 @@ public class ByteArrayTools
 		System.arraycopy(src, 0, dest, 0, src.length);
 	}
 	
-	public static void splitLine(byte[] buffer, int start, int end, ObjectReference<byte[]> result)
+	public static byte[] splitLine(ObjectReference<byte[]> buffer, int start, int end)
 	{
-		
+		return null;
 	}
 }
 
