@@ -1,9 +1,8 @@
 package libs.bytes;
 
+import libs.math.MathTools;
 import libs.safe.SafeTools;
-import libs.tools.MathTools;
 import libs.tools.types.ArrayTools;
-import libs.types.ObjectReference;
 
 public class ByteArrayTools
 {
@@ -157,7 +156,7 @@ public class ByteArrayTools
 		System.arraycopy(src, 0, dest, 0, src.length);
 	}
 	
-	public static byte[] splitLine(ObjectReference<byte[]> buffer, int start, int end)
+	public static byte[] splitLine(byte[] buffer, int start, int end)
 	{
 		return null;
 	}

@@ -9,7 +9,7 @@ import libs.buffers.BufferView;
 import libs.buffers.BufferViews;
 import libs.bytes.ByteTest;
 import libs.exceptions.BaseException;
-import libs.io.IOTools;
+import libs.io.StreamTools;
 
 public class Compiler
 {
@@ -60,7 +60,7 @@ public class Compiler
 
 	public Compiler(FileInputStream stream, Settings settings) throws IOException, BaseException
 	{
-		this.lines = IOTools.readLineViews(stream);
+		this.lines = StreamTools.readLineViews(stream);
 		this.settings = settings;
 	}
 

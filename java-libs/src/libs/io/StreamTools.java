@@ -13,7 +13,7 @@ import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.views.View;
 
-public class IOTools
+public class StreamTools
 {
 	// read file functions
 	
