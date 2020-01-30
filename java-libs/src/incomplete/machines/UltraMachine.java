@@ -7,6 +7,8 @@ import libs.safe.SafeTools;
 
 public class UltraMachine
 {
+	public static final boolean CHECK_INTEGER_BYTES = true;
+	
 	// WARNING: don't change the following constants:
 	public static final int REGISTER_BITS = 64;
 	public static final int ADDRESS_BITS = 32;
@@ -57,7 +59,7 @@ public class UltraMachine
 
 	private long next(final int length)
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(length);
 
 		long value = 0;
@@ -111,7 +113,7 @@ public class UltraMachine
 
 	private void copyRegIm(int length) throws InvalidByteCodeException
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(length);
 
 		nextRegIndex(length);
@@ -127,7 +129,7 @@ public class UltraMachine
 
 	private void copyRegAddrIm(int size)
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(size);
 
 		nextRegAddr();
@@ -143,7 +145,7 @@ public class UltraMachine
 
 	private void copyImAddrIm(int size)
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(size);
 
 		nextImAddr();

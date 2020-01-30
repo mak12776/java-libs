@@ -8,13 +8,15 @@ import libs.bytes.ByteIO;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
+import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
 
 public class Buffer
 {
-	public static final boolean CHECK_INTEGER_BYTES = true;
+	public static final boolean CHECK_INTEGER_BYTES = SafeOptions.CheckIntegerBytes.buffer;
+	public static final boolean CHECK_BUFFER_START_END = SafeOptions.CheckBufferStartEnd.buffer;
+	
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
-	public static final boolean CHECK_BUFFER_START_END = false;
 	public static final boolean CHECK_INVALID_SIZE = false;
 	public static final boolean CHECK_INVALID_LENGTH = false;
 	
@@ -147,11 +149,6 @@ public class Buffer
 
 	// append functions
 	
-	public void append(byte[] buffer)
-	{
-		append(buffer, 0, buffer.length);
-	}
-
 	public void append(byte[] buffer, int start, int end)
 	{
 		if (CHECK_BUFFER_START_END)
@@ -164,6 +161,11 @@ public class Buffer
 
 		System.arraycopy(buffer, start, this.buffer, this.length, bufferLength);
 		length += bufferLength;
+	}
+	
+	public void append(byte[] buffer)
+	{
+		append(buffer, 0, buffer.length);
 	}
 
 	public void append(int size, long value)
@@ -216,11 +218,6 @@ public class Buffer
 	
 	// pop functions
 	
-	public void pop(byte[] buffer)
-	{
-		pop(buffer, 0, buffer.length);
-	}
-	
 	public void pop(byte[] buffer, int start, int end)
 	{
 		if (CHECK_BUFFER_START_END)
@@ -233,6 +230,11 @@ public class Buffer
 		
 		System.arraycopy(this.buffer, this.length - 1, buffer, start, bufferLength);
 		this.length -= bufferLength;
+	}
+	
+	public void pop(byte[] buffer)
+	{
+		pop(buffer, 0, buffer.length);
 	}
 	
 	public long pop(int size)

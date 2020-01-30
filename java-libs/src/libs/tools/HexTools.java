@@ -7,6 +7,8 @@ import libs.safe.SafeTools;
 
 public class HexTools
 {
+	public static final boolean CHECK_INTEGER_BYTES = true;
+	
 	public static byte toHex(int value, boolean upper)
 	{
 		byte first = (byte) ((upper ? 'A' : 'a') - 10);
@@ -40,7 +42,7 @@ public class HexTools
 
 	public static void writeHex(byte[] buffer, int offset, int size, long value, boolean upper)
 	{
-		if (SafeTools.CHECK_INTEGER_BYTES)
+		if (CHECK_INTEGER_BYTES)
 			SafeTools.checkIntegerBytes(size);
 
 		size *= 2;

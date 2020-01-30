@@ -8,6 +8,9 @@ import libs.tools.Tools;
 
 public class OldUltraMachine
 {
+	public static final boolean CHECK_INTEGER_BITS = true;
+	public static final boolean CHECK_INTEGER_BYTES = true;
+	
 	public static int REGISTER_SIZE = 64;
 	public static int ADDRESS_SIZE = 32;
 
@@ -58,7 +61,7 @@ public class OldUltraMachine
 
 	private long next(int size)
 	{
-		if (SafeTools.CHECK_INTEGER_BITS)
+		if (CHECK_INTEGER_BITS)
 			SafeTools.checkIntegerBits(size);
 
 		long value = 0;
@@ -96,7 +99,7 @@ public class OldUltraMachine
 
 	private void nextReg(final int size) throws InvalidByteCodeException
 	{
-		if (SafeTools.CHECK_INTEGER_BITS)
+		if (CHECK_INTEGER_BITS)
 			SafeTools.checkIntegerBits(size);
 
 		REG = (byte) next(8);

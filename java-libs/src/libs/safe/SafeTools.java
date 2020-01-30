@@ -9,9 +9,6 @@ public class SafeTools
 	 */
 	
 	// *** variables ***
-	
-	public static final boolean CHECK_INTEGER_BITS = true;
-	public static final boolean CHECK_INTEGER_BYTES = true;
 
 	// *** functions ***
 	
