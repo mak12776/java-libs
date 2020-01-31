@@ -5,20 +5,20 @@ package libs.math.points;
 *  don't modify it yourself
 */
 
-class IntPoint
+class LongPoint
 {
-	private int x;
-	private int y;
+	private long x;
+	private long y;
 
 	// constructors
 
-	public IntPoint(int x, int y)
+	public LongPoint(long x, long y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
-	public IntPoint()
+	public LongPoint()
 	{
 		this.x = 0;
 		this.y = 0;
@@ -26,9 +26,9 @@ class IntPoint
 
 	// copy function
 
-	public IntPoint copy()
+	public LongPoint copy()
 	{
-		return new IntPoint(this.x, this.y);
+		return new LongPoint(this.x, this.y);
 	}
 
 	// test functions
@@ -40,12 +40,12 @@ class IntPoint
 
 	// limit functions
 
-	public void xLimit(int min, int max)
+	public void xLimit(long min, long max)
 	{
 		if (x < min) x = min;
 		else if (x > max) x = max;
 	}
-	public void yLimit(int min, int max)
+	public void yLimit(long min, long max)
 	{
 		if (y < min) y = min;
 		else if (y > max) y = max;
@@ -57,7 +57,7 @@ class IntPoint
 		yLimit(yMin, yMax);
 	}
 
-	public void limit(IntPoint minPoint, IntPoint maxPoint)
+	public void limit(LongPoint minPoint, LongPoint maxPoint)
 	{
 		xLimit(minPoint.x, maxPoint.x);
 		yLimit(minPoint.y, maxPoint.y);
@@ -65,19 +65,19 @@ class IntPoint
 
 	// add functions
 
-	public void add(int value)
+	public void add(long value)
 	{
 		this.x += value;
 		this.y += value;
 	}
 
-	public void add(int x, int y)
+	public void add(long x, long y)
 	{
 		this.x += x;
 		this.y += y;
 	}
 
-	public void add(IntPoint other)
+	public void add(LongPoint other)
 	{
 		this.x += other.x;
 		this.y += other.y;
@@ -85,19 +85,19 @@ class IntPoint
 
 	// sub functions
 
-	public void sub(int value)
+	public void sub(long value)
 	{
 		this.x -= value;
 		this.y -= value;
 	}
 
-	public void sub(int x, int y)
+	public void sub(long x, long y)
 	{
 		this.x -= x;
 		this.y -= y;
 	}
 
-	public void sub(IntPoint other)
+	public void sub(LongPoint other)
 	{
 		this.x -= other.x;
 		this.y -= other.y;
@@ -105,19 +105,19 @@ class IntPoint
 
 	// div functions
 
-	public void div(int value)
+	public void div(long value)
 	{
 		this.x /= value;
 		this.y /= value;
 	}
 
-	public void div(int x, int y)
+	public void div(long x, long y)
 	{
 		this.x /= x;
 		this.y /= y;
 	}
 
-	public void div(IntPoint other)
+	public void div(LongPoint other)
 	{
 		this.x /= other.x;
 		this.y /= other.y;
@@ -125,19 +125,19 @@ class IntPoint
 
 	// mul functions
 
-	public void mul(int value)
+	public void mul(long value)
 	{
 		this.x *= value;
 		this.y *= value;
 	}
 
-	public void mul(int x, int y)
+	public void mul(long x, long y)
 	{
 		this.x *= x;
 		this.y *= y;
 	}
 
-	public void mul(IntPoint other)
+	public void mul(LongPoint other)
 	{
 		this.x *= other.x;
 		this.y *= other.y;
