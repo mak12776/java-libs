@@ -13,8 +13,8 @@ import libs.safe.SafeTools;
 
 public class Buffer
 {
-	public static final boolean CHECK_INTEGER_BYTES = SafeOptions.CheckIntegerBytes.buffer;
-	public static final boolean CHECK_BUFFER_START_END = SafeOptions.CheckBufferStartEnd.buffer;
+	public static final boolean CHECK_INTEGER_BYTES = false;
+	public static final boolean CHECK_BUFFER_START_END = false;
 	
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
 	public static final boolean CHECK_INVALID_SIZE = false;

@@ -1,4 +1,4 @@
-package libs.ranges;
+package libs.math.ranges;
 
 public class IntRange
 {
