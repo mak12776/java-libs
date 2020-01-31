@@ -76,6 +76,14 @@ public class SafeTools
 			throw new IllegalArgumentException("negative or zero " + name + ": " + size);
 	}
 
+	// array index
+	
+	public static <T> void checkArrayIndex(T[] array, int index, final String name)
+	{
+		if ((index < 0) || (index > array.length))
+			throw new IllegalArgumentException("invalid " + name + ": " + index);
+	}
+	
 	// buffer index
 
 	public static void checkBufferIndex(byte[] buffer, int index, final String name)
