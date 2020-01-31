@@ -20,7 +20,6 @@ public class View implements Picture
 	private int colorWidth;
 
 	private int xWidth;
-	@SuppressWarnings("unused")
 	private int yWidth;
 
 	public View(Image image, int xStart, int yStart, int xEnd, int yEnd)
@@ -45,6 +44,8 @@ public class View implements Picture
 
 	// [ low-level info functions ]
 
+	// Picture interface functions
+	
 	@Override
 	public byte[] getData()
 	{
@@ -74,6 +75,18 @@ public class View implements Picture
 	{
 		return height;
 	}
+	
+	// other functions
+	
+	public int xWidth()
+	{
+		return xWidth;
+	}
+	
+	public int yWidth()
+	{
+		return yWidth;
+	}
 
 	public int xStart()
 	{
@@ -94,6 +107,8 @@ public class View implements Picture
 	{
 		return yEnd;
 	}
+	
+	// more functions
 
 	// [ low-level functions ]
 

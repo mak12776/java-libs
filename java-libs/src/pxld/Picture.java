@@ -12,7 +12,6 @@ public interface Picture
 	int getColorWidth();
 
 	int width();
-
 	int height();
 
 	public interface MapFunction
@@ -21,7 +20,7 @@ public interface Picture
 	}
 
 	void draw(byte[] colorData);
-
+	
 	void map(MapFunction map);
 
 	void drawPicture(int x, int y, Picture picture);
