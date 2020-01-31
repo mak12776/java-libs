@@ -12,7 +12,7 @@ public class Main
 		int number = 0;
 		for (int index = 0; index < END; index += 1)
 		{
-			if (SAFE && (index % 2 == 0))
+			if (SAFE)
 				number *= index;
 		}
 	}
