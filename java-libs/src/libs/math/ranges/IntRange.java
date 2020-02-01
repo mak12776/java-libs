@@ -1,15 +1,7 @@
 package libs.math.ranges;
 
-public class IntRange
+
+public interface IntRange
 {
-	private int start;
-	private int end;
-	private int step;
-	
-	public IntRange(int start, int end, int step)
-	{
-		this.start = start;
-		this.end = end;
-		this.step = step;
-	}
+	public boolean contains(int value);
 }

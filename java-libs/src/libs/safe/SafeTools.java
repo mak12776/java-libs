@@ -42,6 +42,14 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid array index bytes: " + bits);
 	}
 	
+	// check null argument
+	
+	public static <T> void checkNullArgument(T object, String name)
+	{
+		if (object == null)
+			throw new NullPointerException(name + " argument is null.");
+	}
+	
 	// index out of bounds
 	
 	public static void checkIndexOutOfBounds(final int index, final int min, final int max, String name)
@@ -70,10 +78,10 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid " + name + ": " + index);
 	}
 	
-	public static void checkNegativeZeroIndex(final int size, String name)
+	public static void checkNegativeZeroIndex(final int index, String name)
 	{
-		if (size <= 0)
-			throw new IllegalArgumentException("negative or zero " + name + ": " + size);
+		if (index <= 0)
+			throw new IllegalArgumentException("negative or zero " + name + ": " + index);
 	}
 
 	// array index

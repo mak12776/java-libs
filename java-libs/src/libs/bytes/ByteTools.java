@@ -8,26 +8,47 @@ public class ByteTools
 	public static final boolean CHECK_BUFFER_START_END = false;
 	public static final boolean CHECK_BUFFER_OFFSET_LENGTH = false;
 	
+	public static final boolean CHECK_INVALID_COUNT = true;
+	public static final boolean CHECK_NULL_ARGUMENT = true;
+	
+	public static final boolean SAFE = true;
+	
 	// +++ algorithms +++
 
 	// test all and any
-
+	
 	public static boolean testAny(byte[] buffer, int start, int end, byte value)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(buffer, "buffer");
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+		}
 		
+		return testAnyUnsafe(buffer, start, end, value);
+	}
+	
+	public static boolean testAnyUnsafe(byte[] buffer, int start, int end, byte value)
+	{
 		for (; start < end; start += 1)
 			if (buffer[start] == value)
 				return true;
 		return false;
 	}
-
+	
 	public static boolean testAll(byte[] buffer, int start, int end, byte value)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(buffer, "buffer");
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+		}
 		
+		return testAllUnsafe(buffer, start, end, value);
+	}
+	
+	public static boolean testAllUnsafe(byte[] buffer, int start, int end, byte value)
+	{
 		for (; start < end; start += 1)
 			if (buffer[start] != value)
 				return false;
@@ -36,9 +57,18 @@ public class ByteTools
 	
 	public static boolean testAny(byte[] buffer, int start, int end, ByteTest test)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(buffer, "buffer");
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+			SafeTools.checkNullArgument(test, "test");
+		}	
 		
+		return testAnyUnsafe(buffer, start, end, test);
+	}
+	
+	public static boolean testAnyUnsafe(byte[] buffer, int start, int end, ByteTest test)
+	{
 		for (; start < end; start += 1)
 			if (test.test(buffer[start]))
 				return true;
@@ -47,9 +77,18 @@ public class ByteTools
 	
 	public static boolean testAll(byte[] buffer, int start, int end, ByteTest test)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(buffer, "buffer");
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+			SafeTools.checkNullArgument(test, "test");
+		}
 		
+		return testAllUnsafe(buffer, start, end, test);
+	}
+	
+	public static boolean testAllUnsafe(byte[] buffer, int start, int end, ByteTest test)
+	{
 		for (; start < end; start += 1)
 			if (!test.test(buffer[start]))
 				return false;
@@ -60,11 +99,55 @@ public class ByteTools
 	
 	public static void fill(byte[] buffer, int start, int end, byte value)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(buffer, "buffer");
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+		}
 		
 		for (; start < end; start += 1)
 			buffer[start] = value;
+	}
+	
+	// area copy functions
+	
+	public static void areaCopy(byte[] src, int start, int end, byte[] dest, int offset, int count)
+	{
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(src, "src");
+			SafeTools.checkNullArgument(dest, "dest");
+			
+			SafeTools.checkBufferStartEnd(src, start, end);
+			SafeTools.checkInvalidIndexMinimum(count, 0, "count");;
+		}
+		
+		
+		if (count == 0)
+			return;
+		
+		int length = end - start;
+		
+		if (length == 1)
+		{
+			fill(dest, offset, offset + count, src[start]);
+			return;
+		}
+		
+		System.arraycopy(src, start, dest, offset, length);
+		
+		int writeOffset = offset + length;
+		int endOffset = offset + (length * count);
+		
+		while (writeOffset < endOffset)
+		{
+			System.arraycopy(dest, offset, dest, writeOffset, length);
+			writeOffset += length;
+
+			length = writeOffset - offset;
+			if (length > endOffset - writeOffset)
+				length = endOffset - writeOffset; 
+		}
 	}
 
 	// find test functions

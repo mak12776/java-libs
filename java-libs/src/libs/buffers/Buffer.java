@@ -8,7 +8,6 @@ import libs.bytes.ByteIO;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
-import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
 
 public class Buffer
