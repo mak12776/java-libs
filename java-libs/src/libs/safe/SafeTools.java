@@ -66,6 +66,14 @@ public class SafeTools
 			throw new IllegalArgumentException("negative or zero " + name + ": " + index);
 	}
 	
+	// check negative index
+	
+	public static void checkNegativeIndex(final int index, String name)
+	{
+		if (index < 0)
+			throw new IllegalArgumentException("negative " + name + ": " + index);
+	}
+	
 	
 	// invalid index
 	

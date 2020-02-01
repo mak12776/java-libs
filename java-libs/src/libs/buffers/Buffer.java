@@ -7,7 +7,6 @@ import java.io.InputStream;
 import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
-import libs.exceptions.UnimplementedCodeException;
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
 
@@ -15,36 +14,54 @@ public class Buffer
 {
 	public static final boolean SAFE = SafeOptions.get(Buffer.class);
 	
-	public static final boolean CHECK_INTEGER_BYTES = false;
-	public static final boolean CHECK_BUFFER_START_END = false;
-	
-	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = true;
-	public static final boolean CHECK_INVALID_SIZE = false;
-	public static final boolean CHECK_INVALID_LENGTH = false;
-	
 	private byte[] buffer;
 	private int length;
 
+	// constructors
+	
 	public Buffer(byte[] buffer, int length)
 	{		
+		if (SAFE)
+		{
+			SafeTools.checkNullArgument(buffer, "buffer");
+			SafeTools.checkInvalidIndex(length, 0, buffer.length, "length");
+		}
+		
 		this.buffer = buffer;
 		this.length = length;
 	}
 
 	public Buffer(int size)
 	{
+		if (SAFE)
+			SafeTools.checkNegativeIndex(size, "size");
+		
 		this.buffer = new byte[size];
 		this.length = 0;
 	}
 	
-	public static Buffer safe(byte[] buffer, int length)
+	// unsafe constructors
+	
+	private Buffer() { }
+	
+	public static Buffer unsafe(byte[] buffer, int length)
 	{
-		return new Buffer(buffer, length);
+		Buffer result = new Buffer();
+		
+		result.buffer = buffer;
+		result.length = length;
+		
+		return result;
 	}
 	
-	public static Buffer safe(int size)
+	public static Buffer unsafe(int size)
 	{
-		return new Buffer(size);
+		Buffer result = new Buffer();
+		
+		result.buffer = new byte[size];
+		result.length = 0;
+		
+		return result;
 	}
 
 	// fields functions
@@ -84,12 +101,12 @@ public class Buffer
 	
 	// unsafe byte index
 	
-	public byte unsafeGet(int index)
+	public byte getUnsafe(int index)
 	{
 		return buffer[index];
 	}
 	
-	public void unsafeSet(int index, byte value)
+	public void setUnsafe(int index, byte value)
 	{
 		buffer[index] = value;
 	}
@@ -151,16 +168,22 @@ public class Buffer
 	
 	public void delete(int length, final boolean checkEnoughData, final boolean fromLeft)
 	{
-		if (CHECK_BUFFER_START_END)
-			SafeTools.checkInvalidIndexMaximum(length, 0, "length");
+		if (SAFE)
+			SafeTools.checkInvalidIndexMinimum(length, 0, "length");
 		
+		deleteUnsafe(length, checkEnoughData, fromLeft);
+	}
+	
+	public void deleteUnsafe(int length, final boolean checkEnoughData, final boolean fromLeft)
+	{
 		if (length == 0) 
 			return;
 		
 		if (length >= this.length)
 		{
-			if (checkEnoughData && length > this.length)
-				throw new NotEnoughDataException();
+			if (checkEnoughData)
+				if (length > this.length)
+					throw new NotEnoughDataException();
 			
 			this.length = 0;
 			return;
@@ -176,9 +199,14 @@ public class Buffer
 	
 	public void append(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		appendUnsafe(buffer, start, end);
+	}
+	
+	public void appendUnsafe(byte[] buffer, int start, int end)
+	{
 		int bufferLength = end - start;
 
 		if (bufferLength > this.buffer.length - this.length)
@@ -190,16 +218,29 @@ public class Buffer
 	
 	public void append(byte[] buffer)
 	{
-		append(buffer, 0, buffer.length);
+		if (SAFE)
+			SafeTools.checkNullArgument(buffer, "buffer");
+		
+		appendUnsafe(buffer, 0, buffer.length);
+	}
+	
+	public void appendUnsafe(byte[] buffer)
+	{
+		appendUnsafe(buffer, 0, buffer.length);
 	}
 	
 	// pop buffer functions
 	
 	public void pop(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		popUnsafe(buffer, start, end);
+	}
+	
+	public void popUnsafe(byte[] buffer, int start, int end)
+	{
 		int bufferLength = end - start;
 		
 		if (bufferLength > this.length)
@@ -211,14 +252,23 @@ public class Buffer
 	
 	public void pop(byte[] buffer)
 	{
-		pop(buffer, 0, buffer.length);
+		if (SAFE)
+			SafeTools.checkNullArgument(buffer, "buffer");
+		
+		popUnsafe(buffer, 0, buffer.length);
 	}
+	
+	public void popUnsafe(byte[] buffer)
+	{
+		popUnsafe(buffer, 0, buffer.length);
+	}
+	
 	
 	// append integer types
 	
 	public void append(int size, long value)
 	{
-		if (CHECK_INTEGER_BYTES)
+		if (SAFE)
 			SafeTools.checkIntegerBytes(size);
 
 		if (size > this.buffer.length - this.length)
@@ -268,7 +318,7 @@ public class Buffer
 	
 	public long pop(int size)
 	{
-		if (CHECK_INTEGER_BYTES)
+		if (SAFE)
 			SafeTools.checkIntegerBytes(size);
 		
 		if (size > this.length)
