@@ -4,7 +4,7 @@ package libs.buffers;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.ByteIO;
+import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
@@ -146,7 +146,7 @@ public class Buffer
 		this.length -= length;
 	}
 
-	// append functions
+	// append buffer functions
 	
 	public void append(byte[] buffer, int start, int end)
 	{
@@ -166,56 +166,8 @@ public class Buffer
 	{
 		append(buffer, 0, buffer.length);
 	}
-
-	public void append(int size, long value)
-	{
-		if (CHECK_INTEGER_BYTES)
-			SafeTools.checkIntegerBytes(size);
-
-		if (size > this.buffer.length - this.length)
-			throw new BufferIsFullException();
-
-		ByteIO.write(this.buffer, this.length, size, value);
-		length += size;
-	}
-
-	public void appendByte(byte value)
-	{
-		if (Byte.BYTES > this.buffer.length - this.length)
-			throw new BufferIsFullException();
-
-		ByteIO.writeByte(buffer, length, value);
-		length += Byte.BYTES;
-	}
-
-	public void appendShort(short value)
-	{
-		if (Short.BYTES > this.buffer.length - this.length)
-			throw new BufferIsFullException();
-
-		ByteIO.writeShort(buffer, length, value);
-		length += Short.BYTES;
-	}
-
-	public void appendInt(int value)
-	{
-		if (Integer.BYTES > this.buffer.length - this.length)
-			throw new BufferIsFullException();
-
-		ByteIO.writeInt(buffer, length, value);
-		length += Integer.BYTES;
-	}
-
-	public void appendLong(long value)
-	{
-		if (Long.BYTES > this.buffer.length - this.length)
-			throw new BufferIsFullException();
-
-		ByteIO.writeLong(buffer, length, value);
-		length += Long.BYTES;
-	}
 	
-	// pop functions
+	// pop buffer functions
 	
 	public void pop(byte[] buffer, int start, int end)
 	{
@@ -235,55 +187,7 @@ public class Buffer
 	{
 		pop(buffer, 0, buffer.length);
 	}
-	
-	public long pop(int size)
-	{
-		if (CHECK_INTEGER_BYTES)
-			SafeTools.checkIntegerBytes(size);
-		
-		if (size > this.length)
-			throw new NotEnoughDataException();
-		
-		length -= size;
-		return ByteIO.read(buffer, length, size);
-	}
-	
-	public byte popByte()
-	{
-		if (Byte.BYTES > this.length)
-			throw new NotEnoughDataException();
-		
-		length -= Byte.BYTES;
-		return ByteIO.readByte(buffer, length);
-	}
-	
-	public short popShort()
-	{
-		if (Short.BYTES > this.length)
-			throw new NotEnoughDataException();
-		
-		length -= Short.BYTES;
-		return ByteIO.readShort(buffer, length);
-	}
-	
-	public int popInt()
-	{
-		if (Integer.BYTES > this.length)
-			throw new NotEnoughDataException();
-		
-		length -= Integer.BYTES;
-		return ByteIO.readInt(buffer, length);
-	}
-	
-	public long popLong()
-	{
-		if (Long.BYTES > this.length)
-			throw new NotEnoughDataException();
-		
-		length -= Long.BYTES;
-		return ByteIO.readLong(buffer, length);
-	}
-	
+
 	// split line
 	
 	public boolean splitLine(BufferViewInterface view)
@@ -303,5 +207,105 @@ public class Buffer
 			}
 		}
 		return false;
+	}
+	
+	// append integer types
+	
+	public void append(int size, long value)
+	{
+		if (CHECK_INTEGER_BYTES)
+			SafeTools.checkIntegerBytes(size);
+
+		if (size > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+
+		ByteTools.write(this.buffer, this.length, size, value);
+		length += size;
+	}
+
+	public void appendByte(byte value)
+	{
+		if (Byte.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+
+		buffer[length] = value;
+		length += Byte.BYTES;
+	}
+
+	public void appendShort(short value)
+	{
+		if (Short.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+
+		ByteTools.writeShort(buffer, length, value);
+		length += Short.BYTES;
+	}
+
+	public void appendInt(int value)
+	{
+		if (Integer.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+
+		ByteTools.writeInt(buffer, length, value);
+		length += Integer.BYTES;
+	}
+
+	public void appendLong(long value)
+	{
+		if (Long.BYTES > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+
+		ByteTools.writeLong(buffer, length, value);
+		length += Long.BYTES;
+	}
+	
+	// pop integer types
+	
+	public long pop(int size)
+	{
+		if (CHECK_INTEGER_BYTES)
+			SafeTools.checkIntegerBytes(size);
+		
+		if (size > this.length)
+			throw new NotEnoughDataException();
+		
+		length -= size;
+		return ByteTools.read(buffer, length, size);
+	}
+	
+	public byte popByte()
+	{
+		if (Byte.BYTES > this.length)
+			throw new NotEnoughDataException();
+		
+		length -= Byte.BYTES;
+		return buffer[length];
+	}
+	
+	public short popShort()
+	{
+		if (Short.BYTES > this.length)
+			throw new NotEnoughDataException();
+		
+		length -= Short.BYTES;
+		return ByteTools.readShort(buffer, length);
+	}
+	
+	public int popInt()
+	{
+		if (Integer.BYTES > this.length)
+			throw new NotEnoughDataException();
+		
+		length -= Integer.BYTES;
+		return ByteTools.readInt(buffer, length);
+	}
+	
+	public long popLong()
+	{
+		if (Long.BYTES > this.length)
+			throw new NotEnoughDataException();
+		
+		length -= Long.BYTES;
+		return ByteTools.readLong(buffer, length);
 	}
 }

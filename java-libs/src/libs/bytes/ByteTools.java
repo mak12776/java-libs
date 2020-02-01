@@ -213,6 +213,86 @@ public class ByteTools
 			}
 			return sourceEnd;
 		}
+		
+		// read functions
+
+		public static long read(byte[] buffer, int offset, int size)
+		{
+			long value = 0;
+
+			for (int index = 0; index < size; index += 1)
+			{
+				value <<= 8;
+				value = value | ((long) buffer[offset + index] & 0xFF);
+			}
+
+			return value;
+		}
+
+		public static short readShort(byte[] buffer, int offset)
+		{
+			return 	(short) (
+						((buffer[offset++] & 0xFF) << 8) |
+						 (buffer[offset] & 0xFF)
+					);
+		}
+
+		public static int readInt(byte[] buffer, int offset)
+		{
+			return 	((buffer[offset++] & 0xFF) << (8 * 3)) |
+					((buffer[offset++] & 0xFF) << (8 * 2)) |
+					((buffer[offset++] & 0xFF) << (8 * 1)) |
+					(buffer[offset++] & 0xFF);
+		}
+
+		public static long readLong(byte[] buffer, int offset)
+		{
+			return 	(( (long) buffer[offset++] & 0xFF ) << (8 * 7)) |
+					(( (long) buffer[offset++] & 0xFF ) << (8 * 6)) |
+					(( (long) buffer[offset++] & 0xFF ) << (8 * 5)) |
+					(( (long) buffer[offset++] & 0xFF ) << (8 * 4)) |
+					(( (long) buffer[offset++] & 0xFF ) << (8 * 3)) |
+					(( (long) buffer[offset++] & 0xFF ) << (8 * 2)) |
+					(( (long) buffer[offset++] & 0xFF ) << (8 * 1)) |
+					 ( (long) buffer[offset] & 0xFF);
+		}
+		
+		// write functions
+
+		public static void write(byte[] buffer, int offset, int size, long value)
+		{
+			for (int index = size - 1; index >= 0; index -= 1)
+			{
+				buffer[offset + index] = (byte) (value & 0xFF);
+				value >>>= 8;
+			}
+		}
+
+		public static void writeShort(byte[] buffer, int offset, short value)
+		{
+			buffer[offset++] = (byte) ((value >> 8) & 0xFF);
+			buffer[offset] = (byte) (value & 0xFF);
+		}
+
+		public static void writeInt(byte[] buffer, int offset, int value)
+		{
+			buffer[offset++] = (byte) ((value >> (8 * 3)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 2)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 1)) & 0xFF);
+			buffer[offset] = (byte) (value & 0xFF);
+		}
+
+		public static void writeLong(byte[] buffer, int offset, long value)
+		{			
+			buffer[offset++] = (byte) ((value >> (8 * 7)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 6)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 5)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 4)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 3)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 2)) & 0xFF);
+			buffer[offset++] = (byte) ((value >> (8 * 1)) & 0xFF);
+			buffer[offset] = (byte) (value & 0xFF);
+		}
 	}
 	
 	// ++ safe functions ++
@@ -400,5 +480,79 @@ public class ByteTools
 		}
 		
 		return Unsafe.rsearch(source, sourceStart, sourceEnd, buffer, bufferStart, bufferEnd);
+	}
+	
+	// read functions
+
+	public static long read(byte[] buffer, int offset, int size)
+	{
+		if (SAFE)
+		{
+			SafeTools.checkIntegerBytes(size);
+			SafeTools.checkBufferOffsetLength(buffer, offset, size);
+		}
+		
+		return Unsafe.read(buffer, offset, size);
+	}
+
+	public static short readShort(byte[] buffer, int offset)
+	{
+		if (SAFE)
+			SafeTools.checkBufferOffsetLength(buffer, offset, Short.BYTES);
+		
+		return Unsafe.readShort(buffer, offset);
+	}
+
+	public static int readInt(byte[] buffer, int offset)
+	{
+		if (SAFE)
+			SafeTools.checkBufferOffsetLength(buffer, offset, Integer.BYTES);
+		
+		return Unsafe.readInt(buffer, offset);
+	}
+
+	public static long readLong(byte[] buffer, int offset)
+	{
+		if (SAFE)
+			SafeTools.checkBufferOffsetLength(buffer, offset, Long.BYTES);
+		
+		return Unsafe.readLong(buffer, offset);
+	}
+	
+	// write functions
+
+	public static void write(byte[] buffer, int offset, int size, long value)
+	{
+		if (SAFE)
+		{
+			SafeTools.checkIntegerBytes(size);
+			SafeTools.checkBufferOffsetLength(buffer, offset, size);
+		}
+
+		Unsafe.write(buffer, offset, size, value);
+	}
+
+	public static void writeShort(byte[] buffer, int offset, short value)
+	{
+		if (SAFE)
+			SafeTools.checkBufferOffsetLength(buffer, offset, Short.BYTES);
+		
+		Unsafe.writeShort(buffer, offset, value);
+	}
+
+	public static void writeInt(byte[] buffer, int offset, int value)
+	{
+		if (SAFE)
+			SafeTools.checkBufferOffsetLength(buffer, offset, Integer.BYTES);
+		
+		Unsafe.writeInt(buffer, offset, value);
+	}
+
+	public static void writeLong(byte[] buffer, int offset, long value)
+	{
+		if (SAFE)
+			SafeTools.checkBufferOffsetLength(buffer, offset, Long.BYTES);
+		
+		Unsafe.writeLong(buffer, offset, value);
 	}
 }

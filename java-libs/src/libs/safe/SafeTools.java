@@ -51,6 +51,7 @@ public class SafeTools
 			throw new IndexOutOfBoundsException(name + " is out of bounds: " + index);
 	}
 	
+	
 	// invalid index
 	
 	public static void checkInvalidIndex(final int index, final int min, final int max, String name)
@@ -76,6 +77,7 @@ public class SafeTools
 		if (index <= 0)
 			throw new IllegalArgumentException("negative or zero " + name + ": " + index);
 	}
+	
 
 	// array index
 	
@@ -92,6 +94,7 @@ public class SafeTools
 		if ((index < 0) || (index > buffer.length))
 			throw new IllegalArgumentException("invalid " + name + ": " + index);
 	}
+	
 	
 	// buffer start & end index
 	
@@ -117,6 +120,7 @@ public class SafeTools
 		checkBufferStartEnd(buffer, start, end, "buffer");
 	}
 	
+	
 	// buffer offset & length
 	
 	public static void checkBufferOffsetLength(byte[] buffer, int offset, int length, final String bufferName)
@@ -135,6 +139,7 @@ public class SafeTools
 	{
 		checkBufferOffsetLength(buffer, offset, length, "buffer");
 	}
+	
 	
 	// buffer equal length
 	
