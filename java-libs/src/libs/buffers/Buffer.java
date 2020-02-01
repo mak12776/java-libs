@@ -8,10 +8,13 @@ import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
+import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
 
 public class Buffer
 {
+	public static final boolean SAFE = SafeOptions.get(Buffer.class);
+	
 	public static final boolean CHECK_INTEGER_BYTES = false;
 	public static final boolean CHECK_BUFFER_START_END = false;
 	
@@ -23,18 +26,25 @@ public class Buffer
 	private int length;
 
 	public Buffer(byte[] buffer, int length)
-	{
+	{		
 		this.buffer = buffer;
 		this.length = length;
 	}
 
 	public Buffer(int size)
 	{
-		if (CHECK_INVALID_SIZE)
-			SafeTools.checkNegativeZeroIndex(size, "size");
-		
 		this.buffer = new byte[size];
 		this.length = 0;
+	}
+	
+	public static Buffer safe(byte[] buffer, int length)
+	{
+		return new Buffer(buffer, length);
+	}
+	
+	public static Buffer safe(int size)
+	{
+		return new Buffer(size);
 	}
 
 	// fields functions
@@ -53,10 +63,12 @@ public class Buffer
 	{
 		return length;
 	}
+	
+	// byte index
 
 	public byte get(int index)
 	{
-		if (CHECK_INDEX_OUT_OF_BOUNDS)
+		if (SAFE)
 			SafeTools.checkIndexOutOfBounds(index, 0, length, "index");
 
 		return buffer[index];
@@ -64,12 +76,26 @@ public class Buffer
 	
 	public void set(int index, byte value)
 	{
-		if (CHECK_INDEX_OUT_OF_BOUNDS)
+		if (SAFE)
 			SafeTools.checkIndexOutOfBounds(index, 0, length, "index");
 
 		buffer[index] = value;
 	}
-
+	
+	// unsafe byte index
+	
+	public byte unsafeGet(int index)
+	{
+		return buffer[index];
+	}
+	
+	public void unsafeSet(int index, byte value)
+	{
+		buffer[index] = value;
+	}
+	
+	// members test functions
+	
 	public boolean isEmpty()
 	{
 		return (length == 0);
@@ -116,7 +142,7 @@ public class Buffer
 		return readNumber;
 	}
 	
-	// delete functions
+	// clear & delete functions
 	
 	public void clear()
 	{
@@ -186,27 +212,6 @@ public class Buffer
 	public void pop(byte[] buffer)
 	{
 		pop(buffer, 0, buffer.length);
-	}
-
-	// split line
-	
-	public boolean splitLine(BufferViewInterface view)
-	{
-		int index;
-		
-		index = 0;
-		while (index < length)
-		{
-			if (buffer[index] == '\n')
-			{
-				view.set(buffer, 0, index);
-				
-				
-				// TODO: unimplemented code
-				throw new UnimplementedCodeException();
-			}
-		}
-		return false;
 	}
 	
 	// append integer types
