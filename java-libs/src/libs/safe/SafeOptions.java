@@ -15,7 +15,10 @@ public class SafeOptions
 	
 	public static boolean get(Class<?> c)
 	{
-		return options.get(c);
+		Boolean result = options.get(c);
+		if (result == null)
+			throw new IllegalArgumentException("unknown class: " + c.getName());
+		return result;
 	}
 	
 	private static final HashMap<Class<?>, Boolean> options = new HashMap<Class<?>, Boolean>();

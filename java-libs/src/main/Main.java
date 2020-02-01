@@ -11,21 +11,9 @@ public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
-		ByteTest test = new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
-		Integer a = 10;
-		Class<?> c = a.getClass();
+		Boolean b = null;
 		
-		System.out.println(c.getTypeName());
-		System.out.println(c.getName());
-		System.out.println(c.getSimpleName());
-		System.out.println(c.getCanonicalName());
+		boolean a = b;
+		System.out.println(a);
 	}
 }
