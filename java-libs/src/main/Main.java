@@ -3,18 +3,29 @@ package main;
 
 import java.io.IOException;
 
+import libs.buffers.Buffer;
+import libs.bytes.ByteTest;
 import libs.bytes.ByteTools;
-import libs.tools.types.StringTools;
 
 public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
-		byte[] buffer = new byte[1024];
-		byte[] hello = "Hello \n".getBytes();
+		ByteTest test = new ByteTest()
+		{
+			@Override
+			public boolean test(byte b)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		Integer a = 10;
+		Class<?> c = a.getClass();
 		
-		ByteTools.areaCopy(hello, 0, hello.length, buffer, 2, 10);
-		
-		System.out.println(StringTools.byteArrayToString(buffer, 0, buffer.length, "'", "'"));
+		System.out.println(c.getTypeName());
+		System.out.println(c.getName());
+		System.out.println(c.getSimpleName());
+		System.out.println(c.getCanonicalName());
 	}
 }

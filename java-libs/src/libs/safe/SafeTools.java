@@ -3,13 +3,6 @@ package libs.safe;
 
 public class SafeTools
 {
-	/* SafeTools options exist in:
-	 * 		Buffer
-	 * 		BufferQueue
-	 */
-	
-	// *** variables ***
-
 	// *** functions ***
 	
 	// check integer bits
@@ -104,6 +97,9 @@ public class SafeTools
 	
 	public static void checkBufferStartEnd(byte[] buffer, int start, int end, final String bufferName)
 	{
+		if (buffer == null)
+			throw new NullPointerException(bufferName);
+		
 		if ((start < 0) || (start >= buffer.length))
 			throw new IllegalArgumentException("invalid buffer start index: " + start);
 		
@@ -125,6 +121,9 @@ public class SafeTools
 	
 	public static void checkBufferOffsetLength(byte[] buffer, int offset, int length, final String bufferName)
 	{
+		if (buffer == null)
+			throw new NullPointerException(bufferName);
+		
 		if ((offset < 0) || (offset >= buffer.length))
 			throw new IllegalArgumentException("invalid " + bufferName + " offset: " + offset);
 		

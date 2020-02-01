@@ -1,29 +1,28 @@
 package libs.safe;
 
-import libs.buffers.Buffer;
-import libs.buffers.BufferQueue;
-import libs.exceptions.UnknownClassException;
+import java.util.HashMap;
+import libs.bytes.ByteTools;
 
 public class SafeOptions
 {
-	public static class CheckIntegerBytes
+
+	// *** variables ***
+	
+	public static final boolean GLOBAL_SAFE = true;
+	
+	public static boolean get(Class<?> c)
 	{
-		private CheckIntegerBytes() { }
-		
-		public static boolean get(Class<?> c)
-		{
-			if (c.equals(Buffer.class)) return true;
-			else if (c.equals(BufferQueue.class)) return true;
-			else 
-				throw new UnknownClassException(c.getCanonicalName());
-		}
+		return options.get(c);
 	}
 	
-	public static class CheckBufferStartEnd
+	private static final HashMap<Class<?>, Boolean> options = new HashMap<Class<?>, Boolean>();
+	
+	private static void add(Class<?> c, boolean safe)
 	{
-		private CheckBufferStartEnd() { }
-		
-		public static final boolean Buffer = true;
-		public static final boolean BufferQueue = true;
+		options.put(c, safe);
+	}
+	
+	static {
+		add(ByteTools.class, GLOBAL_SAFE);
 	}
 }
