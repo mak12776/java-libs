@@ -5,6 +5,7 @@ public class SafeTools
 {
 	// *** functions ***
 	
+	
 	// check integer bits
 
 	public static void checkIntegerBits(final int bits)
@@ -20,8 +21,9 @@ public class SafeTools
 		if ((bytes != Byte.BYTES) && (bytes != Short.BYTES) && (bytes != Integer.BYTES) && (bytes != Long.BYTES))
 			throw new IllegalArgumentException("invalid integer bytes: " + bytes);
 	}
+	
 
-	// check array index
+	// check array index bytes
 
 	public static void checkArrayIndexBytes(final int bytes)
 	{
@@ -29,11 +31,14 @@ public class SafeTools
 			throw new IllegalArgumentException("invalid array index bytes: " + bytes);
 	}
 	
+	// check array index bits
+	
 	public static void checkArrayIndexBits(final int bits)
 	{
 		if ((bits != Byte.SIZE) && (bits != Short.SIZE) && (bits != Integer.SIZE))
 			throw new IllegalArgumentException("invalid array index bytes: " + bits);
 	}
+	
 	
 	// check null argument
 	
@@ -43,12 +48,22 @@ public class SafeTools
 			throw new NullPointerException(name + " argument is null.");
 	}
 	
+	
 	// index out of bounds
 	
 	public static void checkIndexOutOfBounds(final int index, final int min, final int max, String name)
 	{
 		if ((index < min) || (index >= max))
 			throw new IndexOutOfBoundsException(name + " is out of bounds: " + index);
+	}
+	
+	
+	// check negative zero index
+	
+	public static void checkNegativeZeroIndex(final int index, String name)
+	{
+		if (index <= 0)
+			throw new IllegalArgumentException("negative or zero " + name + ": " + index);
 	}
 	
 	
@@ -70,12 +85,6 @@ public class SafeTools
 	{
 		if ((index >= max))
 			throw new IllegalArgumentException("invalid " + name + ": " + index);
-	}
-	
-	public static void checkNegativeZeroIndex(final int index, String name)
-	{
-		if (index <= 0)
-			throw new IllegalArgumentException("negative or zero " + name + ": " + index);
 	}
 	
 

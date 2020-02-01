@@ -1,7 +1,7 @@
 
 package incomplete.machines;
 
-import libs.bytes.ByteIO;
+import libs.bytes.ByteTools;
 import libs.exceptions.InvalidByteCodeException;
 import libs.safe.SafeTools;
 
@@ -101,7 +101,7 @@ public class UltraMachine
 	private void nextRegAddr()
 	{
 		regIndex = ((byte) next(REG_OPR_BYTES) & REG_NUM_MASK) * REGISTER_BYTES;
-		ByteIO.read(registers, regIndex, REGISTER_BYTES);
+		ByteTools.read(registers, regIndex, REGISTER_BYTES);
 	}
 
 	public static final short INST_NOOP = 0x0;
