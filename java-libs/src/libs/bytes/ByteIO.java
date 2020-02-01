@@ -5,13 +5,13 @@ import libs.safe.SafeTools;
 
 public class ByteIO
 {
-	public static final boolean CHECK_INTEGER_BYTES = true;
+	public static final boolean SAFE = true;
 	
 	// read functions
 
 	public static long read(byte[] buffer, int offset, int size)
 	{
-		if (CHECK_INTEGER_BYTES)
+		if (SAFE)
 			SafeTools.checkIntegerBytes(size);
 
 		long value = 0;
@@ -27,11 +27,7 @@ public class ByteIO
 
 	public static byte readByte(byte[] buffer, int offset)
 	{
-		byte value = 0;
-
-		value |= buffer[offset];
-
-		return value;
+		return buffer[offset];
 	}
 
 	public static short readShort(byte[] buffer, int offset)
@@ -76,7 +72,7 @@ public class ByteIO
 
 	public static void write(byte[] buffer, int offset, int size, long value)
 	{
-		if (CHECK_INTEGER_BYTES)
+		if (SAFE)
 			SafeTools.checkIntegerBytes(size);
 
 		for (int index = size - 1; index >= 0; index -= 1)
