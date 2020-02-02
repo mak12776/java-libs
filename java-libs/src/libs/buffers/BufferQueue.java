@@ -5,12 +5,7 @@ import libs.exceptions.NotEnoughDataException;
 import libs.safe.SafeTools;
 
 public class BufferQueue
-{
-	public static final boolean CHECK_BUFFER_START_END = false;
-	public static final boolean CHECK_INVALID_SIZE = false;
-	public static final boolean CHECK_INVALID_SHIFT = false;
-	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = false;
-	
+{	
 	public static final boolean SAFE = true;
 	
 	private byte[] buffer;

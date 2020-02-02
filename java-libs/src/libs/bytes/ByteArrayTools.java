@@ -12,9 +12,11 @@ public class ByteArrayTools
 	public static final boolean CHECK_BUFFER_START_END = false;
 	public static final boolean CHECK_BUFFER_LENGTH = false;
 	
+	public static final boolean SAFE = true;
+	
 	public static byte[] resize(byte[] buffer, int size, int offset)
 	{
-		if (CHECK_ZERO_NEGATIVE_SIZE)
+		if (SAFE)
 			SafeTools.checkNegativeZeroIndex(size, "size");
 		
 		byte[] newArray = new byte[size];
@@ -25,10 +27,10 @@ public class ByteArrayTools
 	
 	public static byte[] slice(byte[] buffer, int start, int end)
 	{
-		int length = end - start;
-		
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		int length = end - start;
 		
 		byte[] newArray = new byte[length];
 		System.arraycopy(buffer, start, newArray, 0, length);
@@ -38,7 +40,7 @@ public class ByteArrayTools
 	
 	public static byte[] extend(byte[] buffer, int size)
 	{
-		if (CHECK_ZERO_NEGATIVE_SIZE)
+		if (SAFE)
 			SafeTools.checkNegativeZeroIndex(size, "size");
 		
 		return resize(buffer, buffer.length + size, 0);
@@ -46,7 +48,7 @@ public class ByteArrayTools
 	
 	public static byte[] extendLeft(byte[] buffer, int size)
 	{
-		if (CHECK_ZERO_NEGATIVE_SIZE)
+		if (SAFE)
 			SafeTools.checkNegativeZeroIndex(size, "size");
 		
 		return resize(buffer, buffer.length + size, size);
@@ -65,7 +67,7 @@ public class ByteArrayTools
 	
 	public static byte[] concatenate(byte[] buffer1, int start1, int end1, byte[] buffer2, int start2, int end2)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 		{
 			SafeTools.checkBufferStartEnd(buffer1, start1, end1);
 			SafeTools.checkBufferStartEnd(buffer2, start2, end2);
@@ -137,7 +139,7 @@ public class ByteArrayTools
 	
 	public static byte[] copy(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
 		int length = end - start;
@@ -150,7 +152,7 @@ public class ByteArrayTools
 	
 	public static void copy(byte[] src, byte[] dest)
 	{
-		if (CHECK_BUFFER_LENGTH)
+		if (SAFE)
 			SafeTools.checkEqualBufferLength(src, dest, "src", "dest");
 		
 		System.arraycopy(src, 0, dest, 0, src.length);

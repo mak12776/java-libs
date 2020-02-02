@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import libs.buffers.Buffer;
 import libs.buffers.BufferQueue;
+import libs.bytes.ByteArrayTools;
 import libs.bytes.ByteTools;
 
 public class SafeOptions
 {
-
 	// *** variables ***
 	
 	public static final boolean GLOBAL_SAFE = true;
@@ -32,5 +32,6 @@ public class SafeOptions
 		add(ByteTools.class, GLOBAL_SAFE);
 		add(Buffer.class, GLOBAL_SAFE);
 		add(BufferQueue.class, GLOBAL_SAFE);
+		add(ByteArrayTools.class, GLOBAL_SAFE);
 	}
 }
