@@ -11,6 +11,8 @@ public class BufferQueue
 	public static final boolean CHECK_INVALID_SHIFT = false;
 	public static final boolean CHECK_INDEX_OUT_OF_BOUNDS = false;
 	
+	public static final boolean SAFE = true;
+	
 	private byte[] buffer;
 	private int start;
 	private int end;
@@ -19,7 +21,7 @@ public class BufferQueue
 	
 	public BufferQueue(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
 		this.buffer = buffer;
@@ -29,12 +31,36 @@ public class BufferQueue
 	
 	public BufferQueue(int size)
 	{
-		if (CHECK_INVALID_SIZE)
+		if (SAFE)
 			SafeTools.checkNegativeZeroIndex(size, "size");
 		
 		this.buffer = new byte[size];
 		this.start = 0;
 		this.end = 0;
+	}
+	
+	private BufferQueue() { }
+	
+	public static BufferQueue unsafe(byte[] buffer, int start, int end)
+	{
+		BufferQueue result = new BufferQueue();
+		
+		result.buffer = buffer;
+		result.start = start;
+		result.end = end;
+		
+		return result;
+	}
+	
+	public static BufferQueue unsafe(int size)
+	{
+		BufferQueue result = new BufferQueue();
+		
+		result.buffer = new byte[size];
+		result.start = 0;
+		result.end = 0;
+		
+		return result;
 	}
 	
 	// fields functions
@@ -54,9 +80,11 @@ public class BufferQueue
 		return end;
 	}
 	
+	// get and set byte
+	
 	public byte get(int index)
 	{
-		if (CHECK_INDEX_OUT_OF_BOUNDS)
+		if (SAFE)
 			SafeTools.checkIndexOutOfBounds(index, 0, end - start, "index");
 		
 		return buffer[start + index];
@@ -64,18 +92,37 @@ public class BufferQueue
 	
 	public void set(int index, byte value)
 	{
-		if (CHECK_INDEX_OUT_OF_BOUNDS)
+		if (SAFE)
 			SafeTools.checkIndexOutOfBounds(index, 0, end - start, "index");
 		
 		buffer[start + index] = value;
 	}
 	
-	// properties
+	// unsafe get and set byte
+	
+	public byte getUnsafe(int index)
+	{
+		return buffer[start + index];
+	}
+	
+	public void setUnsafe(int index, byte value)
+	{
+		buffer[start + index] = value;
+	}
+	
+	// length and size functions
 	
 	public int length()
 	{
 		return end - start;
 	}
+	
+	public int size()
+	{
+		return buffer.length;
+	}
+	
+	// remaining functions
 	
 	public int remaining()
 	{
@@ -92,10 +139,7 @@ public class BufferQueue
 		return buffer.length - end;
 	}
 	
-	public int size()
-	{
-		return buffer.length;
-	}
+	// test functions
 	
 	public boolean isEmpty()
 	{
@@ -107,12 +151,15 @@ public class BufferQueue
 		return (start == 0) && (end == buffer.length);
 	}
 	
-	// functions
+	// shift functions
 	
 	public static final int MAX_SHIFT = Integer.MAX_VALUE;
 	
 	public void shiftRight(int shift)
 	{
+		if (SAFE)
+			SafeTools.checkInvalidIndex(shift, 0, MAX_SHIFT, "shift");
+		
 		if (shift == 0)
 			return;
 		
