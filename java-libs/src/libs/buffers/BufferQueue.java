@@ -186,9 +186,6 @@ public class BufferQueue
 	
 	public void shiftLeftUnsafe(int shift)
 	{
-		if (SAFE)
-			SafeTools.checkInvalidIndexMinimum(shift, 0, "shift");
-		
 		if (shift == 0)
 			return;
 		
@@ -202,28 +199,30 @@ public class BufferQueue
 	
 	public void shift(int shift)
 	{
-		if (CHECK_INVALID_SHIFT)
-			SafeTools.checkInvalidIndex(shift, 0, MAX_SHIFT, "shift");
-		
 		if (shift == 0)
 			return;
 		
 		if (shift == Integer.MIN_VALUE)
-			shiftLeft(MAX_SHIFT);
+			shiftLeftUnsafe(MAX_SHIFT);
 		
 		if (shift < 0)
-			shiftLeft(-shift);
+			shiftLeftUnsafe(-shift);
 		else
-			shiftRight(shift);
+			shiftRightUnsafe(shift);
 	}
 	
 	// append methods
 	
 	public void appendLeft(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		appendLeftUnsafe(buffer, start, end);
+	}
+	
+	public void appendLeftUnsafe(byte[] buffer, int start, int end)
+	{
 		int bufferLength = end - start;
 		
 		if (bufferLength > this.start)
@@ -235,9 +234,14 @@ public class BufferQueue
 	
 	public void appendRight(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		appendRightUnsafe(buffer, start, end);
+	}
+	
+	public void appendRightUnsafe(byte[] buffer, int start, int end)
+	{
 		int bufferLength = end - start;
 		
 		if (bufferLength > this.buffer.length - this.end)
@@ -249,12 +253,17 @@ public class BufferQueue
 	
 	public void append(byte[] buffer, int start, int end, final int minShift, final boolean toLeft)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
+		{
 			SafeTools.checkBufferStartEnd(buffer, start, end);
+			SafeTools.checkInvalidIndexMinimum(minShift, 0, "shift");
+		}
 		
-		if (CHECK_INVALID_SHIFT)
-			SafeTools.checkInvalidIndex(minShift, 0, MAX_SHIFT, "shift");
-		
+		appendUnsafe(buffer, start, end, minShift, toLeft);
+	}
+	
+	public void appendUnsafe(byte[] buffer, int start, int end, final int shift, final boolean toLeft)
+	{		
 		int bufferLength = end - start;
 		
 		if (toLeft)
@@ -281,7 +290,7 @@ public class BufferQueue
 		
 		if (toLeft)
 		{
-			shiftRight(Math.min(bufferLength - this.start, minShift));
+			shiftRight(Math.max(bufferLength - this.start, shift));
 			
 			start -= bufferLength;
 			System.arraycopy(buffer, start, this.buffer, this.start, bufferLength);
@@ -289,7 +298,7 @@ public class BufferQueue
 		}
 		else
 		{
-			shiftLeft(Math.min(this.buffer.length - this.end - bufferLength, minShift));
+			shiftLeft(Math.max(this.buffer.length - this.end - bufferLength, shift));
 			
 			System.arraycopy(buffer, start, this.buffer, this.end, bufferLength);
 			this.end += bufferLength;
@@ -301,9 +310,14 @@ public class BufferQueue
 	
 	public void popLeft(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		popLeftUnsafe(buffer, start, end);
+	}
+	
+	public void popLeftUnsafe(byte[] buffer, int start, int end)
+	{
 		int bufferLength = end - start;
 		
 		if (bufferLength > this.end - this.start)
@@ -315,9 +329,14 @@ public class BufferQueue
 	
 	public void popRight(byte[] buffer, int start, int end)
 	{
-		if (CHECK_BUFFER_START_END)
+		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
+		popRightUnsafe(buffer, start, end);
+	}
+	
+	public void popRightUnsafe(byte[] buffer, int start, int end)
+	{		
 		int bufferLength = end - start;
 		
 		if (bufferLength > this.end - this.start)
