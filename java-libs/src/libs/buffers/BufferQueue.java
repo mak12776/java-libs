@@ -158,8 +158,13 @@ public class BufferQueue
 	public void shiftRight(int shift)
 	{
 		if (SAFE)
-			SafeTools.checkInvalidIndex(shift, 0, MAX_SHIFT, "shift");
+			SafeTools.checkInvalidIndexMinimum(shift, 0, "shift");
 		
+		shiftRightUnsafe(shift);
+	}
+	
+	public void shiftRightUnsafe(int shift)
+	{
 		if (shift == 0)
 			return;
 		
@@ -173,8 +178,16 @@ public class BufferQueue
 	
 	public void shiftLeft(int shift)
 	{
-		if (CHECK_INVALID_SHIFT)
-			SafeTools.checkInvalidIndex(shift, 0, MAX_SHIFT, "shift");
+		if (SAFE)
+			SafeTools.checkInvalidIndexMinimum(shift, 0, "shift");
+		
+		shiftLeftUnsafe(shift);
+	}
+	
+	public void shiftLeftUnsafe(int shift)
+	{
+		if (SAFE)
+			SafeTools.checkInvalidIndexMinimum(shift, 0, "shift");
 		
 		if (shift == 0)
 			return;
