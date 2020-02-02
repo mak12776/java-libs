@@ -229,6 +229,18 @@ public class Buffer
 		appendUnsafe(buffer, 0, buffer.length);
 	}
 	
+	public void append(int size, long value)
+	{
+		if (SAFE)
+			SafeTools.checkIntegerBytes(size);
+
+		if (size > this.buffer.length - this.length)
+			throw new BufferIsFullException();
+
+		ByteTools.Unsafe.write(buffer, length, size, value);
+		length += size;
+	}
+	
 	// pop buffer functions
 	
 	public void pop(byte[] buffer, int start, int end)
@@ -263,20 +275,19 @@ public class Buffer
 		popUnsafe(buffer, 0, buffer.length);
 	}
 	
-	
-	// append integer types
-	
-	public void append(int size, long value)
+	public long pop(int size)
 	{
 		if (SAFE)
 			SafeTools.checkIntegerBytes(size);
-
-		if (size > this.buffer.length - this.length)
-			throw new BufferIsFullException();
-
-		ByteTools.write(this.buffer, this.length, size, value);
-		length += size;
+		
+		if (size > this.length)
+			throw new NotEnoughDataException();
+		
+		length -= size;
+		return ByteTools.Unsafe.read(buffer, length, size);
 	}
+	
+	// append integer types
 
 	public void appendByte(byte value)
 	{
@@ -292,7 +303,7 @@ public class Buffer
 		if (Short.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 
-		ByteTools.writeShort(buffer, length, value);
+		ByteTools.Unsafe.writeShort(buffer, length, value);
 		length += Short.BYTES;
 	}
 
@@ -301,7 +312,7 @@ public class Buffer
 		if (Integer.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 
-		ByteTools.writeInt(buffer, length, value);
+		ByteTools.Unsafe.writeInt(buffer, length, value);
 		length += Integer.BYTES;
 	}
 
@@ -310,23 +321,11 @@ public class Buffer
 		if (Long.BYTES > this.buffer.length - this.length)
 			throw new BufferIsFullException();
 
-		ByteTools.writeLong(buffer, length, value);
+		ByteTools.Unsafe.writeLong(buffer, length, value);
 		length += Long.BYTES;
 	}
 	
 	// pop integer types
-	
-	public long pop(int size)
-	{
-		if (SAFE)
-			SafeTools.checkIntegerBytes(size);
-		
-		if (size > this.length)
-			throw new NotEnoughDataException();
-		
-		length -= size;
-		return ByteTools.read(buffer, length, size);
-	}
 	
 	public byte popByte()
 	{
@@ -343,7 +342,7 @@ public class Buffer
 			throw new NotEnoughDataException();
 		
 		length -= Short.BYTES;
-		return ByteTools.readShort(buffer, length);
+		return ByteTools.Unsafe.readShort(buffer, length);
 	}
 	
 	public int popInt()
@@ -352,7 +351,7 @@ public class Buffer
 			throw new NotEnoughDataException();
 		
 		length -= Integer.BYTES;
-		return ByteTools.readInt(buffer, length);
+		return ByteTools.Unsafe.readInt(buffer, length);
 	}
 	
 	public long popLong()
@@ -361,6 +360,6 @@ public class Buffer
 			throw new NotEnoughDataException();
 		
 		length -= Long.BYTES;
-		return ByteTools.readLong(buffer, length);
+		return ByteTools.Unsafe.readLong(buffer, length);
 	}
 }
