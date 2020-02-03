@@ -239,7 +239,7 @@ public class BufferQueue
 		
 		if (toLeft)
 		{
-			shift = MathTools.limit(shift, 0, ) + length - this.start; 
+			shift = this.start; 
 			
 			shift(shift);
 		}
