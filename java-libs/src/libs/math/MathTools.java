@@ -4,6 +4,13 @@ package libs.math;
 public class MathTools
 {
 	private MathTools() { }
+	
+	// limits
+	
+	public static int limit(int value, int min, int max)
+	{
+		return (value < min) ? min : ((value > max) ? max : value);
+	}
 
 	// minimum
 

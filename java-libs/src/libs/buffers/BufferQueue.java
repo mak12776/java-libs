@@ -3,6 +3,7 @@ package libs.buffers;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.exceptions.UnimplementedCodeException;
+import libs.math.MathTools;
 
 public class BufferQueue
 {	
@@ -100,122 +101,146 @@ public class BufferQueue
 		return (start == 0) && (end == buffer.length);
 	}
 	
+	// protected shift functions
+	
+	protected void shiftEmpty(int shift)
+	{
+		System.arraycopy(buffer, start, buffer, start + shift, start - end);
+		start += shift;
+		end += shift;
+	}
+	
 	// shift functions
 	
 	public static final int MAX_SHIFT = Integer.MAX_VALUE;
 	
 	public void shiftRight(int shift)
 	{
+		if (start == end)
+			return;
+		
 		if (shift == 0)
 			return;
 		
 		if (shift > buffer.length - end)
 			shift = buffer.length - end;
 		
-		System.arraycopy(buffer, start, buffer, start + shift, end - start);
-		start += shift;
-		end += shift;
+		shiftEmpty(shift);
 	}
 	
 	public void shiftLeft(int shift)
 	{
+		if (start == end)
+			return;
+		
 		if (shift == 0)
 			return;
 		
 		if (shift > start)
 			shift = start;
 		
-		System.arraycopy(buffer, start, buffer, start - shift, end - start);
-		start -= shift;
-		end -= shift;
+		shiftEmpty(-shift);
 	}
 	
 	public void shift(int shift)
 	{
+		if (start == end)
+			return;
+		
 		if (shift == 0)
 			return;
 		
-		if (shift == Integer.MIN_VALUE)
-			shiftLeft(MAX_SHIFT);
+		if (shift > buffer.length - end)
+			shift = buffer.length - end;
+		else if (shift < -start)
+			shift = -start;
+			
+		shiftEmpty(shift);
+	}
+	
+	// protected append functions
+	
+	protected void appendEmpty(byte[] buffer, int start, int end, int shift, final boolean toLeft)
+	{
+		int length = end - start;
 		
-		if (shift < 0)
-			shiftLeft(-shift);
+		shift = MathTools.limit(shift, 0, this.buffer.length - length);
+		
+		if (toLeft)
+		{
+			this.start = shift;
+			this.end = shift + length;
+		}
 		else
-			shiftRight(shift);
+		{
+			this.start = this.buffer.length - length - shift;
+			this.end = this.buffer.length - shift;
+		}
+		
+		System.arraycopy(buffer, start, this.buffer, 0, length);
+	}
+	
+	// append side functions
+	
+	public boolean appendSideEmpty(byte[] buffer, int start, int end, final boolean toLeft)
+	{
+		int length = end - start;
+		
+		if (toLeft)
+		{
+			if (length > this.start)
+				return false;
+			
+			this.start -= length;
+			System.arraycopy(buffer, start, this.buffer, this.start, length);
+		}
+		else
+		{
+			if (length > this.buffer.length - this.end)
+				return false;
+			
+			System.arraycopy(buffer, start, this.buffer, this.end, length);
+			this.end += length;
+		}
+		
+		return true;
+	}
+	
+	// append side functions
+	
+	public void appendSide(byte[] buffer, int start, int end, final boolean toLeft)
+	{
+		if (this.start == this.end)
+		{
+			appendEmpty(buffer, start, end, 0, toLeft);
+			return;
+		}
+		
+		if (!appendSideEmpty(buffer, start, end, toLeft))
+			throw new BufferIsFullException();
+	}
+	
+	public void appendSide(byte[] buffer, final boolean toLeft)
+	{
+		appendSide(buffer, 0, buffer.length, toLeft);
 	}
 	
 	// append functions
 	
-	public void appendLeft(byte[] buffer, int start, int end)
-	{
-		int bufferLength = end - start;
-		
-		if (bufferLength > this.start)
-			throw new BufferIsFullException();
-		
-		start -= bufferLength;
-		System.arraycopy(buffer, start, this.buffer, start, bufferLength);
-	}
-	
-	public void appendRight(byte[] buffer, int start, int end)
-	{
-		int bufferLength = end - start;
-		
-		if (bufferLength > this.buffer.length - this.end)
-			throw new BufferIsFullException();
-		
-		System.arraycopy(buffer, start, this.buffer, end, bufferLength);
-		end += bufferLength;
-	}
-	
-	public void append(byte[] buffer, int start, int end, final int shift, final boolean toLeft)
+	public void append(byte[] buffer, int start, int end, int shift, final boolean toLeft)
 	{		
-		int bufferLength = end - start;
-		
 		if (this.start == this.end)
 		{
-			// TODO: unimplemented code
-			throw new UnimplementedCodeException();
-		}
-		
-		if (toLeft)
-		{
-			if (bufferLength <= this.start)
-			{
-				start -= bufferLength;
-				System.arraycopy(buffer, start, this.buffer, this.start, bufferLength);
-				return;
-			}
-		}
-		else
-		{
-			if (bufferLength <= this.buffer.length - this.end)
-			{
-				System.arraycopy(buffer, start, this.buffer, this.end, bufferLength);
-				this.end += bufferLength;
-				return;
-			}
-		}
-		
-		if (bufferLength > this.buffer.length - this.end + this.start)
-			throw new BufferIsFullException();
-		
-		if (toLeft)
-		{
-			shiftRight(Math.max(bufferLength - this.start, shift));
-			
-			start -= bufferLength;
-			System.arraycopy(buffer, start, this.buffer, this.start, bufferLength);
+			appendEmpty(buffer, start, end, shift, toLeft);
 			return;
 		}
-		else
+		
+		if (end - start > this.buffer.length - end + start)
 		{
-			shiftLeft(Math.max(this.buffer.length - this.end - bufferLength, shift));
 			
-			System.arraycopy(buffer, start, this.buffer, this.end, bufferLength);
-			this.end += bufferLength;
-			return;
 		}
+		
+		appendSideEmpty(buffer, start, end, toLeft);
 	}
 	
 	public void append(byte[] buffer, final int shift, final boolean toLeft)
