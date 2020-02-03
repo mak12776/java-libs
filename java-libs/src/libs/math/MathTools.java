@@ -11,6 +11,16 @@ public class MathTools
 	{
 		return (value < min) ? min : ((value > max) ? max : value);
 	}
+	
+	public static int limitMaximum(int value, int max)
+	{
+		return (value > max) ? max : value;
+	}
+	
+	public static int limitMinimum(int value, int min)
+	{
+		return (value < min) ? min : value;
+	}
 
 	// minimum
 

@@ -164,7 +164,7 @@ public class BufferQueue
 	{
 		int length = end - start;
 		
-		shift = MathTools.limit(shift, 0, this.buffer.length - length);
+		shift = MathTools.limitMaximum(shift, this.buffer.length - length);
 		
 		if (toLeft)
 		{
@@ -235,9 +235,16 @@ public class BufferQueue
 			return;
 		}
 		
-		if (end - start > this.buffer.length - end + start)
+		int length = end - start;
+		
+		if (length > this.buffer.length - this.end + this.start)
 		{
+			if (toLeft)
+				shift = MathTools.limit(shift, 0, this.buffer.length - this.end);
+			else
+				shift = MathTools.limit(shift, 0, this.start);
 			
+			shift(shift);
 		}
 		
 		appendSideEmpty(buffer, start, end, toLeft);
