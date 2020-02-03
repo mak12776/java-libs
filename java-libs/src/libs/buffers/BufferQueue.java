@@ -2,23 +2,20 @@ package libs.buffers;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
-import libs.safe.SafeTools;
+import libs.exceptions.UnimplementedCodeException;
 
 public class BufferQueue
 {	
 	public static final boolean SAFE = true;
 	
-	private byte[] buffer;
-	private int start;
-	private int end;
+	protected byte[] buffer;
+	protected int start;
+	protected int end;
 	
 	// constructors
 	
 	public BufferQueue(byte[] buffer, int start, int end)
 	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
 		this.buffer = buffer;
 		this.start = start;
 		this.end = end;
@@ -26,37 +23,12 @@ public class BufferQueue
 	
 	public BufferQueue(int size)
 	{
-		if (SAFE)
-			SafeTools.checkNegativeZeroIndex(size, "size");
-		
 		this.buffer = new byte[size];
 		this.start = 0;
 		this.end = 0;
 	}
 	
-	private BufferQueue() { }
-	
-	public static BufferQueue unsafe(byte[] buffer, int start, int end)
-	{
-		BufferQueue result = new BufferQueue();
-		
-		result.buffer = buffer;
-		result.start = start;
-		result.end = end;
-		
-		return result;
-	}
-	
-	public static BufferQueue unsafe(int size)
-	{
-		BufferQueue result = new BufferQueue();
-		
-		result.buffer = new byte[size];
-		result.start = 0;
-		result.end = 0;
-		
-		return result;
-	}
+	protected BufferQueue() { }
 	
 	// fields functions
 	
@@ -79,28 +51,10 @@ public class BufferQueue
 	
 	public byte get(int index)
 	{
-		if (SAFE)
-			SafeTools.checkIndexOutOfBounds(index, 0, end - start, "index");
-		
 		return buffer[start + index];
 	}
 	
 	public void set(int index, byte value)
-	{
-		if (SAFE)
-			SafeTools.checkIndexOutOfBounds(index, 0, end - start, "index");
-		
-		buffer[start + index] = value;
-	}
-	
-	// unsafe get and set byte
-	
-	public byte getUnsafe(int index)
-	{
-		return buffer[start + index];
-	}
-	
-	public void setUnsafe(int index, byte value)
 	{
 		buffer[start + index] = value;
 	}
@@ -152,14 +106,6 @@ public class BufferQueue
 	
 	public void shiftRight(int shift)
 	{
-		if (SAFE)
-			SafeTools.checkInvalidIndexMinimum(shift, 0, "shift");
-		
-		shiftRightUnsafe(shift);
-	}
-	
-	public void shiftRightUnsafe(int shift)
-	{
 		if (shift == 0)
 			return;
 		
@@ -172,14 +118,6 @@ public class BufferQueue
 	}
 	
 	public void shiftLeft(int shift)
-	{
-		if (SAFE)
-			SafeTools.checkInvalidIndexMinimum(shift, 0, "shift");
-		
-		shiftLeftUnsafe(shift);
-	}
-	
-	public void shiftLeftUnsafe(int shift)
 	{
 		if (shift == 0)
 			return;
@@ -198,25 +136,17 @@ public class BufferQueue
 			return;
 		
 		if (shift == Integer.MIN_VALUE)
-			shiftLeftUnsafe(MAX_SHIFT);
+			shiftLeft(MAX_SHIFT);
 		
 		if (shift < 0)
-			shiftLeftUnsafe(-shift);
+			shiftLeft(-shift);
 		else
-			shiftRightUnsafe(shift);
+			shiftRight(shift);
 	}
 	
-	// append methods
+	// append functions
 	
 	public void appendLeft(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		appendLeftUnsafe(buffer, start, end);
-	}
-	
-	public void appendLeftUnsafe(byte[] buffer, int start, int end)
 	{
 		int bufferLength = end - start;
 		
@@ -229,14 +159,6 @@ public class BufferQueue
 	
 	public void appendRight(byte[] buffer, int start, int end)
 	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		appendRightUnsafe(buffer, start, end);
-	}
-	
-	public void appendRightUnsafe(byte[] buffer, int start, int end)
-	{
 		int bufferLength = end - start;
 		
 		if (bufferLength > this.buffer.length - this.end)
@@ -246,20 +168,15 @@ public class BufferQueue
 		end += bufferLength;
 	}
 	
-	public void append(byte[] buffer, int start, int end, final int minShift, final boolean toLeft)
-	{
-		if (SAFE)
-		{
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-			SafeTools.checkInvalidIndexMinimum(minShift, 0, "shift");
-		}
-		
-		appendUnsafe(buffer, start, end, minShift, toLeft);
-	}
-	
-	public void appendUnsafe(byte[] buffer, int start, int end, final int shift, final boolean toLeft)
+	public void append(byte[] buffer, int start, int end, final int shift, final boolean toLeft)
 	{		
 		int bufferLength = end - start;
+		
+		if (this.start == this.end)
+		{
+			// TODO: unimplemented code
+			throw new UnimplementedCodeException();
+		}
 		
 		if (toLeft)
 		{
@@ -301,17 +218,14 @@ public class BufferQueue
 		}
 	}
 	
+	public void append(byte[] buffer, final int shift, final boolean toLeft)
+	{
+		append(buffer, 0, buffer.length, shift, toLeft);
+	}
+	
 	// pop methods
 	
 	public void popLeft(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		popLeftUnsafe(buffer, start, end);
-	}
-	
-	public void popLeftUnsafe(byte[] buffer, int start, int end)
 	{
 		int bufferLength = end - start;
 		
@@ -323,14 +237,6 @@ public class BufferQueue
 	}
 	
 	public void popRight(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		popRightUnsafe(buffer, start, end);
-	}
-	
-	public void popRightUnsafe(byte[] buffer, int start, int end)
 	{		
 		int bufferLength = end - start;
 		

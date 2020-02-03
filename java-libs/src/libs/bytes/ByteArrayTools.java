@@ -1,18 +1,15 @@
 package libs.bytes;
 
 import libs.math.MathTools;
+import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
 import libs.tools.types.ArrayTools;
 
 public class ByteArrayTools
 {
+	public static final boolean SAFE = SafeOptions.get(ByteArrayTools.class);
+	
 	// +++ algorithms +++
-	
-	public static final boolean CHECK_ZERO_NEGATIVE_SIZE = false;
-	public static final boolean CHECK_BUFFER_START_END = false;
-	public static final boolean CHECK_BUFFER_LENGTH = false;
-	
-	public static final boolean SAFE = true;
 	
 	public static byte[] resize(byte[] buffer, int size, int offset)
 	{
