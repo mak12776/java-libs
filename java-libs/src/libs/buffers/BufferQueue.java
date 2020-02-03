@@ -237,13 +237,10 @@ public class BufferQueue
 		
 		int length = end - start;
 		
+		if (length > this.buffer.length - this.end + this.start)
+			throw new BufferIsFullException();
+		
 		if (toLeft)
-		{
-			shift = this.start; 
-			
-			shift(shift);
-		}
-		else
 		{
 			
 		}
