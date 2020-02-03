@@ -239,14 +239,12 @@ public class BufferQueue
 		
 		if (length > this.buffer.length - this.end + this.start)
 			throw new BufferIsFullException();
-		
-		if (toLeft)
-		{
-			int minimumShift;
-			int maximumShift = ;
-		}
+	
+		// TODO: complete there
 		
 		appendSideEmpty(buffer, start, end, toLeft);
+
+		throw new UnimplementedCodeException();
 	}
 	
 	public void append(byte[] buffer, final int shift, final boolean toLeft)
