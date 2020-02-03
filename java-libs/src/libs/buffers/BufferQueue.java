@@ -242,7 +242,8 @@ public class BufferQueue
 		
 		if (toLeft)
 		{
-			
+			int minimumShift;
+			int maximumShift = ;
 		}
 		
 		appendSideEmpty(buffer, start, end, toLeft);
