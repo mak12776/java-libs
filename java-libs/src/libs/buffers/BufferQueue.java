@@ -180,7 +180,7 @@ public class BufferQueue
 		System.arraycopy(buffer, start, this.buffer, 0, length);
 	}
 	
-	// append side functions
+	// protected append side functions
 	
 	public boolean appendSideEmpty(byte[] buffer, int start, int end, final boolean toLeft)
 	{
@@ -237,14 +237,15 @@ public class BufferQueue
 		
 		int length = end - start;
 		
-		if (length > this.buffer.length - this.end + this.start)
+		if (toLeft)
 		{
-			if (toLeft)
-				shift = MathTools.limit(shift, 0, this.buffer.length - this.end);
-			else
-				shift = MathTools.limit(shift, 0, this.start);
+			shift = MathTools.limit(shift, 0, ) + length - this.start; 
 			
 			shift(shift);
+		}
+		else
+		{
+			
 		}
 		
 		appendSideEmpty(buffer, start, end, toLeft);

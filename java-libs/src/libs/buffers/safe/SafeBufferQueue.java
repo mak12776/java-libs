@@ -68,26 +68,6 @@ public class SafeBufferQueue extends BufferQueue
 		super.shift(shift);
 	}
 	
-	// append functions
-	
-	@Override
-	public void appendLeft(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		super.appendLeft(buffer, start, end);
-	}
-	
-	@Override
-	public void appendRight(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		super.appendRight(buffer, start, end);
-	}
-	
 	@Override
 	public void append(byte[] buffer, int start, int end, int shift, boolean toLeft)
 	{
