@@ -68,6 +68,28 @@ public class SafeBufferQueue extends BufferQueue
 		super.shift(shift);
 	}
 	
+	// append side functions
+	
+	@Override
+	public void appendSide(byte[] buffer, boolean toLeft)
+	{
+		if (SAFE)
+			SafeTools.checkNullArgument(buffer, "buffer");
+		
+		super.appendSide(buffer, toLeft);
+	}
+	
+	@Override
+	public void appendSide(byte[] buffer, int start, int end, boolean toLeft)
+	{
+		if (SAFE)
+			SafeTools.checkBufferStartEnd(buffer, start, end);
+		
+		super.appendSide(buffer, start, end, toLeft);
+	}
+	
+	// append functions
+	
 	@Override
 	public void append(byte[] buffer, int start, int end, int shift, boolean toLeft)
 	{
@@ -95,20 +117,11 @@ public class SafeBufferQueue extends BufferQueue
 	// pop functions
 	
 	@Override
-	public void popLeft(byte[] buffer, int start, int end)
+	public void popSide(byte[] buffer, int start, int end, boolean fromLeft)
 	{
 		if (SAFE)
 			SafeTools.checkBufferStartEnd(buffer, start, end);
 		
-		super.popLeft(buffer, start, end);
-	}
-	
-	@Override
-	public void popRight(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		super.popRight(buffer, start, end);
+		super.popSide(buffer, start, end, fromLeft);
 	}
 }

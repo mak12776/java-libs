@@ -4,6 +4,7 @@ package main;
 import java.io.IOException;
 
 import libs.buffers.BufferQueue;
+import libs.tools.types.StringTools;
 
 public class Main
 {
@@ -11,6 +12,8 @@ public class Main
 	{
 		BufferQueue queue = new BufferQueue(20);
 		
-		queue.append("Hello".getBytes(), 0, true);
+		queue.append(".Hello.".getBytes(), 0, true);
+		String string = StringTools.byteArrayToString(queue.getBytes(), queue.getStart(), queue.getEnd(), '"', '"');
+		System.out.println(string);
 	}
 }

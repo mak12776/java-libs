@@ -13,7 +13,6 @@ public class SafeBuffer extends Buffer
 	
 	public SafeBuffer(byte[] buffer, int length)
 	{
-		super();
 		if (SAFE)
 		{
 			SafeTools.checkNullArgument(buffer, "buffer");
@@ -150,4 +149,6 @@ public class SafeBuffer extends Buffer
 		
 		return super.pop(size);
 	}
+	
+	// ++ append and pop integer types ++
 }

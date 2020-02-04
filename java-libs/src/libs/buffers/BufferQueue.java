@@ -2,7 +2,6 @@ package libs.buffers;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
-import libs.exceptions.UnimplementedCodeException;
 import libs.math.MathTools;
 
 public class BufferQueue
@@ -101,9 +100,9 @@ public class BufferQueue
 		return (start == 0) && (end == buffer.length);
 	}
 	
-	// protected shift functions
+	// private shift functions
 	
-	protected void shiftEmpty(int shift)
+	private void shiftEmpty(int shift)
 	{
 		System.arraycopy(buffer, start, buffer, start + shift, start - end);
 		start += shift;
@@ -158,9 +157,9 @@ public class BufferQueue
 		shiftEmpty(shift);
 	}
 	
-	// protected append functions
+	// private append functions
 	
-	protected void appendEmpty(byte[] buffer, int start, int end, int shift, final boolean toLeft)
+	private void appendEmpty(byte[] buffer, int start, int end, int shift, final boolean toLeft)
 	{
 		int length = end - start;
 		
@@ -177,12 +176,12 @@ public class BufferQueue
 			this.end = this.buffer.length - shift;
 		}
 		
-		System.arraycopy(buffer, start, this.buffer, 0, length);
+		System.arraycopy(buffer, start, this.buffer, this.start, length);
 	}
 	
-	// protected append side functions
+	// private append side functions
 	
-	public boolean appendSideEmpty(byte[] buffer, int start, int end, final boolean toLeft)
+	private boolean appendSideEmpty(byte[] buffer, int start, int end, final boolean toLeft)
 	{
 		int length = end - start;
 		
@@ -240,11 +239,25 @@ public class BufferQueue
 		if (length > this.buffer.length - this.end + this.start)
 			throw new BufferIsFullException();
 	
-		// TODO: complete there
+		int maxShift;
+		int minShift;
+		
+		if (toLeft)
+		{
+			minShift = (length > this.start) ? length - this.start : 0;
+			maxShift = (this.buffer.length - this.end);
+			
+			shiftEmpty(minShift + MathTools.limit(shift, 0, maxShift - minShift));
+		}
+		else
+		{
+			minShift = (length > this.buffer.length - this.end) ? length - (this.buffer.length - this.end) : 0;
+			maxShift = this.start;
+			
+			shiftEmpty(-minShift + MathTools.limit(shift, 0, maxShift - minShift));
+		}
 		
 		appendSideEmpty(buffer, start, end, toLeft);
-
-		throw new UnimplementedCodeException();
 	}
 	
 	public void append(byte[] buffer, final int shift, final boolean toLeft)
@@ -254,25 +267,22 @@ public class BufferQueue
 	
 	// pop methods
 	
-	public void popLeft(byte[] buffer, int start, int end)
+	public void popSide(byte[] buffer, int start, int end, final boolean fromLeft)
 	{
-		int bufferLength = end - start;
+		int length = end - start;
 		
-		if (bufferLength > this.end - this.start)
+		if (length > this.end - this.start)
 			throw new NotEnoughDataException();
 		
-		System.arraycopy(this.buffer, this.start, buffer, start, bufferLength);
-		this.start += bufferLength;
-	}
-	
-	public void popRight(byte[] buffer, int start, int end)
-	{		
-		int bufferLength = end - start;
-		
-		if (bufferLength > this.end - this.start)
-			throw new NotEnoughDataException();
-		
-		this.end -= bufferLength;
-		System.arraycopy(this.buffer, this.end, buffer, start, bufferLength);
+		if (fromLeft)
+		{
+			this.end -= length;
+			System.arraycopy(this.buffer, this.end, buffer, start, length);
+		}
+		else
+		{
+			System.arraycopy(this.buffer, this.start, buffer, start, length);
+			this.start += length;
+		}
 	}
 }
