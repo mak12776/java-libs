@@ -4,7 +4,7 @@ package main;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import libs.buffers.Buffer;
+import libs.buffers.immutable.Buffer;
 import libs.exceptions.BaseException;
 import libs.files.JavaOutputFile;
 import libs.io.LinesTools;

@@ -3,7 +3,7 @@ package main;
 
 import java.io.IOException;
 
-import libs.buffers.BufferQueue;
+import libs.buffers.immutable.BufferQueue;
 import libs.tools.types.StringTools;
 
 public class Main

@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import incomplete.process.Compiler.Settings.SettingsKey;
-import libs.buffers.BufferView;
-import libs.buffers.BufferViews;
+import libs.buffers.mutable.BufferView;
+import libs.buffers.mutable.BufferViews;
 import libs.bytes.ByteTest;
 import libs.exceptions.BaseException;
 import libs.io.StreamTools;

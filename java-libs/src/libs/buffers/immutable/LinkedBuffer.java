@@ -1,5 +1,5 @@
 
-package libs.buffers;
+package libs.buffers.immutable;
 
 public class LinkedBuffer
 {

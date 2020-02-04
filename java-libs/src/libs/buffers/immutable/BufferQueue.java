@@ -1,4 +1,4 @@
-package libs.buffers;
+package libs.buffers.immutable;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;

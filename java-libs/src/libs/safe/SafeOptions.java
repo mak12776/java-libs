@@ -2,8 +2,8 @@ package libs.safe;
 
 import java.util.HashMap;
 
-import libs.buffers.BufferQueue;
-import libs.buffers.safe.SafeBuffer;
+import libs.buffers.immutable.BufferQueue;
+import libs.buffers.immutable.safe.SafeBuffer;
 import libs.bytes.ByteArrayTools;
 import libs.bytes.ByteTools;
 

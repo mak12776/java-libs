@@ -3,8 +3,8 @@ package libs.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.buffers.Buffer;
-import libs.buffers.BufferView;
+import libs.buffers.immutable.Buffer;
+import libs.buffers.mutable.BufferView;
 
 public class LineStream
 {

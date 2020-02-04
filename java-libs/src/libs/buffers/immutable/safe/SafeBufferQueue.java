@@ -1,6 +1,6 @@
-package libs.buffers.safe;
+package libs.buffers.immutable.safe;
 
-import libs.buffers.BufferQueue;
+import libs.buffers.immutable.BufferQueue;
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
 

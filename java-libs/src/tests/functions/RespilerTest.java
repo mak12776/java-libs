@@ -8,7 +8,7 @@ import experimental.less.parsers.OldParser;
 import experimental.less.parsers.OldParser.TokenStream;
 import experimental.less.types.tokens.TokenType;
 import experimental.less.types.tokens.olds.OldToken;
-import libs.buffers.BufferViews;
+import libs.buffers.mutable.BufferViews;
 import libs.exceptions.BaseException;
 import libs.io.StreamTools;
 

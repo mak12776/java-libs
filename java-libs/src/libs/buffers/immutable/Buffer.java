@@ -1,5 +1,5 @@
 
-package libs.buffers;
+package libs.buffers.immutable;
 
 import java.io.IOException;
 import java.io.InputStream;

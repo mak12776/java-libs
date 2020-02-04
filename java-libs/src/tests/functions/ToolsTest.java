@@ -3,7 +3,7 @@ package tests.functions;
 
 import java.io.IOException;
 
-import libs.buffers.BufferViews;
+import libs.buffers.mutable.BufferViews;
 import libs.bytes.ByteTools;
 import libs.exceptions.BaseException;
 import libs.io.StreamTools;
