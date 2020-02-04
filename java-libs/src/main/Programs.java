@@ -20,17 +20,12 @@ public class Programs
 		{
 			FileInputStream stream = new FileInputStream(args[0]);
 			Buffer buffer = new Buffer(1024);
-			
-			
 		} 
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
 	
 	public static void countLinesMain(String[] args)
 	{
