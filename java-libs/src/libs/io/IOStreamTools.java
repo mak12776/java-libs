@@ -26,12 +26,9 @@ public class IOStreamTools
 		fileSize = stream.getChannel().size();
 
 		if (fileSize == 0)
-		{
 			throw new ZeroFileSizeExeption();
-		} else if (fileSize > Integer.MAX_VALUE)
-		{
+		else if (fileSize > Integer.MAX_VALUE)
 			throw new BigFileSizeException("file size: " + fileSize);
-		}
 
 		array = new byte[(int) fileSize];
 
