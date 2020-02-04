@@ -1,9 +1,8 @@
-package libs.types;
+package libs.bytes;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.ByteArrayTools;
 import libs.safe.SafeTools;
 import libs.tools.types.StringBuilderTools;
 

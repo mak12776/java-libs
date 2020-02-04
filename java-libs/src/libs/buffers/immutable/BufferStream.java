@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class BufferStream
 {
-	private FileInputStream stream;
-	private Buffer buffer;
+	protected FileInputStream stream;
+	protected Buffer buffer;
 
 	public BufferStream(FileInputStream stream, int bufferSize)
 	{
