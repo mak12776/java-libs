@@ -1,4 +1,4 @@
-package libs.buffers.immutable.safe;
+package libs.safe.buffers;
 
 import libs.buffers.immutable.BufferQueue;
 import libs.safe.SafeOptions;
