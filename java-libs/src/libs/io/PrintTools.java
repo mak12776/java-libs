@@ -1,50 +1,54 @@
 
 package libs.io;
 
+import java.io.PrintStream;
+
 public class PrintTools
 {
+	public static PrintStream outputStream = System.out;
+	
 	public static void print(long a)
 	{
-		System.out.println("long: " + a);
+		outputStream.println("long: " + a);
 	}
 
 	public static void print(int a)
 	{
-		System.out.println("int: " + a);
+		outputStream.println("int: " + a);
 	}
 
 	public static void printBinary(int a)
 	{
-		System.out.println("int: " + Integer.toBinaryString(a));
+		outputStream.println("int: " + Integer.toBinaryString(a));
 	}
 
 	public static void printBinary(long a)
 	{
-		System.out.println("long: " + Long.toBinaryString(a));
+		outputStream.println("long: " + Long.toBinaryString(a));
 	}
 
 	public static void printHex(byte b)
 	{
-		System.out.println("byte: " + Integer.toHexString(b & 0xFF));
+		outputStream.println("byte: " + Integer.toHexString(b & 0xFF));
 	}
 
 	public static void printHex(short a)
 	{
-		System.out.println("short: " + Integer.toHexString(a & 0xFFFF));
+		outputStream.println("short: " + Integer.toHexString(a & 0xFFFF));
 	}
 
 	public static void printHex(int a)
 	{
-		System.out.println("int: " + Integer.toHexString(a));
+		outputStream.println("int: " + Integer.toHexString(a));
 	}
 
 	public static void printHex(long a)
 	{
-		System.out.println("long: " + Long.toHexString(a));
+		outputStream.println("long: " + Long.toHexString(a));
 	}
 
 	public static void print(String string)
 	{
-		System.out.println(string);
+		outputStream.println(string);
 	}
 }
