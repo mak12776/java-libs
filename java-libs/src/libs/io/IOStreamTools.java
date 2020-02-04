@@ -13,7 +13,7 @@ import libs.exceptions.ZeroFileSizeExeption;
 import libs.interfaces.BufferViewInterface;
 import libs.views.View;
 
-public class StreamTools
+public class IOStreamTools
 {
 	// read file functions
 	

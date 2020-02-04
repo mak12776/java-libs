@@ -10,7 +10,7 @@ import experimental.less.types.tokens.TokenType;
 import experimental.less.types.tokens.olds.OldToken;
 import libs.buffers.mutable.BufferViews;
 import libs.exceptions.BaseException;
-import libs.io.StreamTools;
+import libs.io.IOStreamTools;
 
 public class RespilerTest extends BaseTest
 {
@@ -23,7 +23,7 @@ public class RespilerTest extends BaseTest
 
 		try
 		{
-			bufferLines = StreamTools.readLines(codeFileName);
+			bufferLines = IOStreamTools.readLines(codeFileName);
 			stream = OldParser.parseBufferLines(bufferLines);
 
 			int lnum = 0;
