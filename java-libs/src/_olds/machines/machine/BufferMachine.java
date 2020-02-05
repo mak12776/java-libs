@@ -1,5 +1,5 @@
 
-package machines.old_machine;
+package _olds.machines.machine;
 
 public class BufferMachine
 {
