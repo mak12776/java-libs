@@ -1,5 +1,6 @@
 package libs.buffers.immutable;
 
+import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.math.MathTools;
@@ -155,6 +156,20 @@ public class BufferQueue
 			shift = -start;
 			
 		shiftEmpty(shift);
+	}
+	
+	// fill functions
+	
+	public void fill(byte value)
+	{
+		ByteTools.fill(buffer, start, end, value);
+	}
+	
+	public void fillAll(byte value)
+	{
+		ByteTools.fill(buffer, 0, buffer.length, value);
+		this.start = 0;
+		this.end = buffer.length;
 	}
 	
 	// private append functions

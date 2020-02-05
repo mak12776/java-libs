@@ -142,6 +142,19 @@ public class Buffer
 		
 		this.length -= length;
 	}
+	
+	// fill functions
+	
+	public void fill(byte value)
+	{
+		ByteTools.fill(buffer, 0, length, value);
+	}
+	
+	public void fillAll(byte value)
+	{
+		ByteTools.fill(buffer, 0, buffer.length, value);
+		length = buffer.length;
+	}
 
 	// append functions
 	
