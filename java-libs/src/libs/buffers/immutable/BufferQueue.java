@@ -6,9 +6,7 @@ import libs.exceptions.NotEnoughDataException;
 import libs.math.MathTools;
 
 public class BufferQueue
-{	
-	public static final boolean SAFE = true;
-	
+{
 	protected byte[] buffer;
 	protected int start;
 	protected int end;

@@ -1,4 +1,4 @@
-package libs.safe.bytes;
+package libs.bytes.safe;
 
 import libs.bytes.ByteTest;
 import libs.bytes.ByteTools;

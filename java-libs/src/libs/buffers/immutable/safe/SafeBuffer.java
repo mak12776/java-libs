@@ -1,4 +1,4 @@
-package libs.safe.buffers;
+package libs.buffers.immutable.safe;
 
 import java.io.IOException;
 import java.io.InputStream;

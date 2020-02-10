@@ -3,9 +3,9 @@ package libs.safe;
 import java.util.HashMap;
 
 import libs.buffers.immutable.BufferQueue;
+import libs.buffers.immutable.safe.SafeBuffer;
 import libs.bytes.ByteArrayTools;
 import libs.bytes.ByteTools;
-import libs.safe.buffers.SafeBuffer;
 
 public class SafeOptions
 {
