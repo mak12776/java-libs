@@ -3,11 +3,11 @@ package libs.io;
 import java.io.IOException;
 import java.io.InputStream;
 
+import libs.buffers.BufferViewInterface;
 import libs.buffers.mutable.BufferView;
 import libs.exceptions.BaseException;
 import libs.exceptions.UnknownClassException;
 import libs.exceptions.ZeroFileSizeExeption;
-import libs.interfaces.BufferViewInterface;
 import libs.views.View;
 
 public class LinesTools

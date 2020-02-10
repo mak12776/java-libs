@@ -195,6 +195,8 @@ public class Buffer
 	
 	// ++ append and pop integer types ++
 	
+	// TODO: may be this functions can be removed.
+	
 	// append integer types
 	
 	public void append(int size, long value)

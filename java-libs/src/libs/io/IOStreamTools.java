@@ -5,12 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import libs.buffers.BufferViewInterface;
 import libs.buffers.mutable.BufferViews;
 import libs.exceptions.BaseException;
 import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
-import libs.interfaces.BufferViewInterface;
 import libs.views.View;
 
 public class IOStreamTools

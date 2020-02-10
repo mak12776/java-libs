@@ -262,15 +262,16 @@ public class BufferQueue
 			minShift = (length > this.start) ? length - this.start : 0;
 			maxShift = (this.buffer.length - this.end);
 			
-			shiftEmpty(minShift + MathTools.limit(shift, 0, maxShift - minShift));
+			shift = minShift + MathTools.limitMaximum(shift, maxShift - minShift);
 		}
 		else
 		{
 			minShift = (length > this.buffer.length - this.end) ? length - (this.buffer.length - this.end) : 0;
 			maxShift = this.start;
 			
-			shiftEmpty(-minShift + MathTools.limit(shift, 0, maxShift - minShift));
+			shift = -(minShift + MathTools.limitMaximum(shift, maxShift - minShift));
 		}
+		shiftEmpty(shift);
 		
 		appendSideEmpty(buffer, start, end, toLeft);
 	}
