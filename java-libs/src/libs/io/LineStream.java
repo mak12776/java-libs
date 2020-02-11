@@ -21,12 +21,6 @@ public class LineStream
 	
 	public BufferView next() throws IOException
 	{
-		if (buffer.length() == 0)
-			if (buffer.readFile(stream) == 0)
-				return null;
-		
-		
-		
-		return view;
+		return null;
 	}
 }
