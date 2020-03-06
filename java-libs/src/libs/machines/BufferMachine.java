@@ -53,14 +53,9 @@ public class BufferMachine
 	public static final short INST_COPY_IM32_PI32 = 1;
 	public static final short INST_COPY_PI32_PI32 = 2;
 	
-	
-	
 	public static final boolean SAFE = true;
 	
-	public static void checkMaximumIndex(final int index, final int max, ErrorType type)
-	{
-		
-	}
+	// read integers
 	
 	public static byte readByte(byte[] buffer, final int offset, final ErrorType type, final String message)
 	{
@@ -94,10 +89,29 @@ public class BufferMachine
 				(buffer[offset] & 0xFF);
 	}
 	
-	public static void checkPointersIndex(int[] buffer, final int index, final ErrorType type)
+	// ** read types
+	
+	public static int readIM32(byte[] buffer, int offset)
+	{
+		return readInt(buffer, offset, ErrorType.INVALID_INST_POINTER, "while reading immediate 32");
+	}
+	
+	public static int readPI32(byte[] buffer, int offset)
+	{
+		return readInt(buffer, offset, ErrorType.INVALID_INST_POINTER, "while reading pointers index 32");
+	}
+	
+	public static short readInst(byte[] buffer, int offset)
+	{
+		return readShort(buffer, offset, ErrorType.INVALID_INST_POINTER, "while reading instruction");
+	}
+	
+	// ** checkers **
+	
+	public static void checkPointersIndex(int[] buffer, final int index)
 	{
 		if ((index < 0) || (index >= buffer.length))
-			throw new RuntimeError(type, String.valueOf(index));
+			throw new RuntimeError(ErrorType.INVALID_POINTERS_INDEX, String.valueOf(index));
 	}
 	
 	public static void checkBufferIndex(byte[] buffer, final int index, final ErrorType type)
@@ -106,10 +120,29 @@ public class BufferMachine
 			throw new RuntimeError(type, String.valueOf(index));
 	}
 	
+	public static void checkBaseInstPointer(byte[][] buffers, final int bip)
+	{
+		if ((bip < 0) || (bip > buffers.length))
+			throw new RuntimeError(ErrorType.INVALID_BASE_INST_POINTER, String.valueOf(bip));
+	}
+	
+	public static void checkInstPointer(byte[] instBuffer, final int ip)
+	{
+		if ((ip < 0) || (ip > instBuffer.length))
+			throw new RuntimeError(ErrorType.INVALID_INST_POINTER, String.valueOf(ip));
+	}
+	
+	public static void checkInstBuffer(byte[] instBuffer, final int bip)
+	{
+		if (instBuffer == null)
+			throw new RuntimeError(ErrorType.NULL_INST_POINTER, String.valueOf(bip));
+	}
+	
+	// ** run function **
+	
 	public static void run(byte[][] buffers, int[] pointers, byte flag, int bip, int ip)
 	{
 		final int instSize = 2;
-		
 		short inst;
 		
 		byte[] instBuffer;
@@ -119,26 +152,21 @@ public class BufferMachine
 		int PI32_0;
 		int PI32_1;
 		
-		byte IM8_0;
-		
 		if (SAFE)
-			if ((bip < 0) || (bip > buffers.length))
-				throw new RuntimeError(ErrorType.INVALID_BASE_INST_POINTER, String.valueOf(bip));
+			checkBaseInstPointer(buffers, bip);
 		
 		instBuffer = buffers[bip];
 		
 		if (SAFE)
-			if (instBuffer == null)
-				throw new RuntimeError(ErrorType.NULL_INST_POINTER, String.valueOf(bip));
-		
-		if (SAFE)
-			if ((ip < 0) || (ip > instBuffer.length))
-				throw new RuntimeError(ErrorType.INVALID_INST_POINTER, String.valueOf(ip));
+		{
+			checkInstBuffer(instBuffer, bip);
+			checkInstPointer(instBuffer, ip);
+		}
 		
 		while (ip < instBuffer.length)
 		{
-			inst = readShort(instBuffer, ip, ErrorType.INVALID_INST_POINTER, "while reading instruction");
-			ip += Short.BYTES;
+			inst = readInst(instBuffer, ip);
+			ip += instSize;
 			
 			switch (inst)
 			{
@@ -146,30 +174,30 @@ public class BufferMachine
 				break;
 				
 			case INST_COPY_IM32_PI32:
-				IM32_0 = readInt(instBuffer, ip, ErrorType.INVALID_INST_POINTER, "while reading immediate 32");
+				IM32_0 = readIM32(instBuffer, ip);
 				ip += Integer.BYTES;
 				
-				PI32_0 = readInt(instBuffer, ip, ErrorType.INVALID_INST_POINTER, "while reading pointers index 32");
+				PI32_0 = readPI32(instBuffer, ip);
 				ip += Integer.BYTES;
 				
 				if (SAFE)
-					checkPointersIndex(pointers, PI32_0, ErrorType.INVALID_POINTERS_INDEX);
+					checkPointersIndex(pointers, PI32_0);
 				
 				pointers[PI32_0] = IM32_0;
 				break;
 				
 			case INST_COPY_PI32_PI32:
-				PI32_0 = readInt(instBuffer, ip, ErrorType.INVALID_INST_POINTER, "while reading pointers index 32");
+				PI32_0 = readPI32(instBuffer, ip);
 				ip += Integer.BYTES;
 				
 				if (SAFE)
-					checkPointersIndex(pointers, PI32_0, ErrorType.INVALID_POINTERS_INDEX);
+					checkPointersIndex(pointers, PI32_0);
 				
-				PI32_1 = readInt(instBuffer, ip, ErrorType.INVALID_INST_POINTER, "while reading pointers index 32");
+				PI32_1 = readPI32(instBuffer, ip);;
 				ip += Integer.BYTES;
 				
 				if (SAFE)
-					checkPointersIndex(pointers, PI32_1, ErrorType.INVALID_POINTERS_INDEX);
+					checkPointersIndex(pointers, PI32_1);
 				
 				pointers[PI32_1] = pointers[PI32_0];
 				break;

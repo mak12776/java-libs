@@ -1,7 +1,5 @@
 
 # Data Types
-
-
 	
 	- Buffer
 		Constructors:
