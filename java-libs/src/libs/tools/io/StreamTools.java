@@ -1,5 +1,5 @@
 
-package libs.io;
+package libs.tools.io;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import libs.types.buffers.BufferViewInterface;
 import libs.types.buffers.mutable.BufferViews;
 import libs.views.View;
 
-public class IOStreamTools
+public class StreamTools
 {
 	// read file functions
 	

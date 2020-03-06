@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import libs.exceptions.BaseException;
 import libs.files.JavaOutputFile;
-import libs.io.LinesTools;
+import libs.tools.io.LinesTools;
 import libs.types.buffers.immutable.Buffer;
 
 public class Programs
