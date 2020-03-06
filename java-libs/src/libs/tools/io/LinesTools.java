@@ -8,7 +8,7 @@ import libs.exceptions.UnknownClassException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.types.buffers.BufferViewInterface;
 import libs.types.buffers.mutable.BufferView;
-import libs.views.View;
+import libs.types.views.View;
 
 public class LinesTools
 {

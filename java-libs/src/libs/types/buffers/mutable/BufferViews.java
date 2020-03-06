@@ -3,7 +3,7 @@ package libs.types.buffers.mutable;
 
 import libs.tools.types.StringBuilderTools;
 import libs.types.buffers.BufferViewInterface;
-import libs.views.View;
+import libs.types.views.View;
 
 public class BufferViews
 {

@@ -1,4 +1,4 @@
-package machines.buffer;
+package libs.machines;
 
 public class FastBufferMachine
 {

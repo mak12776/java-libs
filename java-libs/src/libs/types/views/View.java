@@ -1,5 +1,5 @@
 
-package libs.views;
+package libs.types.views;
 
 import libs.types.buffers.BufferViewInterface;
 

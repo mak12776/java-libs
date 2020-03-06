@@ -11,7 +11,7 @@ import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.types.buffers.BufferViewInterface;
 import libs.types.buffers.mutable.BufferViews;
-import libs.views.View;
+import libs.types.views.View;
 
 public class StreamTools
 {
