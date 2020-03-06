@@ -1,9 +1,9 @@
-package libs.buffers.immutable;
+package libs.types.buffers.immutable;
 
-import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
 import libs.math.MathTools;
+import libs.tools.bytes.ByteTools;
 
 public class BufferQueue
 {

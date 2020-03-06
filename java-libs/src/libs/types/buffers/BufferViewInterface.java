@@ -1,5 +1,5 @@
 
-package libs.buffers;
+package libs.types.buffers;
 
 public interface BufferViewInterface
 {

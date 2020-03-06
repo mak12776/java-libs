@@ -1,9 +1,9 @@
-package libs.bytes.safe;
+package libs.tools.bytes.safe;
 
-import libs.bytes.ByteTest;
-import libs.bytes.ByteTools;
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
+import libs.tools.bytes.ByteTools;
+import libs.types.bytes.ByteTest;
 
 public class SafeByteTools extends ByteTools
 {

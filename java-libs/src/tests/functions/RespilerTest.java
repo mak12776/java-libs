@@ -8,9 +8,9 @@ import experimental.less.parsers.OldParser;
 import experimental.less.parsers.OldParser.TokenStream;
 import experimental.less.types.tokens.TokenType;
 import experimental.less.types.tokens.olds.OldToken;
-import libs.buffers.mutable.BufferViews;
 import libs.exceptions.BaseException;
 import libs.io.IOStreamTools;
+import libs.types.buffers.mutable.BufferViews;
 
 public class RespilerTest extends BaseTest
 {

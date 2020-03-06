@@ -1,5 +1,7 @@
 
-package libs.bytes;
+package libs.tools.bytes;
+
+import libs.types.bytes.ByteTest;
 
 public class ByteTools
 {

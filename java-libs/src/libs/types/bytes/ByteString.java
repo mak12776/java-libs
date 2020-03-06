@@ -1,9 +1,10 @@
-package libs.bytes;
+package libs.types.bytes;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import libs.safe.SafeTools;
+import libs.tools.bytes.ByteArrayTools;
 import libs.tools.types.StringBuilderTools;
 
 public class ByteString

@@ -1,10 +1,10 @@
 
 package incomplete.machines;
 
-import libs.bytes.ByteTools;
 import libs.exceptions.InvalidByteCodeException;
 import libs.safe.SafeTools;
 import libs.tools.Tools;
+import libs.tools.bytes.ByteTools;
 
 public class OldUltraMachine
 {

@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import libs.bytes.ByteTest;
-import libs.bytes.ByteTools;
+import libs.tools.bytes.ByteTools;
+import libs.types.bytes.ByteTest;
 
 public class BytesToolsTest
 {

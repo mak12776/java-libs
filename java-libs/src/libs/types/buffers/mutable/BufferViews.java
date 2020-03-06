@@ -1,8 +1,8 @@
 
-package libs.buffers.mutable;
+package libs.types.buffers.mutable;
 
-import libs.buffers.BufferViewInterface;
 import libs.tools.types.StringBuilderTools;
+import libs.types.buffers.BufferViewInterface;
 import libs.views.View;
 
 public class BufferViews

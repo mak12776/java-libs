@@ -1,8 +1,8 @@
-package libs.bytes.safe;
+package libs.tools.bytes.safe;
 
-import libs.bytes.ByteArrayTools;
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
+import libs.tools.bytes.ByteArrayTools;
 
 public class SafeByteArrayTools
 {

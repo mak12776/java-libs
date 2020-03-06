@@ -1,12 +1,12 @@
 
-package libs.buffers.immutable;
+package libs.types.buffers.immutable;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.bytes.ByteTools;
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
+import libs.tools.bytes.ByteTools;
 
 public class Buffer
 {

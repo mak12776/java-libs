@@ -1,11 +1,11 @@
-package libs.buffers.immutable.safe;
+package libs.types.buffers.immutable.safe;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.buffers.immutable.Buffer;
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
+import libs.types.buffers.immutable.Buffer;
 
 public class SafeBuffer extends Buffer
 {

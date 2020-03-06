@@ -4,10 +4,10 @@ package main;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import libs.buffers.immutable.Buffer;
 import libs.exceptions.BaseException;
 import libs.files.JavaOutputFile;
 import libs.io.LinesTools;
+import libs.types.buffers.immutable.Buffer;
 
 public class Programs
 {
@@ -38,7 +38,7 @@ public class Programs
 		try
 		{
 			FileInputStream stream = new FileInputStream(args[0]);
-			System.out.println("number of lines: " + LinesTools.countLines(512, stream));
+			System.out.println("number of lines: " + LinesTools.countLines(stream, 512));
 		} 
 		catch (IOException | BaseException e)
 		{

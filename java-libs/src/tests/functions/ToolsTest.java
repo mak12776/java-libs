@@ -3,10 +3,10 @@ package tests.functions;
 
 import java.io.IOException;
 
-import libs.buffers.mutable.BufferViews;
-import libs.bytes.ByteTools;
 import libs.exceptions.BaseException;
 import libs.io.IOStreamTools;
+import libs.tools.bytes.ByteTools;
+import libs.types.buffers.mutable.BufferViews;
 
 public class ToolsTest extends BaseTest
 {

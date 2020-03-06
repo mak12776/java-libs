@@ -1,4 +1,4 @@
-package libs.bytes;
+package libs.tools.bytes;
 
 import libs.math.MathTools;
 import libs.safe.SafeOptions;

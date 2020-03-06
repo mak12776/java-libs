@@ -1,7 +1,7 @@
 
 package libs.views;
 
-import libs.buffers.BufferViewInterface;
+import libs.types.buffers.BufferViewInterface;
 
 public class View implements BufferViewInterface
 {

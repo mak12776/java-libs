@@ -2,10 +2,10 @@ package libs.safe;
 
 import java.util.HashMap;
 
-import libs.buffers.immutable.BufferQueue;
-import libs.buffers.immutable.safe.SafeBuffer;
-import libs.bytes.ByteArrayTools;
-import libs.bytes.ByteTools;
+import libs.tools.bytes.ByteArrayTools;
+import libs.tools.bytes.ByteTools;
+import libs.types.buffers.immutable.BufferQueue;
+import libs.types.buffers.immutable.safe.SafeBuffer;
 
 public class SafeOptions
 {

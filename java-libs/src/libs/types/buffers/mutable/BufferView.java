@@ -1,10 +1,10 @@
 
-package libs.buffers.mutable;
+package libs.types.buffers.mutable;
 
-import libs.buffers.BufferViewInterface;
-import libs.buffers.immutable.Buffer;
-import libs.bytes.ByteTest;
-import libs.bytes.ByteTools;
+import libs.tools.bytes.ByteTools;
+import libs.types.buffers.BufferViewInterface;
+import libs.types.buffers.immutable.Buffer;
+import libs.types.bytes.ByteTest;
 
 public class BufferView implements BufferViewInterface
 {

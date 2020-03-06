@@ -3,23 +3,23 @@ package libs.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.buffers.BufferViewInterface;
-import libs.buffers.mutable.BufferView;
 import libs.exceptions.BaseException;
 import libs.exceptions.UnknownClassException;
 import libs.exceptions.ZeroFileSizeExeption;
+import libs.types.buffers.BufferViewInterface;
+import libs.types.buffers.mutable.BufferView;
 import libs.views.View;
 
 public class LinesTools
 {
-	// count lines
+	// count lines from stream
 
-	public static long countLines(int bufferSize, InputStream stream) throws IOException, BaseException
+	public static long countLines(InputStream stream, int bufferSize) throws IOException, BaseException
 	{
-		return countLines(new byte[bufferSize], stream);
+		return countLines(stream, new byte[bufferSize]);
 	}
 	
-	public static long countLines(byte[] buffer, InputStream stream) throws IOException, BaseException
+	public static long countLines(InputStream stream, byte[] buffer) throws IOException, BaseException
 	{
 		int readNumber;
 		int index;
