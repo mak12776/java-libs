@@ -7,26 +7,10 @@ import libs.tools.types.ArrayTools;
 
 public class ByteArrayTools
 {
-	public static final boolean SAFE = SafeOptions.get(ByteArrayTools.class);
-	
 	// +++ algorithms +++
-	
-	public static byte[] resize(byte[] buffer, int size, int offset)
-	{
-		if (SAFE)
-			SafeTools.checkNegativeZeroIndex(size, "size");
-		
-		byte[] newArray = new byte[size];
-		System.arraycopy(buffer, 0, newArray, offset, MathTools.min(buffer.length, size));
-		
-		return newArray;
-	}
 	
 	public static byte[] slice(byte[] buffer, int start, int end)
 	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
 		int length = end - start;
 		
 		byte[] newArray = new byte[length];
@@ -35,19 +19,21 @@ public class ByteArrayTools
 		return newArray;
 	}
 	
+	private static byte[] resize(byte[] buffer, int size, int offset)
+	{
+		byte[] newArray = new byte[size];
+		System.arraycopy(buffer, 0, newArray, offset, MathTools.min(buffer.length, size));
+		
+		return newArray;
+	}
+	
 	public static byte[] extend(byte[] buffer, int size)
 	{
-		if (SAFE)
-			SafeTools.checkNegativeZeroIndex(size, "size");
-		
 		return resize(buffer, buffer.length + size, 0);
 	}
 	
 	public static byte[] extendLeft(byte[] buffer, int size)
 	{
-		if (SAFE)
-			SafeTools.checkNegativeZeroIndex(size, "size");
-		
 		return resize(buffer, buffer.length + size, size);
 	}
 	
@@ -64,12 +50,6 @@ public class ByteArrayTools
 	
 	public static byte[] concatenate(byte[] buffer1, int start1, int end1, byte[] buffer2, int start2, int end2)
 	{
-		if (SAFE)
-		{
-			SafeTools.checkBufferStartEnd(buffer1, start1, end1);
-			SafeTools.checkBufferStartEnd(buffer2, start2, end2);
-		}
-		
 		int length1 = end1 - start1;
 		int length2 = end2 - start2;
 		
@@ -106,18 +86,18 @@ public class ByteArrayTools
 			length += sep.length;
 			
 			System.arraycopy(arrays[i], 0, newArray, length, arrays[i].length);
-			length += sep.length;
+			length += arrays[i].length;
 		}
 		
 		return newArray;
 	}
 	
-	public static byte[] join(byte[]... bytesArray)
+	public static byte[] join(byte[]... arrays)
 	{
 		byte[] result;
 		int length;
 
-		length = ArrayTools.sumArrayLengths(bytesArray);
+		length = ArrayTools.sumArrayLengths(arrays);
 
 		if (length == 0)
 			return null;
@@ -125,39 +105,13 @@ public class ByteArrayTools
 		result = new byte[length];
 
 		length = 0;
-		for (int i = 0; i < bytesArray.length; i += 1)
+		for (int i = 0; i < arrays.length; i += 1)
 		{
-			System.arraycopy(bytesArray[i], 0, result, length, bytesArray[i].length);
-			length += bytesArray[i].length;
+			System.arraycopy(arrays[i], 0, result, length, arrays[i].length);
+			length += arrays[i].length;
 		}
 
 		return result;
-	}
-	
-	public static byte[] copy(byte[] buffer, int start, int end)
-	{
-		if (SAFE)
-			SafeTools.checkBufferStartEnd(buffer, start, end);
-		
-		int length = end - start;
-		
-		byte[] newArray = new byte[length];
-		System.arraycopy(buffer, start, newArray, 0, length);
-		
-		return newArray;
-	}
-	
-	public static void copy(byte[] src, byte[] dest)
-	{
-		if (SAFE)
-			SafeTools.checkEqualBufferLength(src, dest, "src", "dest");
-		
-		System.arraycopy(src, 0, dest, 0, src.length);
-	}
-	
-	public static byte[] splitLine(byte[] buffer, int start, int end)
-	{
-		return null;
 	}
 }
 

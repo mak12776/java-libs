@@ -36,6 +36,21 @@ public class ByteString
 		this.string = charString.getBytes();
 	}
 	
+	// static mathods
+	
+	// read from file functions
+	
+	public static ByteString readInputStream(InputStream stream, int size) throws IOException
+	{
+		byte[] buffer = new byte[size];
+		size = stream.read(buffer);
+		
+		if (size == -1)
+			return null;
+		
+		return new ByteString(ByteArrayTools.slice(buffer, 0, size));
+	}
+	
 	// fields functions
 	
 	public byte get(int index)
@@ -80,20 +95,9 @@ public class ByteString
 		System.arraycopy(string, 0, newString, 0, string.length);
 		System.arraycopy(buffer, 0, newString, string.length, size);
 		
-		return 0;
-	}
-	
-	// read from file functions
-	
-	public static ByteString readInputStream(InputStream stream, int size) throws IOException
-	{
-		byte[] buffer = new byte[size];
-		size = stream.read(buffer);
+		string = newString;
 		
-		if (size == -1)
-			return null;
-		
-		return new ByteString(ByteArrayTools.slice(buffer, 0, size));
+		return size;
 	}
 	
 	// copy functions

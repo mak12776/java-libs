@@ -1,0 +1,11 @@
+
+# Data Types
+
+
+	
+	- Buffer
+		Constructors:
+					
+		+ SafeBuffer
+	
+		
