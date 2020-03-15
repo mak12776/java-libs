@@ -1,6 +1,6 @@
 package libs.machines;
 
-public class BufferMachine
+public class MachineFunction
 {
 	public static class RuntimeError extends RuntimeException
 	{

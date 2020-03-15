@@ -6,16 +6,16 @@ public class MachineClass
 	
 	private byte[][] buffers;
 	private int[] pointers;
-	private byte flags;
+	private boolean test;
 	
 	private int bip;
 	private int ip;
 	
-	public MachineClass(byte[][] buffers, int [] pointers, byte flags, int bip, int ip)
+	public MachineClass(byte[][] buffers, int [] pointers, boolean test, int bip, int ip)
 	{
 		this.buffers = buffers;
 		this.pointers = pointers;
-		this.flags = flags;
+		this.test = test;
 		
 		this.bip = bip;
 		this.ip = ip;
@@ -210,10 +210,6 @@ public class MachineClass
 	
 	// read inst buffer
 	
-	private byte[] instBuffer;
-	private byte[] dataBuffer;
-	private byte[] secondDataBuffer;
-	
 	// instructions
 	
 	// NOOP
@@ -254,9 +250,21 @@ public class MachineClass
 	public static final short INST_COPY__PI_PI_8__PI_IM_8 = 21;
 	public static final short INST_COPY__PI_PI_8__PI_PI_8 = 22;
 	
+	// TEST IM8 EQ/LT/GT MEM8
+	
+	public static final short INST_TEST__IM8__EQ__IM_IM_8 = 23;
+	
+	// TEST MEM8 EQ/LT/GT MEM8
+	
 	// INST SIZE
 	
 	public static final int INST_SIZE = Short.BYTES;
+	
+	// private members
+	
+	private byte[] instBuffer;
+	private byte[] dataBuffer;
+	private byte[] secondDataBuffer;
 	
 	// run method
 	
