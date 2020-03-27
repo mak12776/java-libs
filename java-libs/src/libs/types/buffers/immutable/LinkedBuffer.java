@@ -22,6 +22,4 @@ public class LinkedBuffer
 		this.first = this.last = null;
 		this.firstIndex = this.lastIndex = 0;
 	}
-	
-	 
 }

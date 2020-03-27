@@ -93,17 +93,14 @@ public class LinesTools
 				if (index == end)
 					break;
 
-				if (buffer[index] == '\n')
+				if (buffer[index] != '\n')
 					index += 1;
-
-				continue;
-			} else if (buffer[index] == '\n')
-			{
-				total += 1;
-
-				index += 1;
+				
 				continue;
 			}
+			else if (buffer[index] == '\n')
+				total += 1;
+			
 			index += 1;
 		}
 

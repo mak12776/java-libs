@@ -1,6 +1,6 @@
 package libs.machines;
 
-public class MachineClass
+public class Machine
 {
 	public static final boolean SAFE = true;
 	
@@ -11,7 +11,7 @@ public class MachineClass
 	private int bip;
 	private int ip;
 	
-	public MachineClass(byte[][] buffers, int [] pointers, boolean test, int bip, int ip)
+	public Machine(byte[][] buffers, int [] pointers, boolean test, int bip, int ip)
 	{
 		this.buffers = buffers;
 		this.pointers = pointers;
