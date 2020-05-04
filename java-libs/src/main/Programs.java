@@ -3,6 +3,8 @@ package main;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Random;
 
 import libs.exceptions.BaseException;
 import libs.files.JavaOutputFile;
@@ -11,6 +13,44 @@ import libs.types.buffers.immutable.Buffer;
 
 public class Programs
 {
+	public static void oldMain(String[] args)
+	{
+		int j = 0;
+		for (int i = 0; i < 1_000_000; i +=1)
+			j = i * 100;
+		
+		LinkedList<Boolean> tests = new LinkedList<Boolean>();
+		Random random = new Random();
+		
+		for (int i = 0; i < 1_000; i += 1)
+			tests.add(random.nextInt() % 2 == 0);
+		
+		byte flags = 0;
+		int flagsShift = 5;
+		
+		long time1 = System.nanoTime();
+		
+		for (int i = 0; i < tests.size(); i += 1)
+		{
+			if (tests.get(i))
+				flags |= 1 << flagsShift;
+			else
+				flags &= ~(1 << flagsShift);
+		}
+		
+		long time2 = System.nanoTime();
+		
+		for (int index = 0; index < tests.size(); index += 1)
+		{
+			flags = (byte) ((flags & ~(1 << flagsShift)) | ((tests.get(index) ? 1 : 0) << flagsShift));
+		}
+		
+		long time3 = System.nanoTime();
+		
+		System.out.println(time2 - time1);
+		System.out.println(time3 - time2);
+	}
+	
 	public static void sumNumbers(String[] args)
 	{
 		if (args.length != 1)

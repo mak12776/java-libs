@@ -23,15 +23,15 @@ public class Machine
 	
 	public static enum ErrorType
 	{
-		NULL_BASE_INST_POINTER_BUFFER,
-		NULL_BASE_INDEX_BUFFER,
+		NULL_BASE_INST_POINTER,
+		NULL_BUFFERS_INDEX,
 		
 		INVALID_BASE_INST_POINTER,
 		INVALID_INST_POINTER,
 		
 		INVALID_POINTERS_INDEX,
-		INVALID_BASE_INDEX,
-		INVALID_BUFFER_INDEX,
+		INVALID_BUFFERS_INDEX,
+		INVALID_DATA_BUFFER_INDEX,
 		
 		END_OF_INST_BUFFER,
 	}
@@ -102,39 +102,39 @@ public class Machine
 		return index;
 	}
 	
-	private int readDataBuffer1_Index_ImmediateIndex()
+	private int readDataBufferIndex1_ImmediateIndex()
 	{
 		int index = readInt();
 		if (SAFE)
 			if ((index < 0) || (index >= dataBuffer1.length))
-				throw new RuntimeError(ErrorType.INVALID_BUFFER_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX, String.valueOf(index));
 		return index;
 	}
 	
-	private int readDataBuffer1_Index_PointersIndex()
+	private int readDataBufferIndex1_PointersIndex()
 	{
 		int index = pointers[readPointersIndex()];
 		if (SAFE)
 			if ((index < 0) || (index >= dataBuffer1.length))
-				throw new RuntimeError(ErrorType.INVALID_BUFFER_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX, String.valueOf(index));
 		return index;
 	}
 	
-	private int readDataBuffer2_Index_ImmediateIndex()
+	private int readDataBufferIndex2_ImmediateIndex()
 	{
 		int index = readInt();
 		if (SAFE)
 			if ((index < 0) || (index >= dataBuffer2.length))
-				throw new RuntimeError(ErrorType.INVALID_BUFFER_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX, String.valueOf(index));
 		return index;
 	}
 	
-	private int readDataBuffer2_Index_PointersIndex()
+	private int readDataBufferIndex2_PointersIndex()
 	{
 		int index = pointers[readPointersIndex()];
 		if (SAFE)
 			if ((index < 0) || (index >= dataBuffer2.length))
-				throw new RuntimeError(ErrorType.INVALID_BUFFER_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_DATA_BUFFER_INDEX, String.valueOf(index));
 		return index;
 	}
 	
@@ -145,11 +145,11 @@ public class Machine
 		int index = readInt();
 		if (SAFE)
 			if ((index < 0) || (index >= buffers.length))
-				throw new RuntimeError(ErrorType.INVALID_BASE_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX, String.valueOf(index));
 		dataBuffer1 = buffers[index];
 		if (SAFE)
 			if (dataBuffer1 == null)
-				throw new RuntimeError(ErrorType.NULL_BASE_INDEX_BUFFER, String.valueOf(index));
+				throw new RuntimeError(ErrorType.NULL_BUFFERS_INDEX, String.valueOf(index));
 	}
 	
 	private void nextDataBuffer1_PointersIndex()
@@ -157,11 +157,11 @@ public class Machine
 		int index = pointers[readPointersIndex()];
 		if (SAFE)
 			if ((index < 0) || (index >= buffers.length))
-				throw new RuntimeError(ErrorType.INVALID_BASE_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX, String.valueOf(index));
 		dataBuffer1 = buffers[index];
 		if (SAFE)
 			if (dataBuffer1 == null)
-				throw new RuntimeError(ErrorType.NULL_BASE_INDEX_BUFFER, String.valueOf(index));
+				throw new RuntimeError(ErrorType.NULL_BUFFERS_INDEX, String.valueOf(index));
 	}
 	
 	private void nextDataBuffer2_ImmediateIndex()
@@ -169,11 +169,11 @@ public class Machine
 		int index = readInt();
 		if (SAFE)
 			if ((index < 0) || (index >= buffers.length))
-				throw new RuntimeError(ErrorType.INVALID_BASE_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX, String.valueOf(index));
 		dataBuffer2 = buffers[index];
 		if (SAFE)
 			if (dataBuffer2 == null)
-				throw new RuntimeError(ErrorType.NULL_BASE_INDEX_BUFFER, String.valueOf(index));
+				throw new RuntimeError(ErrorType.NULL_BUFFERS_INDEX, String.valueOf(index));
 	}
 	
 	private void nextDataBuffer2_PointersIndex()
@@ -181,14 +181,16 @@ public class Machine
 		int index = pointers[readPointersIndex()];
 		if (SAFE)
 			if ((index < 0) || (index >= buffers.length))
-				throw new RuntimeError(ErrorType.INVALID_BASE_INDEX, String.valueOf(index));
+				throw new RuntimeError(ErrorType.INVALID_BUFFERS_INDEX, String.valueOf(index));
 		dataBuffer2 = buffers[index];
 		if (SAFE)
 			if (dataBuffer2 == null)
-				throw new RuntimeError(ErrorType.NULL_BASE_INDEX_BUFFER, String.valueOf(index));
+				throw new RuntimeError(ErrorType.NULL_BUFFERS_INDEX, String.valueOf(index));
 	}
 	
-	private void swapDataBuffer_Indexes_1_2(int index1, int index2)
+	// swap buffer data
+	
+	private void swapDataBufferBytes_1_2(int index1, int index2)
 	{
 		tempByte = dataBuffer1[index1];
 		dataBuffer1[index1] = dataBuffer2[index2];
@@ -212,7 +214,7 @@ public class Machine
 	private void checkInstBuffer()
 	{
 		if (instBuffer == null)
-			throw new RuntimeError(ErrorType.NULL_BASE_INST_POINTER_BUFFER, String.valueOf(bip));
+			throw new RuntimeError(ErrorType.NULL_BASE_INST_POINTER, String.valueOf(bip));
 	}
 	
 	// read inst buffer
@@ -1264,6 +1266,7 @@ public class Machine
 	public void run()
 	{
 		short inst;
+		byte tempFlags;
 		
 		if (SAFE)
 			checkBaseInstPointer();
@@ -1297,22 +1300,22 @@ public class Machine
 				
 			case INST_COPY__IM8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = readByte();
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = readByte();
 				break;
 				
 			case INST_COPY__IM8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = readByte();
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = readByte();
 				break;
 				
 			case INST_COPY__IM8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = readByte();
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = readByte();
 				break;
 				
 			case INST_COPY__IM8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = readByte();
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = readByte();
 				break;
 				
 			// COPY MEM8 MEM8
@@ -1320,97 +1323,97 @@ public class Machine
 			case INST_COPY__IM_IM_8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__IM_IM_8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__IM_IM_8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__IM_IM_8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__IM_PI_8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__IM_PI_8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__IM_PI_8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__IM_PI_8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__PI_IM_8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__PI_IM_8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__PI_IM_8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__PI_IM_8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_ImmediateIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_ImmediateIndex()];
 				break;
 
 			case INST_COPY__PI_PI_8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__PI_PI_8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__PI_PI_8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_ImmediateIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_ImmediateIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 
 			case INST_COPY__PI_PI_8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				dataBuffer1[readDataBuffer1_Index_PointersIndex()] = dataBuffer2[readDataBuffer2_Index_PointersIndex()];
+				dataBuffer1[readDataBufferIndex1_PointersIndex()] = dataBuffer2[readDataBufferIndex2_PointersIndex()];
 				break;
 				
 			// SWAP MEM8 MEM8
@@ -1418,85 +1421,3927 @@ public class Machine
 			case INST_SWAP__IM_IM_8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__IM_IM_8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__IM_IM_8__PI_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__IM_IM_8__PI_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__IM_PI_8__IM_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__IM_PI_8__IM_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__IM_PI_8__PI_IM_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__IM_PI_8__PI_PI_8:
 				nextDataBuffer1_ImmediateIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__PI_IM_8__IM_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__PI_IM_8__IM_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__PI_IM_8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__PI_IM_8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_ImmediateIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_ImmediateIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__PI_PI_8__IM_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__PI_PI_8__IM_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_ImmediateIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_PointersIndex());
 
 			case INST_SWAP__PI_PI_8__PI_IM_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_ImmediateIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_ImmediateIndex());
 
 			case INST_SWAP__PI_PI_8__PI_PI_8:
 				nextDataBuffer1_PointersIndex();
 				nextDataBuffer2_PointersIndex();
-				swapDataBuffer_Indexes_1_2(readDataBuffer1_Index_PointersIndex(), readDataBuffer2_Index_PointersIndex());
+				swapDataBufferBytes_1_2(readDataBufferIndex1_PointersIndex(), readDataBufferIndex2_PointersIndex());
 				
-			}
-		}
+			// TEST INDEX LOGIC IM8 EQ/LT/GT MEM8
+				
+			case INST_TEST_0_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_0_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 1 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_1_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 2 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_2_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 4 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_3_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 8 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_4_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 16 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_5_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 32 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_6_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 64 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_SET__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_AND__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_OR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__EQ__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__EQ__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__EQ__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__EQ__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__NE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__NE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__NE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__NE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__LE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GT__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GT__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GT__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GT__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GE__IM_IM_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GE__IM_PI_8:
+				nextDataBuffer1_ImmediateIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GE__PI_IM_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_ImmediateIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			case INST_TEST_7_XOR__IM8__GE__PI_PI_8:
+				nextDataBuffer1_PointersIndex();
+				tempFlags = (byte) (dataBuffer1[readDataBufferIndex1_PointersIndex()] == readByte() ? 128 : 0);
+				flags = (byte) ((flags & ~tempFlags) | tempFlags);
+
+			} // switch (inst)
+		} // while (ip < instBuffer.length + INST_SIZE)
 		
 		throw new RuntimeError(ErrorType.END_OF_INST_BUFFER, String.valueOf(ip));
 	}
