@@ -8,14 +8,14 @@ public class LinkedBuffer
 		byte[] buffer;
 		BufferNode next;
 	}
-	
+
 	BufferNode first;
 	BufferNode last;
-	
+
 	int bufferSize;
 	int firstIndex;
 	int lastIndex;
-	
+
 	public LinkedBuffer(int bufferSize)
 	{
 		this.bufferSize = bufferSize;

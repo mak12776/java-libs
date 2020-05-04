@@ -11,7 +11,7 @@ public class RuntimeError extends RuntimeException
 	public RuntimeError(ErrorType type)
 	{
 		super(type.toString());
-		
+
 		this.type = type;
 		this.errorMessage = null;
 	}
@@ -19,21 +19,21 @@ public class RuntimeError extends RuntimeException
 	public RuntimeError(ErrorType type, String errorMessage)
 	{
 		super(type + errorMessage);
-		
+
 		this.type = type;
 		this.errorMessage = errorMessage;
 	}
-	
+
 	public ErrorType getType()
 	{
 		return type;
 	}
-	
+
 	public String getErrorMessage()
 	{
 		return errorMessage;
 	}
-	
+
 	@Override
 	public String getMessage()
 	{

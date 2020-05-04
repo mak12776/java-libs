@@ -10,7 +10,7 @@ public class OldUltraMachine
 {
 	public static final boolean CHECK_INTEGER_BITS = true;
 	public static final boolean CHECK_INTEGER_BYTES = true;
-	
+
 	public static int REGISTER_SIZE = 64;
 	public static int ADDRESS_SIZE = 32;
 

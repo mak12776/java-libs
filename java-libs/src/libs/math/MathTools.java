@@ -3,20 +3,22 @@ package libs.math;
 
 public class MathTools
 {
-	private MathTools() { }
-	
+	private MathTools()
+	{
+	}
+
 	// limits
-	
+
 	public static int limit(int value, int min, int max)
 	{
 		return (value < min) ? min : ((value > max) ? max : value);
 	}
-	
+
 	public static int limitMaximum(int value, int max)
 	{
 		return (value > max) ? max : value;
 	}
-	
+
 	public static int limitMinimum(int value, int min)
 	{
 		return (value < min) ? min : value;
@@ -34,7 +36,7 @@ public class MathTools
 		}
 		return min;
 	}
-	
+
 	public static float min(float first, float... others)
 	{
 		float min = first;

@@ -7,13 +7,12 @@ public class CUnaryOperation implements CExpression
 {
 	public enum CUnaryOperationSymbol
 	{
-		PLUS, MINUS, 
-		
-		POST_ADD, POST_SUB, 
-		PRE_ADD, PRE_SUB, 
-		
-		NOT, BIT_NOT, 
-		
+		PLUS, MINUS,
+
+		POST_ADD, POST_SUB, PRE_ADD, PRE_SUB,
+
+		NOT, BIT_NOT,
+
 		INDIRECT, ADDR_OF, SIZEOF,
 	}
 

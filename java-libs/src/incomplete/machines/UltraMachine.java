@@ -8,7 +8,7 @@ import libs.tools.bytes.ByteTools;
 public class UltraMachine
 {
 	public static final boolean CHECK_INTEGER_BYTES = true;
-	
+
 	// WARNING: don't change the following constants:
 	public static final int REGISTER_BITS = 64;
 	public static final int ADDRESS_BITS = 32;
@@ -149,7 +149,7 @@ public class UltraMachine
 			SafeTools.checkIntegerBytes(size);
 
 		nextImAddr();
-		
+
 		System.arraycopy(buffer, ip, buffer, address, size);
 		ip += size;
 	}

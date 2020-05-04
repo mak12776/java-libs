@@ -16,7 +16,7 @@ import libs.types.views.View;
 public class StreamTools
 {
 	// read file functions
-	
+
 	public static byte[] readFile(FileInputStream stream) throws IOException, BaseException
 	{
 		long fileSize;
@@ -39,14 +39,14 @@ public class StreamTools
 		}
 		return array;
 	}
-	
+
 	public static byte[] readFile(String name) throws FileNotFoundException, IOException, BaseException
 	{
 		return readFile(new FileInputStream(name));
 	}
 
 	// read lines functions
-	
+
 	public static BufferViewInterface[] readLines(Class<?> c, FileInputStream stream) throws IOException, BaseException
 	{
 		return LinesTools.splitLines(c, readFile(stream));

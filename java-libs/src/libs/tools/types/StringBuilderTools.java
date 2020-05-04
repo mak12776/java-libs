@@ -15,13 +15,20 @@ public final class StringBuilderTools
 	{
 		switch (b)
 		{
-		case '\n': builder.append("\\n"); break;
-		case '\r': builder.append("\\r"); break;
-		case '\t': builder.append("\\t"); break;
-		default: builder.append((char) b);
+		case '\n':
+			builder.append("\\n");
+			break;
+		case '\r':
+			builder.append("\\r");
+			break;
+		case '\t':
+			builder.append("\\t");
+			break;
+		default:
+			builder.append((char) b);
 		}
 	}
-	
+
 	public static void appendReprBytes(StringBuilder builder, byte[] array, int start, int end)
 	{
 		for (int index = start; index < end; index += 1)

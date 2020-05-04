@@ -20,7 +20,7 @@ public class BufferView implements BufferViewInterface
 	// constructor
 
 	public BufferView(byte[] buffer, int start, int end)
-	{		
+	{
 		this.buffer = buffer;
 		this.start = start;
 		this.end = end;
@@ -30,12 +30,12 @@ public class BufferView implements BufferViewInterface
 	{
 		this(null, 0, 0);
 	}
-	
+
 	public BufferView(Buffer buffer)
 	{
 		this(buffer.getBytes(), 0, buffer.length());
 	}
-	
+
 	// BufferViewInterface functions
 
 	@Override
@@ -45,7 +45,7 @@ public class BufferView implements BufferViewInterface
 		this.start = start;
 		this.end = end;
 	}
-	
+
 	public void set(Buffer buffer)
 	{
 		this.buffer = buffer.getBytes();
@@ -72,9 +72,9 @@ public class BufferView implements BufferViewInterface
 	{
 		return newArray(size, null, 0, 0);
 	}
-	
+
 	// swap function
-	
+
 	public void swap(BufferView view)
 	{
 		BufferView temp = new BufferView();
@@ -229,7 +229,7 @@ public class BufferView implements BufferViewInterface
 		}
 		return false;
 	}
-	
+
 	// strip test functions
 
 	public boolean lstrip(ByteTest test)
@@ -264,7 +264,7 @@ public class BufferView implements BufferViewInterface
 
 		return false;
 	}
-	
+
 	public boolean strip(ByteTest test)
 	{
 		boolean l = lstrip(test);

@@ -4,31 +4,31 @@ package libs.tools.types;
 public class StringTools
 {
 	// algorithms
-	
+
 	public static String strip(String string, String chars)
 	{
 		int start = 0;
 		int end = string.length();
-		
+
 		while (start < end)
 		{
 			if (chars.indexOf(string.charAt(start)) == -1)
 				break;
 			start += 1;
 		}
-		
+
 		while (end > start)
 		{
 			end -= 1;
 			if (chars.indexOf(string.charAt(end)) == -1)
 				break;
 		}
-		
+
 		return null;
 	}
-	
+
 	// misc
-	
+
 	public static String joinObject(Object... objects)
 	{
 		StringBuilder builder = new StringBuilder();
@@ -51,7 +51,7 @@ public class StringTools
 		builder.append(suffix);
 		return builder.toString();
 	}
-	
+
 	// toHex functions
 
 	public static String toHex(int value)

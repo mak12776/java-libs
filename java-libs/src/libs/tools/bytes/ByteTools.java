@@ -6,9 +6,9 @@ import libs.types.bytes.ByteTest;
 public class ByteTools
 {
 	// +++ algorithms +++
-	
+
 	// test all and any
-	
+
 	public static boolean testAny(byte[] buffer, int start, int end, byte value)
 	{
 		for (; start < end; start += 1)
@@ -16,7 +16,7 @@ public class ByteTools
 				return true;
 		return false;
 	}
-	
+
 	public static boolean testAll(byte[] buffer, int start, int end, byte value)
 	{
 		for (; start < end; start += 1)
@@ -24,7 +24,7 @@ public class ByteTools
 				return false;
 		return true;
 	}
-	
+
 	public static boolean testAny(byte[] buffer, int start, int end, ByteTest test)
 	{
 		for (; start < end; start += 1)
@@ -32,7 +32,7 @@ public class ByteTools
 				return true;
 		return false;
 	}
-	
+
 	public static boolean testAll(byte[] buffer, int start, int end, ByteTest test)
 	{
 		for (; start < end; start += 1)
@@ -40,35 +40,35 @@ public class ByteTools
 				return false;
 		return true;
 	}
-	
+
 	// fill functions
-	
+
 	public static void fill(byte[] buffer, int start, int end, byte value)
 	{
 		for (; start < end; start += 1)
 			buffer[start] = value;
 	}
-	
+
 	// area copy functions
-	
+
 	public static void areaCopy(byte[] src, int start, int end, byte[] dest, int offset, int count)
 	{
 		if (count == 0)
 			return;
-		
+
 		int length = end - start;
-		
+
 		if (length == 1)
 		{
 			fill(dest, offset, offset + count, src[start]);
 			return;
 		}
-		
+
 		System.arraycopy(src, start, dest, offset, length);
-		
+
 		int writeOffset = offset + length;
 		int endOffset = offset + (length * count);
-		
+
 		while (writeOffset < endOffset)
 		{
 			System.arraycopy(dest, offset, dest, writeOffset, length);
@@ -76,12 +76,12 @@ public class ByteTools
 
 			length = writeOffset - offset;
 			if (length > endOffset - writeOffset)
-				length = endOffset - writeOffset; 
+				length = endOffset - writeOffset;
 		}
 	}
-	
+
 	// find test functions
-	
+
 	public static int find(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
@@ -95,7 +95,7 @@ public class ByteTools
 		}
 		return end;
 	}
-	
+
 	public static int findNot(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
@@ -109,7 +109,7 @@ public class ByteTools
 		}
 		return end;
 	}
-	
+
 	public static int rfind(byte[] buffer, int start, int end, ByteTest test)
 	{
 		int index;
@@ -159,25 +159,29 @@ public class ByteTools
 
 	// starts with & ends with
 
-	public static boolean startsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] prefix, int prefixStart, int prefixEnd)
+	public static boolean startsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] prefix, int prefixStart,
+			int prefixEnd)
 	{
 		int bufferLength = bufferEnd - bufferStart;
 		int prefixLength = prefixEnd - prefixStart;
-		
+
 		return (bufferLength >= prefixLength) && isEqual(buffer, bufferStart, prefix, prefixStart, prefixLength);
 	}
 
-	public static boolean endsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] suffix, int suffixStart, int suffixEnd)
+	public static boolean endsWith(byte[] buffer, int bufferStart, int bufferEnd, byte[] suffix, int suffixStart,
+			int suffixEnd)
 	{
 		int bufferLength = bufferEnd - bufferStart;
 		int suffixLength = suffixEnd - suffixStart;
-		
-		return (bufferLength >= suffixLength) && isEqual(buffer, bufferEnd - suffixLength, suffix, suffixStart, suffixLength);
+
+		return (bufferLength >= suffixLength)
+				&& isEqual(buffer, bufferEnd - suffixLength, suffix, suffixStart, suffixLength);
 	}
 
 	// search
 
-	public static int lsearch(byte[] source, int sourceStart, int sourceEnd, byte[] buffer, int bufferStart, int bufferEnd)
+	public static int lsearch(byte[] source, int sourceStart, int sourceEnd, byte[] buffer, int bufferStart,
+			int bufferEnd)
 	{
 		int sourceLength = sourceEnd - sourceStart;
 		int bufferLength = bufferEnd - bufferStart;
@@ -193,8 +197,9 @@ public class ByteTools
 		return sourceEnd;
 	}
 
-	public static int rsearch(byte[] source, int sourceStart, int sourceEnd, byte[] buffer, int bufferStart, int bufferEnd)
-	{			
+	public static int rsearch(byte[] source, int sourceStart, int sourceEnd, byte[] buffer, int bufferStart,
+			int bufferEnd)
+	{
 		int sourceLength = sourceEnd - sourceStart;
 		int bufferLength = bufferEnd - bufferStart;
 
@@ -208,7 +213,7 @@ public class ByteTools
 		}
 		return sourceEnd;
 	}
-	
+
 	// read functions
 
 	public static long read(byte[] buffer, int offset, int size)
@@ -226,32 +231,23 @@ public class ByteTools
 
 	public static short readShort(byte[] buffer, int offset)
 	{
-		return 	(short) (
-					((buffer[offset++] & 0xFF) << 8) |
-					 (buffer[offset] & 0xFF)
-				);
+		return (short) (((buffer[offset++] & 0xFF) << 8) | (buffer[offset] & 0xFF));
 	}
 
 	public static int readInt(byte[] buffer, int offset)
 	{
-		return 	((buffer[offset++] & 0xFF) << (8 * 3)) |
-				((buffer[offset++] & 0xFF) << (8 * 2)) |
-				((buffer[offset++] & 0xFF) << (8 * 1)) |
-				(buffer[offset++] & 0xFF);
+		return ((buffer[offset++] & 0xFF) << (8 * 3)) | ((buffer[offset++] & 0xFF) << (8 * 2))
+				| ((buffer[offset++] & 0xFF) << (8 * 1)) | (buffer[offset++] & 0xFF);
 	}
 
 	public static long readLong(byte[] buffer, int offset)
 	{
-		return 	(( (long) buffer[offset++] & 0xFF ) << (8 * 7)) |
-				(( (long) buffer[offset++] & 0xFF ) << (8 * 6)) |
-				(( (long) buffer[offset++] & 0xFF ) << (8 * 5)) |
-				(( (long) buffer[offset++] & 0xFF ) << (8 * 4)) |
-				(( (long) buffer[offset++] & 0xFF ) << (8 * 3)) |
-				(( (long) buffer[offset++] & 0xFF ) << (8 * 2)) |
-				(( (long) buffer[offset++] & 0xFF ) << (8 * 1)) |
-				 ( (long) buffer[offset] & 0xFF);
+		return (((long) buffer[offset++] & 0xFF) << (8 * 7)) | (((long) buffer[offset++] & 0xFF) << (8 * 6))
+				| (((long) buffer[offset++] & 0xFF) << (8 * 5)) | (((long) buffer[offset++] & 0xFF) << (8 * 4))
+				| (((long) buffer[offset++] & 0xFF) << (8 * 3)) | (((long) buffer[offset++] & 0xFF) << (8 * 2))
+				| (((long) buffer[offset++] & 0xFF) << (8 * 1)) | ((long) buffer[offset] & 0xFF);
 	}
-	
+
 	// write functions
 
 	public static void write(byte[] buffer, int offset, int size, long value)
@@ -278,7 +274,7 @@ public class ByteTools
 	}
 
 	public static void writeLong(byte[] buffer, int offset, long value)
-	{			
+	{
 		buffer[offset++] = (byte) ((value >> (8 * 7)) & 0xFF);
 		buffer[offset++] = (byte) ((value >> (8 * 6)) & 0xFF);
 		buffer[offset++] = (byte) ((value >> (8 * 5)) & 0xFF);
@@ -288,5 +284,5 @@ public class ByteTools
 		buffer[offset++] = (byte) ((value >> (8 * 1)) & 0xFF);
 		buffer[offset] = (byte) (value & 0xFF);
 	}
-	
+
 }

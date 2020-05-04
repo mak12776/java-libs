@@ -1,3 +1,4 @@
+
 package libs.tools.io;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class LinesTools
 	{
 		return countLines(stream, new byte[bufferSize]);
 	}
-	
+
 	public static long countLines(InputStream stream, byte[] buffer) throws IOException, BaseException
 	{
 		int readNumber;
@@ -74,7 +75,7 @@ public class LinesTools
 		}
 		return total;
 	}
-	
+
 	public static int countLines(byte[] buffer, int start, int end)
 	{
 		int index;
@@ -95,12 +96,11 @@ public class LinesTools
 
 				if (buffer[index] != '\n')
 					index += 1;
-				
+
 				continue;
-			}
-			else if (buffer[index] == '\n')
+			} else if (buffer[index] == '\n')
 				total += 1;
-			
+
 			index += 1;
 		}
 
@@ -108,7 +108,7 @@ public class LinesTools
 	}
 
 	// split lines functions
-	
+
 	private static void splitLines(byte[] buffer, int bufferStart, int bufferEnd, BufferViewInterface[] lines)
 	{
 		int lnum;

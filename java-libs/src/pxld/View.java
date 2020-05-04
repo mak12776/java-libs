@@ -45,7 +45,7 @@ public class View implements Picture
 	// [ low-level info functions ]
 
 	// Picture interface functions
-	
+
 	@Override
 	public byte[] getData()
 	{
@@ -75,14 +75,14 @@ public class View implements Picture
 	{
 		return height;
 	}
-	
+
 	// other functions
-	
+
 	public int xWidth()
 	{
 		return xWidth;
 	}
-	
+
 	public int yWidth()
 	{
 		return yWidth;
@@ -107,7 +107,7 @@ public class View implements Picture
 	{
 		return yEnd;
 	}
-	
+
 	// more functions
 
 	// [ low-level functions ]

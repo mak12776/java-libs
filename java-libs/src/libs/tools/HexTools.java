@@ -1,3 +1,4 @@
+
 package libs.tools;
 
 import java.io.IOException;
@@ -8,19 +9,31 @@ import libs.safe.SafeTools;
 public class HexTools
 {
 	public static final boolean CHECK_INTEGER_BYTES = true;
-	
+
 	public static byte toHex(int value, boolean upper)
 	{
 		byte first = (byte) ((upper ? 'A' : 'a') - 10);
 
 		switch (value)
 		{
-		case 0: case 1: case 2: case 3: case 4:
-		case 5: case 6: case 7: case 8: case 9:
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
 			return (byte) (value + '0');
 
-		case 10: case 11: case 12: case 13:
-		case 14: case 15:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
 			return (byte) (value + first);
 
 		default:
@@ -89,7 +102,7 @@ public class HexTools
 			offset += 16;
 		}
 	}
-	
+
 	public static byte[] newSpaceLine(int size)
 	{
 		byte[] result;

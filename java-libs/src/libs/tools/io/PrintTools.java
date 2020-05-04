@@ -6,7 +6,7 @@ import java.io.PrintStream;
 public class PrintTools
 {
 	public static PrintStream outputStream = System.out;
-	
+
 	public static void print(long a)
 	{
 		outputStream.println("long: " + a);

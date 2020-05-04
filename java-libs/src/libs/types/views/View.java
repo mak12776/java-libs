@@ -20,7 +20,7 @@ public class View implements BufferViewInterface
 	{
 		this(0, 0);
 	}
-	
+
 	// array creation
 
 	public static View[] newArray(int size)
@@ -34,7 +34,7 @@ public class View implements BufferViewInterface
 		}
 		return result;
 	}
-	
+
 	// ByteViewInterface functions
 
 	@Override
