@@ -3,10 +3,10 @@ package libs.safe;
 
 import java.util.HashMap;
 
+import libs.safe.types.buffers.immutable.safe.SafeBuffer;
 import libs.tools.bytes.ByteArrayTools;
 import libs.tools.bytes.ByteTools;
 import libs.types.buffers.immutable.BufferQueue;
-import libs.types.buffers.immutable.safe.SafeBuffer;
 
 public class SafeOptions
 {

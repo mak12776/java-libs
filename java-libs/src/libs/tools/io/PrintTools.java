@@ -46,9 +46,26 @@ public class PrintTools
 	{
 		outputStream.println("long: " + Long.toHexString(a));
 	}
-
+	
 	public static void print(String string)
 	{
 		outputStream.println(string);
+	}
+	
+	public static void printSeparator(int width, char ch)
+	{
+		for (int i = 0; i < width; i += 1)
+			System.out.write(ch);
+		System.out.println();
+	}
+	
+	public static void printSeparator(int width)
+	{
+		printSeparator(width, '-');
+	}
+	
+	public static void printSeparator()
+	{
+		printSeparator(80);
 	}
 }

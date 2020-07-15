@@ -5,6 +5,19 @@ import libs.types.bytes.ByteTest;
 
 public class ByteTools
 {
+	// +++ masks +++
+	
+	// byte masks
+	
+	public static class Longs
+	{
+		public static long byteMask = 	0xFF;
+		public static long shortMask = 	0xFFFF;
+		public static long intMask = 	0xFFFFFFFF;
+		public static long longMask = 	0xFFFFFFFFFFFFFFFFL;
+		
+	}	
+	
 	// +++ algorithms +++
 
 	// test all and any

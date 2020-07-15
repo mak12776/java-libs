@@ -1,5 +1,5 @@
 
-package libs.tools.bytes.safe;
+package libs.safe.tools;
 
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;

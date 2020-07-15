@@ -34,9 +34,8 @@ public class StreamTools
 
 		readNumber = stream.read(array);
 		if (readNumber != fileSize)
-		{
 			throw new InvalidReadNumberException("read number: " + readNumber + ", file size: " + fileSize);
-		}
+		
 		return array;
 	}
 
