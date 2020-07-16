@@ -3,7 +3,7 @@ package libs.types.buffers.mutable;
 
 import libs.tools.bytes.ByteTools;
 import libs.types.buffers.BufferViewInterface;
-import libs.types.buffers.immutable.Buffer;
+import libs.types.buffers.oop.Buffer;
 import libs.types.bytes.ByteTest;
 
 public class BufferView implements BufferViewInterface

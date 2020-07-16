@@ -1,9 +1,9 @@
 
-package libs.safe.types.buffers.immutable.safe;
+package libs.safe.types.buffers.oop.safe;
 
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
-import libs.types.buffers.immutable.BufferQueue;
+import libs.types.buffers.oop.BufferQueue;
 
 public class SafeBufferQueue extends BufferQueue
 {

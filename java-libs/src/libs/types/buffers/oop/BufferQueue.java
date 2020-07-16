@@ -1,5 +1,5 @@
 
-package libs.types.buffers.immutable;
+package libs.types.buffers.oop;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
