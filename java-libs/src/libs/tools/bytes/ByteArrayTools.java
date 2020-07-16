@@ -1,7 +1,7 @@
 
 package libs.tools.bytes;
 
-import libs.math.MathTools;
+import libs.tools.MathTools;
 import libs.tools.types.ArrayTools;
 
 public class ByteArrayTools

@@ -1,12 +1,12 @@
 
-package libs.safe.types.buffers.oop.safe;
+package libs.safe.types.oop;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
-import libs.types.buffers.oop.Buffer;
+import libs.types.oop.buffers.Buffer;
 
 public class SafeBuffer extends Buffer
 {

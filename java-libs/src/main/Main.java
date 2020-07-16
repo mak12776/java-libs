@@ -99,28 +99,12 @@ public class Main
 	
 	public static void main(String[] args) throws IOException
 	{
-		if (args.length != 1)
-		{
-			System.out.println("usage: " + SystemTools.getProgramName() + " [FILE]");
-			return;
-		}
 		
-		byte[] buffer = null;
 		
-		try
-		{
-			buffer = StreamTools.readFile(args[0]);
-		}
-		catch (BaseException e) 
-		{
-			e.printStackTrace();
-			return;
-		}
-		
-		System.out.println("File Name: " + args[0]);
-		System.out.println("File Size: " + buffer.length);
-		PrintTools.printSeparator(10);
-		
+	}
+	
+	public static void oldMain(byte[] buffer)
+	{
 		// find repetitive duplicates
 		findRepetitiveDuplicates(buffer, new AddDuplicateClass());
 		
@@ -130,7 +114,6 @@ public class Main
 		{
 			
 		}
-		
 		
 		// print formated duplicates
 		
@@ -148,7 +131,7 @@ public class Main
 	
 	private static interface addDuplicateInterface
 	{
-		public void run(int index, int length, byte value);
+		public void add(int index, int length, byte value);
 	}
 	
 	private static void findRepetitiveDuplicates(byte[] buffer, addDuplicateInterface func)
@@ -165,7 +148,7 @@ public class Main
 				
 				if (loopIndex == buffer.length)
 				{
-					func.run(index, 2, buffer[index]);
+					func.add(index, 2, buffer[index]);
 					break;
 				}
 				
@@ -174,12 +157,12 @@ public class Main
 					loopIndex += 1;
 					if (loopIndex == buffer.length)
 					{
-						func.run(index, 2, buffer[index]);
+						func.add(index, loopIndex - index, buffer[index]);
 						break outer_loop;
 					}
 				}
 				
-				func.run(index, 2, buffer[index]);
+				func.add(index, loopIndex - index, buffer[index]);
 				index = loopIndex;
 			}
 			else
@@ -194,7 +177,7 @@ public class Main
 	private static class AddDuplicateClass implements addDuplicateInterface
 	{
 		@Override
-		public void run(int index, int length, byte value)
+		public void add(int index, int length, byte value)
 		{
 			long key = (long)length | ((long)value << (long)Integer.SIZE);
 			
@@ -208,6 +191,4 @@ public class Main
 			indexes.add(index);
 		}
 	}
-	
-	
 }

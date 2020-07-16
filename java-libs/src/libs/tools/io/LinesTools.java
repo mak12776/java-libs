@@ -7,8 +7,8 @@ import java.io.InputStream;
 import libs.exceptions.BaseException;
 import libs.exceptions.UnknownClassException;
 import libs.exceptions.ZeroFileSizeExeption;
+import libs.types.buffers.BufferView;
 import libs.types.buffers.BufferViewInterface;
-import libs.types.buffers.mutable.BufferView;
 import libs.types.views.View;
 
 public class LinesTools

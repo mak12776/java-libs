@@ -7,8 +7,8 @@ import java.io.IOException;
 import incomplete.process.Compiler.Settings.SettingsKey;
 import libs.exceptions.BaseException;
 import libs.tools.io.StreamTools;
-import libs.types.buffers.mutable.BufferView;
-import libs.types.buffers.mutable.BufferViews;
+import libs.types.buffers.BufferView;
+import libs.types.buffers.BufferViews;
 import libs.types.bytes.ByteTest;
 
 public class Compiler

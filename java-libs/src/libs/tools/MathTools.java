@@ -1,10 +1,27 @@
 
-package libs.math;
+package libs.tools;
 
 public class MathTools
 {
-	private MathTools()
+	private MathTools() { }
+	
+	// checked arithmetics
+	
+	public static int checkedPositiveMultiply(int a, int b)
 	{
+		if (a != 0 && b > Integer.MAX_VALUE / a)
+			throw new ArithmeticException("integer overflow");
+		return a * b;
+	}
+	
+	public static int checkedMultiply(int a, int b)
+	{
+		long maximum = Long.signum(a) == Long.signum(b) ? Long.MAX_VALUE : Long.MIN_VALUE;
+		
+		if (a != 0 && ((b > 0 && b > maximum / a) || (b < 0 && b < maximum / a)))
+			throw new ArithmeticException("integer overflow");
+		
+		return a * b;
 	}
 
 	// limits

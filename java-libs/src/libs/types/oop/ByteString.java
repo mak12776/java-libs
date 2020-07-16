@@ -1,5 +1,5 @@
 
-package libs.types.bytes;
+package libs.types.oop;
 
 import java.io.IOException;
 import java.io.InputStream;

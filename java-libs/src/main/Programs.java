@@ -9,7 +9,7 @@ import java.util.Random;
 import libs.exceptions.BaseException;
 import libs.files.JavaOutputFile;
 import libs.tools.io.LinesTools;
-import libs.types.buffers.oop.Buffer;
+import libs.types.oop.buffers.Buffer;
 
 public class Programs
 {

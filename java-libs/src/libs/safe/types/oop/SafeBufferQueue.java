@@ -1,9 +1,9 @@
 
-package libs.safe.types.buffers.oop.safe;
+package libs.safe.types.oop;
 
 import libs.safe.SafeOptions;
 import libs.safe.SafeTools;
-import libs.types.buffers.oop.BufferQueue;
+import libs.types.oop.buffers.BufferQueue;
 
 public class SafeBufferQueue extends BufferQueue
 {

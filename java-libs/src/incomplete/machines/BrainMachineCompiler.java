@@ -1,8 +1,8 @@
 
 package incomplete.machines;
 
-import libs.types.buffers.mutable.BufferView;
-import libs.types.buffers.mutable.BufferViews;
+import libs.types.buffers.BufferView;
+import libs.types.buffers.BufferViews;
 import libs.types.bytes.ByteTest;
 
 public class BrainMachineCompiler

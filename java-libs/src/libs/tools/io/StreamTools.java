@@ -10,7 +10,7 @@ import libs.exceptions.BigFileSizeException;
 import libs.exceptions.InvalidReadNumberException;
 import libs.exceptions.ZeroFileSizeExeption;
 import libs.types.buffers.BufferViewInterface;
-import libs.types.buffers.mutable.BufferViews;
+import libs.types.buffers.BufferViews;
 import libs.types.views.View;
 
 public class StreamTools

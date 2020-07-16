@@ -3,7 +3,7 @@ package experimental.less;
 
 import experimental.less.types.tokens.Token;
 import experimental.less.types.tokens.TokenType;
-import libs.types.buffers.mutable.BufferViews;
+import libs.types.buffers.BufferViews;
 import libs.types.bytes.ByteTest;
 
 public class Parser
