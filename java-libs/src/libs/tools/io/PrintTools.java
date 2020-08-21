@@ -52,6 +52,8 @@ public class PrintTools
 		outputStream.println(string);
 	}
 	
+	public static int defaultWidth = 80;
+	
 	public static void printSeparator(int width, char ch)
 	{
 		for (int i = 0; i < width; i += 1)
@@ -66,6 +68,6 @@ public class PrintTools
 	
 	public static void printSeparator()
 	{
-		printSeparator(80);
+		printSeparator(defaultWidth);
 	}
 }

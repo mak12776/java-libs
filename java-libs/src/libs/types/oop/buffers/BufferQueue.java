@@ -1,9 +1,9 @@
 
-package libs.types.buffers.oop;
+package libs.types.oop.buffers;
 
 import libs.exceptions.BufferIsFullException;
 import libs.exceptions.NotEnoughDataException;
-import libs.math.MathTools;
+import libs.tools.MathTools;
 import libs.tools.bytes.ByteTools;
 
 public class BufferQueue

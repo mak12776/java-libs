@@ -9,7 +9,7 @@ import java.util.ListIterator;
 import libs.exceptions.UnimplementedCodeException;
 import libs.tools.MathTools;
 
-public class LinkedArray<T> implements List<T>
+public class LinkedArrayList<T> implements List<T>
 {
 	private class ListNode<E>
 	{
@@ -32,7 +32,7 @@ public class LinkedArray<T> implements List<T>
 	private int lastLength;
 	
 	
-	public LinkedArray(int arraySize)
+	public LinkedArrayList(int arraySize)
 	{
 		first = last = null;
 		this.arraySize = arraySize; 
