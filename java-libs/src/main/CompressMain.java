@@ -11,7 +11,6 @@ import libs.tools.SystemTools;
 import libs.tools.bytes.ByteTools;
 import libs.tools.io.PrintTools;
 import libs.tools.io.StreamTools;
-import libs.tools.types.ArrayTools;
 
 public class CompressMain
 {
