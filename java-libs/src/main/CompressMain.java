@@ -23,7 +23,6 @@ public class CompressMain
 			System.out.println("usage: " + SystemTools.getProgramName() + " [FILE]");
 			return;
 		}
-		
 		byte[] buffer = null;
 		
 		try
