@@ -1,15 +1,15 @@
 
-package libs.tools.io;
+package labs.tools.io;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.exceptions.BaseException;
-import libs.exceptions.UnknownClassException;
-import libs.exceptions.ZeroFileSizeExeption;
-import libs.types.buffers.BufferView;
-import libs.types.buffers.BufferViewInterface;
-import libs.types.views.View;
+import labs.exceptions.BaseException;
+import labs.exceptions.UnknownClassException;
+import labs.exceptions.ZeroFileSizeExeption;
+import labs.types.buffers.BufferView;
+import labs.types.buffers.BufferViewInterface;
+import labs.types.views.View;
 
 public class LinesTools
 {

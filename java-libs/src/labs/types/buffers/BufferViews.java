@@ -1,8 +1,8 @@
 
-package libs.types.buffers;
+package labs.types.buffers;
 
-import libs.tools.types.StringBuilderTools;
-import libs.types.views.View;
+import labs.tools.types.StringBuilderTools;
+import labs.types.views.View;
 
 public class BufferViews
 {

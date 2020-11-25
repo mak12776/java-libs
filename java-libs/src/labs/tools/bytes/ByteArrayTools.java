@@ -1,8 +1,8 @@
 
-package libs.tools.bytes;
+package labs.tools.bytes;
 
-import libs.tools.MathTools;
-import libs.tools.types.ArrayTools;
+import labs.tools.MathTools;
+import labs.tools.types.ArrayTools;
 
 public class ByteArrayTools
 {

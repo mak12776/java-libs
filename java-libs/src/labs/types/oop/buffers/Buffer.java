@@ -1,12 +1,12 @@
 
-package libs.types.oop.buffers;
+package labs.types.oop.buffers;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import libs.exceptions.BufferIsFullException;
-import libs.exceptions.NotEnoughDataException;
-import libs.tools.bytes.ByteTools;
+import labs.exceptions.BufferIsFullException;
+import labs.exceptions.NotEnoughDataException;
+import labs.tools.bytes.ByteTools;
 
 public class Buffer
 {

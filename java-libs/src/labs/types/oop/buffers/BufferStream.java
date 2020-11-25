@@ -1,5 +1,5 @@
 
-package libs.types.oop.buffers;
+package labs.types.oop.buffers;
 
 import java.io.FileInputStream;
 import java.io.IOException;

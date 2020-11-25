@@ -1,5 +1,5 @@
 
-package libs.tools.io;
+package labs.tools.io;
 
 import java.io.PrintStream;
 

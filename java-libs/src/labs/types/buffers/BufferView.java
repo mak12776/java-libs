@@ -1,9 +1,9 @@
 
-package libs.types.buffers;
+package labs.types.buffers;
 
-import libs.tools.bytes.ByteTools;
-import libs.types.bytes.ByteTest;
-import libs.types.oop.buffers.Buffer;
+import labs.tools.bytes.ByteTools;
+import labs.types.bytes.ByteTest;
+import labs.types.oop.buffers.Buffer;
 
 public class BufferView implements BufferViewInterface
 {

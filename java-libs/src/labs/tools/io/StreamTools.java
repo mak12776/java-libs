@@ -1,17 +1,17 @@
 
-package libs.tools.io;
+package labs.tools.io;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import libs.exceptions.BaseException;
-import libs.exceptions.BigFileSizeException;
-import libs.exceptions.InvalidReadNumberException;
-import libs.exceptions.ZeroFileSizeExeption;
-import libs.types.buffers.BufferViewInterface;
-import libs.types.buffers.BufferViews;
-import libs.types.views.View;
+import labs.exceptions.BaseException;
+import labs.exceptions.BigFileSizeException;
+import labs.exceptions.InvalidReadNumberException;
+import labs.exceptions.ZeroFileSizeExeption;
+import labs.types.buffers.BufferViewInterface;
+import labs.types.buffers.BufferViews;
+import labs.types.views.View;
 
 public class StreamTools
 {
