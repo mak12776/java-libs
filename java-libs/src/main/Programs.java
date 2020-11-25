@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
-import libs.exceptions.BaseException;
-import libs.files.JavaOutputFile;
-import libs.tools.io.LinesTools;
-import libs.types.oop.buffers.Buffer;
+import labs.exceptions.BaseException;
+import labs.files.JavaOutputFile;
+import labs.tools.io.LinesTools;
+import labs.types.oop.buffers.Buffer;
 
 public class Programs
 {

@@ -5,11 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import incomplete.process.Compiler.Settings.SettingsKey;
-import libs.exceptions.BaseException;
-import libs.tools.io.StreamTools;
-import libs.types.buffers.BufferView;
-import libs.types.buffers.BufferViews;
-import libs.types.bytes.ByteTest;
+import labs.exceptions.BaseException;
+import labs.tools.io.StreamTools;
+import labs.types.buffers.BufferView;
+import labs.types.buffers.BufferViews;
+import labs.types.bytes.ByteTest;
 
 public class Compiler
 {

@@ -2,7 +2,7 @@
 package experimental.less.types.tokens.olds;
 
 import experimental.less.types.tokens.TokenType;
-import libs.tools.types.StringBuilderTools;
+import labs.tools.types.StringBuilderTools;
 
 public class OldToken
 {

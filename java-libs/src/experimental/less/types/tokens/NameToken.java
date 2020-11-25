@@ -2,8 +2,8 @@
 package experimental.less.types.tokens;
 
 import experimental.less.types.tokens.olds.OldToken;
-import libs.tools.types.StringBuilderTools;
-import libs.tools.types.StringTools;
+import labs.tools.types.StringBuilderTools;
+import labs.tools.types.StringTools;
 
 public class NameToken extends OldToken
 {

@@ -1,7 +1,7 @@
 
 package experimental.less.exceptions;
 
-import libs.exceptions.BaseException;
+import labs.exceptions.BaseException;
 
 public class AnalyzerException extends BaseException
 {

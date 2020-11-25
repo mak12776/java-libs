@@ -2,7 +2,7 @@
 package experimental.less.exceptions;
 
 import experimental.less.types.ErrorType;
-import libs.tools.types.StringTools;
+import labs.tools.types.StringTools;
 
 public class ParserException extends Exception
 {

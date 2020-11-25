@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import libs.exceptions.BaseException;
-import libs.tools.SystemTools;
-import libs.tools.bytes.ByteTools;
-import libs.tools.io.PrintTools;
-import libs.tools.io.StreamTools;
+import labs.exceptions.BaseException;
+import labs.tools.SystemTools;
+import labs.tools.bytes.ByteTools;
+import labs.tools.io.PrintTools;
+import labs.tools.io.StreamTools;
 
 public class CompressMain
 {

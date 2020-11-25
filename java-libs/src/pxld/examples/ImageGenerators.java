@@ -1,7 +1,7 @@
 
 package pxld.examples;
 
-import libs.tools.MathTools;
+import labs.tools.MathTools;
 import pxld.Image;
 import pxld.Picture.MapFunction;
 import pxld.types.ColorMode;

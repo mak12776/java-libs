@@ -9,8 +9,8 @@ import experimental.less.types.ErrorType;
 import experimental.less.types.tokens.NameToken;
 import experimental.less.types.tokens.TokenType;
 import experimental.less.types.tokens.olds.OldToken;
-import libs.types.buffers.BufferViews;
-import libs.types.bytes.ByteTest;
+import labs.types.buffers.BufferViews;
+import labs.types.bytes.ByteTest;
 
 public class OldParser
 {

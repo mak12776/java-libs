@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import experimental.less.types.tokens.TokenType;
-import libs.types.bytes.ByteTest;
-import libs.types.views.View;
+import labs.types.bytes.ByteTest;
+import labs.types.views.View;
 
 public class Config
 {

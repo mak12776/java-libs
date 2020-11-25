@@ -3,8 +3,8 @@ package experimental.less.parsers;
 
 import experimental.less.types.tokens.Token;
 import experimental.less.types.tokens.TokenType;
-import libs.types.buffers.BufferViews;
-import libs.types.bytes.ByteTest;
+import labs.types.buffers.BufferViews;
+import labs.types.bytes.ByteTest;
 
 public class IndexParser
 {
