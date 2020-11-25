@@ -115,7 +115,7 @@ public class Parser
 		return false;
 	}
 
-	private static final ByteTest isUpperUnderscore = ByteTest.Class.isUpper.or(ByteTest.isEqual('_'));
+	private static final ByteTest isUpperUnderscore = ByteTest.Instances.isUpper.or(ByteTest.isEqual('_'));
 
 	public Token nextToken()
 	{
@@ -143,7 +143,7 @@ public class Parser
 			setStartEndLine();
 			setStartIndex();
 
-			incIndexWhile(ByteTest.Class.isLower);
+			incIndexWhile(ByteTest.Instances.isLower);
 
 			setEndIndex();
 		}
@@ -152,7 +152,7 @@ public class Parser
 
 		// number
 
-		else if (checkTokenWhile(ByteTest.Class.isDigit, TokenType.NUMBER))
+		else if (checkTokenWhile(ByteTest.Instances.isDigit, TokenType.NUMBER))
 			return token;
 
 		//

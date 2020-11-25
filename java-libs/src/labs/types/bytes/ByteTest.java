@@ -61,7 +61,7 @@ public interface ByteTest
 
 	// objects
 
-	public static class Class
+	public static class Instances
 	{
 		public static ByteTest isNull = new ByteTest()
 		{

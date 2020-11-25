@@ -78,7 +78,7 @@ public class Compiler
 		{
 			lines.copyViewTo(lnum, view);
 
-			view.strip(ByteTest.Class.isBlank);
+			view.strip(ByteTest.Instances.isBlank);
 			if (!view.isEmpty())
 			{
 				settings.copyValueTo(SettingsKey.macroPrefix, prefix);
