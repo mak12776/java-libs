@@ -63,4 +63,25 @@ public class StringTools
 	{
 		return Long.toHexString(value);
 	}
+	
+	public static boolean startsWtih(String string, String prefix)
+	{
+		if (prefix.length() > string.length())
+			return false;
+		for (int index = 0; index < prefix.length(); index += 1)
+			if (string.charAt(index) != prefix.charAt(index)) 
+				return false;
+		return true;
+	}
+	
+	public static boolean endsWith(String string, String suffix)
+	{
+		if (suffix.length() > string.length())
+			return false;
+		int stringIndex = string.length() - suffix.length();
+		for (int index = 0; index < suffix.length(); index += 1)
+			if (string.charAt(stringIndex + index) != suffix.charAt(index)) 
+				return false;
+		return true;
+	}
 }
