@@ -1,0 +1,6 @@
+[bin directory] = "d:\bin"
+[jars folder] = "d:\bin\jars"
+
+
+
+grammer

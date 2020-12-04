@@ -1,13 +1,9 @@
 
 package labs.types.bytes;
 
-import labs.tools.bytes.ByteTools;
-
 public interface ByteTest
 {
-	boolean test(byte b);
-
-	// functions
+	// static functions
 
 	static boolean isNull(byte b)
 	{
@@ -60,6 +56,8 @@ public interface ByteTest
 	}
 
 	// objects
+	
+	boolean test(byte b);
 
 	public static class Instances
 	{
@@ -150,104 +148,6 @@ public interface ByteTest
 			public boolean test(byte b)
 			{
 				return isHexDigit(b);
-			}
-		};
-	}
-
-	// static functions
-
-	static ByteTest isEqual(byte ch)
-	{
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return b == ch;
-			}
-		};
-	}
-
-	static ByteTest isEqual(char ch)
-	{
-		byte b1 = (byte) ch;
-
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return b == b1;
-			}
-		};
-	}
-
-	static ByteTest inBytes(byte[] bytes)
-	{
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return ByteTools.testAny(bytes, 0, bytes.length, b);
-			}
-		};
-	}
-
-	static ByteTest inString(String string)
-	{
-		byte[] bytes = string.getBytes();
-
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return ByteTools.testAny(bytes, 0, bytes.length, b);
-			}
-		};
-	}
-
-	// class operations
-
-	default ByteTest not()
-	{
-		ByteTest self = this;
-
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return !self.test(b);
-			}
-		};
-	}
-
-	default ByteTest or(ByteTest test)
-	{
-		ByteTest self = this;
-
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return self.test(b) || test.test(b);
-			}
-		};
-	}
-
-	default ByteTest and(ByteTest test)
-	{
-		ByteTest self = this;
-
-		return new ByteTest()
-		{
-			@Override
-			public boolean test(byte b)
-			{
-				return self.test(b) && test.test(b);
 			}
 		};
 	}

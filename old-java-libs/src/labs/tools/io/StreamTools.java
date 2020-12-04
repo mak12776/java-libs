@@ -22,6 +22,8 @@ public class StreamTools
 		long fileSize;
 		int readNumber;
 		byte[] array;
+		
+		
 
 		fileSize = stream.getChannel().size();
 
