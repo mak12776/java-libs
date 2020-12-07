@@ -7,7 +7,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.StandardOpenOption;
 
 import library.ByteTest;
-import library.SystemTools;
+import library.Tools;
 import library.io.ByteBufferedReader;
 import library.io.ReadMode;
 
@@ -180,7 +180,7 @@ public class Counter
 	
 	public static void printUsage()
 	{
-		System.out.println("usage: " + SystemTools.getProgramName() + " [PATH]...");
+		System.out.println("usage: " + Tools.getProgramName() + " [PATH]...");
 	}
 	
 	public static int main(String[] args)
