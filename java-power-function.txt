@@ -1,0 +1,44 @@
+# java pow. function
+def pow(value, exp)
+
+	if exp in [-0, +0]
+		return 1.0
+
+	if exp == 1.0
+		return value
+	
+	if exp == NaN
+		return NaN
+		
+	if value == NaN and exp != 0
+		return NaN
+	
+	if	abs(value) > 1 and exp == +Inf	or
+		abs(value) < 1 and exp == -Inf
+		
+		return +Inf
+		
+	if 	abs(value) > 1 and exp == -Inf	or
+		abs(value) < 1 and exp == +Inf
+		
+		return +0.0
+	
+	if abs(value) == 1 and exp in [Inf, -Inf]
+		return NaN
+		
+	if 	value == +0.0 and exp > 0	or
+		value == +Inf and exp < 0
+		
+		return +0.0
+		
+	if 	value == +0.0 and exp < 0	or
+		value == +Inf and exp > 0
+		
+		return +Inf
+		
+	if value == -0.0
+		
+	
+	end
+	
+end

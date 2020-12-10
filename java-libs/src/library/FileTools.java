@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 import library.exceptions.InvalidReadNumber;
 import library.io.ReadMode;
@@ -15,7 +17,7 @@ public class FileTools
 		return (direct) ? ByteBuffer.allocateDirect(size) : ByteBuffer.allocate(size);
 	}
 	
-	public static ByteBuffer readFileChannelAll(FileChannel channel, ReadMode mode) throws IOException, InvalidReadNumber
+	public static ByteBuffer read(FileChannel channel, ReadMode mode) throws IOException, InvalidReadNumber
 	{
 		int size;
 
@@ -40,5 +42,10 @@ public class FileTools
 			return channel.map(MapMode.READ_ONLY, 0, size);
 		else
 			throw new IllegalArgumentException("unknown mode: " + mode);
+	}
+	
+	public static ByteBuffer read(Path path, ReadMode mode) throws IOException
+	{
+		return read(FileChannel.open(path, StandardOpenOption.READ), mode);
 	}
 }

@@ -15,7 +15,7 @@ public abstract class ByteBufferedReader
 	
 	public final void readFileChannelAll(FileChannel channel, ReadMode mode) throws IOException
 	{
-		ByteBuffer buffer = FileTools.readFileChannelAll(channel, mode);
+		ByteBuffer buffer = FileTools.read(channel, mode);
 		if (buffer != null)
 			read(buffer);
 		finish();

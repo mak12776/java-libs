@@ -1,4 +1,4 @@
-package library;
+package library.types;
 
 public interface ByteTest
 {

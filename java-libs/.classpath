@@ -6,5 +6,15 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/Codes/java-libs/other-libs/javaparser-core-3.18.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/D:/Codes/java-libs/other-libs/javaparser-core-3.18.0-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/Codes/java-libs/other-libs/commons-lang3-3.11.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/D:/Codes/java-libs/other-libs/commons-lang3-3.11-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -6,10 +6,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.StandardOpenOption;
 
-import library.ByteTest;
 import library.Tools;
 import library.io.ByteBufferedReader;
 import library.io.ReadMode;
+import library.types.ByteTest;
 
 public class Counter
 {
@@ -190,7 +190,6 @@ public class Counter
 			printUsage();
 			return 0;
 		}
-		
 		try
 		{
 			count(args);
