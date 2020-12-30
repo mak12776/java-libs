@@ -115,6 +115,7 @@ public class SegmentedBuffer
 				if (buffer.arrayOffset() != 0)
 					throw new UnsupportedOperationException("unsupported array offset: " + buffer.arrayOffset());
 				
+				
 				byte[] bufferArray = buffer.array();
 				int bufferLength = buffer.capacity();
 				
